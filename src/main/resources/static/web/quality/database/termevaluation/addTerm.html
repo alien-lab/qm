@@ -1,0 +1,70 @@
+<h3 style="margin-left: 20px">新建学年学期</h3>
+<div style="text-align: center">
+<fieldset style="margin-top: 40px">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">学期学年编号</label>
+        <div class="col-sm-6">
+            <select name="select" required="" ng-model="select" class="form-control">
+                <option value="">Nothing</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+                <option value="4">Option 4</option>
+            </select>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">学年学期名称</label>
+        <div class="col-sm-6">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="tagsinput" class="form-control" />
+
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">学年学期打印名称</label>
+        <div class="col-sm-6">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="tagsinput" class="form-control" />
+
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">学期开始时间</label>
+        <div class="col-sm-6">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="tagsinput" class="form-control" />
+
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">学期结束时间</label>
+        <div class="col-sm-6">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="tagsinput" class="form-control" />
+
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+</fieldset>
+</div>
+<div class="panel-footer text-center">
+    <button type="submit" class="btn btn-info">确定</button>
+    <button ng-click="cancel()" type="submit" class="btn btn-info">取消</button>
+</div>

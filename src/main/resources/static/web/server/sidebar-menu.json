@@ -1,0 +1,139 @@
+[{
+  "text": "系统菜单栏",
+  "heading": "true"
+},
+  {
+    "text": "Dashboard",
+    "sref": "#",
+    "icon": "icon-speedometer",
+    "label": "label label-info",
+    "submenu": [
+      {"text": "Dashboard v1",       "sref": "app.dashboard_v1"},
+      {"text": "Dashboard v2",       "sref": "app.dashboard_v2" },
+      {"text": "Dashboard v3",       "sref": "app.dashboard_v3" }
+    ],
+    "translate": "我的质控"
+  },
+  {
+    "text": "Widgets",
+    "sref": "app.widgets",
+    "icon": "icon-grid",
+    "label": "label label-success",
+    "submenu": [
+      {"text": "学期质量考核查询",       "sref": "qm.termquality"},
+      {"text": "质控巡查报告",       "sref": "app.dashboard_v2" },
+      {"text": "时段出勤率查询",       "sref": "app.dashboard_v3" },
+      {"text": "全校教师听课对比",       "sref": "app.dashboard_v2" },
+      {"text": "督学听课情况统计",       "sref": "app.dashboard_v3" },
+      {"text": "教学质量考核",       "sref": "app.dashboard_v2" },
+      {"text": "查看学生出勤",       "sref": "app.dashboard_v3" },
+      {"text": "查看学生评教",       "sref": "app.dashboard_v2" },
+      {"text": "学生按时段出勤情况",       "sref": "app.dashboard_v3" },
+      {"text": "督学管理",       "sref": "app.dashboard_v3" },
+      {"text": "信息员意见反馈",       "sref": "app.dashboard_v2" },
+      {"text": "教师评学结果",       "sref": "app.dashboard_v3" },
+      {"text": "考勤次数统计",       "sref": "app.dashboard_v3" }
+    ],
+    "translate": "质控中心"
+  },
+  {
+    "text": "督学中心",
+    "sref": "#",
+    "icon": "icon-mustache",
+    "submenu": [
+      {"text": "教学秘书查看缺勤",       "sref": "app.dashboard"},
+      {"text": "部门学年质量考核统计",       "sref": "app.dashboard_v2" },
+      {"text": "部门学生评教进展查看",       "sref": "app.dashboard_v3" },
+      {"text": "填写听课表",       "sref": "app.dashboard_v2" },
+      {"text": "听课计划",       "sref": "app.dashboard_v3" },
+      {"text": "督学组长查看听课计划",       "sref": "app.dashboard_v2" },
+      {"text": "管理听课记录",       "sref": "app.dashboard_v3" },
+      {"text": "教学质量考核",       "sref": "app.dashboard_v2" },
+      {"text": "信息员意见反馈",       "sref": "app.dashboard_v3" },
+      {"text": "教师被听课情况",       "sref": "app.dashboard_v3" },
+      {"text": "我关注的教师",       "sref": "app.dashboard_v2" },
+      {"text": "辅导员查看出勤率",       "sref": "app.dashboard_v3" },
+      {"text": "我的常用语",       "sref": "app.dashboard_v3" },
+      {"text": "查看教师评学",       "sref": "app.dashboard_v3" },
+      {"text": "未评学教师表",       "sref": "app.dashboard_v3" }
+    ]
+  }
+,
+  {
+    "text": "教师中心",
+    "sref": "#",
+    "icon": "icon-eyeglass",
+    "submenu": [
+      {"text": "课堂考勤",       "sref": "app.dashboard"},
+      {"text": "教师评学",       "sref": "app.dashboard_v2" },
+      {"text": "任教班级考勤",       "sref": "app.dashboard_v3" },
+      {"text": "个人被听课记录",       "sref": "app.dashboard_v2" },
+      {"text": "任教班级评教情况",       "sref": "app.dashboard_v3" },
+      {"text": "查看教学质量考核",       "sref": "app.dashboard_v2" },
+      {"text": "教师上传授课计划",       "sref": "app.dashboard_v3" }
+    ]
+  },
+  {
+    "text": "班级中心",
+    "sref": "#",
+    "icon": "icon-layers",
+    "submenu": [
+      {"text": "信息员意见反馈",       "sref": "app.dashboard"},
+      {"text": "班级学生维护",       "sref": "app.dashboard_v2" },
+      {"text": "班主任任教情况查询",       "sref": "app.dashboard_v3" },
+      {"text": "班级评教情况",       "sref": "app.dashboard_v2" },
+      {"text": "班级评学得分",       "sref": "app.dashboard_v3" }
+    ]
+  },
+  {
+    "text": "学生中心",
+    "sref": "#",
+    "icon": "icon-graduation",
+    "submenu": [
+      {"text": "我的课程", "sref": "app-h.dashboard_v2"},
+      {"text": "参与评教",       "sref": "app.dashboard"},
+      {"text": "考勤查询",       "sref": "app.dashboard_v2" },
+      {"text": "填写调查表",       "sref": "app.dashboard_v3" }
+    ]
+  },
+  {
+    "text": "基础数据",
+    "sref": "#",
+    "icon": "icon-folder",
+    "submenu": [
+      {"text": "部门维护",       "sref": "qm.department"},
+      {"text": "学年学期维护",       "sref": "qm.termevaluation" },
+      {"text": "学生维护",       "sref": "app.dashboard_v3" },
+      {"text": "班级维护",       "sref": "app.dashboard_v2" },
+      {"text": "课程维护",       "sref": "app.dashboard_v3" },
+      {"text": "教工维护",       "sref": "app.dashboard_v2" },
+      {"text": "本学期考核教师",       "sref": "app.dashboard_v3" },
+      {"text": "指标管理与设置",       "sref": "app.dashboard_v3" },
+      {"text": "考核指标设置",       "sref": "app.dashboard_v2" },
+      {"text": "学年考核设置",       "sref": "app.dashboard_v3" }
+    ]
+  },
+  {
+    "text": "系统设置",
+    "sref": "#",
+    "icon": "icon-settings",
+    "submenu": [
+      {
+        "text": "用户登录账户设置",
+        "sref": "app.dashboard"
+      },
+      {
+        "text": "菜单设置",
+        "sref": "qm.menu"
+      },
+      {
+        "text": "角色设置",
+        "sref": "qm.roler"
+      },
+      {
+        "text": "用户角色设置",
+        "sref": "qm.user_roler"
+      }
+    ]
+  }
+]

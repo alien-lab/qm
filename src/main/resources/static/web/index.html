@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="angle">
+
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+   <meta name="description" content="{{app.description}}">
+   <meta name="keywords" content="app, responsive, angular, bootstrap, dashboard, admin">
+   <title>校园教学质量监控管理平台</title>
+   <!-- Bootstrap styles-->
+   <link rel="stylesheet" href="app/css/bootstrap.css">
+   <link rel="stylesheet" href="app/css/bootstrap-rtl.css" data-ng-if="app.layout.isRTL">
+   <!-- Application styles-->
+   <link rel="stylesheet" href="app/css/app.css">
+   <link rel="stylesheet" href="app/css/app-rtl.css" data-ng-if="app.layout.isRTL">
+   <!-- Themes-->
+   <link rel="stylesheet" ng-href="{{app.layout.theme}}" data-ng-if="app.layout.theme">
+</head>
+
+<body data-ng-class="{ 'layout-fixed' : app.layout.isFixed, 'aside-collapsed' : app.layout.isCollapsed, 'layout-boxed' : app.layout.isBoxed, 'layout-fs': app.useFullLayout, 'hidden-footer': app.hiddenFooter, 'layout-h': app.layout.horizontal, 'aside-float': app.layout.isFloat, 'offsidebar-open': app.offsidebarOpen, 'aside-toggled': app.asideToggled}">
+   <div data-preloader></div>
+   <div data-ui-view="" data-autoscroll="false" class="wrapper"></div>
+   <script src="app/js/base.js"></script>
+   <script src="app/js/app.js"></script>
+   <script src="quality/index/loginindex.js"></script>
+   <script src="vendor/js/xeditable.js"></script>
+   <script src="quality/qualitycontrol/termquality/termquality.js"></script>
+   <script src="quality/database/department/department.js"></script>
+   <script src="quality/database/termevaluation/termevaluation.js"></script>
+   <script src="quality/syssetting/menu/menu.js"></script>
+   <script src="quality/syssetting/roler/roler.js"></script>
+   <script src="quality/syssetting/user_roler/user_roler.js"></script>
+  <!-- <script src="pushi/batch/batch.js"></script>
+
+   <script src="pushi/batch/batchUibmodal.js"></script>
+   <script src="pushi/farm/farm.js"></script>
+   <script src="pushi/farm/farmItem.js"></script>
+   <script src="pushi/product/product.js"></script>
+   <script src="pushi/desc/desc.js"></script>
+   <script src="pushi/common/pager.js"></script>-->
+</body>
+
+</html>

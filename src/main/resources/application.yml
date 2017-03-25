@@ -1,0 +1,26 @@
+spring:
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect:  org.hibernate.dialect.MySQL5Dialect
+  thymeleaf:
+    cache:  false
+  datasource:
+    driverClassName:  com.mysql.jdbc.Driver
+
+
+alienlab:
+  swagger:
+    title:  QualityMonitor
+    description:  QualityMonitor new version with spring boot.
+    version:  1.0.0
+    termsOfServiceUrl:  https://github.com/alien-lab
+    contactName:  JuHuiguang
+    contactUrl: https://github.com/juhuiguang
+    contactEmail: alienlab@alienzoo.org
+    license:  AlienLab
+    licenseUrl: https://github.com/alien-lab
