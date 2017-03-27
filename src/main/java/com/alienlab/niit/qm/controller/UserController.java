@@ -9,6 +9,7 @@ import com.alienlab.niit.qm.entity.TbUserEntity;
 import com.alienlab.niit.qm.repository.UserRepository;
 import com.alienlab.niit.qm.service.UserService;
 import io.swagger.annotations.*;
+import io.swagger.models.Response;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -56,37 +57,43 @@ public class UserController {
         }
     }
 
+    @GetMapping(value="/user/{userid}")
+    public ResponseEntity listUser(@PathVariable long userid,@RequestParam String loginname){
+        try {
+            return ResponseEntity.ok().body(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,e.getMessage());
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
     //用户登录
     @ApiOperation(value="用户登录")
-    @RequestMapping(value = "/dologin",method= RequestMethod.POST)
-    @ResponseBody
-    public String doLogin(HttpServletRequest request){
+    @PostMapping(value = "/dologin")
+    public ResponseEntity doLogin(@RequestBody String loginname, @RequestBody String password,HttpServletRequest request){
         try{
-            String input= IOUtils.toString(request.getInputStream(),"utf-8");
-            JSONObject param= JSON.parseObject(input);
-            String loginname=param.getString("loginname");
-            String pwd=param.getString("password");
             Azdg a=new Azdg();
-            String password= a.encrypt(pwd);
+            String pwd= a.encrypt(loginname, password);
             TbUserEntity user=userService.findUserByloginname(loginname);
             if(user==null){
-                return new ExecResult(false,"登录用户不存在").toString();
+                ExecResult er= new ExecResult(false,"登录用户不存在");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+
             }else{
                 if(user.getUserPwd().equals(password)){//登录成功
-                    userRepository.save(user);
-                    JSONObject login_user=(JSONObject) JSONObject.toJSON(user);
-                    request.getSession().setAttribute("user",login_user);//当前用户进入session
-                    ExecResult er=new ExecResult();
-                    er.setResult(true);
-                    er.setData(login_user);
-                    return er.toString();
+                    request.getSession().setAttribute("user",user);//当前用户进入session
+                    return ResponseEntity.ok().body(user);
                 }else{
-                    return new ExecResult(false,"用户名或密码错误").toString();
+                    ExecResult er=  new ExecResult(false,"用户名或密码错误");
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
                 }
             }
         }catch(Exception ex){
             ex.printStackTrace();
-            return new ExecResult(false,"登录发生异常").toString();
+            ExecResult er= new ExecResult(false,"登录发生异常");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
 

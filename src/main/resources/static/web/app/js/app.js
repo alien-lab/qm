@@ -356,29 +356,29 @@
  */
 (function() {
     'use strict';
-    angular.module("app.core").controller("loginController",["$scope","$rootScope","loginService","$state","$cookieStore",
-        function($scope,$rootScope,loginService,$state,$cookieStore){
+    angular.module("app.core").controller("loginController",["$scope","$rootScope","loginResource","$state","$cookieStore",
+        function($scope,$rootScope,loginResource,$state,$cookieStore){
             $scope.login={};
             $scope.dologin=function(){
                 $scope.login.errormsg="";
-                loginService.dologin({
+                loginResource.login({
                     loginname:$scope.login.loginname,
                     password:$scope.login.password
                 },function(result){
                     console.log(result);
-                    if(result.result>0){//登录成功
-                       $rootScope.user=result.data;
+
+                       $rootScope.user=result;
                        $state.go("qm.index");//登录成功跳转到主页
                         // Put cookie
                         $cookieStore.put("user",
-                            {account: result.data.account,password:  result.data.password},{
+                            {account: result.account,password:  result.password},{
                                 expires: new Date(new Date().getTime() + 60000)
                             });
                        var favoriteCookie = $cookieStore.get('user').account;
                         console.log("cook"+favoriteCookie);
-                    }else{
-                        $scope.login.errormsg=result.errormsg;
-                    }
+
+                },function(result){
+                    console.log(result);
                 });
             }
 
@@ -407,17 +407,35 @@
 
 (function() {
     'use strict';
-    angular.module("app.core").service("loginService",["$http",function($http){
-        this.dologin=function(user,callback){
-            $http({
-                url:"/qm-api/dologin",
-                method:"POST",
-                data:user
-            }).then(function(result){
-                callback(result.data);
-            })
-        }
+    angular.module("app.core").factory("loginResource",["$resource",function($resource){
+        var service = $resource('/qm-api/dologin', {}, {
+            'login': { method: 'POST'}
+        });
+
+        return service;
     }]);
+    // angular.module("app.core").service("loginService",["$resource",function($resource){
+    //     var userResource = $resource('/qm-api/dologin', {}, {
+    //         'login': { method:'POST',params: user },
+    //     });
+    //
+    //     this.dologin=function(user,callback){
+    //         userResource.post(user,function(result){
+    //             callback(result.data);
+    //         },function(result){
+    //             console.log(result)
+    //         });
+    //         // $http({
+    //         //     url:"/qm-api/dologin",
+    //         //     method:"POST",
+    //         //     data:user
+    //         // }).then(function(result){
+    //         //     callback(result.data);
+    //         // },function(result){
+    //         //     console.log(result)
+    //         // })
+    //     }
+    // }]);
 })();
 
 
