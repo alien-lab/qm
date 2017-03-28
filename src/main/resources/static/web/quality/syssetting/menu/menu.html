@@ -1,7 +1,7 @@
 <h3>菜单设置</h3>
 <div class="box-placeholder row" >
     <h4 class="page-header">菜单详细信息</h4>
-    <div ng-controller="TablexEditableController as table" class="container-fluid">
+    <div  class="container-fluid">
         <table class="table table-bordered table-hover bg-white">
             <tr style="font-weight: bold">
                 <td style="width:10%">编号</td>
@@ -13,7 +13,7 @@
                 <td style="width:10%">状态</td>
                 <td style="width:30%">编辑</td>
             </tr>
-            <tr ng-repeat="user in table.users">
+            <tr ng-repeat="user in users track by $index">
                 <td>
                     <!-- editable username (text with validation)-->
                     <span editable-text="user.name" e-name="name" e-form="rowform" onbeforesave="table.checkName($data, user.id)" e-required="">{{ user.name || &apos;empty&apos; }}</span>
@@ -46,25 +46,25 @@
                 </td>
                 <td style="white-space: nowrap">
                     <!-- form-->
-                    <form editable-form="" name="rowform" onbeforesave="table.saveUser($data, user.id)" ng-show="rowform.$visible" shown="table.inserted == user" class="form-buttons form-inline">
-                        <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+                    <form editable-form="" name="rowform" onbeforesave="saveMenu($data, user.id)" ng-show="rowform.$visible" shown="table.inserted == user" class="form-buttons form-inline">
+                        <button type="submit" ng-disabled="rowform.$waiting" title="保存" class="btn btn-sm btn-info">
                             <em class="fa fa-save"></em>
                         </button>
-                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="取消" class="btn btn-sm btn-default">
                             <em class="fa fa-times"></em>
                         </button>
                     </form>
                     <div ng-show="!rowform.$visible" class="buttons">
-                        <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
+                        <button ng-click="rowform.$show()" title="编辑" class="btn btn-sm btn-info">
                             <em class="fa fa-pencil"></em>
                         </button>
-                        <button ng-click="table.removeUser($index)" title="Delete" class="btn btn-sm btn-danger">
+                        <button ng-click="removeMenu($index)" title="删除菜单" class="btn btn-sm btn-danger">
                             <em class="fa fa-trash"></em>
                         </button>
                     </div>
                 </td>
             </tr>
         </table>
-        <button ng-click="table.addUser()" class="btn btn-success">增加菜单</button>
+        <button ng-click="addMenu()" class="btn btn-success">增加菜单</button>
     </div>
 </div>

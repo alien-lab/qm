@@ -26,6 +26,7 @@
             'app.translate',
             'app.settings',
             'app.utils',
+            'xeditable',
             'qm.index',
             'qm.termquality',
             'qm.department',
@@ -233,7 +234,7 @@
             document.title = title;
             return title;
         };
-
+/*
         //登录拦截器，跳转登录
         $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
             //如果有cookies
@@ -255,7 +256,7 @@
                 event.preventDefault();// 取消默认跳转行为
                 $state.go("login",{from:fromState.name,w:'notLogin'});//跳转到登录界面
             }
-        });
+        });*/
 
     }
 
@@ -722,7 +723,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/login');
+        /*$urlRouterProvider.otherwise('/login');*/
 
         //
         // Application Routes
