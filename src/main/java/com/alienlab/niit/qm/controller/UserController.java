@@ -72,7 +72,7 @@ public class UserController {
     //用户登录
     @ApiOperation(value="用户登录")
     @PostMapping(value = "/dologin")
-    public ResponseEntity doLogin(@RequestBody String loginname, @RequestBody String password,HttpServletRequest request){
+    public ResponseEntity doLogin(@RequestParam String loginname, @RequestParam String password,HttpServletRequest request){
         try{
             Azdg a=new Azdg();
             String pwd= a.encrypt(loginname, password);

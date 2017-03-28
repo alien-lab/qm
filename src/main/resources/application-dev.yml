@@ -1,5 +1,5 @@
 spring:
   datasource:
     url:  jdbc:mysql://localhost:3306/qualitymonitor
-    username: root
-    password: root
+    username: wechat
+    password: wechat123!
