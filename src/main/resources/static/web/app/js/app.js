@@ -418,7 +418,6 @@
                     password:$scope.login.password
                 },function(result){
                     console.log(result);
-
                        $rootScope.user=result;
                        $state.go("qm.index");//登录成功跳转到主页
                         // Put cookie
@@ -431,6 +430,7 @@
 
                 },function(result){
                     console.log(result);
+
                 });
             }
 

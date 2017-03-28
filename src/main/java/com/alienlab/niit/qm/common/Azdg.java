@@ -11,16 +11,16 @@ import java.util.Set;
 public class Azdg {
 	//密钥，可自定�?
 	String key = new PropertyConfig("sysConfig.properties").getValue("syskey");
-    public static void main(String[] args) {
-       Azdg azdg = new Azdg();
-   
-
-       String cipherText = azdg.encrypt("123456");
-       System.out.println("加密后为"+cipherText);
-       String cleanText = azdg.decrypt(cipherText);
-       System.out.println("解密后"+cleanText);
-
-    }
+//    public static void main(String[] args) {
+//       Azdg azdg = new Azdg();
+//
+//
+//       String cipherText = azdg.encrypt("111111");
+//       System.out.println("加密后为"+cipherText);
+//       String cleanText = azdg.decrypt(cipherText);
+//       System.out.println("解密后"+cleanText);
+//
+//    }
 
     
 

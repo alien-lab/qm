@@ -3,7 +3,6 @@ package com.alienlab.niit.qm.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alienlab.niit.qm.common.Azdg;
-import com.alienlab.niit.qm.common.Md5Azdg;
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.TbUserEntity;
 import com.alienlab.niit.qm.repository.UserRepository;
@@ -75,14 +74,14 @@ public class UserController {
     public ResponseEntity doLogin(@RequestParam String loginname, @RequestParam String password,HttpServletRequest request){
         try{
             Azdg a=new Azdg();
-            String pwd= a.encrypt(loginname, password);
+            String pwd= a.encrypt(password);
             TbUserEntity user=userService.findUserByloginname(loginname);
             if(user==null){
                 ExecResult er= new ExecResult(false,"登录用户不存在");
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
 
             }else{
-                if(user.getUserPwd().equals(password)){//登录成功
+                if(user.getUserPwd().equals(pwd)){//登录成功
                     request.getSession().setAttribute("user",user);//当前用户进入session
                     return ResponseEntity.ok().body(user);
                 }else{
