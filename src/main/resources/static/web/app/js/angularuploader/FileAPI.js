@@ -293,7 +293,7 @@
 			flashAbortTimeout: 0,
 			withCredentials: true,
 
-			staticPath: './dist/',
+			staticPath: './dists/',
 
 			flashUrl: 0, // @default: './FileAPI.flash.swf'
 			flashImageUrl: 0, // @default: './FileAPI.flash.image.swf'
