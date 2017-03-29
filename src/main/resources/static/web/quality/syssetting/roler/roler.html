@@ -4,23 +4,15 @@
     <div  class="container-fluid">
         <table class="table table-bordered table-hover bg-white">
             <tr style="font-weight: bold">
-                <td style="width:20%">角色编码</td>
-                <td style="width:20%">角色名称</td>
+                <td style="width:15%">角色名称</td>
                 <td style="width:8%">操作</td>
 
             </tr>
-            <tr ng-repeat="user in users track by $index">
+            <tr ng-repeat="roler in rolers track by $index">
                 <td>
                     <!-- editable username (text with validation)-->
-                    <span editable-text="user.name" e-name="name" e-form="rowform" onbeforesave="table.checkName($data, user.id)" e-required="">{{ user.name || &apos;empty&apos; }}</span>
+                    <span editable-text="roler.roleName" e-name="name" e-form="rowform" onbeforesave="table.checkName($data, user.id)" e-required="">{{ roler.roleName || &apos;empty&apos; }}</span>
                 </td>
-                <td>
-                    <!-- editable status (select-local)-->
-                    <span editable-select="user.status" e-name="status" e-form="rowform" e-ng-options="s.value as s.text for s in table.statuses">{{ table.showStatus(user) }}</span>
-                </td>
-
-
-
                 <td style="white-space: nowrap">
                     <!-- form-->
                     <form editable-form="" name="rowform" onbeforesave="saveRoler($data, user.id)" ng-show="rowform.$visible" shown="table.inserted == user" class="form-buttons form-inline">
@@ -33,7 +25,7 @@
                         </button>
                     </form>
                     <div ng-show="!rowform.$visible" class="buttons">
-                        <button ng-click="roler_menusetting()" title="Edit" class="btn btn-sm btn-success">
+                        <button ng-click="roler_menusetting()" title="添加角色菜单" class="btn btn-sm btn-success">
                             <em class="fa fa-cog"></em>
                         </button>
                         <button ng-click="rowform.$show()" title="编辑" class="btn btn-sm btn-info">

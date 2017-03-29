@@ -429,6 +429,7 @@
                         console.log("cook"+favoriteCookie);
 
                 },function(result){
+                    $scope.login = result.data;
                     console.log(result);
 
                 });
@@ -463,31 +464,9 @@
         var service = $resource('/qm-api/dologin', {}, {
             'login': { method: 'POST'}
         });
-
         return service;
     }]);
-    // angular.module("app.core").service("loginService",["$resource",function($resource){
-    //     var userResource = $resource('/qm-api/dologin', {}, {
-    //         'login': { method:'POST',params: user },
-    //     });
-    //
-    //     this.dologin=function(user,callback){
-    //         userResource.post(user,function(result){
-    //             callback(result.data);
-    //         },function(result){
-    //             console.log(result)
-    //         });
-    //         // $http({
-    //         //     url:"/qm-api/dologin",
-    //         //     method:"POST",
-    //         //     data:user
-    //         // }).then(function(result){
-    //         //     callback(result.data);
-    //         // },function(result){
-    //         //     console.log(result)
-    //         // })
-    //     }
-    // }]);
+
 })();
 
 

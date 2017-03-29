@@ -57,7 +57,23 @@
 
         return self;
     }]);
-    roler_module.controller("RolerController",['$scope','$filter', '$http','$q',"$uibModal",'SweetAlert',function($scope,$filter, $http,$q,$uibModal,SweetAlert){
+
+
+    /*获取角色*/
+    (function() {
+        'use strict';
+        angular.module("qm.roler").factory("getRolerResource",["$resource",function($resource){
+            var service = $resource('/roler-api/getRolers', {}, {
+                'getRoler': { method: 'GET', isArray:true}
+            });
+            return service;
+        }]);
+
+    })();
+
+
+
+    roler_module.controller("RolerController",['$scope','$filter', '$http','$q',"$uibModal",'SweetAlert','getRolerResource',function($scope,$filter, $http,$q,$uibModal,SweetAlert,getRolerResource){
 
         var vm = this;
 
@@ -66,13 +82,17 @@
         ////////////////
 
         function activate() {
-            // editable row
-            // -----------------------------------
-            $scope.users = [
-                {id: 1, name: 'awesome user1', status: 2, group: 4, groupName: 'admin'},
-                {id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip'},
-                {id: 3, name: 'awesome user3', status: 2, group: null}
-            ];
+
+            getRolerResource.getRoler({
+
+            },function(result){
+                console.log(result);
+                $scope.rolers = result;
+            },function(result){
+
+                console.log("角色拉取失败");
+            });
+
             //保存用户角色
             vm.saveRoler = function(data, id) {
                 //vm.user not updated yet
@@ -89,7 +109,7 @@
                     group: null,
                     isNew: true
                 };
-                $scope.users.push(vm.inserted);
+                $scope.rolers.push(vm.inserted);
             };
 
             // editable column
@@ -185,7 +205,7 @@
                 confirmButtonText: '确认删除',
                 closeOnConfirm: true
             },  function(){
-                $scope.users.splice(index, 1);
+                $scope.rolers.splice(index, 1);
             });
         };
 

@@ -58,26 +58,64 @@
             return self;
         }]);
 
-    menu_module.controller("MenuController",['$scope','$filter', '$http', '$q',"$uibModal",'SweetAlert',function($scope,$filter, $http,$q,$uibModal,SweetAlert){
+    /*获取menu*/
+    (function() {
+        'use strict';
+        angular.module("qm.menu").factory("getMenuResource",["$resource",function($resource){
+            var service = $resource('/menu-api/getMenus', {}, {
+                'getMenu': { method: 'GET', isArray:true}
+            });
+            return service;
+        }]);
 
+    })();
 
+    /*保存或增加menu*/
+    (function() {
+        'use strict';
+        angular.module("qm.menu").factory("saveMenuResource",["$resource",function($resource){
+            var service = $resource('/menu-api/saveMenu', {}, {
+                'savemenu': { method: 'POST'}
+            });
+            return service;
+        }]);
+
+    })();
+    menu_module.controller("MenuController",['$scope','$filter', '$http', '$q',"$uibModal",'SweetAlert',"getMenuResource",'saveMenuResource',function($scope,$filter, $http,$q,$uibModal,SweetAlert,getMenuResource,saveMenuResource){
         var vm = this;
-
         activate();
-
-        ////////////////
-
         function activate() {
-            // editable row
-            // -----------------------------------
-            $scope.users = [
-                {id: 1, name: 'awesome user1', status: 2, group: 4, groupName: 'admin'},
-                {id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip'},
-                {id: 3, name: 'awesome user3', status: 2, group: null}
-            ];
+            getMenuResource.getMenu({
+
+            },function(result){
+                console.log(result);
+               $scope.menus = result;
+            },function(result){
+
+                console.log("菜单拉取失败");
+            });
 
             //保存菜单
             $scope.saveMenu = function(data, id) {
+                console.log("data+id！");
+                console.log(data);
+                console.log(id);
+                saveMenuResource.savemenu({
+                    menu_id:id,
+                    menu_name:data.menu_name,
+                    menu_type:data.menu_type,
+                    menu_pid:data.menu_pid,
+                    menu_content:data.menu_content,
+                    menu_attr:data.menu_attr
+                },function(result){
+                    console.log("保存成功！");
+                    console.log(result);
+
+                },function(result){
+                    console.log("保存失败");
+                });
+
+
                 //vm.user not updated yet
                 angular.extend(data, {id: id});
                 console.log('Saving user: ' + id);
@@ -88,13 +126,13 @@
             // 增加菜单
             $scope.addMenu = function () {
                var inserted = {
-                    id: $scope.users.length+1,
+                    id: $scope.menus.length+1,
                     name: '',
                     status: null,
                     group: null,
                     isNew: true
                 };
-                $scope.users.push(vm.inserted);
+                $scope.menus.push(vm.inserted);
             };
 
             // editable column
@@ -150,7 +188,6 @@
 
         }
 
-
         $scope.removeMenu = function(index) {
             SweetAlert.swal({
                 title: '确定要删除该菜单吗?',
@@ -161,7 +198,7 @@
                 confirmButtonText: '确认删除',
                 closeOnConfirm: true
             },  function(){
-                $scope.users.splice(index, 1);
+                $scope.menus.splice(index, 1);
             });
         };
 

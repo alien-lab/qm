@@ -4,7 +4,6 @@
     <div  class="container-fluid">
         <table class="table table-bordered table-hover bg-white">
             <tr style="font-weight: bold">
-                <td style="width:10%">编号</td>
                 <td style="width:20%">菜单名称</td>
                 <td style="width:15%">类型</td>
                 <td style="width:15%">父类编码</td>
@@ -13,30 +12,24 @@
                 <td style="width:10%">状态</td>
                 <td style="width:30%">编辑</td>
             </tr>
-            <tr ng-repeat="user in users track by $index">
-                <td>
-                    <!-- editable username (text with validation)-->
-                    <span editable-text="user.name" e-name="name" e-form="rowform" onbeforesave="table.checkName($data, user.id)" e-required="">{{ user.name || &apos;empty&apos; }}</span>
-                </td>
+            <tr ng-repeat="menu in menus track by $index">
                 <td>
                     <!-- editable status (select-local)-->
-                    <span editable-select="user.status" e-name="status" e-form="rowform" e-ng-options="s.value as s.text for s in table.statuses">{{ table.showStatus(user) }}</span>
+                    <span editable-text="menu.menuName" e-name="menu_name" e-form="rowform" onbeforesave="table.checkName($data, user.id)" e-required="">{{ menu.menuName || &apos;empty&apos; }}</span>
                 </td>
                 <td>
-                    <!-- editable group (select-remote)-->
-                    <span editable-select="user.group" e-name="group" onshow="table.loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in table.groups">{{ table.showGroup(user) }}</span>
+                    <span editable-select="menu.menuType" e-name="menu_type" onshow="table.loadGroups()" e-form="rowform" e-ng-options="menu.menuType as menu.menuType for menu in menus">{{ menu.menuType }}</span>
                 </td>
                 <td>
-                    <!-- editable username (text with validation)-->
-                    <span editable-text="user.name" e-name="name" e-form="rowform" onbeforesave="table.checkName($data, user.id)" e-required="">{{ user.name || &apos;empty&apos; }}</span>
-                </td>
-                <td>
-                    <!-- editable username (text with validation)-->
-                    <span editable-text="user.name" e-name="name" e-form="rowform" onbeforesave="table.checkName($data, user.id)" e-required="">{{ user.name || &apos;empty&apos; }}</span>
+                    <span editable-select="menu.menuPid" e-name="menu_pid" e-form="rowform" e-ng-options="menu.menuPid as menu.menuPid for menu in menus">{{ menu.menuPid }}</span>
                 </td>
                 <td>
                     <!-- editable username (text with validation)-->
-                    <span editable-text="user.name" e-name="name" e-form="rowform" onbeforesave="table.checkName($data, user.id)" e-required="">{{ user.name || &apos;empty&apos; }}</span>
+                    <span editable-text="menu.menuContent" e-name="menu_content" e-form="rowform" onbeforesave="table.checkName($data, user.id)" e-required="">{{ menu.menuContent || &apos;empty&apos; }}</span>
+                </td>
+                <td>
+                    <!-- editable username (text with validation)-->
+                    <span editable-text="menu.menuAttr" e-name="menu_attr" e-form="rowform" onbeforesave="table.checkName($data, user.id)" e-required="">{{ menu.menuAttr || &apos;empty&apos; }}</span>
                 </td>
                 <td style="text-align: center">
                     <label class="switch">
@@ -46,7 +39,7 @@
                 </td>
                 <td style="white-space: nowrap">
                     <!-- form-->
-                    <form editable-form="" name="rowform" onbeforesave="saveMenu($data, user.id)" ng-show="rowform.$visible" shown="table.inserted == user" class="form-buttons form-inline">
+                    <form editable-form="" name="rowform" onbeforesave="saveMenu($data, menu.menuId)" ng-show="rowform.$visible" shown="table.inserted == menu" class="form-buttons form-inline">
                         <button type="submit" ng-disabled="rowform.$waiting" title="保存" class="btn btn-sm btn-info">
                             <em class="fa fa-save"></em>
                         </button>
