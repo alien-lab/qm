@@ -101,12 +101,12 @@
                 console.log(data);
                 console.log(id);
                 saveMenuResource.savemenu({
-                    menu_id:id,
-                    menu_name:data.menu_name,
-                    menu_type:data.menu_type,
-                    menu_pid:data.menu_pid,
-                    menu_content:data.menu_content,
-                    menu_attr:data.menu_attr
+                    id:id,
+                    name:data.menu_name,
+                    type:data.menu_type,
+                    pid:data.menu_pid,
+                    content:data.menu_content,
+                    attr:data.menu_attr
                 },function(result){
                     console.log("保存成功！");
                     console.log(result);

@@ -45,12 +45,12 @@ public class MenuController {
 
     @ApiOperation(value="保存菜单")
     @PostMapping(value = "/saveMenu")
-    public ResponseEntity saveMenu( @RequestParam long menu_id,@RequestParam String  menu_name,@RequestParam String  menu_type,
-                                    @RequestParam String  menu_pid,@RequestParam String  menu_content,@RequestParam String  menu_attr,HttpServletRequest request)  {
-        System.out.print(menu_id);
+    public ResponseEntity saveMenu( @RequestParam long id,@RequestParam String  name,@RequestParam String  type,
+                                    @RequestParam String  pid,@RequestParam String  content,@RequestParam String  attr,HttpServletRequest request)  {
+        System.out.print(id);
         TbMenuEntity tbMenuEntity = null;
         try {
-            tbMenuEntity = menuService.getMenuById(menu_id);
+            tbMenuEntity = menuService.getMenuById(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
