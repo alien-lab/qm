@@ -18,10 +18,10 @@
                     <span editable-text="menu.menuName" e-name="menu_name" e-form="rowform" onbeforesave="table.checkName($data, user.id)" e-required="">{{ menu.menuName || &apos;empty&apos; }}</span>
                 </td>
                 <td>
-                    <span editable-select="menu.menuType" e-name="menu_type" onshow="table.loadGroups()" e-form="rowform" e-ng-options="menu.menuType as menu.menuType for menu in menus">{{ menu.menuType }}</span>
+                    <span editable-select="menu.menuType" e-name="menu_type" onshow="table.loadGroups()" e-form="rowform" e-ng-options="menutype.name as menutype.name for menutype in menuTypes">{{ menu.menuType }}</span>
                 </td>
                 <td>
-                    <span editable-select="menu.menuPid" e-name="menu_pid" e-form="rowform" e-ng-options="menu.menuPid as menu.menuPid for menu in menus">{{ menu.menuPid }}</span>
+                    <span editable-select="menu.menuPid" e-name="menu_pid" e-form="rowform" e-ng-options="pid.id as pid.id for pid in pids">{{ menu.menuPid }}</span>
                 </td>
                 <td>
                     <!-- editable username (text with validation)-->
@@ -33,7 +33,7 @@
                 </td>
                 <td style="text-align: center">
                     <label class="switch">
-                        <input type="checkbox" />
+                        <input type="checkbox" ng-model="menu.menuStatus" ng-checked="menu.menuStatus == 1" ng-click="openSwitch(menu.menuId)" ng-true-value="1" ng-false-value="0" />
                         <span></span>
                     </label>
                 </td>
@@ -51,7 +51,7 @@
                         <button ng-click="rowform.$show()" title="编辑" class="btn btn-sm btn-info">
                             <em class="fa fa-pencil"></em>
                         </button>
-                        <button ng-click="removeMenu($index)" title="删除菜单" class="btn btn-sm btn-danger">
+                        <button ng-click="removeMenu($index,menu.menuId)" title="删除菜单" class="btn btn-sm btn-danger">
                             <em class="fa fa-trash"></em>
                         </button>
                     </div>

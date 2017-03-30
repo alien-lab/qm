@@ -9,15 +9,15 @@ import io.swagger.annotations.ApiModelProperty;
 @javax.persistence.Table(name = "tb_menu", schema = "qualitymonitor", catalog = "")
 public class TbMenuEntity {
     @ApiModelProperty(value="菜单编码")
-    private int menuId;
+    private long menuId;
 
     @javax.persistence.Id
     @javax.persistence.Column(name = "menu_id")
-    public int getMenuId() {
+    public long getMenuId() {
         return menuId;
     }
 
-    public void setMenuId(int menuId) {
+    public void setMenuId(long menuId) {
         this.menuId = menuId;
     }
 
@@ -131,9 +131,9 @@ public class TbMenuEntity {
         return true;
     }
 
+    @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + menuId;
+        int result = (int) (menuId ^ (menuId >>> 32));
         result = 31 * result + (menuName != null ? menuName.hashCode() : 0);
         result = 31 * result + (menuType != null ? menuType.hashCode() : 0);
         result = 31 * result + (menuPid != null ? menuPid.hashCode() : 0);

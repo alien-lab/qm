@@ -11,11 +11,11 @@
             <tr ng-repeat="roler in rolers track by $index">
                 <td>
                     <!-- editable username (text with validation)-->
-                    <span editable-text="roler.roleName" e-name="name" e-form="rowform" onbeforesave="table.checkName($data, user.id)" e-required="">{{ roler.roleName || &apos;empty&apos; }}</span>
+                    <span editable-text="roler.roleName" e-name="roleName" e-form="rowform" onbeforesave="table.checkName($data, roler.roleId)" e-required="">{{ roler.roleName || &apos;empty&apos; }}</span>
                 </td>
                 <td style="white-space: nowrap">
                     <!-- form-->
-                    <form editable-form="" name="rowform" onbeforesave="saveRoler($data, user.id)" ng-show="rowform.$visible" shown="table.inserted == user" class="form-buttons form-inline">
+                    <form editable-form="" name="rowform" onbeforesave="saveRoler($data,roler.roleId)" ng-show="rowform.$visible" shown="table.inserted == user" class="form-buttons form-inline">
 
                         <button type="submit" ng-disabled="rowform.$waiting" title="保存" class="btn btn-sm btn-info">
                             <em class="fa fa-save"></em>
@@ -31,7 +31,7 @@
                         <button ng-click="rowform.$show()" title="编辑" class="btn btn-sm btn-info">
                             <em class="fa fa-pencil"></em>
                         </button>
-                        <button ng-click="removeRoler($index)" title="删除" class="btn btn-sm btn-danger">
+                        <button ng-click="removeRoler($index,roler.roleId)" title="删除" class="btn btn-sm btn-danger">
                             <em class="fa fa-trash"></em>
                         </button>
                     </div>

@@ -81,22 +81,59 @@
         }]);
 
     })();
-    menu_module.controller("MenuController",['$scope','$filter', '$http', '$q',"$uibModal",'SweetAlert',"getMenuResource",'saveMenuResource',function($scope,$filter, $http,$q,$uibModal,SweetAlert,getMenuResource,saveMenuResource){
+
+    /*删除menu*/
+    (function() {
+        'use strict';
+        angular.module("qm.menu").factory("deleteMenuResource",["$resource",function($resource){
+            var service = $resource('/menu-api/deleteMenu', {}, {
+                'deletemenu': { method: 'post'}
+            });
+            return service;
+        }]);
+
+    })();
+
+    /*switch开关按钮*/
+    (function() {
+        'use strict';
+        angular.module("qm.menu").factory("switchMenuResource",["$resource",function($resource){
+            var service = $resource('/menu-api/switchMenu', {}, {
+                'switchmenu': { method: 'post'}
+            });
+            return service;
+        }]);
+
+    })();
+    menu_module.controller("MenuController",['$scope','$filter', '$http', '$q',"$uibModal",'SweetAlert',"getMenuResource",'saveMenuResource','deleteMenuResource','switchMenuResource',function($scope,$filter, $http,$q,$uibModal,SweetAlert,getMenuResource,saveMenuResource,deleteMenuResource,switchMenuResource){
         var vm = this;
         activate();
         function activate() {
-            getMenuResource.getMenu({
 
-            },function(result){
-                console.log(result);
-               $scope.menus = result;
-            },function(result){
+            $scope.menuTypes = [{ id: 1, name: '模块' }, { id: 2, name: '子功能' }];
+            $scope.pids = [ { id: 0, name: '父类编码0' },{ id: 79, name: '父类编码79' }, { id: 10, name: '父类编码10' }, { id: 11, name: '父类编码11' }, { id: 12, name: '父类编码12' }, { id: 13, name: '父类编码13' }
+                , { id: 14, name: '父类编码14' }, { id: 15, name: '父类编码15' }];
+           //获得菜单列表
+            getmenu();
 
-                console.log("菜单拉取失败");
-            });
+            function getmenu() {
+                getMenuResource.getMenu({
+
+                },function(result){
+                    console.log(result);
+                    $scope.menus = result;
+                },function(result){
+
+                    console.log("菜单拉取失败");
+                });
+
+            }
 
             //保存菜单
             $scope.saveMenu = function(data, id) {
+                if(id == undefined){
+                    id = -1;
+                }
                 console.log("data+id！");
                 console.log(data);
                 console.log(id);
@@ -108,18 +145,14 @@
                     content:data.menu_content,
                     attr:data.menu_attr
                 },function(result){
-                    console.log("保存成功！");
+                    console.log("保存menu成功！");
                     console.log(result);
+                    getmenu();
 
                 },function(result){
-                    console.log("保存失败");
+                    console.log("保存menu失败");
                 });
 
-
-                //vm.user not updated yet
-                angular.extend(data, {id: id});
-                console.log('Saving user: ' + id);
-                // return $http.post('/saveUser', data);
             };
 
 
@@ -127,80 +160,67 @@
             $scope.addMenu = function () {
                var inserted = {
                     id: $scope.menus.length+1,
-                    name: '',
-                    status: null,
-                    group: null,
-                    isNew: true
+                   menu_name: '',
+                   menu_type: null,
+                   menu_pid: null,
+                   menu_content: null,
+                   menu_attr:null
                 };
                 $scope.menus.push(vm.inserted);
             };
 
-            // editable column
-            // -----------------------------------
+            //删除菜单
+            $scope.removeMenu = function(index, id) {
+                console.log(index);
+                SweetAlert.swal({
+                    title: '您确定要删除该菜单吗?',
+                    text: '删除后将无法恢复，请谨慎操作！',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText:"是的，我要删除！",
+                    cancelButtonText:"让我再考虑一下…",
+                    closeOnConfirm:true,
+                    closeOnCancel:false
+                },  function(isConfirm){
+                    if (isConfirm){
+                        deleteMenuResource.deletemenu({
+                            id:id
+                        },function(result){
+                            console.log("删除menu成功！");
+                            console.log(result);
+                            $scope.menus.splice(index, 1);
 
+                        },function(result){
+                            console.log("删除menu失败");
+                        });
+                    }else {
+                        swal({title:"已取消",
+                            text:"您取消了删除操作！",
+                            type:"error"})
+                    }
 
-            vm.saveColumn = function(column) {
-                var results = [];
-                angular.forEach(vm.users, function(/*user*/) {
-                    // results.push($http.post('/saveColumn', {column: column, value: user[column], id: user.id}));
-                    console.log('Saving column: ' + column);
                 });
-                return $q.all(results);
             };
 
+            //菜单状态开关
+            $scope.openSwitch = function (id) {
+                console.log(id);
+                switchMenuResource.switchmenu({
+                    id:id
+                },function(result){
+                    console.log("switch开关修改成功！");
+                    console.log(result);
+                },function(result){
+                    console.log("switch开关修改失败");
+                });
 
-            // cancel all changes
-            vm.cancel = function() {
-                for (var i = vm.users.length; i--;) {
-                    var user = vm.users[i];
-                    // undelete
-                    if (user.isDeleted) {
-                        delete user.isDeleted;
-                    }
-                    // remove new
-                    if (user.isNew) {
-                        vm.users.splice(i, 1);
-                    }
-                }
-            };
+            }
 
-            // save edits
-            vm.saveTable = function() {
-                var results = [];
-                for (var i = vm.users.length; i--;) {
-                    var user = vm.users[i];
-                    // actually delete user
-                    if (user.isDeleted) {
-                        vm.users.splice(i, 1);
-                    }
-                    // mark as not new
-                    if (user.isNew) {
-                        user.isNew = false;
-                    }
-
-                    // send on server
-                    // results.push($http.post('/saveUser', user));
-                    console.log('Saving Table...');
-                }
-
-                return $q.all(results);
-            };
 
         }
 
-        $scope.removeMenu = function(index) {
-            SweetAlert.swal({
-                title: '确定要删除该菜单吗?',
-                text: '菜单删除不可恢复！',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#DD6B55',
-                confirmButtonText: '确认删除',
-                closeOnConfirm: true
-            },  function(){
-                $scope.menus.splice(index, 1);
-            });
-        };
+
 
     }]);
 

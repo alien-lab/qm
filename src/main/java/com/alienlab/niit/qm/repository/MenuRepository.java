@@ -1,6 +1,7 @@
 package com.alienlab.niit.qm.repository;
 
 import com.alienlab.niit.qm.entity.TbMenuEntity;
+import com.alienlab.niit.qm.entity.TbUserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface MenuRepository  extends JpaRepository<TbMenuEntity,Long> {
+
 }

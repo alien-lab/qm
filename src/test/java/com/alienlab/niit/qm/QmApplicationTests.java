@@ -1,8 +1,9 @@
 package com.alienlab.niit.qm;
 
 import com.alienlab.niit.qm.entity.BaseDepartmentEntity;
-import com.alienlab.niit.qm.repository.BaseDepartmentRepository;
-import com.alienlab.niit.qm.service.BaseDepartmentService;
+import com.alienlab.niit.qm.entity.TbMenuEntity;
+import com.alienlab.niit.qm.entity.TbUserEntity;
+import com.alienlab.niit.qm.service.MenuService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,10 @@ import java.util.List;
 public class QmApplicationTests {
 
 	@Autowired
-	private BaseDepartmentService baseDepartmentService;
+	private MenuService menuService;
 	@Test
-	public void contextLoads() {
-		List<BaseDepartmentEntity> baseDepartmentEntities = baseDepartmentService.getDepartment();
+	public void contextLoads() throws Exception {
+		List<TbMenuEntity> baseDepartmentEntities = menuService.getAllMenus();
 		System.out.print(baseDepartmentEntities);
 	}
 
