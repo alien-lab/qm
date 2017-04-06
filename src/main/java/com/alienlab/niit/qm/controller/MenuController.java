@@ -2,36 +2,41 @@ package com.alienlab.niit.qm.controller;
 
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.TbMenuEntity;
-import com.alienlab.niit.qm.entity.dto.Menudto;
+import com.alienlab.niit.qm.entity.dto.MenuDto;
 import com.alienlab.niit.qm.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Master QB on 2017/3/29.
  */
-@Api(value="/menu-api/menu",description = "菜单设置API")
+@Api(value="/qm-api/menus",description = "菜单设置API")
 @RestController
-@RequestMapping("/menu-api")
+@RequestMapping("/qm-api")
 public class MenuController {
 
     @Autowired
     MenuService menuService;
 
 
-    @ApiOperation(value="获取模块下子菜单")
-    @GetMapping(value = "/getsubMenus")
-    public ResponseEntity getSubMenu()  {
+    @ApiOperation(value="获取全部菜单")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "", response = MenuDto.class),
+            @ApiResponse(code = 500, message = "", response = ExecResult.class)
+    })
+    @GetMapping(value = "/menus/dto")
+    public ResponseEntity getAllMenuDto()  {
 
-        List<Menudto> menudtos = new ArrayList<>();
+        List<MenuDto> menudtos = new ArrayList<>();
         try {
             menudtos  = menuService.getMenus();
         } catch (Exception e) {
@@ -48,7 +53,7 @@ public class MenuController {
     }
 
     @ApiOperation(value="获取系统所有菜单")
-    @GetMapping(value = "/getMenus")
+    @GetMapping(value = "/menus")
     public ResponseEntity getAllMenu()  {
         List<TbMenuEntity> menus = null;
         try {
@@ -67,7 +72,7 @@ public class MenuController {
     }
 
     @ApiOperation(value="保存菜单")
-    @PostMapping(value = "/saveMenu")
+    @PostMapping(value = "/menus")
     public ResponseEntity saveMenu( @RequestParam int id,@RequestParam String  name,@RequestParam String  type,
                                     @RequestParam  Integer pid,@RequestParam String  content,@RequestParam String  attr)  {
         //id 为-1是新增菜单
@@ -83,8 +88,8 @@ public class MenuController {
                 TbMenuEntity tbMenuEntity =  menuService.saveMenu(tbMenuEntity1);
                 if (tbMenuEntity != null)
                 {
-                    ExecResult right=  new ExecResult(true,"新增菜单成功！");
-                    return ResponseEntity.ok().body(right);
+                    //ExecResult right=  new ExecResult(true,"新增菜单成功！");
+                    return ResponseEntity.ok().body(tbMenuEntity1);
                 }else {
                     ExecResult er=  new ExecResult(false,"新增菜单失败！请重试");
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
@@ -130,7 +135,7 @@ public class MenuController {
     }
 
     @ApiOperation(value="删除菜单")
-    @PostMapping(value = "/deleteMenu")
+    @DeleteMapping(value = "/menus")
     public ResponseEntity deleteMenu( @RequestParam int id)  {
         boolean flag = false;
         try {
@@ -147,7 +152,7 @@ public class MenuController {
         }
     }
     @ApiOperation(value="菜单switch开关")
-    @PostMapping(value = "/switchMenu")
+    @PutMapping(value = "/menus/switch")
     public ResponseEntity switchMenu( @RequestParam int id)  {
         TbMenuEntity tbMenuEntity = null;
         try {

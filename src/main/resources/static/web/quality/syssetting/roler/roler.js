@@ -3,7 +3,7 @@
  */
 (function(){
     'use strict';
-    var roler_module=angular.module("qm.roler",['ui.router']);//ui.router模块作为主应用模块的依赖模块
+    var roler_module=angular.module("qm.roler",['ui.router','qm.menu']);//ui.router模块作为主应用模块的依赖模块
     roler_module.config(["$stateProvider",function($stateProvider){//配置$stateProvider，用来定义路由规则
         $stateProvider.state('qm.roler', {
             url: '/roler',
@@ -95,10 +95,10 @@
     })();
 
 
-    roler_module.controller("RolerController",['$scope','$filter', '$http','$q',"$uibModal",'SweetAlert','getRolerResource','saveRolerResource','deleteRolerResource',function($scope,$filter, $http,$q,$uibModal,SweetAlert,getRolerResource,saveRolerResource,deleteRolerResource){
+    roler_module.controller("RolerController",['$scope','$filter', '$http','$q',"$uibModal",'SweetAlert','getRolerResource','saveRolerResource','deleteRolerResource','menuResource',function($scope,$filter, $http,$q,$uibModal,SweetAlert,getRolerResource,saveRolerResource,deleteRolerResource,menuResource){
 
         var vm = this;
-
+        $scope.menus=menuResource.getMenuDto({},function(result){console.log(result)});
         activate();
 
         ////////////////

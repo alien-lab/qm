@@ -1,14 +1,15 @@
 package com.alienlab.niit.qm.entity.dto;
 
 import com.alienlab.niit.qm.entity.TbMenuEntity;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
 /**
  * Created by Master QB on 2017/3/31.
  */
-public class Menudto extends TbMenuEntity {
-
+public class MenuDto extends TbMenuEntity {
+    @ApiModelProperty(value="子菜单项")
     private List <TbMenuEntity> childmenuEntity;
 
 

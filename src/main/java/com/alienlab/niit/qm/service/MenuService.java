@@ -1,7 +1,8 @@
 package com.alienlab.niit.qm.service;
 
 import com.alienlab.niit.qm.entity.TbMenuEntity;
-import com.alienlab.niit.qm.entity.dto.Menudto;
+import com.alienlab.niit.qm.entity.dto.MenuDto;
+import com.alienlab.niit.qm.entity.dto.RoleMenuDto;
 
 import java.util.List;
 
@@ -23,8 +24,9 @@ public interface MenuService {
     //根据ID获取菜单
     public  TbMenuEntity getMenuById(long menu_id) throws  Exception;
 
-    //DTO根据一级菜单id获得二级菜单列表
-    public List<Menudto> getMenus() throws  Exception;
+    public List<MenuDto> getMenus() throws  Exception;
+
+    public List<RoleMenuDto> getMenusByRole(int roleId) throws  Exception;
 
 
 

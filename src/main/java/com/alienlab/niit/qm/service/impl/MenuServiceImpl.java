@@ -1,7 +1,7 @@
 package com.alienlab.niit.qm.service.impl;
 
 import com.alienlab.niit.qm.entity.TbMenuEntity;
-import com.alienlab.niit.qm.entity.dto.Menudto;
+import com.alienlab.niit.qm.entity.dto.MenuDto;
 import com.alienlab.niit.qm.repository.MenuRepository;
 import com.alienlab.niit.qm.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,14 +51,14 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menudto> getMenus() throws Exception {
+    public List<MenuDto> getMenus() throws Exception {
         List<TbMenuEntity> entityMenus=menuRepository.findMenusByMenuType("模块");
         if(entityMenus==null||entityMenus.size()==0){
             throw new Exception("没有加载到菜单模块");
         }
-        List<Menudto> menudtos=new ArrayList<Menudto>();
+        List<MenuDto> menudtos=new ArrayList<MenuDto>();
         for(TbMenuEntity entityMenu:entityMenus){
-            Menudto menudto=new Menudto();
+            MenuDto menudto=new MenuDto();
             menudto.setMenuAttr(entityMenu.getMenuAttr());
             menudto.setMenuContent(entityMenu.getMenuContent());
             menudto.setMenuId(entityMenu.getMenuId());
@@ -67,7 +67,7 @@ public class MenuServiceImpl implements MenuService {
             menudto.setMenuStatus(entityMenu.getMenuStatus());
             menudto.setMenuType(entityMenu.getMenuType());
 
-            List<TbMenuEntity> subMenus=menuRepository.findMenusByMenuPid(entityMenu.getMenuPid());
+            List<TbMenuEntity> subMenus=menuRepository.findMenusByMenuPid((int)entityMenu.getMenuId());
             menudto.setChildmenuEntity(subMenus);
             menudtos.add(menudto);
         }

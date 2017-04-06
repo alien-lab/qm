@@ -1,10 +1,12 @@
 package com.alienlab.niit.qm.entity;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Created by Master QB on 2017/3/14.
  */
+@ApiModel(value="菜单Entity")
 @javax.persistence.Entity
 @javax.persistence.Table(name = "tb_menu", schema = "qualitymonitor", catalog = "")
 public class TbMenuEntity {

@@ -61,51 +61,26 @@
     /*获取menu*/
     (function() {
         'use strict';
-        angular.module("qm.menu").factory("getMenuResource",["$resource",function($resource){
-            var service = $resource('/menu-api/getMenus', {}, {
-                'getMenu': { method: 'GET', isArray:true}
+        angular.module("qm.menu").factory("menuResource",["$resource",function($resource){
+            var service = $resource('/qm-api/menus', {}, {
+                getMenu: { method: 'GET', isArray:true},
+                getMenuDto:{
+                    method:'GET',
+                    isArray:true,
+                    url:'/qm-api/menus/dto'
+                },
+                savemenu: { method: 'POST'},
+                updateMenu:{method:'PUT'},
+                switchMenu:{method:'PUT',url:'/qm-api/menus/switch'},
+                deletemenu: { method: 'DELETE'}
             });
             return service;
         }]);
-
     })();
 
-    /*保存或增加menu*/
-    (function() {
-        'use strict';
-        angular.module("qm.menu").factory("saveMenuResource",["$resource",function($resource){
-            var service = $resource('/menu-api/saveMenu', {}, {
-                'savemenu': { method: 'POST'}
-            });
-            return service;
-        }]);
 
-    })();
 
-    /*删除menu*/
-    (function() {
-        'use strict';
-        angular.module("qm.menu").factory("deleteMenuResource",["$resource",function($resource){
-            var service = $resource('/menu-api/deleteMenu', {}, {
-                'deletemenu': { method: 'post'}
-            });
-            return service;
-        }]);
-
-    })();
-
-    /*switch开关按钮*/
-    (function() {
-        'use strict';
-        angular.module("qm.menu").factory("switchMenuResource",["$resource",function($resource){
-            var service = $resource('/menu-api/switchMenu', {}, {
-                'switchmenu': { method: 'post'}
-            });
-            return service;
-        }]);
-
-    })();
-    menu_module.controller("MenuController",['$scope','$filter', '$http', '$q',"$uibModal",'SweetAlert',"getMenuResource",'saveMenuResource','deleteMenuResource','switchMenuResource',function($scope,$filter, $http,$q,$uibModal,SweetAlert,getMenuResource,saveMenuResource,deleteMenuResource,switchMenuResource){
+    menu_module.controller("MenuController",['$scope','$filter', '$http', '$q',"$uibModal",'SweetAlert',"menuResource",function($scope,$filter, $http,$q,$uibModal,SweetAlert,menuResource ){
         var vm = this;
         activate();
         function activate() {
@@ -115,9 +90,9 @@
                 , { id: 14, name: '父类编码14' }, { id: 15, name: '父类编码15' }];
            //获得菜单列表
             getmenu();
-
+            //getMenuResource.getMenuDto({},function(result){console.log(result)});
             function getmenu() {
-                getMenuResource.getMenu({
+                menuResource.getMenu({
 
                 },function(result){
                     console.log(result);
@@ -137,7 +112,7 @@
                 console.log("data+id！");
                 console.log(data);
                 console.log(id);
-                saveMenuResource.savemenu({
+                menuResource.savemenu({
                     id:id,
                     name:data.menu_name,
                     type:data.menu_type,
@@ -184,7 +159,7 @@
                     closeOnCancel:false
                 },  function(isConfirm){
                     if (isConfirm){
-                        deleteMenuResource.deletemenu({
+                        menuResource.deletemenu({
                             id:id
                         },function(result){
                             console.log("删除menu成功！");
@@ -206,7 +181,7 @@
             //菜单状态开关
             $scope.openSwitch = function (id) {
                 console.log(id);
-                switchMenuResource.switchmenu({
+                menuResource.switchMenu({
                     id:id
                 },function(result){
                     console.log("switch开关修改成功！");
