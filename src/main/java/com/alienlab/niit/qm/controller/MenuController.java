@@ -2,6 +2,7 @@ package com.alienlab.niit.qm.controller;
 
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.TbMenuEntity;
+import com.alienlab.niit.qm.entity.dto.Menudto;
 import com.alienlab.niit.qm.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +25,27 @@ public class MenuController {
 
     @Autowired
     MenuService menuService;
+
+
+    @ApiOperation(value="获取模块下子菜单")
+    @GetMapping(value = "/getsubMenus")
+    public ResponseEntity getSubMenu()  {
+
+        List<Menudto> menudtos = new ArrayList<>();
+        try {
+            menudtos  = menuService.getMenus();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (menudtos.size() != 0){
+            return ResponseEntity.ok().body(menudtos);
+        }
+        else{
+            ExecResult er=  new ExecResult(false,"获取获取模块下子菜单！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
 
     @ApiOperation(value="获取系统所有菜单")
     @GetMapping(value = "/getMenus")
