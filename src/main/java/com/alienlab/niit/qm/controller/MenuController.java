@@ -47,7 +47,7 @@ public class MenuController {
     @PostMapping(value = "/saveMenu")
     public ResponseEntity saveMenu( @RequestParam int id,@RequestParam String  name,@RequestParam String  type,
                                     @RequestParam  Integer pid,@RequestParam String  content,@RequestParam String  attr)  {
-        //id 为0是新增菜单
+        //id 为-1是新增菜单
         if (id == -1){
             TbMenuEntity tbMenuEntity1 = new TbMenuEntity();
             tbMenuEntity1.setMenuName(name);
@@ -71,7 +71,7 @@ public class MenuController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
             }
         }
-        //id不为0则为修改菜单
+        //id不为-1则为修改菜单
         else {
             TbMenuEntity tbMenuEntity = null;
             try {

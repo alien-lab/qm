@@ -150,7 +150,7 @@
             // 增加角色
             $scope.addRoler = function () {
                 var inserted = {
-                    roleName: null
+                    roleName: ''
                 };
                 $scope.rolers.push(vm.inserted);
             };
@@ -207,13 +207,39 @@
 
     }]);
 
+    /*获取所有菜单*/
+    (function() {
+        'use strict';
+        angular.module("qm.roler").factory("getrolerMenuResource",["$resource",function($resource){
+            var service = $resource('/menu-api/getMenus', {}, {
+                'getrolerMenu': { method: 'GET', isArray:true}
+            });
+            return service;
+        }]);
+
+    })();
 
 
-    roler_module.controller("roler_menuController",["$scope","$uibModalInstance","$rootScope",function($scope,$uibModalInstance,$rootScope){
+    //角色菜单设置的controller
+    roler_module.controller("roler_menuController",["$scope","$uibModalInstance","$rootScope",'getrolerMenuResource',function($scope,$uibModalInstance,$rootScope,getrolerMenuResource){
         $scope.ModTitle = "角色菜单设置";
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');
         }
+
+        //获取所有角色菜单
+        getrolerMenuResource.getrolerMenu({
+        },function(result){
+            console.log(result);
+            $scope.rolerMenus = result;
+        },function(result){
+
+            console.log("菜单拉取失败");
+        });
+
+
+
+
 
     }]);
 

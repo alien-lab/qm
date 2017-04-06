@@ -1,6 +1,7 @@
 package com.alienlab.niit.qm.service.impl;
 
 import com.alienlab.niit.qm.entity.TbMenuEntity;
+import com.alienlab.niit.qm.entity.dto.Menudto;
 import com.alienlab.niit.qm.repository.MenuRepository;
 import com.alienlab.niit.qm.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public TbMenuEntity getMenuById(long menu_id) throws Exception {
         return menuRepository.findOne(menu_id);
+    }
+
+    @Override
+    public Menudto getSonMenusById(long menu_id) throws Exception {
+        return null;
     }
 }
