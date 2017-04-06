@@ -644,11 +644,11 @@ public class DateUtils {
 	        now.set(Calendar.DATE, now.get(Calendar.DATE) + day);  
 	        return now.getTime();  
 	    } 
-	public static void main(String[] args) {
-//		 new DateUtils().getMonthDays("201310");
-		 String date=DateUtils.getCurrentDate("yyyyMMdd");
-		 System.out.println(date);
-		//System.out.println(getAmongDate("20131101","20131130","yyyyMMdd"));
-	}
+//	public static void main(String[] args) {
+////		 new DateUtils().getMonthDays("201310");
+//		 String date=DateUtils.getCurrentDate("yyyyMMdd");
+//		 System.out.println(date);
+//		//System.out.println(getAmongDate("20131101","20131130","yyyyMMdd"));
+//	}
 
 }

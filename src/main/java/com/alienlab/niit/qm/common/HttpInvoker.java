@@ -96,16 +96,16 @@ public class HttpInvoker {
 		return json;
 	}
 	
-	public static void main(String [] args){
-		String jo="";
-		try {
-			jo = HttpInvoker.httpPost("http://210.28.101.76/do?invoke=AppAction@Login", 
-					null, 
-					"loginname=1402753102&loginpwd=442312502");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(jo);
-	}
+//	public static void main(String [] args){
+//		String jo="";
+//		try {
+//			jo = HttpInvoker.httpPost("http://210.28.101.76/do?invoke=AppAction@Login",
+//					null,
+//					"loginname=1402753102&loginpwd=442312502");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println(jo);
+//	}
 }

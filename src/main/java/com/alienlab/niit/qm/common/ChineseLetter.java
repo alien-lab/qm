@@ -83,8 +83,8 @@ public class ChineseLetter {
         return str;
     }
 
-    public static void main(String[] args) {
-        ChineseLetter cte = new ChineseLetter();
-        System.out.println("获取拼音首字母："+ cte.getAllFirstLetter("这是一段获取拼音首字母的程序"));
-    }
+//    public static void main(String[] args) {
+//        ChineseLetter cte = new ChineseLetter();
+//        System.out.println("获取拼音首字母："+ cte.getAllFirstLetter("这是一段获取拼音首字母的程序"));
+//    }
 }

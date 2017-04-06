@@ -90,14 +90,14 @@ public class PropertyConfig {
 		return p;
 	}
 	
-	public static void main(String []args){
-		try {
-			//String tmp1=new PropertyConfig("dbconfig.properties").getValue("password");
-			String tmp2=new PropertyConfig("sysConfig.properties").getValue("defaultResponseText");
-			System.out.println(tmp2);
-		} catch (Exception e) {
-			// TODO 自动生成�? catch �?
-			e.printStackTrace();
-		}	
-	}
+//	public static void main(String []args){
+//		try {
+//			//String tmp1=new PropertyConfig("dbconfig.properties").getValue("password");
+//			String tmp2=new PropertyConfig("sysConfig.properties").getValue("defaultResponseText");
+//			System.out.println(tmp2);
+//		} catch (Exception e) {
+//			// TODO 自动生成�? catch �?
+//			e.printStackTrace();
+//		}
+//	}
 }

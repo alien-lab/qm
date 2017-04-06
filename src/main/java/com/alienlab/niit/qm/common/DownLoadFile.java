@@ -69,11 +69,11 @@ public class DownLoadFile {
         return bos.toByteArray();    
     }    
   
-    public static void main(String[] args) {  
-        try{  
-            downLoadFromUrl("http://localhost:8080/doc/image//20150310/88241425997803773.mp4","百度.mp4","D:/");  
-        }catch (Exception e) {  
-            // TODO: handle exception  
-        }  
-    }  
+//    public static void main(String[] args) {
+//        try{
+//            downLoadFromUrl("http://localhost:8080/doc/image//20150310/88241425997803773.mp4","百度.mp4","D:/");
+//        }catch (Exception e) {
+//            // TODO: handle exception
+//        }
+//    }
 }

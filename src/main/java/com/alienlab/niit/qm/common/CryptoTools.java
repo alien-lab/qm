@@ -50,15 +50,15 @@ public class CryptoTools {
 
        return new String(pasByte, "UTF-8");
    }
-   public static void main(String[] args) {
-       try {
-           String test = "aaaaaa";
-           CryptoTools des = new CryptoTools();//自定义密�?
-          // System.out.println("加密前的字符�?"+test);
-           System.out.println("加密后的字符�?"+des.encode("123456"));
-           System.out.println("解密后的字符�?"+des.decode("C552DB617970A4DC72689F5A70C8256B"));
-       } catch (Exception e) {
-           e.printStackTrace();
-       }
-   }
+//   public static void main(String[] args) {
+//       try {
+//           String test = "aaaaaa";
+//           CryptoTools des = new CryptoTools();//自定义密�?
+//          // System.out.println("加密前的字符�?"+test);
+//           System.out.println("加密后的字符�?"+des.encode("123456"));
+//           System.out.println("解密后的字符�?"+des.decode("C552DB617970A4DC72689F5A70C8256B"));
+//       } catch (Exception e) {
+//           e.printStackTrace();
+//       }
+//   }
 }

@@ -24,7 +24,7 @@ public interface MenuService {
     public  TbMenuEntity getMenuById(long menu_id) throws  Exception;
 
     //DTO根据一级菜单id获得二级菜单列表
-    public Menudto getSonMenusById(long menu_id) throws  Exception;
+    public List<Menudto> getMenus() throws  Exception;
 
 
 

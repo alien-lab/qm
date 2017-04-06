@@ -148,19 +148,19 @@ public class Md5Azdg {
 		}
 		return str;
 	}
-	public static void main(String[] args) {
-
-		String clearText = "123456";// 明文
-		//String cipherText = "C21ePAk0WmIJNV1oC25aZA==";// 密文
-		//String cleanText = "C21ePAk0WmIJNV1oC25aZA==";// 解密后的
-
-		System.out.println("明文为：" + clearText);
-		//cipherText = Md5Azdg.encrypt(clearText);
-		System.out.println("加密后为�?" + Md5Azdg.encrypt(clearText));
-		//cleanText = Md5Azdg.decrypt(cleanText);
-		//System.out.println("解密后为�?" + cleanText);
-		//25f9e794323b453885f5181f1b624d0b
-		System.out.println(Md5Azdg.md5s("123456789"));
-	}
+//	public static void main(String[] args) {
+//
+//		String clearText = "123456";// 明文
+//		//String cipherText = "C21ePAk0WmIJNV1oC25aZA==";// 密文
+//		//String cleanText = "C21ePAk0WmIJNV1oC25aZA==";// 解密后的
+//
+//		System.out.println("明文为：" + clearText);
+//		//cipherText = Md5Azdg.encrypt(clearText);
+//		System.out.println("加密后为�?" + Md5Azdg.encrypt(clearText));
+//		//cleanText = Md5Azdg.decrypt(cleanText);
+//		//System.out.println("解密后为�?" + cleanText);
+//		//25f9e794323b453885f5181f1b624d0b
+//		System.out.println(Md5Azdg.md5s("123456789"));
+//	}
     
 }

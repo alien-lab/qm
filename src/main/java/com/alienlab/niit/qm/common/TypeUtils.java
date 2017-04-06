@@ -336,29 +336,29 @@ public class TypeUtils {
     }
 
 	   
-		public static void main(String [] args){
-//			TypeUtils t=new TypeUtils();
-//			String str="";
-//			try {
-//				str = new String(("我是中国�?".getBytes("UTF-8")),"UTF-8");
-//			} catch (UnsupportedEncodingException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//			String ustr="";
-//			try {
-//				System.out.println(str);
-//				ustr = t.string2Unicode(str);
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			System.out.println(ustr);
-//			System.out.println(t.unicode2String(ustr));
-			Date dt=new Date();
-			dt.setTime((Long.parseLong("1460020047")*1000));
-			System.out.println(TypeUtils.getTime(dt,"yyyyMMddHHmmss")+","+dt.getTime());
-		}
+//		public static void main(String [] args){
+////			TypeUtils t=new TypeUtils();
+////			String str="";
+////			try {
+////				str = new String(("我是中国�?".getBytes("UTF-8")),"UTF-8");
+////			} catch (UnsupportedEncodingException e1) {
+////				// TODO Auto-generated catch block
+////				e1.printStackTrace();
+////			}
+////			String ustr="";
+////			try {
+////				System.out.println(str);
+////				ustr = t.string2Unicode(str);
+////			} catch (Exception e) {
+////				// TODO Auto-generated catch block
+////				e.printStackTrace();
+////			}
+////			System.out.println(ustr);
+////			System.out.println(t.unicode2String(ustr));
+//			Date dt=new Date();
+//			dt.setTime((Long.parseLong("1460020047")*1000));
+//			System.out.println(TypeUtils.getTime(dt,"yyyyMMddHHmmss")+","+dt.getTime());
+//		}
 	  
 
 

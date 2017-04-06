@@ -141,13 +141,13 @@ public class CompressPic {
     
   
        
-   // main测试    
-    // compressPic(大图片路�?,生成小图片路�?,大图片文件名,生成小图片文�?,生成小图片宽�?,生成小图片高�?,是否等比缩放(默认为true))   
-    public static void main(String[] arg) {    
-    	CompressPic mypic = new CompressPic();    
-        logger.info("输入的图片大小：" + mypic.getPicSize("E:\\uploads\\document\\image\\20150111\\83731420981233160.jpg")/1024 + "KB");
-     	
-         mypic.compressPic("E:\\uploads\\document\\image\\20150111\\","e:\\test\\","83731420981233160.jpg","8373142098123316000.jpg", 120, 120, true);  
-    }    
+//   // main测试
+//    // compressPic(大图片路�?,生成小图片路�?,大图片文件名,生成小图片文�?,生成小图片宽�?,生成小图片高�?,是否等比缩放(默认为true))
+//    public static void main(String[] arg) {
+//    	CompressPic mypic = new CompressPic();
+//        logger.info("输入的图片大小：" + mypic.getPicSize("E:\\uploads\\document\\image\\20150111\\83731420981233160.jpg")/1024 + "KB");
+//
+//         mypic.compressPic("E:\\uploads\\document\\image\\20150111\\","e:\\test\\","83731420981233160.jpg","8373142098123316000.jpg", 120, 120, true);
+//    }
  }  
 
