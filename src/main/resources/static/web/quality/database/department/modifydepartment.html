@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3 style="margin-left: 20px">填写修改部门的信息</h3>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">部门名称</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="department.depName" class="form-control" />
+        </div>
+        <label class="col-sm-2 control-label">部门编号</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="department.depNo" class="form-control" />
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">部门类型</label>
+        <div class="col-sm-4">
+            <select name="select" required="" ng-model="department.depType" class="form-control">
+                <option value="1">行政</option>
+                <option value="2">教学</option>
+            </select>
+        </div>
+        <label class="col-sm-2 control-label">部门检索编号</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="department.depCddwNo" class="form-control" />
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">部门排序编号</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="department.depSort" class="form-control" />
+        </div>
+        <label class="col-sm-2 control-label">部门简称</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="department.depAbbreviation" class="form-control" />
+        </div>
+    </div>
+</fieldset>
+<div class="panel-footer text-center">
+    <button type="submit" class="btn btn-success" ng-click="save(department)">保存</button>
+    <button ng-click="cancel()" type="submit" class="btn btn-danger">取消</button>
+</div>
+</body>
+</html>

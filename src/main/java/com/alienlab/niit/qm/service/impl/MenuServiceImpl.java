@@ -2,6 +2,7 @@ package com.alienlab.niit.qm.service.impl;
 
 import com.alienlab.niit.qm.entity.TbMenuEntity;
 import com.alienlab.niit.qm.entity.dto.MenuDto;
+import com.alienlab.niit.qm.entity.dto.RoleMenuDto;
 import com.alienlab.niit.qm.repository.MenuRepository;
 import com.alienlab.niit.qm.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,11 @@ public class MenuServiceImpl implements MenuService {
             menudtos.add(menudto);
         }
         return menudtos;
+    }
+
+    @Override
+    public List<RoleMenuDto> getMenusByRole(int roleId) throws Exception {
+        return null;
     }
 
 
