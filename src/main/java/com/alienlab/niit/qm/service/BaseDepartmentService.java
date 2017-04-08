@@ -19,11 +19,14 @@ public class BaseDepartmentService {
         return baseDepartmentRepository.findAll();
     }
 
-    public BaseDepartmentEntity updateDepartment(BaseDepartmentEntity departmentEntity){
-        departmentEntity=baseDepartmentRepository.save(departmentEntity);
-        return departmentEntity;
+    public BaseDepartmentEntity saveDepartment(BaseDepartmentEntity department){
+        department=baseDepartmentRepository.save(department);
+        return department;
     }
-
+    public boolean deleteDepartment(Long dep_no){
+        baseDepartmentRepository.delete(dep_no);
+        return true;
+    }
     public BaseDepartmentEntity getBaseDepartmentById(Long depNo){
         return baseDepartmentRepository.findOne(depNo);
     }

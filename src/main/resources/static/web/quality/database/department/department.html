@@ -5,9 +5,13 @@
     <title>部门维护</title>
 </head>
 <body>
-   <h3>部门维护</h3>
+   <h3>部门维护
+       <button style="width:auto;float:right;margin-right: 2px;" type="button" ng-click="adddepartment()" class="btn btn-labeled btn-success">
+               <span class="btn-label"><i class="fa fa-plus"></i>
+               </span>新增部门</button>
+   </h3>
    <div class="row">
-   <div class="col-lg-4" ng-repeat="department in departments">
+   <div class="col-lg-4" ng-repeat="department in departments track by $index">
        <!-- START panel-->
        <div class="panel panel-info">
            <div class="panel-heading"><p><b style="font-size:20px;">部门名称: </b>{{department.depName}}</p></div>
@@ -18,7 +22,7 @@
            </div>
            <div class="panel-footer" align="center">
                <button class="btn btn-success" ng-click="modifydepartment(department.depNo)">修改</button>&nbsp;&nbsp;
-               <button type="button" class="btn btn-danger">删除</button>
+               <button type="button" ng-click="deletedepartment($index,department.depNo)" class="btn btn-danger">删除</button>
            </div>
        </div>
    </div>

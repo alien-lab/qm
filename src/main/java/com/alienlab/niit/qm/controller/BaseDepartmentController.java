@@ -5,6 +5,7 @@ import com.alienlab.niit.qm.entity.BaseDepartmentEntity;
 import com.alienlab.niit.qm.service.BaseDepartmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,11 +62,45 @@ public class BaseDepartmentController {
             departmentEntity.setDepType(depType);
             departmentEntity.setDepSort(depSort);
             departmentEntity.setDepAbbreviation(depAbbreviation);
-            BaseDepartmentEntity result = baseDepartmentService.updateDepartment(departmentEntity);
+            BaseDepartmentEntity result = baseDepartmentService.saveDepartment(departmentEntity);
             ExecResult right=  new ExecResult(true,"保存部门信息成功！");
             return ResponseEntity.ok().body(right);
         }else {
             ExecResult er=  new ExecResult(false,"保存部门信息失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value="增加部门内容")
+    @PostMapping(value = "/addDepartment")
+    public ResponseEntity addDepartment(@RequestParam Long depNo,@RequestParam String depName,@RequestParam String depCddwNo,
+                                         @RequestParam String depType,@RequestParam Integer depSort,@RequestParam String depAbbreviation){
+            BaseDepartmentEntity departmentEntity = new BaseDepartmentEntity();
+            departmentEntity.setDepNo(depNo);
+            departmentEntity.setDepName(depName);
+            departmentEntity.setDepCddwNo(depCddwNo);
+            departmentEntity.setDepType(depType);
+            departmentEntity.setDepSort(depSort);
+            departmentEntity.setDepAbbreviation(depAbbreviation);
+            BaseDepartmentEntity departmentEntity1 = baseDepartmentService.saveDepartment(departmentEntity);
+            if (departmentEntity1!=null){
+                return ResponseEntity.ok().body(departmentEntity1);
+            }else {
+                ExecResult er=  new ExecResult(false,"新增菜单失败！请重试");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+    }
+
+    @ApiOperation(value="删除部门内容")
+    @DeleteMapping(value = "/deleteDepartment")
+    public ResponseEntity deleteDepartment(@RequestParam Long dep_no){
+        boolean flag= false;
+        flag = baseDepartmentService.deleteDepartment(dep_no);
+        if (flag==true){
+            ExecResult right=  new ExecResult(true,"删除部门成功！");
+            return ResponseEntity.ok().body(right);
+        }else {
+            ExecResult er=  new ExecResult(false,"删除部门失败！请重试");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
