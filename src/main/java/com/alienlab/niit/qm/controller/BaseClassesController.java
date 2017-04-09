@@ -8,10 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +25,15 @@ public class BaseClassesController {
 
     //通过年级和学院查询班级
     @ApiOperation(value = "查询所有班级")
-    @PostMapping(value = "/findClassesBydepNoAndclassSessionYear")
+    @GetMapping(value = "/classes")
     public ResponseEntity findClass(@RequestParam String depNo, @RequestParam String classSessionYear) {
         if (depNo != null && classSessionYear != null) {
             List<BaseClassesEntity> baseClassesEntities = baseClassesService.getBaseClassesBydepNo(depNo);
-            List<BaseClassesEntity> baseClassesEntities1 = baseClassesService.getBaseClassesByYear(classSessionYear);
+            //List<BaseClassesEntity> baseClassesEntities1 = baseClassesService.getBaseClassesByYear(classSessionYear);
             List<BaseClassesEntity> baseClassesEntities2 = new ArrayList<>();
             for (int n = 0; n < baseClassesEntities.size(); n++) {
-                for (int m = 0; m < baseClassesEntities1.size(); m++) {
-                    if (baseClassesEntities.get(n) == baseClassesEntities1.get(m)) {
-                        baseClassesEntities2 = (List<BaseClassesEntity>) baseClassesEntities.get(n);
-                    }
+                if (baseClassesEntities.get(n).getClassSessionYear().equals(classSessionYear)){
+                    baseClassesEntities2.add(baseClassesEntities.get(n));
                 }
             }
             return ResponseEntity.ok().body(baseClassesEntities2);
@@ -47,5 +42,6 @@ public class BaseClassesController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
+
 
 }

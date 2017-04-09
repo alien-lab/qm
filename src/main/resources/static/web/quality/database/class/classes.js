@@ -17,35 +17,30 @@
     //根据部门简称和年级查询班级信息
     (function() {
         'use strict';
-        angular.module("qm.base_classes").factory("findClassesBydepAndyearResource",["$resource",function($resource){
-            var service = $resource('/qm-api/findClassesBydepNoAndclassSessionYear', {}, {
-                'findClassesBydepAndyear': { method: 'POST',isArray:true}
+        angular.module("qm.base_classes").factory("classResource",["$resource",function($resource){
+            var service = $resource('/qm-api/classes', {}, {
+                'getClassesBydepAndyear': { method: 'GET',isArray:true},
+                'getDepartment': { method: 'GET',isArray:true,url:"/qm-api/department"},//得到所有部门信息
+                'getMajorBymajorNo':{method:'GET',url:"/qm-api/major"},
+                'getTeacherByteachNo':{method:'GET',url:"/qm-api/teacher"},
+                'getStudentBystudentNo':{method:'GET',url:"/qm-api/student"},
+                'getDepartmentBydepNo':{method:"GET",url:""}
             });
             return service;
         }]);
     })();
 
-    //得到所有部门信息
-    (function() {
-        'use strict';
-        angular.module("qm.base_classes").factory("getAllDepartment",["$resource",function($resource){
-            var service = $resource('/qm-api/findAllDepartment', {}, {
-                'getDepartment': { method: 'GET',isArray:true}
-            });
-            return service;
-        }]);
-    })();
 
 
     product_module.controller('classSessionYear', function($scope) {
         $scope.names = ["2016","2015","2014","2013","2012","2011","2010","2009"];
     });
 
-    product_module.controller("classesController",["$scope","classesinstance","getAllDepartment","findClassesBydepAndyearResource","$uibModal",function($scope,classesinstance,getAllDepartment,findClassesBydepAndyearResource,$uibModal){
+    product_module.controller("classesController",["$scope","classesinstance","classResource","$uibModal",function($scope,classesinstance,classResource,$uibModal){
         $scope.pagetitle="班级学生维护";
 
         //查询部门简称
-        getAllDepartment.getDepartment({}, function (result) {
+        classResource.getDepartment({}, function (result) {
             console.log(result);
             /*$scope.departments = result;*/
             $scope.departments = result;
@@ -78,36 +73,64 @@
         }
 
         //根据年级和学院查找班级
-            $scope.formd = false;
-            $scope.formy = false;
             $scope.classdepNoChanged = classdepNoChanged;
             function classdepNoChanged(depNo) {
                 $scope.depNo = depNo;
-                $scope.formd = true;
                 console.log($scope.depNo);
             }
 
             $scope.classYearChanged = classYearChanged;
             function classYearChanged(selectedName) {
                 $scope.Year = selectedName;
-                $scope.formy = true;
                 console.log($scope.Year);
             }
 
-        $scope.searchClasses=function searchClasses() {
-            if ($scope.formy == true && $scope.formd == true) {
+            $scope.searchbeforeClasses=function searchbeforeClasses() {
                 console.log($scope.Year);
                 console.log($scope.depNo);
-                findClassesBydepAndyearResource.findClassesBydepAndyear({
+                classResource.getClassesBydepAndyear({
                     depNo: $scope.depNo,
                     classSessionYear: $scope.Year
                 }, function (result) {
                     console.log(result);
                     $scope.classes = result;
+
+                    for (var n=0;n<$scope.classes.length;n++){
+                        classResource.getMajorBymajorNo({
+                            majorNo: $scope.classes[n].majorNo
+                        },function (result) {
+                            console.log("专业");
+                            console.log(result);
+                            $scope.majors=result;
+                        },function () {
+                            console.log("获取专业信息失败");
+                        });
+
+                        classResource.getTeacherByteachNo({
+                            teacherNo: $scope.classes[n].teacherNo
+                        },function (result) {
+                            console.log("教师");
+                            console.log(result);
+                            $scope.teachers=result;
+                        },function () {
+                            console.log("获取教师信息失败");
+                        });
+
+                        classResource.getStudentBystudentNo({
+                            stuNo: $scope.classes[n].stuNo
+                        },function (result) {
+                            console.log("学生");
+                            console.log(result);
+                            $scope.students=result;
+                        },function () {
+                            console.log("获取学生信息失败");
+                        });
+                    }
+
+
                 }, function () {
                     console.log("获取班级信息失败");
                 });
-            }
         }
 
 

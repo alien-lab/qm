@@ -59,12 +59,12 @@
     (function() {
         'use strict';
         angular.module("qm.base_department").factory("departmentResource",["$resource",function($resource){
-            var service = $resource('/qm-api/findAllDepartment', {}, {
+            var service = $resource('/qm-api/department', {}, {
                 'getDepartment': { method: 'GET',isArray:true},//查询所有部门controller
-                'upDepartment': { method: 'GET',url:"/qm-api/updateDepartment"},//获取单个部门信息controller
-                'saveDepartment': { method: 'POST',url:"/qm-api/saveDepartment"},//保存部门信息Controller
-                'deleteDepartment':{method:'DELETE',url:"/qm-api/deleteDepartment"},//删除部门信息Controller
-                'addDepartment':{method:'POST',url:"/qm-api/addDepartment"}//增加部门信息
+                'upDepartment': { method: 'GET',url:"/qm-api/department/updateDepartment"},//获取单个部门信息controller
+                'saveDepartment': { method: 'POST'},//保存部门信息Controller
+                'deleteDepartment':{method:'DELETE'},//删除部门信息Controller
+                'addDepartment':{method:'POST',url:"/qm-api/department/addDepartment"}//增加部门信息
             });
             return service;
         }]);

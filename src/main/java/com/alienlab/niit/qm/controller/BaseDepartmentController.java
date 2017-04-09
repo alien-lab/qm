@@ -5,7 +5,6 @@ import com.alienlab.niit.qm.entity.BaseDepartmentEntity;
 import com.alienlab.niit.qm.service.BaseDepartmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ public class BaseDepartmentController {
     private BaseDepartmentService baseDepartmentService;
     //查询所有部门
     @ApiOperation(value="查询所有部门")
-    @GetMapping(value = "/findAllDepartment")
+    @GetMapping(value = "/department")
     public ResponseEntity findAllDepartment(HttpServletRequest request){
         List<BaseDepartmentEntity> department = baseDepartmentService.getDepartment();
         request.getSession().setAttribute("department",department);
@@ -35,7 +34,7 @@ public class BaseDepartmentController {
     }
 
     @ApiOperation(value="获取单个内容")
-    @GetMapping(value = "/updateDepartment")
+    @GetMapping(value = "/department/updateDepartment")
     public ResponseEntity updateDepartment(@RequestParam long id,HttpServletRequest request) throws IOException {
        /* String jsonBody=IOUtils.toString(request.getInputStream(),"UTF-8");
         JSONObject form=JSONObject.parseObject(jsonBody);
@@ -51,7 +50,7 @@ public class BaseDepartmentController {
     }
 
     @ApiOperation(value="保存部门内容")
-    @PostMapping(value = "/saveDepartment")
+    @PostMapping(value = "/department")
     public ResponseEntity saveDepartment(@RequestParam Long depNo,@RequestParam String depName,@RequestParam String depCddwNo,
                                          @RequestParam String depType,@RequestParam Integer depSort,@RequestParam String depAbbreviation){
         BaseDepartmentEntity departmentEntity =baseDepartmentService.getBaseDepartmentById(depNo);
@@ -72,7 +71,7 @@ public class BaseDepartmentController {
     }
 
     @ApiOperation(value="增加部门内容")
-    @PostMapping(value = "/addDepartment")
+    @PostMapping(value = "/department/addDepartment")
     public ResponseEntity addDepartment(@RequestParam Long depNo,@RequestParam String depName,@RequestParam String depCddwNo,
                                          @RequestParam String depType,@RequestParam Integer depSort,@RequestParam String depAbbreviation){
             BaseDepartmentEntity departmentEntity = new BaseDepartmentEntity();
@@ -92,7 +91,7 @@ public class BaseDepartmentController {
     }
 
     @ApiOperation(value="删除部门内容")
-    @DeleteMapping(value = "/deleteDepartment")
+    @DeleteMapping(value = "/department")
     public ResponseEntity deleteDepartment(@RequestParam Long dep_no){
         boolean flag= false;
         flag = baseDepartmentService.deleteDepartment(dep_no);

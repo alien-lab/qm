@@ -7,14 +7,17 @@
 <body>
 <h3>班级学生维护</h3>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <button ng-click="batch_classes()" style="width:auto;float:left;margin-right: 2px;" type="button" class="mb-sm btn btn-success">导入</button>&nbsp;
         <select type="button" style="width:auto;float:left;" ng-controller="classSessionYear" class="form-control" data-toggle="dropdown"
                 ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names" ng-change="classYearChanged(selectedName)">
         </select>
         <select style="width:auto;float:left;" class="form-control" data-toggle="dropdown" ng-model="depNo" ng-change="classdepNoChanged(depNo)">
             <option ng-repeat="department in departments" value="{{department.depNo}}">{{department.depName}}</option>
-        </select>
+        </select>&nbsp;
+        <span class="btn-label btn-info" style="margin-left:5px;margin-top:1px;">
+            <i class="icon-control-forward" ng-click="searchbeforeClasses()"></i>
+        </span>
         <!--<select class="form-control premiseOption" ng-model="premiseName" ng-change="premiseChanged(premi seName)">
             <option ng-repeat="premise in allPremise" value="{{premise.premiseName}}">{{premise.premiseName}}</option>
         </select>-->
@@ -31,7 +34,7 @@
         </span>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
     </div>
 </div>
 <div>
@@ -46,96 +49,15 @@
             <td><b>部门</b></td>
             <td><b>操作</b></td>
         </tr>
-        <tr class="active">
-            <td>软件1431</td>
-            <td>23</td>
-            <td>杨静丽</td>
-            <td>谢继刚</td>
+        <tr class="active" ng-repeat="class in classes">
+            <td>{{class.className}}</td>
+            <td>{{class.classStuAmount}}</td>
+            <td>{{teachers.teacherName}}</td>
+            <td>{{students.stuName}}</td>
             <td>
                否
             </td>
-            <td>软件技术</td>
-            <td>计算机与软件</td>
-            <td>
-                <button type="button" class="btn btn-sm btn-warning">
-                    <em class="fa fa-edit"></em>
-                </button>
-            </td>
-        </tr>
-
-        <tr class="active">
-            <td>软件1431</td>
-            <td>23</td>
-            <td>杨静丽</td>
-            <td>谢继刚</td>
-            <td>
-                否
-            </td>
-            <td>软件技术</td>
-            <td>计算机与软件</td>
-            <td>
-                <button type="button" class="btn btn-sm btn-warning">
-                    <em class="fa fa-edit"></em>
-                </button>
-            </td>
-        </tr>
-        <tr class="active">
-            <td>软件1431</td>
-            <td>23</td>
-            <td>杨静丽</td>
-            <td>谢继刚</td>
-            <td>
-                否
-            </td>
-            <td>软件技术</td>
-            <td>计算机与软件</td>
-            <td>
-                <button type="button" class="btn btn-sm btn-warning">
-                    <em class="fa fa-edit"></em>
-                </button>
-            </td>
-        </tr>
-        <tr class="active">
-            <td>软件1431</td>
-            <td>23</td>
-            <td>杨静丽</td>
-            <td>谢继刚</td>
-            <td>
-                否
-            </td>
-            <td>软件技术</td>
-            <td>计算机与软件</td>
-            <td>
-                <button type="button" class="btn btn-sm btn-warning">
-                    <em class="fa fa-edit"></em>
-                </button>
-            </td>
-        </tr>
-        <tr class="active">
-            <td>软件1431</td>
-            <td>23</td>
-            <td>杨静丽</td>
-            <td>谢继刚</td>
-            <td>
-                否
-            </td>
-            <td>软件技术</td>
-            <td>计算机与软件</td>
-            <td>
-                <button type="button" class="btn btn-sm btn-warning">
-                    <em class="fa fa-edit"></em>
-                </button>
-            </td>
-        </tr>
-        <tr class="active">
-            <td>软件1431</td>
-            <td>23</td>
-            <td>杨静丽</td>
-            <td>谢继刚</td>
-            <td>
-                否
-            </td>
-            <td>软件技术</td>
+            <td>{{majors.majorName}}</td>
             <td>计算机与软件</td>
             <td>
                 <button type="button" class="btn btn-sm btn-warning">
