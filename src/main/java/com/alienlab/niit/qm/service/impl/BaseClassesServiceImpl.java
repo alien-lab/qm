@@ -1,6 +1,7 @@
 package com.alienlab.niit.qm.service.impl;
 
 import com.alienlab.niit.qm.entity.BaseClassesEntity;
+import com.alienlab.niit.qm.entity.BaseDepartmentEntity;
 import com.alienlab.niit.qm.repository.BaseClassesRepository;
 import com.alienlab.niit.qm.service.BaseClassesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,10 @@ public class BaseClassesServiceImpl implements BaseClassesService{
     public List<BaseClassesEntity> getBaseClassesByYear(String classSessionYear){
         Long classSession_Year = Long.parseLong(classSessionYear);
         return (List<BaseClassesEntity>) baseClassesRepository.findOne(classSession_Year);
+    }
+
+    @Override
+    public List<BaseClassesEntity> getBaseClassesByClassNameLike(String key) {
+        return baseClassesRepository.findBaseClassesByClassNameLike("%"+key+"%");
     }
 }

@@ -15,9 +15,9 @@
         <select style="width:auto;float:left;" class="form-control" data-toggle="dropdown" ng-model="depNo" ng-change="classdepNoChanged(depNo)">
             <option ng-repeat="department in departments" value="{{department.depNo}}">{{department.depName}}</option>
         </select>&nbsp;
-        <span class="btn-label btn-info" style="margin-left:5px;margin-top:1px;">
+        <!--<span class="btn-label btn-info" style="margin-left:5px;margin-top:1px;">
             <i class="icon-control-forward" ng-click="searchbeforeClasses()"></i>
-        </span>
+        </span>-->
         <!--<select class="form-control premiseOption" ng-model="premiseName" ng-change="premiseChanged(premi seName)">
             <option ng-repeat="premise in allPremise" value="{{premise.premiseName}}">{{premise.premiseName}}</option>
         </select>-->
@@ -28,9 +28,9 @@
     </div>
     <div class="col-md-3">
         <div style="width:auto;float:left;" class="input-group">
-            <input type="text" class="form-control" placeholder="班级名称">
+            <input type="text" class="form-control" placeholder="班级名称" ng-model="classkey">
             <span class="input-group-btn">
-        <button class="btn btn-default" type="button" ng-click="searchClasses()">搜索</button>
+        <button class="btn btn-default" type="button" ng-click="searchClasses(classkey)">搜索</button>
         </span>
         </div>
     </div>
@@ -50,15 +50,15 @@
             <td><b>操作</b></td>
         </tr>
         <tr class="active" ng-repeat="class in classes">
-            <td>{{class.className}}</td>
+            <td ng-click="">{{class.className}}</td>
             <td>{{class.classStuAmount}}</td>
-            <td>{{teachers.teacherName}}</td>
-            <td>{{students.stuName}}</td>
+            <td>{{teachers[$index].teacherName}}</td>
+            <td>{{students[$index].stuName}}</td>
             <td>
-               否
+                {{class.classIsover==1?'是':'否'}}
             </td>
-            <td>{{majors.majorName}}</td>
-            <td>计算机与软件</td>
+            <td>{{majors[$index].majorName}}</td>
+            <td>{{departmentss[$index].depName}}</td>
             <td>
                 <button type="button" class="btn btn-sm btn-warning">
                     <em class="fa fa-edit"></em>

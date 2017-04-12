@@ -24,7 +24,8 @@
                 'getMajorBymajorNo':{method:'GET',url:"/qm-api/major"},
                 'getTeacherByteachNo':{method:'GET',url:"/qm-api/teacher"},
                 'getStudentBystudentNo':{method:'GET',url:"/qm-api/student"},
-                'getDepartmentBydepNo':{method:"GET",url:""}
+                'getDepartmentBydepNo':{method:"GET",url:"/qm-api/department/updateDepartment"},
+                'getClassesBykey':{method:"GET",isArray:true,url:"/qm-api/classes/getClassBykey"}
             });
             return service;
         }]);
@@ -38,7 +39,10 @@
 
     product_module.controller("classesController",["$scope","classesinstance","classResource","$uibModal",function($scope,classesinstance,classResource,$uibModal){
         $scope.pagetitle="班级学生维护";
-
+        $scope.teachers = []
+        $scope.majors=[]
+        $scope.students=[]
+        $scope.departmentss=[]
         //查询部门简称
         classResource.getDepartment({}, function (result) {
             console.log(result);
@@ -85,7 +89,142 @@
                 console.log($scope.Year);
             }
 
-            $scope.searchbeforeClasses=function searchbeforeClasses() {
+        /*$scope.searchClasses = searchClasses;
+        function searchClasses(classkey) {
+            $scope.key = classkey;
+            console.log($scope.key);
+        }*/
+
+
+        $scope.searchClasses=function searchClasses(classkey) {
+            $scope.teachers = [];
+            $scope.majors=[];
+            $scope.students=[];
+            $scope.departmentss=[];
+            $scope.classkey=classkey;
+            if(classkey==null){
+                console.log($scope.Year);
+                console.log($scope.depNo);
+                classResource.getClassesBydepAndyear({
+                    depNo: $scope.depNo,
+                    classSessionYear: $scope.Year
+                }, function (result) {
+                    //console.log(result);
+                    $scope.classes = result;
+
+                    for (var n=0;n<$scope.classes.length;n++){
+                        classResource.getMajorBymajorNo({
+                            majorNo: $scope.classes[n].majorNo
+                        },function (result) {
+                           // console.log("专业");
+                           // console.log(result);
+                            $scope.majors.push(result);
+                            //$scope.majors=result;
+                        },function () {
+                            console.log("获取专业信息失败");
+                        });
+
+                        classResource.getTeacherByteachNo({
+                            teacherNo: $scope.classes[n].teacherNo
+                        },function (result) {
+                           // console.log("教师");
+                           // console.log(result);
+                            $scope.teachers.push(result);
+                        },function () {
+                            console.log("获取教师信息失败");
+                        });
+
+                        classResource.getStudentBystudentNo({
+                            stuNo: $scope.classes[n].stuNo
+                        },function (result) {
+                          //  console.log("学生");
+                          //  console.log(result);
+                            $scope.students.push(result);
+                            //$scope.students=result;
+                        },function () {
+                            console.log("获取学生信息失败");
+                        });
+
+                        classResource.getDepartmentBydepNo({
+                            id: $scope.classes[n].depNo
+                        },function (result) {
+                           // console.log("部门");
+                          //  console.log(result);
+                            $scope.departmentss.push(result);
+                            //$scope.students=result;
+                        },function () {
+                            console.log("获取学生信息失败");
+                        });
+                    }
+
+
+                }, function () {
+                    console.log("获取班级信息失败");
+                });
+            }else {
+                classResource.getClassesBykey({
+                    key:$scope.classkey
+                },function (result) {
+                    console.log($scope.classkey)
+                    $scope.classes = result;
+                    for (var n=0;n<$scope.classes.length;n++){
+                        classResource.getMajorBymajorNo({
+                            majorNo: $scope.classes[n].majorNo
+                        },function (result) {
+                          //  console.log("专业");
+                          //  console.log(result);
+                            $scope.majors.push(result);
+                            //$scope.majors=result;
+                        },function () {
+                            console.log("获取专业信息失败");
+                        });
+
+                        classResource.getTeacherByteachNo({
+                            teacherNo: $scope.classes[n].teacherNo
+                        },function (result) {
+                            //console.log("教师");
+                           // console.log(result);
+                            $scope.teachers.push(result);
+                        },function () {
+                            console.log("获取教师信息失败");
+                        });
+
+                        classResource.getStudentBystudentNo({
+                            stuNo: $scope.classes[n].stuNo
+                        },function (result) {
+                            //console.log("学生");
+                           // console.log(result);
+                            $scope.students.push(result);
+                            //$scope.students=result;
+                        },function () {
+                            console.log("获取学生信息失败");
+                        });
+
+                        classResource.getDepartmentBydepNo({
+                            id: $scope.classes[n].depNo
+                        },function (result) {
+                          //  console.log("部门");
+                          //  console.log(result);
+                            $scope.departmentss.push(result);
+                            //$scope.students=result;
+                        },function () {
+                            console.log("获取学生信息失败");
+                        });
+                    }
+                },function () {
+                    console.log("获取关键字失败");
+                });
+            }
+
+        }
+
+
+
+            /*$scope.searchbeforeClasses=function searchbeforeClasses() {
+                $scope.teachers = [];
+                $scope.majors=[];
+                $scope.students=[];
+                $scope.departments=[];
                 console.log($scope.Year);
                 console.log($scope.depNo);
                 classResource.getClassesBydepAndyear({
@@ -101,7 +240,8 @@
                         },function (result) {
                             console.log("专业");
                             console.log(result);
-                            $scope.majors=result;
+                            $scope.majors.push(result);
+                            //$scope.majors=result;
                         },function () {
                             console.log("获取专业信息失败");
                         });
@@ -111,7 +251,7 @@
                         },function (result) {
                             console.log("教师");
                             console.log(result);
-                            $scope.teachers=result;
+                            $scope.teachers.push(result);
                         },function () {
                             console.log("获取教师信息失败");
                         });
@@ -121,7 +261,19 @@
                         },function (result) {
                             console.log("学生");
                             console.log(result);
-                            $scope.students=result;
+                            $scope.students.push(result);
+                            //$scope.students=result;
+                        },function () {
+                            console.log("获取学生信息失败");
+                        });
+
+                        classResource.getDepartmentBydepNo({
+                            id: $scope.classes[n].depNo
+                        },function (result) {
+                            console.log("部门");
+                            console.log(result);
+                            $scope.departments.push(result);
+                            //$scope.students=result;
                         },function () {
                             console.log("获取学生信息失败");
                         });
@@ -131,7 +283,7 @@
                 }, function () {
                     console.log("获取班级信息失败");
                 });
-        }
+        }*/
 
 
 

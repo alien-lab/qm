@@ -32,12 +32,27 @@ public class BaseClassesController {
             //List<BaseClassesEntity> baseClassesEntities1 = baseClassesService.getBaseClassesByYear(classSessionYear);
             List<BaseClassesEntity> baseClassesEntities2 = new ArrayList<>();
             for (int n = 0; n < baseClassesEntities.size(); n++) {
+                //System.out.println("-------------" + n);
+                //System.out.println(baseClassesEntities.get(n));
                 if (baseClassesEntities.get(n).getClassSessionYear().equals(classSessionYear)){
+                    // todo
                     baseClassesEntities2.add(baseClassesEntities.get(n));
                 }
             }
             return ResponseEntity.ok().body(baseClassesEntities2);
         } else {
+            ExecResult er = new ExecResult(false, "未获取部门信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value = "根据关键字查询")
+    @GetMapping(value = "/classes/getClassBykey")
+    public ResponseEntity findClassBykey(@RequestParam String key) {
+        if (key!=null){
+            List<BaseClassesEntity> baseClassesEntities = baseClassesService.getBaseClassesByClassNameLike(key);
+            return ResponseEntity.ok().body(baseClassesEntities);
+        }else {
             ExecResult er = new ExecResult(false, "未获取部门信息");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
