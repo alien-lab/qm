@@ -43,6 +43,7 @@ public class MenuController {
         try {
           List<TbRoleMenuEntity>  tbRoleMenuEntities = rolerMenuService.getRolerMenusById(roleid);
             if (tbRoleMenuEntities != null){
+                System.out.print(tbRoleMenuEntities);
                 List<String> menuids = new ArrayList<String>();
                 List<String> ids = new ArrayList<String>();
                 for(TbRoleMenuEntity tb:tbRoleMenuEntities){
@@ -62,9 +63,6 @@ public class MenuController {
                               ExecResult er=  new ExecResult(false,"删除角色菜单权限失败！请重试");
                               return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
                           }
-                      }else {
-                          ExecResult er=  new ExecResult(false,"删除角色菜单权限失败！请重试");
-                          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
                       }
                   }
               }else { //增加角色菜单权限
