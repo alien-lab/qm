@@ -5,7 +5,9 @@ import com.alienlab.niit.qm.entity.TbMenuEntity;
 import com.alienlab.niit.qm.entity.TbRoleMenuEntity;
 import com.alienlab.niit.qm.entity.dto.MenuDto;
 import com.alienlab.niit.qm.entity.dto.RoleMenuDto;
+import com.alienlab.niit.qm.repository.RolerMenuRepository;
 import com.alienlab.niit.qm.service.MenuService;
+import com.alienlab.niit.qm.service.RolerMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -25,7 +27,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/qm-api")
 public class MenuController {
-
+    @Autowired
+    RolerMenuService rolerMenuService;
     @Autowired
     MenuService menuService;
 
@@ -37,24 +40,70 @@ public class MenuController {
     })
     @PostMapping(value = "/menus/setroleMenudto")
     public ResponseEntity setrolerMenuDto(@RequestParam String menuid,@RequestParam int roleid)  {
-
-        TbRoleMenuEntity tbRoleMenuEntity = new TbRoleMenuEntity();
-        tbRoleMenuEntity.setRoleId(roleid);
-        tbRoleMenuEntity.setMenuId(menuid);
         try {
-            TbRoleMenuEntity tbRoleMenuEntity1 = menuService.saverolerMenu(tbRoleMenuEntity);
-            if (tbRoleMenuEntity1 != null){
-                return ResponseEntity.ok().body(tbRoleMenuEntity1);
+          List<TbRoleMenuEntity>  tbRoleMenuEntities = rolerMenuService.getRolerMenusById(roleid);
+            if (tbRoleMenuEntities != null){
+                List<String> menuids = new ArrayList<String>();
+                List<String> ids = new ArrayList<String>();
+                for(TbRoleMenuEntity tb:tbRoleMenuEntities){
+                    String  menu_id =  tb.getMenuId();
+                    menuids.add(menu_id);
+                    String  id = String.valueOf(tb.getId()) ;
+                    ids.add(id);
+                }
+              if(menuids.contains(menuid)){ //删除角色菜单权限
+                  for (int i = 0;i < ids.size();i++){
+                      TbRoleMenuEntity tbRoleMenuEntity =  rolerMenuService.getoneRolerMenuById(Integer.parseInt(ids.get(i)));
+                      if (tbRoleMenuEntity.getMenuId().equals(menuid)){
+                          boolean flag = rolerMenuService.deleteRolerMenu(Long.parseLong(ids.get(i)));
+                          if (flag){
+                              return ResponseEntity.ok().body("删除角色菜单权限成功");
+                          }else {
+                              ExecResult er=  new ExecResult(false,"删除角色菜单权限失败！请重试");
+                              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+                          }
+                      }else {
+                          ExecResult er=  new ExecResult(false,"删除角色菜单权限失败！请重试");
+                          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+                      }
+                  }
+              }else { //增加角色菜单权限
+                  TbRoleMenuEntity tbRoleMenuEntity = new TbRoleMenuEntity();
+                  tbRoleMenuEntity.setRoleId(roleid);
+                  tbRoleMenuEntity.setMenuId(menuid);
+                  try {
+                      TbRoleMenuEntity tbRoleMenuEntity1 = menuService.saverolerMenu(tbRoleMenuEntity);
+                      if (tbRoleMenuEntity1 != null){
+                          return ResponseEntity.ok().body(tbRoleMenuEntity1);
+                      }else {
+                          ExecResult er=  new ExecResult(false,"新增角色菜单权限失败！请重试");
+                          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+                      }
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+              }
             }else {
-                ExecResult er=  new ExecResult(false,"新增角色菜单权限失败！请重试");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+                TbRoleMenuEntity tbRoleMenuEntity = new TbRoleMenuEntity();
+                tbRoleMenuEntity.setRoleId(roleid);
+                tbRoleMenuEntity.setMenuId(menuid);
+                try {
+                    TbRoleMenuEntity tbRoleMenuEntity1 = menuService.saverolerMenu(tbRoleMenuEntity);
+                    if (tbRoleMenuEntity1 != null){
+                        return ResponseEntity.ok().body(tbRoleMenuEntity1);
+                    }else {
+                        ExecResult er=  new ExecResult(false,"新增角色菜单权限失败！请重试");
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            ExecResult er=  new ExecResult(false,"新增角色菜单权限失败！请重试");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
-
+        ExecResult er=  new ExecResult(false,"系统异常！请重试");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
     }
 
 

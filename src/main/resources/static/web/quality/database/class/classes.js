@@ -14,30 +14,22 @@
         });
     }]);
 
-    //根据部门简称和年级查询班级信息
-    (function() {
-        'use strict';
-        angular.module("qm.base_classes").factory("classResource",["$resource",function($resource){
-            var service = $resource('/qm-api/classes', {}, {
-                'getClassesBydepAndyear': { method: 'GET',isArray:true},
-                'getDepartment': { method: 'GET',isArray:true,url:"/qm-api/department"},//得到所有部门信息
-                'getMajorBymajorNo':{method:'GET',url:"/qm-api/major"},
-                'getTeacherByteachNo':{method:'GET',url:"/qm-api/teacher"},
-                'getStudentBystudentNo':{method:'GET',url:"/qm-api/student"},
-                'getDepartmentBydepNo':{method:"GET",url:"/qm-api/department/updateDepartment"},
-                'getClassesBykey':{method:"GET",isArray:true,url:"/qm-api/classes/getClassBykey"}
-            });
-            return service;
-        }]);
-    })();
+    product_module.factory("classResource",["$resource",function($resource){
+        var service = $resource('../qm-api/classes', {}, {
+            'getClassesBydepAndyear': { method: 'GET',isArray:true},
+            'getDepartment': { method: 'GET',isArray:true,url:"../qm-api/department"},//得到所有部门信息
+            'getMajorBymajorNo':{method:'GET',url:"../qm-api/major"},
+            'getTeacherByteachNo':{method:'GET',url:"../qm-api/teacher"},
+            'getStudentBystudentNo':{method:'GET',url:"../qm-api/student"},
+            'getDepartmentBydepNo':{method:"GET",url:"../qm-api/department/updateDepartment"},
+            'getClassesBykey':{method:"GET",isArray:true,url:"../qm-api/classes/getClassBykey"}
+        });
+        return service;
+    }]);
 
-
-
-    product_module.controller('classSessionYear', function($scope) {
-        $scope.names = ["2016","2015","2014","2013","2012","2011","2010","2009"];
-    });
 
     product_module.controller("classesController",["$scope","classesinstance","classResource","$uibModal",function($scope,classesinstance,classResource,$uibModal){
+        $scope.names = ["2016","2015","2014","2013","2012","2011","2010","2009"];
         $scope.pagetitle="班级学生维护";
         $scope.teachers = []
         $scope.majors=[]

@@ -221,7 +221,7 @@
             console.log("菜单拉取失败");
         });
 
-        //点击事件增加该角色菜单
+        //点击事件增加或删除该角色菜单
         $scope.oksubMenu = function (menuid) {
             menuResource.setrolerMenuDto({
                 menuid:menuid,

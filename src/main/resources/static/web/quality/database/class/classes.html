@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+
 <h3>班级学生维护</h3>
 <div class="row">
     <div class="col-md-5">
         <button ng-click="batch_classes()" style="width:auto;float:left;margin-right: 2px;" type="button" class="mb-sm btn btn-success">导入</button>&nbsp;
-        <select type="button" style="width:auto;float:left;" ng-controller="classSessionYear" class="form-control" data-toggle="dropdown"
+        <select type="button" style="width:auto;float:left;" class="form-control" data-toggle="dropdown"
                 ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names" ng-change="classYearChanged(selectedName)">
         </select>
         <select style="width:auto;float:left;" class="form-control" data-toggle="dropdown" ng-model="depNo" ng-change="classdepNoChanged(depNo)">
@@ -73,5 +67,3 @@
         </ul>
     </nav>
 </div>
-</body>
-</html>

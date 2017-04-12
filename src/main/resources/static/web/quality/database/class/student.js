@@ -11,7 +11,7 @@
             templateUrl:"quality/database/student/student.html",
         });
     }]);
-    product_module.controller('myCtrl', function($scope) {
+   /* product_module.controller('myCtrl', function($scope) {
         $scope.names = ["学院","机械工程学院", "电气工程学院", "计算机与软件学院","社会科学学院","艺术与设计学院"];
     });
     product_module.controller('myCtrl1', function($scope) {
@@ -22,5 +22,5 @@
     });
     product_module.controller('myCtrl3', function($scope) {
         $scope.names = ["学期","2016学年第一学期", "2016学年第二学期", "2015学年第一学期","2015学年第二学期"];
-    });
+    });*/
 })();

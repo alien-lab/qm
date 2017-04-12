@@ -14,6 +14,15 @@ public class TbRoleMenuEntity {
     @ApiModelProperty(value="id主键")
     @Id
     private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @ApiModelProperty(value="用户编码")
     private long roleId;
 
