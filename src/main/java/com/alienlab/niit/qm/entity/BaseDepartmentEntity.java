@@ -3,7 +3,6 @@ package com.alienlab.niit.qm.entity;
 
 import io.swagger.annotations.ApiModelProperty;
 
-import java.sql.Timestamp;
 /**
  * Created by Master QB on 2017/3/14.
  */
@@ -11,15 +10,15 @@ import java.sql.Timestamp;
 @javax.persistence.Table(name = "base_department", schema = "qualitymonitor", catalog = "")
 public class BaseDepartmentEntity {
     @ApiModelProperty(value="部门编码")
-    private String depNo;
+    private long depNo;
 
     @javax.persistence.Id
     @javax.persistence.Column(name = "dep_no")
-    public String getDepNo() {
+    public long getDepNo() {
         return depNo;
     }
 
-    public void setDepNo(String depNo) {
+    public void setDepNo(long depNo) {
         this.depNo = depNo;
     }
 
@@ -88,27 +87,24 @@ public class BaseDepartmentEntity {
         this.depAbbreviation = depAbbreviation;
     }
 
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        BaseDepartmentEntity that = (BaseDepartmentEntity) object;
+        BaseDepartmentEntity that = (BaseDepartmentEntity) o;
 
-        if (depNo != null ? !depNo.equals(that.depNo) : that.depNo != null) return false;
+        if (depNo != that.depNo) return false;
         if (depName != null ? !depName.equals(that.depName) : that.depName != null) return false;
         if (depType != null ? !depType.equals(that.depType) : that.depType != null) return false;
         if (depCddwNo != null ? !depCddwNo.equals(that.depCddwNo) : that.depCddwNo != null) return false;
         if (depSort != null ? !depSort.equals(that.depSort) : that.depSort != null) return false;
-        if (depAbbreviation != null ? !depAbbreviation.equals(that.depAbbreviation) : that.depAbbreviation != null)
-            return false;
-
-        return true;
+        return depAbbreviation != null ? depAbbreviation.equals(that.depAbbreviation) : that.depAbbreviation == null;
     }
 
+    @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (depNo != null ? depNo.hashCode() : 0);
+        int result = (int) (depNo ^ (depNo >>> 32));
         result = 31 * result + (depName != null ? depName.hashCode() : 0);
         result = 31 * result + (depType != null ? depType.hashCode() : 0);
         result = 31 * result + (depCddwNo != null ? depCddwNo.hashCode() : 0);

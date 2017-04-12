@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>教工维护</h3>
+<div class="row">
+<div class="col-md-4">
+
+    <select type="button" style="width:auto;float:left;" ng-controller="transition" class="form-control" data-toggle="dropdown"
+            ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+    </select>
+    <select type="button" style="width:auto;float:left;" ng-controller="transition1" class="form-control" data-toggle="dropdown"
+            ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+    </select>
+
+</div>
+<div class="col-md-3">
+    <div style="width:auto;float:left;" class="input-group">
+        <input type="text" class="form-control" placeholder="教工名称">
+        <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-click="searchClasses()">搜索</button>
+        </span>
+    </div>
+</div>
+    <div class="col-md-2"></div>
+<div class="col-md-3">
+    <button ng-click="addTeacher()" style="width:auto;float:right;margin-right: 2px;" type="button" class="mb-sm btn btn-info">
+        <span class="btn-label"><i class="fa fa-plus"></i></span> 新增教工
+    </button>&nbsp;
+</div>
+</div>
+
+<table class="table table-striped">
+    <tr class="active">
+        <td><b>教工号</b></td>
+        <td><b>教师姓名</b></td>
+        <td><b>教工职称</b></td>
+        <td><b>教工类别</b></td>
+        <td><b>部门</b></td>
+        <td><b>状态</b></td>
+        <td><b>操作</b></td>
+    </tr>
+    <tr class="active">
+        <td>软件1431</td>
+        <td>23</td>
+        <td>杨静丽</td>
+        <td>谢继刚</td>
+        <td>
+            否
+        </td>
+        <td>计算机与软件</td>
+        <td>
+            <button type="button" class="btn btn-sm btn-warning">
+                <em class="fa fa-edit"></em>
+            </button>
+        </td>
+    </tr>
+
+    <tr class="active">
+        <td>软件1431</td>
+        <td>23</td>
+        <td>杨静丽</td>
+        <td>谢继刚</td>
+        <td>
+            否
+        </td>
+        <td>计算机与软件</td>
+        <td>
+            <button type="button" class="btn btn-sm btn-warning">
+                <em class="fa fa-edit"></em>
+            </button>
+        </td>
+    </tr>
+    <tr class="active">
+        <td>软件1431</td>
+        <td>23</td>
+        <td>杨静丽</td>
+        <td>谢继刚</td>
+        <td>
+            否
+        </td>
+        <td>计算机与软件</td>
+        <td>
+            <button type="button" class="btn btn-sm btn-warning">
+                <em class="fa fa-edit"></em>
+            </button>
+        </td>
+    </tr>
+    <tr class="active">
+        <td>软件1431</td>
+        <td>23</td>
+        <td>杨静丽</td>
+        <td>谢继刚</td>
+        <td>
+            否
+        </td>
+        <td>计算机与软件</td>
+        <td>
+            <button type="button" class="btn btn-sm btn-warning">
+                <em class="fa fa-edit"></em>
+            </button>
+        </td>
+    </tr>
+    <tr class="active">
+        <td>软件1431</td>
+        <td>23</td>
+        <td>杨静丽</td>
+        <td>谢继刚</td>
+        <td>
+            否
+        </td>
+        <td>计算机与软件</td>
+        <td>
+            <button type="button" class="btn btn-sm btn-warning">
+                <em class="fa fa-edit"></em>
+            </button>
+        </td>
+    </tr>
+    <tr class="active">
+        <td>软件1431</td>
+        <td>23</td>
+        <td>杨静丽</td>
+        <td>谢继刚</td>
+        <td>
+            否
+        </td>
+        <td>计算机与软件</td>
+        <td>
+            <button type="button" class="btn btn-sm btn-warning">
+                <em class="fa fa-edit"></em>
+            </button>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

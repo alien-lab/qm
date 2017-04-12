@@ -29,11 +29,15 @@
             'xeditable',
             'qm.index',
             'qm.termquality',
-            'qm.department',
             'qm.termevaluation',
             'qm.menu',
             'qm.roler',
-            'qm.user_roler'
+            'qm.user_roler',
+            'qm.base_department',
+            'qm.base_classes',
+            'qm.base_student',
+            'qm.base_teacher',
+            'qm.base_subject'
         ]);
 })();
 (function(){

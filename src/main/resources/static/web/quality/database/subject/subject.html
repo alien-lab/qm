@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>课程维护</h3>
+<div class="row">
+    <div class="col-md-4">
+        <select type="button" style="width:auto;float:left;" ng-controller="subject" class="form-control" data-toggle="dropdown"
+                ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+        </select>
+        <select type="button" style="width:auto;float:left;" ng-controller="subject1" class="form-control" data-toggle="dropdown"
+                ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+        </select>
+    </div>
+    <div class="col-md-3">
+        <div style="width:auto;float:left;" class="input-group">
+            <input type="text" class="form-control" placeholder="可输入相关课程名称">
+            <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-click="searchClasses()">搜索</button>
+        </span>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+        <button style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-success">
+               <span class="btn-label"><i class="icon-login"></i>
+               </span>导入</button>
+        <button style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-success">
+               <span class="btn-label"><i class="icon-logout"></i>
+               </span>导出</button>
+        <button style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-info">
+               <span class="btn-label"><i class="fa fa-plus"></i>
+               </span>新增课程</button>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <tr class="active">
+        <td><b>课程名称</b></td>
+        <td><b>课程类型</b></td>
+        <td><b>授课班级</b></td>
+        <td><b>任课教师</b></td>
+        <td><b>操作</b></td>
+    </tr>
+    <tr class="active">
+        <td>软件1431</td>
+        <td>23</td>
+        <td>杨静丽</td>
+        <td>谢继刚</td>
+        <td>
+            <button type="button" class="btn btn-sm btn-warning">
+                <em class="fa fa-edit"></em>
+            </button>
+        </td>
+    </tr>
+
+    <tr class="active">
+        <td>软件1431</td>
+        <td>23</td>
+        <td>杨静丽</td>
+        <td>谢继刚</td>
+        <td>
+            <button type="button" class="btn btn-sm btn-warning">
+                <em class="fa fa-edit"></em>
+            </button>
+        </td>
+    </tr>
+    <tr class="active">
+        <td>软件1431</td>
+        <td>23</td>
+        <td>杨静丽</td>
+        <td>谢继刚</td>
+        <td>
+            <button type="button" class="btn btn-sm btn-warning">
+                <em class="fa fa-edit"></em>
+            </button>
+        </td>
+    </tr>
+    <tr class="active">
+        <td>软件1431</td>
+        <td>23</td>
+        <td>杨静丽</td>
+        <td>谢继刚</td>
+        <td>
+            <button type="button" class="btn btn-sm btn-warning">
+                <em class="fa fa-edit"></em>
+            </button>
+        </td>
+    </tr>
+
+</table>
+</body>
+</html>

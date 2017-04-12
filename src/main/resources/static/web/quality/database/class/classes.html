@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>班级学生维护</h3>
+<div class="row">
+    <div class="col-md-5">
+        <button ng-click="batch_classes()" style="width:auto;float:left;margin-right: 2px;" type="button" class="mb-sm btn btn-success">导入</button>&nbsp;
+        <select type="button" style="width:auto;float:left;" ng-controller="classSessionYear" class="form-control" data-toggle="dropdown"
+                ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names" ng-change="classYearChanged(selectedName)">
+        </select>
+        <select style="width:auto;float:left;" class="form-control" data-toggle="dropdown" ng-model="depNo" ng-change="classdepNoChanged(depNo)">
+            <option ng-repeat="department in departments" value="{{department.depNo}}">{{department.depName}}</option>
+        </select>&nbsp;
+        <!--<span class="btn-label btn-info" style="margin-left:5px;margin-top:1px;">
+            <i class="icon-control-forward" ng-click="searchbeforeClasses()"></i>
+        </span>-->
+        <!--<select class="form-control premiseOption" ng-model="premiseName" ng-change="premiseChanged(premi seName)">
+            <option ng-repeat="premise in allPremise" value="{{premise.premiseName}}">{{premise.premiseName}}</option>
+        </select>-->
+        <!--<select type="button" style="width:auto;float:left;" ng-controller="myCtrl" class="form-control" data-toggle="dropdown"
+                ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+        </select>-->
+
+    </div>
+    <div class="col-md-3">
+        <div style="width:auto;float:left;" class="input-group">
+            <input type="text" class="form-control" placeholder="班级名称" ng-model="classkey">
+            <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-click="searchClasses(classkey)">搜索</button>
+        </span>
+        </div>
+    </div>
+    <div class="col-md-3">
+    </div>
+</div>
+<div>
+    <table class="table table-striped">
+        <tr class="active">
+            <td><b>班级名称</b></td>
+            <td><b>班级人数</b></td>
+            <td><b>班主任</b></td>
+            <td><b>信息员</b></td>
+            <td><b>是否毕业班</b></td>
+            <td><b>专业</b></td>
+            <td><b>部门</b></td>
+            <td><b>操作</b></td>
+        </tr>
+        <tr class="active" ng-repeat="class in classes">
+            <td ng-click="">{{class.className}}</td>
+            <td>{{class.classStuAmount}}</td>
+            <td>{{teachers[$index].teacherName}}</td>
+            <td>{{students[$index].stuName}}</td>
+            <td>
+                {{class.classIsover==1?'是':'否'}}
+            </td>
+            <td>{{majors[$index].majorName}}</td>
+            <td>{{departmentss[$index].depName}}</td>
+            <td>
+                <button type="button" class="btn btn-sm btn-warning">
+                    <em class="fa fa-edit"></em>
+                </button>
+            </td>
+        </tr>
+    </table>
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>学生维护</h3>
+<div class="row">
+    <div ng-app="qm.base_student" class="col-md-9">
+            <select type="button" style="width:auto;float:right;" ng-controller="myCtrl3" class="form-control" data-toggle="dropdown"
+                    ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+            </select>
+            <select type="button" style="width:auto;float:right;" ng-controller="myCtrl2" class="form-control" data-toggle="dropdown"
+                    ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+            </select>
+            <select type="button" style="width:auto;float:right;" ng-controller="myCtrl1" class="form-control" data-toggle="dropdown"
+                    ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+            </select>
+            <select type="button" style="width:auto;float:right;" ng-controller="myCtrl" class="form-control" data-toggle="dropdown"
+                    ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+            </select>
+            <button style="width:auto;float:right;margin-right: 2px;" type="button" class="mb-sm btn btn-success">导出</button>&nbsp;
+            <button style="width:auto;float:right;margin-right: 2px;" type="button" class="mb-sm btn btn-success">导入</button>&nbsp;
+            <button style="width:auto;float:right;margin-right: 2px;" type="button" class="mb-sm btn btn-success">新增</button>&nbsp;
+    </div>
+    <div style="padding-left: 0px;" class="col-md-3">
+        <div style="width:auto;float:left;" class="input-group">
+            <input type="text" class="form-control" placeholder="搜索姓名">
+            <span class="input-group-btn">
+        <button class="btn btn-default" type="button">搜索</button>
+        </span>
+        </div>
+    </div>
+</div>
+<div>
+    <table class="table table-striped">
+        <tr class="active">
+            <td><b>学号</b></td>
+            <td><b>姓名</b></td>
+            <td><b>手机号</b></td>
+            <td><b>专业</b></td>
+            <td><b>年级</b></td>
+            <td><b>班级</b></td>
+            <td><b>状态</b></td>
+            <td><b>操作</b></td>
+        </tr>
+        <tr class="active">
+            <td>1402753120</td>
+            <td>汪小菲</td>
+            <td>18752002096</td>
+            <td>计算机与软件</td>
+            <td>2015级</td>
+            <td>软件1531</td>
+            <td>
+                <label style="float:left" class="switch switch-lg">
+                    <input ng-model="swing" type="checkbox" checked="checked" ng-init="swing = true" />
+                <span></span>
+                </label>
+                <span ng-if="swing" style="padding-left:10px;float:left;color: lawngreen;">启用</span>
+                <span ng-if="!swing" style="padding-left:10px;float:left;color: red">禁用</span>
+            </td>
+            <td>
+               <button type="button" class="btn btn-sm btn-warning">
+                <em class="fa fa-edit"></em>
+               </button>
+            </td>
+        </tr>
+
+        <tr class="active">
+            <td>1402753120</td>
+            <td>汪小菲</td>
+            <td>18752002096</td>
+            <td>计算机与软件</td>
+            <td>2015级</td>
+            <td>软件1531</td>
+            <td>
+                <label style="float:left" class="switch switch-lg">
+                    <input ng-model="swing1" type="checkbox" checked="checked" ng-init="swing1 = true" />
+                    <span></span>
+                </label>
+                <span ng-if="swing1" style="padding-left:10px;float:left;color: lawngreen;">启用</span>
+                <span ng-if="!swing1" style="padding-left:10px;float:left;color: red">禁用</span>
+            </td>
+            <td>
+                <button type="button" class="btn btn-sm btn-warning">
+                    <em class="fa fa-edit"></em>
+                </button>
+            </td>
+        </tr><tr class="active">
+        <td>1402753120</td>
+        <td>汪小菲</td>
+        <td>18752002096</td>
+        <td>计算机与软件</td>
+        <td>2015级</td>
+        <td>软件1531</td>
+        <td>
+            <label style="float:left" class="switch switch-lg">
+                <input ng-model="swing2" type="checkbox" checked="checked" ng-init="swing2 = true" />
+                <span></span>
+            </label>
+            <span ng-if="swing2" style="padding-left:10px;float:left;color: lawngreen;">启用</span>
+            <span ng-if="!swing2" style="padding-left:10px;float:left;color: red">禁用</span>
+        </td>
+        <td>
+            <button type="button" class="btn btn-sm btn-warning">
+                <em class="fa fa-edit"></em>
+            </button>
+        </td>
+    </tr>
+    </table>
+</div>
+</body>
+
+</html>
