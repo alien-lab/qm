@@ -21,7 +21,7 @@ public class RoleMenuDto extends TbMenuEntity {
     public void setChildmenuEntity(List<RoleMenuDto> childmenuEntity) {
         this.childmenuEntity = childmenuEntity;
     }
-    @ApiModelProperty(value="角色是否拥有改菜单项权限")
+    @ApiModelProperty(value="角色是否拥有该菜单项权限")
     boolean checked=false;
 
     public boolean isChecked() {
@@ -30,5 +30,13 @@ public class RoleMenuDto extends TbMenuEntity {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    @Override
+    public String toString() {
+        return "RoleMenuDto{" +
+                "子菜单" + childmenuEntity +
+                ", 是否有权限=" + checked +
+                '}';
     }
 }

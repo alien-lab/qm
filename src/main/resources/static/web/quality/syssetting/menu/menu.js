@@ -70,9 +70,18 @@
                     url:'/qm-api/menus/dto'
                 },
                 savemenu: { method: 'POST'},
-                updateMenu:{method:'PUT'},
                 switchMenu:{method:'PUT',url:'/qm-api/menus/switch'},
-                deletemenu: { method: 'DELETE'}
+                deletemenu: { method: 'DELETE'},
+                getrolerMenuDto:{
+                    method:'GET',
+                    isArray:true,
+                    url:'/qm-api/menus/rolerdto'
+                },
+                setrolerMenuDto:{
+                    method: 'POST',
+                    url:'/qm-api/menus/setroleMenudto'
+
+                }
             });
             return service;
         }]);

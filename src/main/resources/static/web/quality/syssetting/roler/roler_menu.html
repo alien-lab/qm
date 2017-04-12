@@ -1,40 +1,33 @@
-<h3 style="margin-left: 20px">角色菜单设置</h3>
+<style>
+.modal-content{
+   width: 150%;
+    left: -200px;
+}
+p {
+    font-family:"微软雅黑";
+}
+</style>
+<h3 style="margin-left: 20px">{{ModTitle}}</h3>
     <div style="margin-top: 10px">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover" >
-                <tr >
-                    <th style="width: 10%;text-align: center">编号</th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                </tr>
-                <tbody>
+                <tbody >
+
                 <tr style="height: 60px">
                     <th style="width: 10%;text-align: center">菜单模块</th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
+                    <th style="text-align: center" ng-repeat="menus in checkedMenus">{{menus.menuName}}</th>
                 </tr>
                 <tr style="height: 200px">
                     <th style="width: 10%;text-align: center">子菜单选项</th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
-                    <th style="text-align: center"></th>
+                    <th ng-repeat="menus in checkedMenus">
+                        <button  ng-click="menu.checked = !menu.checked;oksubMenu(menu.menuId)"  ng-class="{true:'btn-warning',false:'btn-default'}[menu.checked]"  ng-repeat="menu in menus.childmenuEntity" type="button" class="mb-sm btn btn-default ">{{menu.menuName}}</button>
+                    </th>
                 </tr>
                 </tbody>
             </table>
         </div><!-- END table-responsive-->
-</div>
+     </div>
 <div class="panel-footer text-center">
-    <button type="submit" class="btn btn-info">确定</button>
+    <button ng-click="okrolerMenu()" class="btn btn-info">确定</button>
     <button ng-click="cancel()" type="submit" class="btn btn-info">取消</button>
 </div>

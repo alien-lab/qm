@@ -4,6 +4,7 @@
 (function(){
     'use strict';
     var roler_module=angular.module("qm.roler",['ui.router','qm.menu']);//ui.router模块作为主应用模块的依赖模块
+    roler_module.factory("rolerinstance",function(){return {}});
     roler_module.config(["$stateProvider",function($stateProvider){//配置$stateProvider，用来定义路由规则
         $stateProvider.state('qm.roler', {
             url: '/roler',
@@ -62,32 +63,11 @@
     /*获取角色*/
     (function() {
         'use strict';
-        angular.module("qm.roler").factory("getRolerResource",["$resource",function($resource){
-            var service = $resource('/roler-api/getRolers', {}, {
-                'getRoler': { method: 'GET', isArray:true}
-            });
-            return service;
-        }]);
-
-    })();
-
-    /*保存或增加roler*/
-    (function() {
-        'use strict';
-        angular.module("qm.roler").factory("saveRolerResource",["$resource",function($resource){
-            var service = $resource('/roler-api/saveRolers', {}, {
-                'saveroler': { method: 'POST'}
-            });
-            return service;
-        }]);
-
-    })();
-    /*删除roler*/
-    (function() {
-        'use strict';
-        angular.module("qm.roler").factory("deleteRolerResource",["$resource",function($resource){
-            var service = $resource('/roler-api/deleteRoler', {}, {
-                'deleteRoler': { method: 'post'}
+        angular.module("qm.roler").factory("rolerResource",["$resource",function($resource){
+            var service = $resource('/qm-api/rolers', {}, {
+                getroler: { method: 'GET', isArray:true},
+                saveroler: { method: 'POST'},
+                deleteroler: { method: 'DELETE'}
             });
             return service;
         }]);
@@ -95,7 +75,8 @@
     })();
 
 
-    roler_module.controller("RolerController",['$scope','$filter', '$http','$q',"$uibModal",'SweetAlert','getRolerResource','saveRolerResource','deleteRolerResource','menuResource',function($scope,$filter, $http,$q,$uibModal,SweetAlert,getRolerResource,saveRolerResource,deleteRolerResource,menuResource){
+
+    roler_module.controller("RolerController",['$scope','$filter', '$http','$q',"$uibModal",'SweetAlert','rolerResource','menuResource','rolerinstance',function($scope,$filter, $http,$q,$uibModal,SweetAlert,rolerResource,menuResource,rolerinstance){
 
         var vm = this;
         $scope.menus=menuResource.getMenuDto({},function(result){console.log(result)});
@@ -107,7 +88,7 @@
             getrolers();
 
             function getrolers() {
-                getRolerResource.getRoler({
+                rolerResource.getroler({
 
                 },function(result){
                     console.log(result);
@@ -129,7 +110,7 @@
                 console.log("data+id！");
                 console.log(data);
                 console.log(id);
-                saveRolerResource.saveroler({
+                rolerResource.saveroler({
                     id:id,
                     name:data.roleName
                 },function(result){
@@ -169,7 +150,7 @@
                     closeOnCancel:false
                 },  function(isConfirm){
                     if(isConfirm){
-                        deleteRolerResource.deleteRoler({
+                        rolerResource.deleteroler({
                             id:id
                         },function(result){
                             console.log("删除roler成功！");
@@ -191,8 +172,10 @@
 
 
         //用户角色设置
-        $scope.roler_menusetting = showRoler_menuSetting;
-        function showRoler_menuSetting(){
+        $scope.rolerMenusetting = showRoler_menuSetting;
+        function showRoler_menuSetting(id,name){
+            rolerinstance.rolerid = id;
+            rolerinstance.rolername = name;
             var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: "quality/syssetting/roler/roler_menu.html",
@@ -221,21 +204,37 @@
 
 
     //角色菜单设置的controller
-    roler_module.controller("roler_menuController",["$scope","$uibModalInstance","$rootScope",'getrolerMenuResource',function($scope,$uibModalInstance,$rootScope,getrolerMenuResource){
-        $scope.ModTitle = "角色菜单设置";
+    roler_module.controller("roler_menuController",["$scope","$uibModalInstance","$rootScope",'menuResource','rolerinstance',function($scope,$uibModalInstance,$rootScope,menuResource,rolerinstance){
+        $scope.rolename =  rolerinstance.rolername;
+        $scope.ModTitle = $scope.rolename+"--角色菜单设置" ;
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');
         }
-
-        //获取所有角色菜单
-        getrolerMenuResource.getrolerMenu({
+        $scope.roleid = rolerinstance.rolerid;
+        //获取该角色下的权限菜单
+        menuResource.getrolerMenuDto({
+            id:$scope.roleid
         },function(result){
-            console.log(result);
-            $scope.rolerMenus = result;
+            console.log(result)
+            $scope.checkedMenus = result;
         },function(result){
-
             console.log("菜单拉取失败");
         });
+
+        //点击事件增加该角色菜单
+        $scope.oksubMenu = function (menuid) {
+            menuResource.setrolerMenuDto({
+                menuid:menuid,
+                roleid:$scope.roleid
+            },function(result){
+                console.log(result)
+
+            },function(result){
+                console.log("增加该角色菜单操作失败");
+            });
+
+        }
+
 
 
 

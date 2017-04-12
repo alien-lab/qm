@@ -18,16 +18,16 @@ import java.util.List;
 /**
  * Created by Master QB on 2017/3/29.
  */
-@Api(value="/roler-api/roler",description = "角色菜单API")
+@Api(value="/qm-api/roler",description = "角色菜单API")
 @RestController
-@RequestMapping("/roler-api")
+@RequestMapping("/qm-api")
 public class RolerController {
 
     @Autowired
     RolerService rolerService;
 
     @ApiOperation(value="获取所有角色")
-    @GetMapping(value = "/getRolers")
+    @GetMapping(value = "/rolers")
     public ResponseEntity getAllRolers()  {
         List<TbRoleEntity> rolers = null;
         try {
@@ -47,7 +47,7 @@ public class RolerController {
 
 
     @ApiOperation(value="保存角色")
-    @PostMapping(value = "/saveRolers")
+    @PostMapping(value = "/rolers")
     public ResponseEntity saveRoler(@RequestParam int id, @RequestParam String  name)  {
         //id 为0是新增roler
         if (id == -1){
@@ -100,7 +100,7 @@ public class RolerController {
     }
 
     @ApiOperation(value="删除角色")
-    @PostMapping(value = "/deleteRoler")
+    @DeleteMapping(value = "/rolers")
     public ResponseEntity deleteRoler( @RequestParam int id)  {
         boolean flag = false;
         try {

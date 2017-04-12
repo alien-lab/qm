@@ -1,6 +1,7 @@
 package com.alienlab.niit.qm.service;
 
 import com.alienlab.niit.qm.entity.TbMenuEntity;
+import com.alienlab.niit.qm.entity.TbRoleMenuEntity;
 import com.alienlab.niit.qm.entity.dto.MenuDto;
 import com.alienlab.niit.qm.entity.dto.RoleMenuDto;
 
@@ -28,6 +29,7 @@ public interface MenuService {
 
     public List<RoleMenuDto> getMenusByRole(int roleId) throws  Exception;
 
+    public TbRoleMenuEntity saverolerMenu(TbRoleMenuEntity tbRoleMenuEntity) throws  Exception;
 
 
 }

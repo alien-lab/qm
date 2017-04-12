@@ -59,4 +59,13 @@ public class TbRoleMenuEntity {
         result = 31 * result + (menuId != null ? menuId.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "TbRoleMenuEntity{" +
+                "id=" + id +
+                ", 角色id=" + roleId +
+                ", 菜单id='" + menuId + '\'' +
+                '}';
+    }
 }

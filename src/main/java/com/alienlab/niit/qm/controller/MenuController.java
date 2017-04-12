@@ -2,7 +2,9 @@ package com.alienlab.niit.qm.controller;
 
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.TbMenuEntity;
+import com.alienlab.niit.qm.entity.TbRoleMenuEntity;
 import com.alienlab.niit.qm.entity.dto.MenuDto;
+import com.alienlab.niit.qm.entity.dto.RoleMenuDto;
 import com.alienlab.niit.qm.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +29,58 @@ public class MenuController {
     @Autowired
     MenuService menuService;
 
+
+    @ApiOperation(value="用户权限菜单设置")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "", response = MenuDto.class),
+            @ApiResponse(code = 500, message = "", response = ExecResult.class)
+    })
+    @PostMapping(value = "/menus/setroleMenudto")
+    public ResponseEntity setrolerMenuDto(@RequestParam String menuid,@RequestParam int roleid)  {
+
+        TbRoleMenuEntity tbRoleMenuEntity = new TbRoleMenuEntity();
+        tbRoleMenuEntity.setRoleId(roleid);
+        tbRoleMenuEntity.setMenuId(menuid);
+        try {
+            TbRoleMenuEntity tbRoleMenuEntity1 = menuService.saverolerMenu(tbRoleMenuEntity);
+            if (tbRoleMenuEntity1 != null){
+                return ResponseEntity.ok().body(tbRoleMenuEntity1);
+            }else {
+                ExecResult er=  new ExecResult(false,"新增角色菜单权限失败！请重试");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=  new ExecResult(false,"新增角色菜单权限失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
+
+
+    @ApiOperation(value="获取用户权限菜单")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "", response = MenuDto.class),
+            @ApiResponse(code = 500, message = "", response = ExecResult.class)
+    })
+    @GetMapping(value = "/menus/rolerdto")
+    public ResponseEntity getAllrolerMenuDto(@RequestParam int id)  {
+
+        List<RoleMenuDto> roleMenuDtos = new ArrayList<>();
+        try {
+            roleMenuDtos  = menuService.getMenusByRole(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (roleMenuDtos.size() != 0){
+            return ResponseEntity.ok().body(roleMenuDtos);
+        }
+        else{
+            ExecResult er=  new ExecResult(false,"获取获取用户拥有菜单权限失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
 
     @ApiOperation(value="获取全部菜单")
     @ApiResponses({
