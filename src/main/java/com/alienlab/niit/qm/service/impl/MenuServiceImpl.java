@@ -88,7 +88,7 @@ public class MenuServiceImpl implements MenuService {
         List<TbRoleMenuEntity> tbRoleMenuEntities = rolerMenuRepository.findMenusByRoleId(roleId);
 
         if(tbRoleMenuEntities==null||tbRoleMenuEntities.size()==0){
-            throw new Exception("没有加载到角色菜单");
+            //throw new Exception("没有加载到角色菜单");
         }
         List<String> rolermenuids = new ArrayList<String>();
         for(TbRoleMenuEntity tb:tbRoleMenuEntities){

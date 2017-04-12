@@ -62,24 +62,24 @@
     (function() {
         'use strict';
         angular.module("qm.menu").factory("menuResource",["$resource",function($resource){
-            var service = $resource('/qm-api/menus', {}, {
+            var service = $resource('../qm-api/menus', {}, {
                 getMenu: { method: 'GET', isArray:true},
                 getMenuDto:{
                     method:'GET',
                     isArray:true,
-                    url:'/qm-api/menus/dto'
+                    url:'../qm-api/menus/dto'
                 },
                 savemenu: { method: 'POST'},
-                switchMenu:{method:'PUT',url:'/qm-api/menus/switch'},
+                switchMenu:{method:'PUT',url:'../qm-api/menus/switch'},
                 deletemenu: { method: 'DELETE'},
                 getrolerMenuDto:{
                     method:'GET',
                     isArray:true,
-                    url:'/qm-api/menus/rolerdto'
+                    url:'../qm-api/menus/rolerdto'
                 },
                 setrolerMenuDto:{
                     method: 'POST',
-                    url:'/qm-api/menus/setroleMenudto'
+                    url:'../qm-api/menus/setroleMenudto'
 
                 }
             });

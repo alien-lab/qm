@@ -465,7 +465,7 @@
 (function() {
     'use strict';
     angular.module("app.core").factory("loginResource",["$resource",function($resource){
-        var service = $resource('/qm-api/dologin', {}, {
+        var service = $resource('../qm-api/dologin', {}, {
             'login': { method: 'POST'}
         });
         return service;

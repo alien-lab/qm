@@ -64,7 +64,7 @@
     (function() {
         'use strict';
         angular.module("qm.roler").factory("rolerResource",["$resource",function($resource){
-            var service = $resource('/qm-api/rolers', {}, {
+            var service = $resource('../qm-api/rolers', {}, {
                 getroler: { method: 'GET', isArray:true},
                 saveroler: { method: 'POST'},
                 deleteroler: { method: 'DELETE'}
@@ -194,7 +194,7 @@
     (function() {
         'use strict';
         angular.module("qm.roler").factory("getrolerMenuResource",["$resource",function($resource){
-            var service = $resource('/menu-api/getMenus', {}, {
+            var service = $resource('../menu-api/getMenus', {}, {
                 'getrolerMenu': { method: 'GET', isArray:true}
             });
             return service;
