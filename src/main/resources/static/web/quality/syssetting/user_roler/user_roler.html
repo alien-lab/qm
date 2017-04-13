@@ -1,11 +1,10 @@
 <h3>用户角色配置</h3>
 <div class="row">
-
         <div class="form-group col-lg-2 col-xs-4" style="margin-left: 15px;">
-            <input type="text"  class="form-control" placeholder="工号/姓名" ng-model="searchString">
+            <input type="text"  class="form-control" placeholder="工号/姓名" ng-model="searchString" >
         </div>
-        <button ng-click="loadData(0,20)" class="btn btn-info col-lg-1 col-md-2">搜索用户</button>
-        <span style="font-size: 15px;font-family: 微软雅黑" class="col-md-4 col-sm-12" data-ng-if=(currentid!=null)>您已选用户： 账号：{{currentid}}，用户：{{currentname}}</span>
+        <button ng-click="loadData(0,8)" class="btn btn-info col-lg-1 col-md-2">搜索用户</button>
+        <span style="font-size: 15px;font-family: 微软雅黑;margin-left: 20px;" class="col-md-4 col-xs-12" data-ng-if=(currentid!=null)>已选用户： 账号：{{currentid}}，用户：{{currentname}}</span>
 </div>
 <div class="row">
     <div class="col-lg-7 col-md-12" >
@@ -26,12 +25,28 @@
                 </div>
             </div>
         </div>
-        <button ng-if="!userArrays.first" ng-click="loadData(userArrays.number-1,userArrays.size)">上一页</button>
-        <button ng-if="!userArrays.last" ng-click="loadData(userArrays.number+1,userArrays.size)">下一页</button>
-        <!-- END panel-->
+        <nav aria-label="Page navigation" ng-if=(userArrays)>
+            <ul class="pagination" style="float: right">
+                <li ng-if="!userArrays.first">
+                    <a  ng-click="loadData(userArrays.number-1,userArrays.size)" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li><a ng-click="loadData(0,userArrays.size)">1</a></li>
+                <li><a ng-click="loadData(1,userArrays.size)">2</a></li>
+                <li><a ng-click="loadData(2,userArrays.size)">3</a></li>
+                <li><a ng-click="loadData(3,userArrays.size)">4</a></li>
+                <li><a ng-click="loadData(4,userArrays.size)">5</a></li>
+                <li ng-if="!userArrays.last">
+                    <a  ng-click="loadData(userArrays.number+1,userArrays.size)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
     </div>
-    <div class="col-lg-4 col-md-12" >
+    <div class="col-lg-4 col-md-12" style="margin-top: 50px;">
         <button type="button" ng-click="roler.checked = !roler.checked;oksubRoler(roler.roleId)"  ng-class="{true:'btn-danger',false:'btn-default'}[roler.checked]"  ng-repeat="roler in rolersArrays"  class="btn btn-oval" style=" margin: 10px;">{{roler.roleName}}</button>
 </div>
 </div>
