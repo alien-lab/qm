@@ -68,4 +68,13 @@ public class TbRoleEntity {
         result = 31 * result + (roleIndex != null ? roleIndex.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "TbRoleEntity{" +
+                "roleId=" + roleId +
+                ", roleName='" + roleName + '\'' +
+                ", roleIndex='" + roleIndex + '\'' +
+                '}';
+    }
 }

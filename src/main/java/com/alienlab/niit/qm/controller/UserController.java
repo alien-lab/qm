@@ -20,11 +20,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by 橘 on 2017/3/14.
  */
-@Api(value="/qm-api/user",description = "用户API")
+@Api(value="/qm-api/users",description = "用户API")
 @RestController
 @RequestMapping("/qm-api")
 public class UserController {
@@ -96,6 +97,23 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value="通过工号、姓名获得用户列表")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "", response = TbUserEntity.class),
+            @ApiResponse(code = 500, message = "", response = ExecResult.class)
+    })
+    @GetMapping(value="/users")
+    public ResponseEntity getUsers(@RequestParam String keyword){
+        try {
+            List<TbUserEntity> users = userService.getlistUser(keyword);
+            return ResponseEntity.ok().body(users);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,e.getMessage());
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
 
 
 }

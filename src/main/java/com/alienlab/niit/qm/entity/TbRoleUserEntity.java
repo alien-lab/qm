@@ -3,6 +3,8 @@ package com.alienlab.niit.qm.entity;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.Id;
+
 /**
  * Created by Master QB on 2017/3/14.
  */
@@ -10,6 +12,17 @@ import io.swagger.annotations.ApiModelProperty;
 @javax.persistence.Table(name = "tb_role_user", schema = "qualitymonitor", catalog = "")
 @javax.persistence.IdClass(TbRoleUserEntityPK.class)
 public class TbRoleUserEntity {
+    @ApiModelProperty(value="id主键")
+    @Id
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
     @ApiModelProperty(value="角色编码")
     private long roleId;
 
