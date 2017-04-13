@@ -230,7 +230,7 @@
                 console.log(result)
 
             },function(result){
-                console.log("增加该角色菜单操作失败");
+                console.log("对角色菜单操作失败");
             });
 
         }

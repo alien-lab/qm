@@ -22,4 +22,6 @@ public interface RolerService {
     public  TbRoleEntity getRolerById(long roler_id) throws  Exception;
 
 
+
+
 }

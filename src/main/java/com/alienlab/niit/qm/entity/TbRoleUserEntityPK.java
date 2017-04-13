@@ -1,5 +1,7 @@
 package com.alienlab.niit.qm.entity;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -10,6 +12,17 @@ import java.io.Serializable;
 public class TbRoleUserEntityPK implements Serializable {
     private long roleId;
     private long userId;
+    @ApiModelProperty(value="id主键")
+    @Id
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     @Column(name = "role_id")
     @Id

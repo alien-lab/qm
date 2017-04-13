@@ -33,7 +33,7 @@ public class MenuController {
     MenuService menuService;
 
 
-    @ApiOperation(value="用户权限菜单设置")
+    @ApiOperation(value="角色的菜单权限设置")
     @ApiResponses({
             @ApiResponse(code = 200, message = "", response = MenuDto.class),
             @ApiResponse(code = 500, message = "", response = ExecResult.class)

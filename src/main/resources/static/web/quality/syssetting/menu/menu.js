@@ -59,9 +59,7 @@
         }]);
 
     /*获取menu*/
-    (function() {
-        'use strict';
-        angular.module("qm.menu").factory("menuResource",["$resource",function($resource){
+    menu_module.factory("menuResource",["$resource",function($resource){
             var service = $resource('../qm-api/menus', {}, {
                 getMenu: { method: 'GET', isArray:true},
                 getMenuDto:{
@@ -85,7 +83,7 @@
             });
             return service;
         }]);
-    })();
+
 
 
 

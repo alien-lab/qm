@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<TbUserEntity,Long> {
 
     //通过用户登录名查找用户
     TbUserEntity findByUserLoginname(String userLoginname);
+
+    @Query("from TbUserEntity a where (a.userLoginname like CONCAT('%',?1,'%') ) or (a.userName like CONCAT('%',?1,'%') ) ")
+    List<TbUserEntity> getUserByUserNameLike(String keyword);
 }

@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by 橘 on 2017/3/14.
  */
@@ -15,6 +17,11 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService{
     @Autowired
     UserRepository userRepository;
+
+    @Override
+    public List<TbUserEntity> getlistUser(String keyword) throws Exception {
+        return userRepository.getUserByUserNameLike(keyword);
+    }
 
     @Override
     public Page<TbUserEntity> listUser(String keyword, Pageable page) throws Exception {
