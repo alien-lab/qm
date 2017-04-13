@@ -15,8 +15,8 @@
     }]);
 
     user_roler_module.factory("userResource",["$resource",function($resource){
-        var service = $resource('../qm-api/users', {}, {
-            getUsers: { method: 'GET', isArray:true},
+        var service = $resource('../qm-api/user', {}, {
+            getUsers: { method: 'GET'},
         });
         return service;
 
@@ -31,18 +31,30 @@
 
     }]);
 
-
-    user_roler_module.controller("userRolerController",['$scope','$filter', '$http', '$q',"$uibModal","userResource","userRolerResource",function($scope,$filter, $http,$q,$uibModal,userResource,userRolerResource){
-        //获取用户列表
-        $scope.searchButton = function (searchString) {
+    user_roler_module.service("userService",["userResource",function(userResource){
+        this.getUsers=function(keyword,index,length,callback){
             userResource.getUsers({
-                keyword:searchString
+                keyword:keyword,
+                index:index,
+                length:length
             },function(result){
                 console.log(result);
-                $scope.userArrays = result;
+                if(callback){
+                    callback(result);
+                }
             },function(result){
-                console.log("用户获取失败");
+                console.log("用户获取失败",result);
             });
+        }
+    }]);
+
+    user_roler_module.controller("userRolerController",['$scope','$filter', '$http', '$q',"$uibModal","userService","userRolerResource",function($scope,$filter, $http,$q,$uibModal,userService,userRolerResource){
+        function renderData(data){
+            $scope.userArrays=data;
+        }
+        //获取用户列表
+        $scope.loadData = function (index,length) {
+            userService.getUsers($scope.searchString,index,length,renderData);
         }
 
         //获得该用户的角色信息
@@ -73,7 +85,6 @@
             }
 
         }
-
 
     }]);
 
