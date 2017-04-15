@@ -37,7 +37,8 @@
             'qm.base_classes',
             'qm.base_student',
             'qm.base_teacher',
-            'qm.base_subject'
+            'qm.base_subject',
+            'qm.stuevaluation'
         ]);
 })();
 (function(){
