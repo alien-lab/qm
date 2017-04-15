@@ -60,10 +60,8 @@
     }]);
 
 
-    /*获取角色*/
-    (function() {
-        'use strict';
-        angular.module("qm.roler").factory("rolerResource",["$resource",function($resource){
+
+    roler_module.factory("rolerResource",["$resource",function($resource){
             var service = $resource('../qm-api/rolers', {}, {
                 getroler: { method: 'GET', isArray:true},
                 saveroler: { method: 'POST'},
@@ -72,7 +70,7 @@
             return service;
         }]);
 
-    })();
+
 
 
 

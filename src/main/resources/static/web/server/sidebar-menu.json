@@ -119,7 +119,7 @@
     "submenu": [
       {
         "text": "用户登录账户设置",
-        "sref": "app.dashboard"
+        "sref": "qm.accountset"
       },
       {
         "text": "菜单设置",
