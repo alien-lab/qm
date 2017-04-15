@@ -77,7 +77,7 @@
     roler_module.controller("RolerController",['$scope','$filter', '$http','$q',"$uibModal",'SweetAlert','rolerResource','menuResource','rolerinstance',function($scope,$filter, $http,$q,$uibModal,SweetAlert,rolerResource,menuResource,rolerinstance){
 
         var vm = this;
-        $scope.menus=menuResource.getMenuDto({},function(result){console.log(result)});
+        $scope.menus=menuResource.getMenuDto({},function(result){});
         activate();
 
         ////////////////
@@ -89,7 +89,6 @@
                 rolerResource.getroler({
 
                 },function(result){
-                    console.log(result);
                     $scope.rolers = result;
                 },function(result){
 
@@ -225,8 +224,6 @@
                 menuid:menuid,
                 roleid:$scope.roleid
             },function(result){
-                console.log(result)
-
             },function(result){
                 console.log("对角色菜单操作失败");
             });
