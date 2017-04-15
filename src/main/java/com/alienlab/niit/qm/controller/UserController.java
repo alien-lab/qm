@@ -1,17 +1,12 @@
 package com.alienlab.niit.qm.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alienlab.niit.qm.common.Azdg;
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.TbUserEntity;
 import com.alienlab.niit.qm.repository.UserRepository;
 import com.alienlab.niit.qm.service.UserService;
 import io.swagger.annotations.*;
-import io.swagger.models.Response;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -19,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
 
 /**
