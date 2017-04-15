@@ -421,11 +421,12 @@
                     loginname:$scope.login.loginname,
                     password:$scope.login.password
                 },function(result){
+                    console.log(result);
                        $rootScope.loginuser=result;
                        $state.go("qm.index");//登录成功跳转到主页
                         // Put cookie
                         $cookieStore.put("user",
-                            {account: result.account,password:  result.password},{
+                            {account: result.userLoginname,name:  result.userName,type:result.userType},{
                                 expires: new Date(new Date().getTime() + 60000)
                             });
                        var favoriteCookie = $cookieStore.get('user').account;
@@ -1293,8 +1294,8 @@
         .module('app.sidebar')
         .controller('UserBlockController', UserBlockController);
 
-    UserBlockController.$inject = ['$rootScope', '$scope'];
-    function UserBlockController($rootScope, $scope) {
+    UserBlockController.$inject = ['$rootScope', '$scope','$cookieStore'];
+    function UserBlockController($rootScope, $scope,$cookieStore) {
 
         activate();
 
@@ -1302,8 +1303,8 @@
 
         function activate() {
           $rootScope.user = {
-            name:$rootScope.loginuser.userName,
-            job: $rootScope.loginuser.userType,
+            name:$cookieStore.get('user').name,
+            job: $cookieStore.get('user').type,
             picture:  'app/img/user/02.jpg'
           };
 
