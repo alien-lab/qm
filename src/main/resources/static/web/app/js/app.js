@@ -33,6 +33,7 @@
             'qm.menu',
             'qm.roler',
             'qm.user_roler',
+            'qm.accountset',
             'qm.base_department',
             'qm.base_classes',
             'qm.base_student',
@@ -235,8 +236,6 @@
     appRun.$inject = ['$rootScope', '$state', '$stateParams',  '$window', '$templateCache', 'Colors',"$cookieStore"];
 
     function appRun($rootScope, $state, $stateParams, $window, $templateCache, Colors,$cookieStore) {
-        console.log("app.run");
-        console.log($cookieStore.get('user'));
         $rootScope.rolepurview="ALL";
         // Set reference to access them from any scope
         $rootScope.$state = $state;
@@ -397,6 +396,7 @@
                     loginname:$scope.register.loginname,
                     password:$scope.register.password
                 },function(result){
+                    console.log("132");
                     console.log(result);
                     if(result.result>0){//注册成功
                         alert("注册成功，请登录");
@@ -423,11 +423,11 @@
                     password:$scope.login.password
                 },function(result){
                     console.log(result);
-                       $rootScope.user=result;
+                       $rootScope.loginuser=result;
                        $state.go("qm.index");//登录成功跳转到主页
                         // Put cookie
                         $cookieStore.put("user",
-                            {account: result.account,password:  result.password},{
+                            {account: result.userLoginname,name:  result.userName,type:result.userType},{
                                 expires: new Date(new Date().getTime() + 60000)
                             });
                        var favoriteCookie = $cookieStore.get('user').account;
@@ -1295,8 +1295,8 @@
         .module('app.sidebar')
         .controller('UserBlockController', UserBlockController);
 
-    UserBlockController.$inject = ['$rootScope', '$scope'];
-    function UserBlockController($rootScope, $scope) {
+    UserBlockController.$inject = ['$rootScope', '$scope','$cookieStore'];
+    function UserBlockController($rootScope, $scope,$cookieStore) {
 
         activate();
 
@@ -1304,8 +1304,8 @@
 
         function activate() {
           $rootScope.user = {
-            name:     '胡光永',
-            job:      '超级管理员',
+            name:$cookieStore.get('user').name,
+            job: $cookieStore.get('user').type,
             picture:  'app/img/user/02.jpg'
           };
 

@@ -14,13 +14,14 @@
         <select type="button" style="width:auto;float:left;" ng-controller="subject1" class="form-control" data-toggle="dropdown"
                 ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
         </select>
+        <button style="margin-left: 5px;" class="btn btn-success" type="button" ng-click="searchClasses()">搜索</button>
     </div>
     <div class="col-md-3">
         <div style="width:auto;float:left;" class="input-group">
-            <input type="text" class="form-control" placeholder="可输入相关课程名称">
+            <input type="text" class="form-control" placeholder="可输入相关课程信息">
             <span class="input-group-btn">
-        <button class="btn btn-default" type="button" ng-click="searchClasses()">搜索</button>
-        </span>
+        <button class="btn btn-default" type="button">模糊查找</button>
+      </span>
         </div>
     </div>
     <div class="col-md-1"></div>
@@ -51,8 +52,11 @@
         <td>杨静丽</td>
         <td>谢继刚</td>
         <td>
-            <button type="button" class="btn btn-sm btn-warning">
+            <button type="button" class="btn btn-sm btn-warning" title="修改课程">
                 <em class="fa fa-edit"></em>
+            </button>
+            <button ng-click="removeS($index,menu.menuId)" title="删除课程" class="btn btn-sm btn-danger">
+                <em class="fa fa-trash"></em>
             </button>
         </td>
     </tr>
@@ -92,5 +96,26 @@
     </tr>
 
 </table>
+<div class="col-lg-12 col-md-12 row" >
+    <nav aria-label="Page navigation" style="float: right">
+        <ul class="pagination">
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
 </body>
 </html>

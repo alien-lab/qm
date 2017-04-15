@@ -97,6 +97,38 @@ public class UserController {
         }
     }
 
+    //用户登录
+    @ApiOperation(value="用户密码修改")
+    @PostMapping(value = "/user/updatepwd")
+    public ResponseEntity updatePwd(@RequestParam String oldpwd, @RequestParam String newpwd,HttpServletRequest request){
+        try{
+            Azdg a=new Azdg();
+            String pwd= a.encrypt(oldpwd);
+            TbUserEntity user= (TbUserEntity)request.getSession().getAttribute("user");
+            if(user==null){
+                ExecResult er= new ExecResult(false,"用户未登录或者登录超时");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+
+            }else{
+                if(user.getUserPwd().equals(pwd)){//密码匹配成功
+                    String newpassword= a.encrypt(newpwd);
+                    user.setUserPwd(newpassword);
+                    //更新user
+                    TbUserEntity tbUserEntity = userService.updateUser(user);
+                    request.getSession().setAttribute("user",tbUserEntity);//当前用户进入session
+                    return ResponseEntity.ok().body(user);
+                }else{
+                    ExecResult er=  new ExecResult(false,"用户原密码错误");
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+                }
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+            ExecResult er= new ExecResult(false,"发生异常");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
     @ApiOperation(value="通过工号、姓名获得用户列表")
     @ApiResponses({
             @ApiResponse(code = 200, message = "", response = TbUserEntity.class),

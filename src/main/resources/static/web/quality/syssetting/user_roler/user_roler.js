@@ -38,7 +38,7 @@
                 index:index,
                 length:length
             },function(result){
-                console.log(result);
+
                 if(callback){
                     callback(result);
                 }
@@ -69,7 +69,7 @@
             userRolerResource.getRolers({
                 userid:userId
             },function(result){
-               console.log(result);
+
                 $scope.rolersArrays = result;
             },function(result){
                 console.log("用户角色获取失败");
