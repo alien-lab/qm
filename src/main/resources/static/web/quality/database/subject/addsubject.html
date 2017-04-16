@@ -1,3 +1,8 @@
+<style>
+    .sweetinput{
+        background-color: red;
+    }
+</style>
 <div class="row">
         <div class="col-lg-12">
             <div id="panelPortlet6" class="panel-info" style="margin-bottom: -3px;">
@@ -30,30 +35,64 @@
                                 <!-- START Wizard Step inputs -->
                                 <div id="step1" ng-show="wizard.active(1)">
                                     <fieldset>
-                                        <legend>Login</legend>
+                                        <legend></legend>
                                         <!-- START row -->
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label>Username</label>
+                                                    <label>课程代码</label>
                                                     <div class="controls">
-                                                        <input type="text" name="username" data-parsley-group="step1" placeholder="Your nick here" required="required" class="form-control" />
+                                                        <input type="text" name="username" data-parsley-group="step1" placeholder="例如:110042363" required="required" class="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label>Password</label>
+                                                    <label>课程名称</label>
                                                     <div class="controls">
-                                                        <input type="password" name="password" data-parsley-group="step1" placeholder="Your password" required="required" class="form-control" />
+                                                        <input type="text" name="password" data-parsley-group="step1" placeholder="例如:计算机应用基础" required="required" class="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label>Retype Password</label>
+                                                    <label>上课人数</label>
                                                     <div class="controls">
-                                                        <input type="password" name="password2" data-parsley-group="step1" placeholder="Confirmed password" required="required" class="form-control" />
+                                                        <input type="text" name="password2" data-parsley-group="step1" placeholder="例如：36" required="required" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top: 20px;">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>课程类型</label>
+                                                    <div class="controls">
+                                                        <input type="text" name="username" data-parsley-group="step1" placeholder="例如:讲述课" required="required" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>课程属性</label>
+                                                    <div class="controls">
+                                                        <input type="text" name="password" data-parsley-group="step1" placeholder="例如:公共基础课" required="required" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>课程周数</label>
+                                                    <div class="controls">
+                                                        <input type="text" name="password2" data-parsley-group="step1" placeholder="例如：1-18" required="required" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>课程课时</label>
+                                                    <div class="controls">
+                                                        <input type="text" name="password2" data-parsley-group="step1" placeholder="例如：32" required="required" class="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -61,7 +100,7 @@
                                         <!-- END row -->
                                     </fieldset>
                                     <ul class="pager">
-                                        <li class="next"><a href="#" ng-click="wizard.go(2)">Next <span>&rarr;</span></a>
+                                        <li class="next"><a  ng-click="wizard.go(2)">下一步 <span>&rarr;</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -69,19 +108,66 @@
                                 <!-- START Wizard Step inputs -->
                                 <div id="step2" ng-show="wizard.active(2)">
                                     <fieldset>
-                                        <legend>Personal</legend>
+                                        <legend></legend>
                                         <!-- START row -->
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-5">
                                                 <div class="form-group">
-                                                    <label>First Name</label>
-                                                    <input type="text" name="first-name" data-parsley-group="step2" placeholder="John" required="required" class="form-control" />
+                                                    <label>授课教师</label>
+                                                    <div class="input-group">
+                                                        <input type="text" name="first-name" data-parsley-group="step2" placeholder="可搜索教师姓名、工号" required="required" class="form-control" />
+                                                        <span class="input-group-btn">
+                                                          <button class="btn btn-primary" type="button">搜索</button>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Last Name</label>
-                                                    <input type="text" name="last-name" data-parsley-group="step2" placeholder="Snow" required="required" class="form-control" />
+                                            <div class="col-md-7">
+                                                    <label>已选教师</label><br/>
+                                                <div class="col-md-12">
+                                                    <span ng-repeat="teacher in teachers" class="label label-success"  style="font-size: 15px;margin: 5px;display: inline-block;">{{teacher.name}} <em ng-click="removeteacher($index)" class="fa fa-close" ></em></span>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <legend style="margin-top: 20px"></legend>
+                                        <div class="row">
+                                            <div   class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <em  class="fa fa-mortar-board fa-5x"></em>
+                                                        </div>
+                                                        <div class="col-xs-9 text-right">
+                                                            <div class="text-lg">胡光永</div>
+                                                            <p class="m0">工号：1402753102</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div   class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <em  class="fa fa-mortar-board fa-5x"></em>
+                                                        </div>
+                                                        <div class="col-xs-9 text-right">
+                                                            <div class="text-lg">胡光永</div>
+                                                            <p class="m0">工号：1402753102</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div   class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <em  class="fa fa-mortar-board fa-5x"></em>
+                                                        </div>
+                                                        <div class="col-xs-9 text-right">
+                                                            <div class="text-lg">胡光永</div>
+                                                            <p class="m0">工号：1402753102</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -89,11 +175,11 @@
                                     </fieldset>
                                     <ul class="pager">
                                         <li class="previous">
-                                            <a href="#" ng-click="wizard.go(1)">
-                                                <span>&larr; Previous</span>
+                                            <a  ng-click="wizard.go(1)">
+                                                <span>&larr; 上一步</span>
                                             </a>
                                         </li>
-                                        <li class="next"><a href="#" ng-click="wizard.go(3)">Next <span>&rarr;</span></a>
+                                        <li class="next"><a  ng-click="wizard.go(3)">下一步 <span>&rarr;</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -101,19 +187,68 @@
                                 <!-- START Wizard Step inputs -->
                                 <div id="step3" ng-show="wizard.active(3)">
                                     <fieldset>
-                                        <legend>Contact</legend>
+                                        <legend></legend>
                                         <!-- START row -->
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-5">
                                                 <div class="form-group">
-                                                    <label>Email</label>
-                                                    <input type="text" name="email" data-parsley-group="step3" placeholder="john@snow.com" required="required" class="form-control" />
+                                                    <label>授课班级（可多选）</label>
+                                                    <div class="input-group">
+                                                        <input type="text" name="first-name" data-parsley-group="step2" placeholder="可搜索班级名称、编号" required="required" class="form-control" />
+                                                        <span class="input-group-btn">
+                                                          <button class="btn btn-primary" type="button">搜索</button>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Phone</label>
-                                                    <input type="text" name="phone" data-parsley-group="step3" placeholder="11-2345-6789" required="required" class="form-control" />
+                                                    <label>已选班级</label><br/>
+                                                    <div class="col-md-12">
+                                                        <span ng-repeat="teacher in teachers" class="label label-success"  style="font-size: 15px;margin: 5px;display: inline-block;">{{teacher.name}} <em ng-click="removeteacher($index)" class="fa fa-close" ></em></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <legend style="margin-top: 20px"></legend>
+                                        <div class="row">
+                                            <div   class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <em  class="fa fa-mortar-board fa-5x"></em>
+                                                        </div>
+                                                        <div class="col-xs-9 text-right">
+                                                            <div class="text-lg">胡光永</div>
+                                                            <p class="m0">工号：1402753102</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div   class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <em  class="fa fa-mortar-board fa-5x"></em>
+                                                        </div>
+                                                        <div class="col-xs-9 text-right">
+                                                            <div class="text-lg">胡光永</div>
+                                                            <p class="m0">工号：1402753102</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div   class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <em  class="fa fa-mortar-board fa-5x"></em>
+                                                        </div>
+                                                        <div class="col-xs-9 text-right">
+                                                            <div class="text-lg">胡光永</div>
+                                                            <p class="m0">工号：1402753102</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -121,40 +256,73 @@
                                     </fieldset>
                                     <ul class="pager">
                                         <li class="previous">
-                                            <a href="#" ng-click="wizard.go(2)">
-                                                <span>&larr; Previous</span>
+                                            <a  ng-click="wizard.go(2)">
+                                                <span>&larr; 上一步</span>
                                             </a>
                                         </li>
-                                        <li class="next"><a href="#" ng-click="wizard.go(4)">Next <span>&rarr;</span></a>
+                                        <li class="next"><a  ng-click="wizard.go(4)">下一步 <span>&rarr;</span></a>
                                         </li>
                                     </ul>
                                 </div>
                                 <!-- END Wizard Step inputs -->
                                 <!-- START Wizard Step inputs -->
                                 <div id="step4" ng-show="wizard.active(4)">
-                                    <div class="jumbotron">
-                                        <h1>Done!</h1>
-                                        <p>In vulputate mattis ipsum vitae vehicula. Praesent at arcu non arcu convallis pellentesque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        <p>
-                                            <button type="button" class="btn btn-info btn-lg">You can Proceed Now</button>
-                                        </p>
-                                    </div>
+                                    <fieldset>
+                                        <legend></legend>
+                                        <!-- START row -->
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <!-- START panel-->
+                                                <div class="panel-default">
+                                                    <label>节次列表（可多选）</label>
+                                                        <!-- START table-responsive-->
+                                                        <div class="table-responsive">
+                                                            <table class="table table-striped table-bordered table-hover">
+                                                                <thead>
+                                                                <tr style="text-align: center">
+                                                                    <th>选择上课节次</th>
+                                                                    <th>周一</th>
+                                                                    <th>周二</th>
+                                                                    <th>周三</th>
+                                                                    <th>周四</th>
+                                                                    <th>周五</th>
+                                                                    <th>周六</th>
+                                                                    <th>周日</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr  ng-repeat="section in sections">
+                                                                    <td ng-repeat="secone in section.day" ng-click="addplace(secone.name)">
+                                                                       <span data-ng-if="secone.mian==true">{{secone.name}}</span>
+                                                                        <span data-ng-if="secone.checked==true"><em class="fa fa-check"></em></span>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                </div>
+
+                                        </div>
+                                            <p style="text-align: center">
+                                                <button style="font-size: 15px;" type="button" class="btn btn-success btn-lg">提交课程<em class="fa fa-check"></em></button>
+                                            </p>
+                                        </div>
+                                        <!-- END row -->
+                                    </fieldset>
                                     <ul class="pager">
                                         <li class="previous">
-                                            <a href="#" ng-click="wizard.go(3)">
-                                                <span>&larr; Previous</span>
+                                            <a  ng-click="wizard.go(3)">
+                                                <span>&larr; 上一步</span>
                                             </a>
                                         </li>
                                     </ul>
+
                                 </div>
                                 <!-- END Wizard Step inputs -->
                             </div>
                         </form>
                     </div>
-                </div>
-                <div class="panel-footer text-center" >
-                    <button type="submit" ng-click="submit()" class="btn btn-info" >提交</button>
-                    <button type="submit" ng-click="cancel()" class="btn btn-info">取消</button>
                 </div>
             </div>
 

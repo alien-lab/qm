@@ -28,41 +28,10 @@
         </div>
         <div class="col-lg-12 col-md-12">
         <nav  aria-label="Page navigation" ng-if=(userArrays)>
-            <ul class="pagination" style="float: right" ng-if="pagnumbers.length<=5">
-                <li ><a ng-click="loadData(0,userArrays.size)">首页</a></li>
-                <li ng-if="!userArrays.first">
-                    <a  ng-click="loadData(userArrays.number-1,userArrays.size)" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li  ng-repeat="num in pagnumbers"><a ng-click="loadData(num-1,userArrays.size)">{{num}}</a></li>
-
-                <li ng-if="!userArrays.last">
-                    <a  ng-click="loadData(userArrays.number+1,userArrays.size)" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-                <li ><a ng-click="loadData(userArrays.totalPages-1,userArrays.size)">尾页</a></li>
-            </ul>
-            <ul class="pagination" style="float: right" ng-if="pagnumbers.length>5">
-                <li ><a ng-click="loadData(0,userArrays.size)">首页</a></li>
-                <li ng-if="!userArrays.first">
-                    <a  ng-click="loadData(userArrays.number-1,userArrays.size)" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li><a ng-click="loadData(0,userArrays.size)">1</a></li>
-                <li><a ng-click="loadData(1,userArrays.size)">2</a></li>
-                <li><a ng-click="loadData(2,userArrays.size)">3</a></li>
-                <li><a ng-click="loadData(3,userArrays.size)">4</a></li>
-                <li><a ng-click="loadData(4,userArrays.size)">5</a></li>
-                <li><a >...</a></li>
-                <li ng-if="!userArrays.last">
-                    <a  ng-click="loadData(userArrays.number+1,userArrays.size)" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-                <li ><a ng-click="loadData(userArrays.totalPages-1,userArrays.size)">尾页</a></li>
+            <ul class="pagination pagination-sm" style="float: right">
+                <li ng-disabled="studentArrays.first" ng-click="loadData(userArrays.number-1,userArrays.size)"><a href="javascript:void(0)">上一页</a></li>
+                <li><a href="javascript:void(0)">{{userArrays.number+1}}/{{userArrays.totalPages}}</a></li>
+                <li ng-disabled="studentArrays.last" ng-click="loadData(userArrays.number+1,userArrays.size)"><a href="javascript:void(0)">下一页</a></li>
             </ul>
         </nav>
         </div>

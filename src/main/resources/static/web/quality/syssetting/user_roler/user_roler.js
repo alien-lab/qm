@@ -51,11 +51,6 @@
     user_roler_module.controller("userRolerController",['$scope','$filter', '$http', '$q',"$uibModal","userService","userRolerResource",function($scope,$filter, $http,$q,$uibModal,userService,userRolerResource){
         function renderData(data){
             $scope.userArrays=data;
-            $scope.pagnumbers =[];
-            for(var i = 1; i<$scope.userArrays.totalPages+1;i++){
-                $scope.pagnumbers.push(i);
-            }
-
         }
         //获取用户列表
         $scope.loadData = function (index,length) {
