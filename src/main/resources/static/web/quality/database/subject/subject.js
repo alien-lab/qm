@@ -112,34 +112,59 @@
 
     courseMaintenance_module.controller("addcourseController",["$scope","$uibModalInstance","SweetAlert",function($scope,$uibModalInstance,SweetAlert){
 
+        //定义一个数组，用于装节次信息
         $scope.locations =[];
         function  ObjStory(section,location) //创建对象function
         {
             this.section = section;
             this.location= location;
         }
-        $scope.addplace =function (sectionString) {
-            SweetAlert.swal({
-                title: '请输入上课地点',
-               text: '当前选择的节次为  '+sectionString,
-                type: "input",
-                confirmButtonColor: '#DD6B55',
-                showCancelButton: true,
-                confirmButtonText: '确定',
-                closeOnCancel: true,
-                closeOnConfirm: false
-            },function (inputValue) {
-                if (inputValue === false) return false;
-                if (inputValue === "") {
-                    swal.showInputError("您还未输入上课地点!");
-                    return false;
-                }
-                swal("成功!", "您已经成功添加上课地点。");
-                var onelocation= new ObjStory(sectionString,inputValue);//声明对象
-                $scope.locations.push(onelocation);
-                console.log("push后");
-                console.log( $scope.locations);
-            });
+        $scope.addplace =function (sectionString,thischeck) {
+            if(thischeck==false){
+                SweetAlert.swal({
+                    title: '请输入上课地点',
+                    text: '当前选择的节次为  '+sectionString,
+                    type: "input",
+                    confirmButtonColor: '#DD6B55',
+                    showCancelButton: true,
+                    confirmButtonText: '确定',
+                    closeOnCancel: true,
+                    closeOnConfirm: false
+                },function (inputValue) {
+                    if (inputValue === false) return false;
+                    if (inputValue === "") {
+                        swal.showInputError("您还未输入上课地点!");
+                        return false;
+                    }
+                    swal("恭喜!", "您已经成功添加上课地点。");
+                    var onelocation= new ObjStory(sectionString,inputValue);//声明对象
+                    $scope.locations.push(onelocation);
+                    console.log("push后");
+                    console.log( $scope.locations);
+                    for(var i =0; i<$scope.locations.length;i++){
+                        var sec = $scope.locations[i].section;
+                        for(var j =0;j<$scope.sections.length;j++){
+                            for(var m = 0;m<8;m++){
+                                var thisname = $scope.sections[j].day[m].name;
+                                if (sec==thisname){
+                                    $scope.sections[j].day[m].checked = true;
+                                }
+                            }
+                        }
+                    }
+                });
+            }else {
+                SweetAlert.swal({
+                    title: '该节次信息已被添加',
+                    text: '若想进行修改，请先删除已添加的节次信息',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: '知道了!',
+                    closeOnConfirm: true
+                });
+            }
+
 
         }
         $scope.sections = [
@@ -172,8 +197,17 @@
         }
 
         //删除选中的上课节次信息
-        $scope.removesection = function (index) {
+        $scope.removesection = function (index,thissection) {
             $scope.locations.splice(index, 1);
+                for(var j =0;j<$scope.sections.length;j++){
+                    for(var m = 0;m<8;m++){
+                        var thisname = $scope.sections[j].day[m].name;
+                        if (thissection==thisname){
+                            $scope.sections[j].day[m].checked = false;
+                        }
+                    }
+                }
+
 
         }
 
