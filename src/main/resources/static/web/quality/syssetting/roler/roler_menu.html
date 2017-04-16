@@ -1,16 +1,21 @@
-<em ng-click="cancel()" style="float: right;font-size: 20px;" class="fa fa-close " ></em>
-<h3 style="margin-left: 20px">{{ModTitle}}</h3>
-
-
 <div class="row">
-    <div class="col-md-12">
-        <!-- START panel-->
-        <div class="panel " >
-            <div class="panel-body" ng-repeat="menus in checkedMenus" >
-                <h3 class="panel-title" style="padding-bottom: 20px;font-family:'微软雅黑'">{{menus.menuName}}</h3>
-                <button style="margin-left: 5px;"  ng-click="menu.checked = !menu.checked;oksubMenu(menu.menuId)"  ng-class="{true:'btn-warning',false:'btn-default'}[menu.checked]"  ng-repeat="menu in menus.childmenuEntity" type="button" class="mb-sm btn btn-default ">{{menu.menuName}}</button>
+    <div class="col-lg-12">
+        <div id="panelPortlet6" class="panel-info" >
+            <em ng-click="cancel()" style="float: right;font-size: 20px;" class="fa fa-close " ></em>
+            <div class="panel-heading portlet-handler">{{ModTitle}}</div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- START panel-->
+                    <div class="panel " >
+                        <div class="panel-body" ng-repeat="menus in checkedMenus" >
+                            <h3 class="panel-title" style="padding-bottom: 20px;font-family:'微软雅黑'">{{menus.menuName}}</h3>
+                            <button style="margin-left: 5px;"  ng-click="menu.checked = !menu.checked;oksubMenu(menu.menuId)"  ng-class="{true:'btn-warning',false:'btn-default'}[menu.checked]"  ng-repeat="menu in menus.childmenuEntity" type="button" class="mb-sm btn btn-default ">{{menu.menuName}}</button>
+                        </div>
+                    </div>
+                    <!-- END panel-->
+                </div>
             </div>
         </div>
-        <!-- END panel-->
+
     </div>
 </div>
