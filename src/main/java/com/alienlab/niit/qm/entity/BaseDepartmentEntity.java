@@ -10,15 +10,15 @@ import io.swagger.annotations.ApiModelProperty;
 @javax.persistence.Table(name = "base_department", schema = "qualitymonitor", catalog = "")
 public class BaseDepartmentEntity {
     @ApiModelProperty(value="部门编码")
-    private long depNo;
+    private String depNo;
 
     @javax.persistence.Id
     @javax.persistence.Column(name = "dep_no")
-    public long getDepNo() {
+    public String getDepNo() {
         return depNo;
     }
 
-    public void setDepNo(long depNo) {
+    public void setDepNo(String depNo) {
         this.depNo = depNo;
     }
 
@@ -94,7 +94,7 @@ public class BaseDepartmentEntity {
 
         BaseDepartmentEntity that = (BaseDepartmentEntity) o;
 
-        if (depNo != that.depNo) return false;
+        if (depNo != null ? !depNo.equals(that.depNo) : that.depNo != null) return false;
         if (depName != null ? !depName.equals(that.depName) : that.depName != null) return false;
         if (depType != null ? !depType.equals(that.depType) : that.depType != null) return false;
         if (depCddwNo != null ? !depCddwNo.equals(that.depCddwNo) : that.depCddwNo != null) return false;
@@ -104,7 +104,7 @@ public class BaseDepartmentEntity {
 
     @Override
     public int hashCode() {
-        int result = (int) (depNo ^ (depNo >>> 32));
+        int result = depNo != null ? depNo.hashCode() : 0;
         result = 31 * result + (depName != null ? depName.hashCode() : 0);
         result = 31 * result + (depType != null ? depType.hashCode() : 0);
         result = 31 * result + (depCddwNo != null ? depCddwNo.hashCode() : 0);

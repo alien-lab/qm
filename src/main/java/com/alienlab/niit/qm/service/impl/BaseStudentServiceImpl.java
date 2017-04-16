@@ -4,6 +4,8 @@ import com.alienlab.niit.qm.entity.BaseStudentEntity;
 import com.alienlab.niit.qm.repository.BaseStudentRepository;
 import com.alienlab.niit.qm.service.BaseStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +18,10 @@ public class BaseStudentServiceImpl implements BaseStudentService {
     @Override
     public BaseStudentEntity getStudentBystuNo(String stuNo) {
         return baseStudentRepository.findByStuNo(stuNo);
+    }
+
+    @Override
+    public Page<BaseStudentEntity> getStudentByClassNo(String className, Pageable page) {
+        return baseStudentRepository.findStudentByClassNo(className,page);
     }
 }

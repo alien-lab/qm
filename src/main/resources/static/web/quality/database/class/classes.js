@@ -16,25 +16,77 @@
 
     product_module.factory("classResource",["$resource",function($resource){
         var service = $resource('../qm-api/classes', {}, {
-            'getClassesBydepAndyear': { method: 'GET',isArray:true},
+            'getClassesBydepAndyear': { method: 'GET'},
             'getDepartment': { method: 'GET',isArray:true,url:"../qm-api/department"},//得到所有部门信息
-            'getMajorBymajorNo':{method:'GET',url:"../qm-api/major"},
-            'getTeacherByteachNo':{method:'GET',url:"../qm-api/teacher"},
-            'getStudentBystudentNo':{method:'GET',url:"../qm-api/student"},
-            'getDepartmentBydepNo':{method:"GET",url:"../qm-api/department/updateDepartment"},
-            'getClassesBykey':{method:"GET",isArray:true,url:"../qm-api/classes/getClassBykey"}
+            'getClassesBykey':{method:"GET",url:"../qm-api/classes/getClassBykey"},
+            'getStudentByClassName':{method:"POST",url:"../qm-api/student"}
         });
         return service;
     }]);
 
+    product_module.service("classService",["classResource",function(classResource){
+        this.getClassesBydepAndyear=function(depNo,classSessionYear,index,length,callback){
+            classResource.getClassesBydepAndyear({
+                depNo:depNo,
+                classSessionYear:classSessionYear,
+                index:index,
+                length:length
+            },function(result){
+                console.log(result);
+                if(callback){
+                    callback(result);
+                }
+            },function(result){
+                console.log("用户获取失败",result);
+            });
+        }
 
-    product_module.controller("classesController",["$scope","classesinstance","classResource","$uibModal",function($scope,classesinstance,classResource,$uibModal){
+        this.getClassesBykey=function(depNo,classSessionYear,key,index,length,callback){
+            classResource.getClassesBykey({
+                depNo:depNo,
+                classSessionYear:classSessionYear,
+                key:key,
+                index:index,
+                length:length
+            },function(result){
+                console.log(result);
+                if(callback){
+                    callback(result);
+                }
+            },function(result){
+                console.log("用户获取失败",result);
+            });
+        }
+
+        this.getStudentByClassName=function(className,index,length,callback){
+            classResource.getStudentByClassName({
+                className:className,
+                index:index,
+                length:length
+            },function(result){
+                console.log(result);
+                if(callback){
+                    callback(result);
+                }
+            },function(result){
+                console.log("用户获取失败",result);
+            });
+        }
+    }]);
+
+
+    product_module.controller("classesController",["$scope","$state","classService","classesinstance","classResource","$uibModal",function($scope,$state,classService,classesinstance,classResource,$uibModal){
         $scope.names = ["2016","2015","2014","2013","2012","2011","2010","2009"];
         $scope.pagetitle="班级学生维护";
-        $scope.teachers = []
-        $scope.majors=[]
-        $scope.students=[]
-        $scope.departmentss=[]
+
+        function renderData(data){
+            $scope.userArrays=data.content;
+            console.log($scope.userArrays);
+            $scope.pagnumbers =[];
+            for(var i = 1; i<$scope.userArrays.totalPages+1;i++){
+                $scope.pagnumbers.push(i);
+            }
+        }
         //查询部门简称
         classResource.getDepartment({}, function (result) {
             console.log(result);
@@ -81,204 +133,24 @@
                 console.log($scope.Year);
             }
 
-        /*$scope.searchClasses = searchClasses;
-        function searchClasses(classkey) {
-            $scope.key = classkey;
-            console.log($scope.key);
-        }*/
-
-
-        $scope.searchClasses=function searchClasses(classkey) {
-            $scope.teachers = [];
-            $scope.majors=[];
-            $scope.students=[];
-            $scope.departmentss=[];
+        $scope.searchClasses = function (classkey,index,length) {
             $scope.classkey=classkey;
-            if(classkey==null){
-                console.log($scope.Year);
-                console.log($scope.depNo);
-                classResource.getClassesBydepAndyear({
-                    depNo: $scope.depNo,
-                    classSessionYear: $scope.Year
-                }, function (result) {
-                    //console.log(result);
-                    $scope.classes = result;
-
-                    for (var n=0;n<$scope.classes.length;n++){
-                        classResource.getMajorBymajorNo({
-                            majorNo: $scope.classes[n].majorNo
-                        },function (result) {
-                           // console.log("专业");
-                           // console.log(result);
-                            $scope.majors.push(result);
-                            //$scope.majors=result;
-                        },function () {
-                            console.log("获取专业信息失败");
-                        });
-
-                        classResource.getTeacherByteachNo({
-                            teacherNo: $scope.classes[n].teacherNo
-                        },function (result) {
-                           // console.log("教师");
-                           // console.log(result);
-                            $scope.teachers.push(result);
-                        },function () {
-                            console.log("获取教师信息失败");
-                        });
-
-                        classResource.getStudentBystudentNo({
-                            stuNo: $scope.classes[n].stuNo
-                        },function (result) {
-                          //  console.log("学生");
-                          //  console.log(result);
-                            $scope.students.push(result);
-                            //$scope.students=result;
-                        },function () {
-                            console.log("获取学生信息失败");
-                        });
-
-                        classResource.getDepartmentBydepNo({
-                            id: $scope.classes[n].depNo
-                        },function (result) {
-                           // console.log("部门");
-                          //  console.log(result);
-                            $scope.departmentss.push(result);
-                            //$scope.students=result;
-                        },function () {
-                            console.log("获取学生信息失败");
-                        });
-                    }
-
-
-                }, function () {
-                    console.log("获取班级信息失败");
-                });
+            if (classkey==null){
+                classService.getClassesBydepAndyear($scope.depNo,$scope.Year,index,length,renderData);
             }else {
-                classResource.getClassesBykey({
-                    key:$scope.classkey
-                },function (result) {
-                    console.log($scope.classkey)
-                    $scope.classes = result;
-                    for (var n=0;n<$scope.classes.length;n++){
-                        classResource.getMajorBymajorNo({
-                            majorNo: $scope.classes[n].majorNo
-                        },function (result) {
-                          //  console.log("专业");
-                          //  console.log(result);
-                            $scope.majors.push(result);
-                            //$scope.majors=result;
-                        },function () {
-                            console.log("获取专业信息失败");
-                        });
-
-                        classResource.getTeacherByteachNo({
-                            teacherNo: $scope.classes[n].teacherNo
-                        },function (result) {
-                            //console.log("教师");
-                           // console.log(result);
-                            $scope.teachers.push(result);
-                        },function () {
-                            console.log("获取教师信息失败");
-                        });
-
-                        classResource.getStudentBystudentNo({
-                            stuNo: $scope.classes[n].stuNo
-                        },function (result) {
-                            //console.log("学生");
-                           // console.log(result);
-                            $scope.students.push(result);
-                            //$scope.students=result;
-                        },function () {
-                            console.log("获取学生信息失败");
-                        });
-
-                        classResource.getDepartmentBydepNo({
-                            id: $scope.classes[n].depNo
-                        },function (result) {
-                          //  console.log("部门");
-                          //  console.log(result);
-                            $scope.departmentss.push(result);
-                            //$scope.students=result;
-                        },function () {
-                            console.log("获取学生信息失败");
-                        });
-                    }
-                },function () {
-                    console.log("获取关键字失败");
-                });
+                classService.getClassesBykey($scope.depNo,$scope.Year,$scope.classkey,index,length,renderData)
             }
-
         }
 
-
-
-            /*$scope.searchbeforeClasses=function searchbeforeClasses() {
-                $scope.teachers = [];
-                $scope.majors=[];
-                $scope.students=[];
-                $scope.departments=[];
-                console.log($scope.Year);
-                console.log($scope.depNo);
-                classResource.getClassesBydepAndyear({
-                    depNo: $scope.depNo,
-                    classSessionYear: $scope.Year
-                }, function (result) {
-                    console.log(result);
-                    $scope.classes = result;
-
-                    for (var n=0;n<$scope.classes.length;n++){
-                        classResource.getMajorBymajorNo({
-                            majorNo: $scope.classes[n].majorNo
-                        },function (result) {
-                            console.log("专业");
-                            console.log(result);
-                            $scope.majors.push(result);
-                            //$scope.majors=result;
-                        },function () {
-                            console.log("获取专业信息失败");
-                        });
-
-                        classResource.getTeacherByteachNo({
-                            teacherNo: $scope.classes[n].teacherNo
-                        },function (result) {
-                            console.log("教师");
-                            console.log(result);
-                            $scope.teachers.push(result);
-                        },function () {
-                            console.log("获取教师信息失败");
-                        });
-
-                        classResource.getStudentBystudentNo({
-                            stuNo: $scope.classes[n].stuNo
-                        },function (result) {
-                            console.log("学生");
-                            console.log(result);
-                            $scope.students.push(result);
-                            //$scope.students=result;
-                        },function () {
-                            console.log("获取学生信息失败");
-                        });
-
-                        classResource.getDepartmentBydepNo({
-                            id: $scope.classes[n].depNo
-                        },function (result) {
-                            console.log("部门");
-                            console.log(result);
-                            $scope.departments.push(result);
-                            //$scope.students=result;
-                        },function () {
-                            console.log("获取学生信息失败");
-                        });
-                    }
-
-
-                }, function () {
-                    console.log("获取班级信息失败");
-                });
-        }*/
-
-
-
+        //根据班级名称查找学生
+        $scope.findStudentByClassName = showfindStudentByClassName;
+        function showfindStudentByClassName(className,index,length) {
+            $scope.className=className;
+            //classService.getStudentByClassName(className,index,length,renderData);
+            $state.go("qm.base_student",{
+                classNamee:className,
+            });
+        }
 
     }]);
 

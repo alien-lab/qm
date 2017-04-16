@@ -7,30 +7,30 @@
 <body>
 <h3>学生维护</h3>
 <div class="row">
-    <div ng-app="qm.base_student" class="col-md-9">
-            <select type="button" style="width:auto;float:right;" ng-controller="myCtrl3" class="form-control" data-toggle="dropdown"
-                    ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
-            </select>
-            <select type="button" style="width:auto;float:right;" ng-controller="myCtrl2" class="form-control" data-toggle="dropdown"
-                    ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
-            </select>
-            <select type="button" style="width:auto;float:right;" ng-controller="myCtrl1" class="form-control" data-toggle="dropdown"
-                    ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
-            </select>
-            <select type="button" style="width:auto;float:right;" ng-controller="myCtrl" class="form-control" data-toggle="dropdown"
-                    ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
-            </select>
-            <button style="width:auto;float:right;margin-right: 2px;" type="button" class="mb-sm btn btn-success">导出</button>&nbsp;
-            <button style="width:auto;float:right;margin-right: 2px;" type="button" class="mb-sm btn btn-success">导入</button>&nbsp;
-            <button style="width:auto;float:right;margin-right: 2px;" type="button" class="mb-sm btn btn-success">新增</button>&nbsp;
+    <div class="col-md-4">
+        <select type="button" style="width:auto;float:left;" ng-controller="subject1" class="form-control" data-toggle="dropdown"
+                ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+        </select>
     </div>
-    <div style="padding-left: 0px;" class="col-md-3">
+    <div class="col-md-3">
         <div style="width:auto;float:left;" class="input-group">
-            <input type="text" class="form-control" placeholder="搜索姓名">
+            <input type="text" class="form-control" placeholder="可输入学生姓名">
             <span class="input-group-btn">
-        <button class="btn btn-default" type="button">搜索</button>
+        <button class="btn btn-default" type="button" ng-click="searchClasses()">搜索</button>
         </span>
         </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+        <button style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-success">
+               <span class="btn-label"><i class="icon-login"></i>
+               </span>导入</button>
+        <button style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-success">
+               <span class="btn-label"><i class="icon-logout"></i>
+               </span>导出</button>
+        <button style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-info">
+               <span class="btn-label"><i class="fa fa-plus"></i>
+               </span>新增学生</button>
     </div>
 </div>
 <div>
@@ -45,13 +45,13 @@
             <td><b>状态</b></td>
             <td><b>操作</b></td>
         </tr>
-        <tr class="active">
-            <td>1402753120</td>
-            <td>汪小菲</td>
-            <td>18752002096</td>
-            <td>计算机与软件</td>
-            <td>2015级</td>
-            <td>软件1531</td>
+        <tr class="active" ng-repeat="student in studentcontent">
+            <td>{{student[0]}}</td>
+            <td>{{student[1]}}</td>
+            <td>{{student[2]}}</td>
+            <td>{{student[4]}}</td>
+            <td>{{student[7]}}</td>
+            <td>{{student[5]}}</td>
             <td>
                 <label style="float:left" class="switch switch-lg">
                     <input ng-model="swing" type="checkbox" checked="checked" ng-init="swing = true" />
@@ -66,49 +66,12 @@
                </button>
             </td>
         </tr>
-
-        <tr class="active">
-            <td>1402753120</td>
-            <td>汪小菲</td>
-            <td>18752002096</td>
-            <td>计算机与软件</td>
-            <td>2015级</td>
-            <td>软件1531</td>
-            <td>
-                <label style="float:left" class="switch switch-lg">
-                    <input ng-model="swing1" type="checkbox" checked="checked" ng-init="swing1 = true" />
-                    <span></span>
-                </label>
-                <span ng-if="swing1" style="padding-left:10px;float:left;color: lawngreen;">启用</span>
-                <span ng-if="!swing1" style="padding-left:10px;float:left;color: red">禁用</span>
-            </td>
-            <td>
-                <button type="button" class="btn btn-sm btn-warning">
-                    <em class="fa fa-edit"></em>
-                </button>
-            </td>
-        </tr><tr class="active">
-        <td>1402753120</td>
-        <td>汪小菲</td>
-        <td>18752002096</td>
-        <td>计算机与软件</td>
-        <td>2015级</td>
-        <td>软件1531</td>
-        <td>
-            <label style="float:left" class="switch switch-lg">
-                <input ng-model="swing2" type="checkbox" checked="checked" ng-init="swing2 = true" />
-                <span></span>
-            </label>
-            <span ng-if="swing2" style="padding-left:10px;float:left;color: lawngreen;">启用</span>
-            <span ng-if="!swing2" style="padding-left:10px;float:left;color: red">禁用</span>
-        </td>
-        <td>
-            <button type="button" class="btn btn-sm btn-warning">
-                <em class="fa fa-edit"></em>
-            </button>
-        </td>
-    </tr>
     </table>
+    <ul class="pagination pagination-sm">
+        <li ng-disabled="studentArrays.first" ng-click="loadData(studentArrays.number-1,studentArrays.size)"><a href="javascript:void(0)">上一页</a></li>
+        <li><a href="javascript:void(0)">{{studentArrays.number+1}}/{{studentArrays.totalPages}}</a></li>
+        <li ng-disabled="studentArrays.last" ng-click="loadData(studentArrays.number+1,studentArrays.size)"><a href="javascript:void(0)">下一页</a></li>
+    </ul>
 </div>
 </body>
 

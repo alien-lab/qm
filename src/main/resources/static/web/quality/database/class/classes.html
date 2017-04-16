@@ -9,22 +9,12 @@
         <select style="width:auto;float:left;" class="form-control" data-toggle="dropdown" ng-model="depNo" ng-change="classdepNoChanged(depNo)">
             <option ng-repeat="department in departments" value="{{department.depNo}}">{{department.depName}}</option>
         </select>&nbsp;
-        <!--<span class="btn-label btn-info" style="margin-left:5px;margin-top:1px;">
-            <i class="icon-control-forward" ng-click="searchbeforeClasses()"></i>
-        </span>-->
-        <!--<select class="form-control premiseOption" ng-model="premiseName" ng-change="premiseChanged(premi seName)">
-            <option ng-repeat="premise in allPremise" value="{{premise.premiseName}}">{{premise.premiseName}}</option>
-        </select>-->
-        <!--<select type="button" style="width:auto;float:left;" ng-controller="myCtrl" class="form-control" data-toggle="dropdown"
-                ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
-        </select>-->
-
     </div>
     <div class="col-md-3">
         <div style="width:auto;float:left;" class="input-group">
             <input type="text" class="form-control" placeholder="班级名称" ng-model="classkey">
             <span class="input-group-btn">
-        <button class="btn btn-default" type="button" ng-click="searchClasses(classkey)">搜索</button>
+        <button class="btn btn-default" type="button" ng-click="searchClasses(classkey,0,20)">搜索</button>
         </span>
         </div>
     </div>
@@ -43,16 +33,16 @@
             <td><b>部门</b></td>
             <td><b>操作</b></td>
         </tr>
-        <tr class="active" ng-repeat="class in classes">
-            <td ng-click="">{{class.className}}</td>
-            <td>{{class.classStuAmount}}</td>
-            <td>{{teachers[$index].teacherName}}</td>
-            <td>{{students[$index].stuName}}</td>
+        <tr class="active" ng-repeat="class in userArrays">
+            <td ng-click="findStudentByClassName(class[1],0,11)">{{class[1]}}</td>
+            <td>{{class[0]}}</td>
+            <td>{{class[4]}}</td>
+            <td>{{class[5]}}</td>
             <td>
-                {{class.classIsover==1?'是':'否'}}
+                {{class[6]==1?'是':'否'}}
             </td>
-            <td>{{majors[$index].majorName}}</td>
-            <td>{{departmentss[$index].depName}}</td>
+            <td>{{class[3]}}</td>
+            <td>{{class[2]}}</td>
             <td>
                 <button type="button" class="btn btn-sm btn-warning">
                     <em class="fa fa-edit"></em>

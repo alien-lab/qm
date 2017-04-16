@@ -98,7 +98,7 @@
   },
   {
     "text": "基础数据",
-    "sref": "#",
+    "sref": "qm.base_student",
     "icon": "icon-folder",
     "submenu": [
       {"text": "部门维护",       "sref": "qm.base_department"},
