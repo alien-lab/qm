@@ -2,6 +2,8 @@ package com.alienlab.niit.qm.service;
 
 import com.alienlab.niit.qm.entity.BaseClassesEntity;
 import com.alienlab.niit.qm.entity.BaseDepartmentEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -11,7 +13,11 @@ import java.util.List;
 public interface BaseClassesService {
     public List<BaseClassesEntity> getBaseClassesBydepNo(String depNo);
 
-    public List<BaseClassesEntity> getBaseClassesByYear(String classSessionYear);
+    public Page<BaseClassesEntity> findBaseClassesByDepNoAndClassYear(String depNo, String classSessionYear, Pageable page);
 
     public List<BaseClassesEntity> getBaseClassesByClassNameLike(String key);
+
+    public Page<BaseClassesEntity> getBaseClassesByDepNoAndClassYearAndKey(String depNo,String classSessionYear,String key,Pageable page);
+
+
 }

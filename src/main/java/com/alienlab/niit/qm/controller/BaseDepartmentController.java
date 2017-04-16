@@ -35,7 +35,7 @@ public class BaseDepartmentController {
 
     @ApiOperation(value="获取单个内容")
     @GetMapping(value = "/department/updateDepartment")
-    public ResponseEntity updateDepartment(@RequestParam long id,HttpServletRequest request) throws IOException {
+    public ResponseEntity updateDepartment(@RequestParam String id,HttpServletRequest request) throws IOException {
        /* String jsonBody=IOUtils.toString(request.getInputStream(),"UTF-8");
         JSONObject form=JSONObject.parseObject(jsonBody);
         Long depSort = form.getLong("depSort");*/
@@ -51,7 +51,7 @@ public class BaseDepartmentController {
 
     @ApiOperation(value="保存部门内容")
     @PostMapping(value = "/department")
-    public ResponseEntity saveDepartment(@RequestParam Long depNo,@RequestParam String depName,@RequestParam String depCddwNo,
+    public ResponseEntity saveDepartment(@RequestParam String depNo,@RequestParam String depName,@RequestParam String depCddwNo,
                                          @RequestParam String depType,@RequestParam Integer depSort,@RequestParam String depAbbreviation){
         BaseDepartmentEntity departmentEntity =baseDepartmentService.getBaseDepartmentById(depNo);
         if(departmentEntity != null){
@@ -72,7 +72,7 @@ public class BaseDepartmentController {
 
     @ApiOperation(value="增加部门内容")
     @PostMapping(value = "/department/addDepartment")
-    public ResponseEntity addDepartment(@RequestParam Long depNo,@RequestParam String depName,@RequestParam String depCddwNo,
+    public ResponseEntity addDepartment(@RequestParam String depNo,@RequestParam String depName,@RequestParam String depCddwNo,
                                          @RequestParam String depType,@RequestParam Integer depSort,@RequestParam String depAbbreviation){
             BaseDepartmentEntity departmentEntity = new BaseDepartmentEntity();
             departmentEntity.setDepNo(depNo);
@@ -92,7 +92,7 @@ public class BaseDepartmentController {
 
     @ApiOperation(value="删除部门内容")
     @DeleteMapping(value = "/department")
-    public ResponseEntity deleteDepartment(@RequestParam Long dep_no){
+    public ResponseEntity deleteDepartment(@RequestParam String dep_no){
         boolean flag= false;
         flag = baseDepartmentService.deleteDepartment(dep_no);
         if (flag==true){
