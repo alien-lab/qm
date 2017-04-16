@@ -431,8 +431,6 @@
                                 expires: new Date(new Date().getTime() + 60000)
                             });
                        var favoriteCookie = $cookieStore.get('user').account;
-                        console.log("cook"+favoriteCookie);
-
                 },function(result){
                     $scope.login = result.data;
                     console.log(result);

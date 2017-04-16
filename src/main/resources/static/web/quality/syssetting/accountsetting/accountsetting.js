@@ -23,13 +23,13 @@
     }]);
 
     //用户密码修改的controller
-    accountset_module.controller("AccountsetController",["$scope","updatepwdResource",function($scope,updatepwdResource){
+    accountset_module.controller("AccountsetController",["$scope","updatepwdResource","SweetAlert",function($scope,updatepwdResource,SweetAlert){
         $scope.updatepwd = function () {
             updatepwdResource.updateuserPwd({
                 oldpwd:$scope.password,
                 newpwd:$scope.password2
             },function(result){
-                console.log(result)
+                SweetAlert.swal('恭喜您', '密码修改成功！', 'success');
             },function(result){
                 $scope.update = result.data;
                 console.log("用户原密码输入错误");
