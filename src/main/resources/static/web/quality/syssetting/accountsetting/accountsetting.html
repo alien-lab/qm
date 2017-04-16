@@ -1,0 +1,42 @@
+<style>
+    .panel-default{
+        font-family: "微软雅黑";
+    }
+</style>
+<h3>用户密码修改</h3>
+<div class="row">
+    <div class="col-lg-12 col-xs-12 col-sm-12" >
+        <form name="updatepwdForm" novalidate="" class="form-validate">
+            <!-- START panel-->
+            <div class=" panel-default" style="text-align: center">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">
+                            <input type="password" placeholder="请输入原密码" name="password" required="" ng-model="password" class="form-control" />
+                            <span ng-show="updatepwdForm.password.$dirty &amp;&amp; updatepwdForm.password.$error.required" class="text-danger">原密码未填写</span>
+                            <div ng-if="update.errormsg!=null&&update.errormsg!=''" class="alert alert-danger text-center">{{update.errormsg}}</div>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">
+                        <input id="id-password" placeholder="请输入新密码" type="password" name="password1" ng-model="password1" class="form-control" />
+                            <span ng-show="updatepwdForm.password1.$dirty &amp;&amp; registerForm.email.$error.required" class="text-danger">请输入新密码</span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">
+                            <input type="password"placeholder="再输入一次" name="confirm_match" required="" ng-model="password2" ui-validate="'$value==password1'" ui-validate-watch="'password1'" class="form-control" />
+                            <span ng-show="updatepwdForm.confirm_match.$dirty &amp;&amp; updatepwdForm.confirm_match.$error.validator" class="text-danger">两次密码不一致</span>
+                        </label>
+                    </div>
+
+                </div>
+                <div >
+                    <button ng-click="updatepwd()" class="btn btn-success">修改密码</button>
+
+                </div>
+            </div>
+            <!-- END panel-->
+        </form>
+    </div>
+</div>

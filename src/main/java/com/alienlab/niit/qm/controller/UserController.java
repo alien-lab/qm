@@ -1,17 +1,12 @@
 package com.alienlab.niit.qm.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alienlab.niit.qm.common.Azdg;
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.TbUserEntity;
 import com.alienlab.niit.qm.repository.UserRepository;
 import com.alienlab.niit.qm.service.UserService;
 import io.swagger.annotations.*;
-import io.swagger.models.Response;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -19,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -93,6 +87,38 @@ public class UserController {
         }catch(Exception ex){
             ex.printStackTrace();
             ExecResult er= new ExecResult(false,"登录发生异常");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    //用户登录
+    @ApiOperation(value="用户密码修改")
+    @PostMapping(value = "/user/updatepwd")
+    public ResponseEntity updatePwd(@RequestParam String oldpwd, @RequestParam String newpwd,HttpServletRequest request){
+        try{
+            Azdg a=new Azdg();
+            String pwd= a.encrypt(oldpwd);
+            TbUserEntity user= (TbUserEntity)request.getSession().getAttribute("user");
+            if(user==null){
+                ExecResult er= new ExecResult(false,"用户未登录或者登录超时");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+
+            }else{
+                if(user.getUserPwd().equals(pwd)){//密码匹配成功
+                    String newpassword= a.encrypt(newpwd);
+                    user.setUserPwd(newpassword);
+                    //更新user
+                    TbUserEntity tbUserEntity = userService.updateUser(user);
+                    request.getSession().setAttribute("user",tbUserEntity);//当前用户进入session
+                    return ResponseEntity.ok().body(user);
+                }else{
+                    ExecResult er=  new ExecResult(false,"用户原密码错误");
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+                }
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+            ExecResult er= new ExecResult(false,"发生异常");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
