@@ -9,27 +9,27 @@
 <div class="row">
 <div class="col-md-4">
 
-    <select type="button" style="width:auto;float:left;" ng-controller="transition" class="form-control" data-toggle="dropdown"
-            ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+    <select type="button" style="width:auto;float:left;" class="form-control" data-toggle="dropdown"
+            ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names" ng-change="typeChange(selectedName)">
     </select>
-    <select type="button" style="width:auto;float:left;" ng-controller="transition1" class="form-control" data-toggle="dropdown"
-            ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+    <select style="width:auto;float:left;" class="form-control" data-toggle="dropdown" ng-model="depNo" ng-change="teacherdepNoChanged(depNo)">
+        <option ng-repeat="department in departments" value="{{department.depNo}}">{{department.depName}}</option>
     </select>
 
 </div>
 <div class="col-md-3">
     <div style="width:auto;float:left;" class="input-group">
-        <input type="text" class="form-control" placeholder="教工名称">
+        <input type="text" class="form-control" placeholder="教工名称" ng-model="teacherkey">
         <span class="input-group-btn">
-        <button class="btn btn-default" type="button" ng-click="searchClasses()">搜索</button>
+        <button class="btn btn-default" type="button" ng-click="searchTeacher(teacherkey,0,20)">搜索</button>
         </span>
     </div>
 </div>
     <div class="col-md-2"></div>
 <div class="col-md-3">
-    <button ng-click="addTeacher()" style="width:auto;float:right;margin-right: 2px;" type="button" class="mb-sm btn btn-info">
-        <span class="btn-label"><i class="fa fa-plus"></i></span> 新增教工
-    </button>&nbsp;
+    <button ng-click="addTeacher()" style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-info">
+               <span class="btn-label"><i class="fa fa-plus"></i>
+               </span>新增课程</button>&nbsp;
 </div>
 </div>
 
@@ -43,91 +43,21 @@
         <td><b>状态</b></td>
         <td><b>操作</b></td>
     </tr>
-    <tr class="active">
-        <td>软件1431</td>
-        <td>23</td>
-        <td>杨静丽</td>
-        <td>谢继刚</td>
+    <tr class="active" ng-repeat="teacher in teachercontent">
+        <td>{{teacher[0]}}</td>
+        <td>{{teacher[1]}}</td>
+        <td>{{teacher[2]}}</td>
+        <td>{{teacher[3]}}</td>
+        <td>{{teacher[4]}}</td>
+        <!--<td>{{teacher[5]}}</td>-->
         <td>
-            否
+            <label style="float:left" class="switch switch-lg">
+                <input ng-model="swing" type="checkbox" checked="checked" ng-init="swing = true" />
+                <span></span>
+            </label>
+            <span ng-if="swing" style="padding-left:10px;float:left;color: lawngreen;">启用</span>
+            <span ng-if="!swing" style="padding-left:10px;float:left;color: red">禁用</span>
         </td>
-        <td>计算机与软件</td>
-        <td>
-            <button type="button" class="btn btn-sm btn-warning">
-                <em class="fa fa-edit"></em>
-            </button>
-        </td>
-    </tr>
-
-    <tr class="active">
-        <td>软件1431</td>
-        <td>23</td>
-        <td>杨静丽</td>
-        <td>谢继刚</td>
-        <td>
-            否
-        </td>
-        <td>计算机与软件</td>
-        <td>
-            <button type="button" class="btn btn-sm btn-warning">
-                <em class="fa fa-edit"></em>
-            </button>
-        </td>
-    </tr>
-    <tr class="active">
-        <td>软件1431</td>
-        <td>23</td>
-        <td>杨静丽</td>
-        <td>谢继刚</td>
-        <td>
-            否
-        </td>
-        <td>计算机与软件</td>
-        <td>
-            <button type="button" class="btn btn-sm btn-warning">
-                <em class="fa fa-edit"></em>
-            </button>
-        </td>
-    </tr>
-    <tr class="active">
-        <td>软件1431</td>
-        <td>23</td>
-        <td>杨静丽</td>
-        <td>谢继刚</td>
-        <td>
-            否
-        </td>
-        <td>计算机与软件</td>
-        <td>
-            <button type="button" class="btn btn-sm btn-warning">
-                <em class="fa fa-edit"></em>
-            </button>
-        </td>
-    </tr>
-    <tr class="active">
-        <td>软件1431</td>
-        <td>23</td>
-        <td>杨静丽</td>
-        <td>谢继刚</td>
-        <td>
-            否
-        </td>
-        <td>计算机与软件</td>
-        <td>
-            <button type="button" class="btn btn-sm btn-warning">
-                <em class="fa fa-edit"></em>
-            </button>
-        </td>
-    </tr>
-    <tr class="active">
-        <td>软件1431</td>
-        <td>23</td>
-        <td>杨静丽</td>
-        <td>谢继刚</td>
-        <td>
-            否
-        </td>
-        <td>计算机与软件</td>
         <td>
             <button type="button" class="btn btn-sm btn-warning">
                 <em class="fa fa-edit"></em>
@@ -135,5 +65,10 @@
         </td>
     </tr>
 </table>
+<ul class="pagination pagination-sm">
+    <li ng-disabled="teacherArrays.first" ng-click="loadData(teacherArrays.number-1,teacherArrays.size)"><a href="javascript:void(0)">上一页</a></li>
+    <li><a href="javascript:void(0)">{{teacherArrays.number+1}}/{{teacherArrays.totalPages}}</a></li>
+    <li ng-disabled="studentArrays.last" ng-click="loadData(teacherArrays.number+1,teacherArrays.size)"><a href="javascript:void(0)">下一页</a></li>
+</ul>
 </body>
 </html>

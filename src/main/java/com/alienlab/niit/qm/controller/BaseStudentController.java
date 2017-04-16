@@ -48,4 +48,28 @@ public class BaseStudentController{
         }
     }
 
+    @ApiOperation(value = "根据班级和学年查学生信息")
+    @PostMapping(value = "/student/findStudentByClassNameAndTermNo")
+    public ResponseEntity findStudentByClassNameAndTermNo(@RequestParam String className,@RequestParam String termNo,@RequestParam int index,@RequestParam int length){
+        if (className!=null){
+            Page<BaseStudentEntity> baseClassesEntities = baseStudentService.getStudentByClassNameAndTermNo(className,termNo, new PageRequest(index,length));
+            return ResponseEntity.ok().body(baseClassesEntities);
+        }else {
+            ExecResult er = new ExecResult(false, "未获取部门信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value = "根据姓名查学生信息")
+    @GetMapping(value = "/student/findStudentByClassNameAndTermNoAndstuName")
+    public ResponseEntity findStudentByClassNameAndTermNoAndStuName(@RequestParam String className,@RequestParam String termNo,@RequestParam String stuName,@RequestParam int index,@RequestParam int length){
+        if (className!=null){
+            Page<BaseStudentEntity> baseClassesEntities = baseStudentService.getStudentByClassNameAndTermNoAndStuName(className,termNo,stuName,new PageRequest(index,length));
+            return ResponseEntity.ok().body(baseClassesEntities);
+        }else {
+            ExecResult er = new ExecResult(false, "未获取部门信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
 }

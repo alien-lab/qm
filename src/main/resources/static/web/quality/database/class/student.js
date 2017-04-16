@@ -15,7 +15,10 @@
 
     product_module.factory("studentResource",["$resource",function($resource){
         var service = $resource('../qm-api/student', {}, {
-            'getStudentByClassName':{method:"POST"}
+            'getTerm':{method:"GET",url:"../qm-api/term",isArray:true},
+            'getStudentByClassName':{method:"POST"},
+            'getStudentByClassNameAndtermNo':{method:"POST",url:"../qm-api/student/findStudentByClassNameAndTermNo"},
+            'getStudentByClassNameAndTermNoAndstuName':{method:"GET",url:"../qm-api/student/findStudentByClassNameAndTermNoAndstuName"}
         });
         return service;
     }]);
@@ -35,13 +38,53 @@
                 console.log("用户获取失败",result);
             });
         }
+
+        this.findStudentByClassNameAndtermNo=function(className,termNo,index,length,callback){
+            studentResource.getStudentByClassNameAndtermNo({
+                className:className,
+                termNo:termNo,
+                index:index,
+                length:length
+            },function(result){
+                console.log(result);
+                if(callback){
+                    callback(result);
+                }
+            },function(result){
+                console.log("用户获取失败",result);
+            });
+        }
+
+        this.findStudentByClassNameAndTermNoAndstuName=function(className,termNo,stuName,index,length,callback){
+            studentResource.getStudentByClassNameAndTermNoAndstuName({
+                className:className,
+                termNo:termNo,
+                stuName:stuName,
+                index:index,
+                length:length
+            },function(result){
+                console.log(result);
+                if(callback){
+                    callback(result);
+                }
+            },function(result){
+                console.log("用户获取失败",result);
+            });
+        }
     }]);
 
-    product_module.controller("studentController",["$stateParams","studentService","$scope",function($stateParams,studentService,$scope){
+    product_module.controller("studentController",["$stateParams","studentResource","studentService","$scope",function($stateParams,studentResource,studentService,$scope){
         var className = $stateParams.classNamee;
         var index = 0;
         var length = 10;
         console.log(className);
+
+        studentResource.getTerm({}, function (result) {
+            console.log(result);
+            $scope.terms = result;
+        }, function () {
+            console.log("获取部门信息失败");
+        });
 
         function renderData(data){
             $scope.studentcontent=data.content;
@@ -58,6 +101,26 @@
 
         studentService.findStudentByClassName($stateParams.classNamee,index,length,renderData);
 
+
+        $scope.termNoChanged = termNoChanged;
+        function termNoChanged(termNo) {
+            $scope.termNo = termNo;
+            //console.log($scope.termNo);
+            studentService.findStudentByClassNameAndtermNo($stateParams.classNamee,$scope.termNo,index,length,renderData);
+        }
+
+
+        $scope.searchStudentByName = function (stukey) {
+            $scope.stukey=stukey;
+            console.log($scope.stukey);
+            console.log($scope.termNo);
+            console.log($stateParams.classNamee);
+            if (stukey==null){
+                studentService.findStudentByClassNameAndtermNo($stateParams.classNamee,$scope.termNo,index,length,renderData);
+            }else {
+                studentService.findStudentByClassNameAndTermNoAndstuName($stateParams.classNamee,$scope.termNo,$scope.stukey,index,length,renderData);
+            }
+        }
 
 
     }]);

@@ -7,21 +7,21 @@
 <body>
 <h3>学生维护</h3>
 <div class="row">
-    <div class="col-md-4">
-        <select type="button" style="width:auto;float:left;" ng-controller="subject1" class="form-control" data-toggle="dropdown"
-                ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+    <div class="col-md-2">
+        <select style="width:auto;float:left;" class="form-control" data-toggle="dropdown" ng-model="termNo" ng-change="termNoChanged(termNo)">
+            <option ng-repeat="term in terms" value="{{term.termNo}}">{{term.termPrintName}}</option>
         </select>
     </div>
     <div class="col-md-3">
         <div style="width:auto;float:left;" class="input-group">
-            <input type="text" class="form-control" placeholder="可输入学生姓名">
+            <input type="text" class="form-control" placeholder="可输入学生姓名" ng-model="stukey">
             <span class="input-group-btn">
-        <button class="btn btn-default" type="button" ng-click="searchClasses()">搜索</button>
+        <button class="btn btn-default" type="button" ng-click="searchStudentByName(stukey)">搜索</button>
         </span>
         </div>
     </div>
     <div class="col-md-1"></div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <button style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-success">
                <span class="btn-label"><i class="icon-login"></i>
                </span>导入</button>

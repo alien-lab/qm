@@ -33,5 +33,5 @@ public interface BaseClassesRepository extends JpaRepository<BaseClassesEntity,L
             "com.alienlab.niit.qm.entity.BaseTeacherEntity d,com.alienlab.niit.qm.entity.BaseStudentEntity e " +
             "WHERE a.classSessionYear = ?2 AND a.depNo=?1 AND b.depNo=a.depNo " +
             "AND c.majorNo=a.majorNo AND d.teacherNo=a.teacherNo AND e.stuNo=a.stuNo AND a.className like CONCAT('%',?3,'%')")
-    public Page<BaseClassesEntity> findBaseClassesByDepNoAndClassYearAndKey(String depNo,String classSessionYear,String key,Pageable page);
+    public Page<BaseClassesEntity> findBaseClassesByDepNoAndClassYearAndKey(String depNo,String classSessionYear,String stuName,Pageable page);
 }
