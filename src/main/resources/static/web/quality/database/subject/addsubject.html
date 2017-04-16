@@ -291,7 +291,7 @@
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                <tr  ng-repeat="section in sections">
+                                                                <tr  ng-repeat="section in sections" >
                                                                     <td ng-repeat="secone in section.day" ng-click="addplace(secone.name)">
                                                                        <span data-ng-if="secone.mian==true">{{secone.name}}</span>
                                                                         <span data-ng-if="secone.checked==true"><em class="fa fa-check"></em></span>
@@ -300,12 +300,15 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
-
                                                 </div>
-
+                                                <div class="col-md-12">
+                                                    <label>已选授课节次</label>
+                                                    <div class="col-md-12">
+                                                        <span ng-repeat="onelocation in locations" class="label label-success"  style="font-size: 15px;margin: 5px;display: inline-block;font-family: '微软雅黑'">{{onelocation.section}}--{{onelocation.location}} <em ng-click="removesection($index)" class="fa fa-close" ></em></span>
+                                                    </div>
                                         </div>
                                             <p style="text-align: center">
-                                                <button style="font-size: 15px;" type="button" class="btn btn-success btn-lg">提交课程<em class="fa fa-check"></em></button>
+                                                <button ng-click="submitCourse()" style="font-size: 15px;" type="button" class="btn btn-info btn-lg">提交课程</button>
                                             </p>
                                         </div>
                                         <!-- END row -->

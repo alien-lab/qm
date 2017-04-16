@@ -112,20 +112,35 @@
 
     courseMaintenance_module.controller("addcourseController",["$scope","$uibModalInstance","SweetAlert",function($scope,$uibModalInstance,SweetAlert){
 
+        $scope.locations =[];
+        function  ObjStory(section,location) //创建对象function
+        {
+            this.section = section;
+            this.location= location;
+        }
         $scope.addplace =function (sectionString) {
             SweetAlert.swal({
                 title: '请输入上课地点',
-                text: '当前选择的节次为  '+sectionString,
+               text: '当前选择的节次为  '+sectionString,
                 type: "input",
                 confirmButtonColor: '#DD6B55',
+                showCancelButton: true,
                 confirmButtonText: '确定',
-                closeOnCancel: false
-            },function () {
-            /*  var m = angular.element('fieldset').find('input').val();
-                console.log(m);*/
-                
+                closeOnCancel: true,
+                closeOnConfirm: false
+            },function (inputValue) {
+                if (inputValue === false) return false;
+                if (inputValue === "") {
+                    swal.showInputError("您还未输入上课地点!");
+                    return false;
+                }
+                swal("成功!", "您已经成功添加上课地点。");
+                var onelocation= new ObjStory(sectionString,inputValue);//声明对象
+                $scope.locations.push(onelocation);
+                console.log("push后");
+                console.log( $scope.locations);
             });
-            console.log(sectionString);
+
         }
         $scope.sections = [
             {
@@ -151,11 +166,20 @@
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');
         }
-        //删除选择的标签
+        //删除选择的教师标签
         $scope.removeteacher = function (index) {
             $scope.teachers.splice(index, 1);
         }
 
+        //删除选中的上课节次信息
+        $scope.removesection = function (index) {
+            $scope.locations.splice(index, 1);
+
+        }
+
+        $scope.submitCourse = function () {
+
+        }
 
 
 
