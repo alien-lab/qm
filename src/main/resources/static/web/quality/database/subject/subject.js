@@ -4,6 +4,7 @@
 (function(){
     'use strict';
     var courseMaintenance_module=angular.module("qm.base_subject",['ui.router']);
+    courseMaintenance_module.factory("courseinstance",function(){return {}});
     courseMaintenance_module.config(["$stateProvider",function ($stateProvider) {
         $stateProvider.state('qm.base_subject',{
             url:'/database/subject',
@@ -109,15 +110,89 @@
 
 
     }]);
+    courseMaintenance_module.factory("subgetclassResource",["$resource",function($resource){
+        var service = $resource('../qm-api/classes/page', {}, {
+            getsubClasses: { method: 'GET'},
+        });
+        return service;
 
-    courseMaintenance_module.controller("addcourseController",["$scope","$uibModalInstance","SweetAlert",function($scope,$uibModalInstance,SweetAlert){
+    }]);
 
-        //定义一个数组，用于装节次信息
+    courseMaintenance_module.service("subgetclassService",["subgetclassResource",function(subgetclassResource){
+        this.getClasses=function(keyword,index,length,callback){
+            subgetclassResource.getsubClasses({
+                keyword:keyword,
+                index:index,
+                length:length
+            },function(result){
+                if(callback){
+                    callback(result);
+                }
+            },function(result){
+                console.log("班级列表获取失败",result);
+            });
+        }
+    }]);
+
+    courseMaintenance_module.controller("addcourseController",["$scope","$uibModalInstance","SweetAlert","userService","courseinstance","subgetclassService",function($scope,$uibModalInstance,SweetAlert,userService,courseinstance,subgetclassService){
+
+
+        //定义一个数组，用于装载节次信息
         $scope.locations =[];
+        //定义一个数组，用于授课教师信息
+        $scope.teachers = [];
+        //定义一个数组，用于授课班级信息
+        $scope.classes = [];
+
+        //定义一个String，用于存放班级代码
+        $scope.checkedclass="";
+
+        //定义一个String，用于存放班级代码
+        $scope.checkedsections="";
+
+
+        //定义一个数组，用于承担部门信息
+        $scope.depatments = [
+            {id: 140001, name: '计算机与软件学院'},
+            {id: 140002, name: '学工处'},
+            {id: 145510, name: '商务贸易学院'},
+            {id: 150023, name: '能源与电气学院'},
+            {id: 130045, name: '艺术设计学院'},
+            {id: 120001, name: '经济管理学院'}
+        ];
+
+        //定义一个数组，用于课程类型（3公选课、1讲授课、2实训课）
+        $scope.courseTypes = [
+            {id: 1, name: '讲授课'},
+            {id: 2, name: '实训课'},
+            {id: 3, name: '公选课'}
+        ];
+
+        //定义一个数组，用于课程学期（3公选课、1讲授课、2实训课）
+        $scope.courseTerms = [
+            {termNo: 20150, termName: '2015学年第一学期'},
+            {termNo: 20151, termName: '2015学年第二学期'},
+            {termNo: 20160, termName: '2016学年第一学期'},
+            {termNo: 20161, termName: '2016学年第二学期'},
+            {termNo: 20170, termName: '2017学年第一学期'}
+        ];
+
+
         function  ObjStory(section,location) //创建对象function
         {
             this.section = section;
             this.location= location;
+        }
+        function  teacherObjStory(username,loginname) //创建对象function
+        {
+            this.userName = username;
+            this.userLoginname= loginname;
+        }
+
+        function  classObjStory(classname,classnumber) //创建对象function
+        {
+            this.className = classname;
+            this.classNo= classnumber;
         }
         $scope.addplace =function (sectionString,thischeck) {
             if(thischeck==false){
@@ -180,20 +255,93 @@
                 day:[{name:'9-10节',mian:true},{name:'周一：9-10节',checked:false},{name:'周二：9-10节',checked:false},{name:'周三：9-10节',checked:false},{name:'周四：9-10节',checked:false},{name:'周五：9-10节',checked:false},{name:'周六：9-10节',checked:false},{name:'周日：9-10节',checked:false}]},
         ];
 
-        $scope.teachers = [
-            {id: 1, name: 'awesome user1'},
-            {id: 2, name: 'awesome user2'},
-            {id: 3, name: 'awesome user3'},
-            {id: 4, name: 'awesome user1'},
-            {id: 5, name: 'awesome user2'},
-            {id: 6, name: 'awesome user3'}
-        ];
+
+        function renderteacherData(data){
+            $scope.teaArrays=data;
+            console.log($scope.teaArrays);
+        }
+        //搜索教师信息
+        $scope.loadteacherData = function (index,length) {
+            if($scope.teachers.length!=0){
+                SweetAlert.swal({
+                    title: '您已经选择一名授课教师',
+                    text: '若想进行修改，请先删除已添加的教师',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: '知道了!',
+                    closeOnConfirm: true
+                });
+            }else {
+                userService.getUsers($scope.teacherString,index,length,renderteacherData);
+            }
+        }
+
+        //选择教师
+        $scope.chooseTeacher = function (userId,username,loginnam,type) {
+            if (type=="学生"){
+                SweetAlert.swal({
+                    title: '请选择一名教师',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: '知道了!',
+                    closeOnConfirm: true
+                });
+            }else {
+                if($scope.teachers.length==0){
+                    var oneteacher= new teacherObjStory(username,loginnam);//声明对象
+                    $scope.teachers.push(oneteacher);
+                    courseinstance.teacherloginname = loginnam;
+                }else {
+                    SweetAlert.swal({
+                        title: '你已选择一名教师',
+                        text: '只能选择一名授课教师',
+                        type: 'warning',
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: '知道了!',
+                        closeOnConfirm: true
+                    });
+                }
+
+            }
+        }
+
+        function renderclassData(data){
+            $scope.classArrays=data;
+            console.log($scope.classArrays);
+        }
+
+        //搜索班级信息
+        $scope.loadclassData = function (index,length) {
+            console.log($scope.classString);
+            subgetclassService.getClasses($scope.classString,index,length,renderclassData);
+
+        }
+        $scope.chooseClass = function (classname,classnumber) {
+            var oneteacher= new classObjStory(classname,classnumber);//声明对象
+            $scope.classes.push(oneteacher);
+            console.log($scope.classes);
+
+        }
+
+
+
+        //弹出层关闭按钮
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');
         }
         //删除选择的教师标签
-        $scope.removeteacher = function (index) {
+        $scope.removeteacher = function (index,teacherid) {
             $scope.teachers.splice(index, 1);
+            console.log(teacherid);
+        }
+
+        //删除选择的教师标签
+        $scope.removeclass = function (index,classid) {
+            $scope.classes.splice(index, 1);
+            console.log(classid);
         }
 
         //删除选中的上课节次信息
@@ -211,8 +359,31 @@
 
         }
 
+        //提交新增的课程信息
         $scope.submitCourse = function () {
+            console.log($scope.courseNo);
+            console.log($scope.courseName);
+            console.log($scope.studentNumber);
+            console.log($scope.department);
+            console.log($scope.courseType);
+            console.log($scope.courseAttr);
+            console.log($scope.courseWeeks);
+            console.log($scope.courseHours);
+            console.log($scope.courseTerm);
+            $scope.tealoginname=courseinstance.teacherloginname;
+            console.log($scope.tealoginname);
 
+            for(var i = 0; i<$scope.classes.length;i++){
+                $scope.checkedclass = $scope.checkedclass+$scope.classes[i].classNo+'-';
+            }
+            console.log($scope.checkedclass);
+
+
+            for (var j =0;j<$scope.locations.length;j++){
+                $scope.checkedsections=$scope.checkedsections+$scope.locations[j].section+'-'+$scope.locations[j].location+',';
+            }
+
+            console.log($scope.checkedsections);
         }
 
 

@@ -20,4 +20,7 @@ public interface BaseClassesService {
     public Page<BaseClassesEntity> getBaseClassesByDepNoAndClassYearAndKey(String depNo,String classSessionYear,String key,Pageable page);
 
 
+    //分页模糊查找班级
+    Page<BaseClassesEntity> listClass(String keyword, Pageable page) throws Exception;
+
 }

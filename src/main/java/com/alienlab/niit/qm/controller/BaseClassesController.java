@@ -3,10 +3,7 @@ package com.alienlab.niit.qm.controller;
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.BaseClassesEntity;
 import com.alienlab.niit.qm.service.BaseClassesService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -52,6 +49,28 @@ public class BaseClassesController {
         }
     }
 
+    @ApiOperation(value="模糊查询(分页)获取班级列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="keyword",value="查询关键字",paramType = "query"),
+            @ApiImplicitParam(name="index",value="分页位置",paramType = "query"),
+            @ApiImplicitParam(name="length",value="分页长度",paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "", response = BaseClassesEntity.class),
+            @ApiResponse(code = 500, message = "", response = ExecResult.class)
+    })
+    @GetMapping(value="/classes/page")
+    public ResponseEntity listUser(@RequestParam String keyword,@RequestParam int index,@RequestParam int length){
+        try {
+            Page<BaseClassesEntity> classesEntities=baseClassesService.listClass(keyword,new PageRequest(index,length));
+            return ResponseEntity.ok().body(classesEntities);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,e.getMessage());
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
 
 }
 /*for (int n = 0; n < baseClassesEntities.size(); n++) {

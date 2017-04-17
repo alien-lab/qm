@@ -38,7 +38,6 @@
                 index:index,
                 length:length
             },function(result){
-
                 if(callback){
                     callback(result);
                 }
