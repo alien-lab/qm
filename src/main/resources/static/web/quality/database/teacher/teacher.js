@@ -13,12 +13,54 @@
         });
     }]);
 
+    product_module.factory('SweetAlert', [ '$rootScope', function ( $rootScope ) {
+        var swal = window.swal;
+        //public methods
+        var self = {
+            swal: function ( arg1, arg2, arg3 ) {
+                $rootScope.$evalAsync(function(){
+                    if( typeof(arg2) === 'function' ) {
+                        swal( arg1, function(isConfirm){
+                            $rootScope.$evalAsync( function(){
+                                arg2(isConfirm);
+                            });
+                        }, arg3 );
+                    } else {
+                        swal( arg1, arg2, arg3 );
+                    }
+                });
+            },
+            success: function(title, message) {
+                $rootScope.$evalAsync(function(){
+                    swal( title, message, 'success' );
+                });
+            },
+            error: function(title, message) {
+                $rootScope.$evalAsync(function(){
+                    swal( title, message, 'error' );
+                });
+            },
+            warning: function(title, message) {
+                $rootScope.$evalAsync(function(){
+                    swal( title, message, 'warning' );
+                });
+            },
+            info: function(title, message) {
+                $rootScope.$evalAsync(function(){
+                    swal( title, message, 'info' );
+                });
+            }
+        };
+        return self;
+    }]);
+
     product_module.factory("teacherResource",["$resource",function($resource){
         var service = $resource('../qm-api/teacher', {}, {
             'getDepartment': { method: 'GET',isArray:true,url:"../qm-api/department"},//得到所有部门信息
             'getTeacherByDepNoAndType':{method:'GET',url:"../qm-api/teacher/findTeacherByDepNoAndType"},
             'getAllTeacher':{method:'GET',url:"../qm-api/teacher/findTeacher"},
-            'getTeacherByDepNoAndTypeAndKey':{method:'GET',url:"../qm-api/teacher/findTeacherByDepNoAndTypeAndKey"}
+            'getTeacherByDepNoAndTypeAndKey':{method:'GET',url:"../qm-api/teacher/findTeacherByDepNoAndTypeAndKey"},
+            'addTeacher':{method:'POST'}
         });
         return service;
     }]);
@@ -153,8 +195,52 @@
         }
     }]);
 
-    product_module.controller("addTeacherController",["$scope","$uibModalInstance","$rootScope",function($scope,$uibModalInstance,$rootScope){
+    product_module.controller("addTeacherController",["$scope","teacherResource","$uibModalInstance","$rootScope",function($scope,teacherResource,$uibModalInstance,$rootScope){
         $scope.ModTitle = "增加学年学期";
+
+        teacherResource.getDepartment({}, function (result) {
+            console.log(result);
+            /*$scope.departments = result;*/
+            $scope.departments = result;
+        }, function () {
+            console.log("获取部门信息失败");
+        });
+
+        $scope.save=function save(saveteacher){
+            teacherResource.addTeacher({
+                teacherNo:saveteacher.teacherNo,
+                teacherName:saveteacher.teacherName,
+                depNo:saveteacher.depNo,
+                teacherTitle:saveteacher.teacherTitle,
+                teacherType:saveteacher.teacherType,
+            },function(result){
+                teacherResource.getAllTeacher({
+                    index:0,
+                    length:20
+                }, function (result) {
+                    $scope.teachercontent=result.content;
+                    $scope.teacherArrays=result;
+                    console.log($scope.teachercontent);
+                    $scope.pagnumbers =[];
+                    for(var i = 1; i<$scope.teacherArrays.totalPages+1;i++){
+                        $scope.pagnumbers.push(i);
+                    }
+                    console.log(result);
+                    swal({title:"成功",
+                        text:"您成功增加该教师！",
+                        type:"success",
+                    })
+                    $uibModalInstance.dismiss('cancel');
+                    $state.go("qm.base_teacher");
+                }, function () {
+                    console.log("获取部门信息失败");
+                });
+            },function(result){
+                console.log("增加部门失败");
+            });
+        }
+
+
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');
         }

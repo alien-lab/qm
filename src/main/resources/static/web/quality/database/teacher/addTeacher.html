@@ -11,7 +11,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">教工编号</label>
             <div class="col-sm-6">
-                <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="tagsinput" class="form-control" />
+                <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="teacher.teacherNo" class="form-control" />
             </div>
             <div class="col-sm-3">
             </div>
@@ -21,7 +21,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">教师姓名</label>
             <div class="col-sm-6">
-                <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="tagsinput" class="form-control" />
+                <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="teacher.teacherName" class="form-control" />
             </div>
             <div class="col-sm-3">
             </div>
@@ -31,7 +31,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">教工职称</label>
             <div class="col-sm-6">
-                <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="tagsinput" class="form-control" />
+                <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="teacher.teacherTitle" class="form-control" />
             </div>
             <div class="col-sm-3">
             </div>
@@ -41,12 +41,8 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">所属部门</label>
             <div class="col-sm-6">
-                <select name="select" required="" ng-model="select" class="form-control">
-                    <option value="">计算机与软件</option>
-                    <option value="1">能源与电气</option>
-                    <option value="2">机械工程</option>
-                    <option value="3">国际教育</option>
-                    <option value="4">文理学院</option>
+                <select style="width:auto;float:left;" class="form-control" data-toggle="dropdown" ng-model="teacher.depNo">
+                    <option ng-repeat="department in departments" value="{{department.depNo}}">{{department.depName}}</option>
                 </select>
             </div>
             <div class="col-sm-3">
@@ -57,9 +53,9 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">教工类别</label>
             <div class="col-sm-6">
-                <select name="select" required="" ng-model="select" class="form-control">
-                    <option value="">校内职工</option>
-                    <option value="1">外聘</option>
+                <select name="select" required="" ng-model="teacher.teacherType" class="form-control">
+                    <option value="校内教师">校内教师</option>
+                    <option value="外聘">外聘</option>
                 </select>
             </div>
             <div class="col-sm-3">
@@ -68,7 +64,7 @@
     </fieldset>
 </div>
 <div class="panel-footer text-center">
-    <button type="submit" class="btn btn-info">确定</button>
+    <button type="submit" class="btn btn-info" ng-click="save(teacher)">确定</button>
     <button ng-click="cancel()" type="submit" class="btn btn-info">取消</button>
 </div>
 </body>

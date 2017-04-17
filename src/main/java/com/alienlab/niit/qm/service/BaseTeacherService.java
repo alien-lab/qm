@@ -11,6 +11,8 @@ public interface BaseTeacherService {
     //根据教师编号获取教师信息
     public BaseTeacherEntity getTeacherByteacherNo(String teacherNo);
 
+    public BaseTeacherEntity saveTeacher(BaseTeacherEntity teacherEntity);
+
     Page<BaseTeacherEntity> getTeacherByTypeAndDepNo(String depNo,String teacherType,Pageable page);
 
     Page<BaseTeacherEntity> getAllTeacher(Pageable page);

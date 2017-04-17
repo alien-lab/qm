@@ -10,10 +10,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2017/4/9.
@@ -24,6 +25,28 @@ import org.springframework.web.bind.annotation.RestController;
 public class BaseTeacherController {
     @Autowired
     private BaseTeacherService baseTeacherService;
+
+    @ApiOperation(value = "新增教师")
+    @PostMapping(value = "/teacher")
+    public ResponseEntity addTeacher(@RequestParam String teacherNo,@RequestParam String teacherName,
+                                     @RequestParam String depNo,@RequestParam String teacherTitle,@RequestParam String teacherType){
+        BaseTeacherEntity teacherEntity = new BaseTeacherEntity();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        teacherEntity.setTeacherNo(teacherNo);
+        teacherEntity.setTeacherName(teacherName);
+        teacherEntity.setDepNo(depNo);
+        teacherEntity.setTeacherTitle(teacherTitle);
+        teacherEntity.setTeacherType(teacherType);
+        teacherEntity.setTeacherStatus("1");
+        teacherEntity.setDataTime(Timestamp.valueOf(df.format(new Date())));
+        BaseTeacherEntity teacherEntity1 = baseTeacherService.saveTeacher(teacherEntity);
+        if (teacherEntity1!=null){
+            return ResponseEntity.ok().body(teacherEntity1);
+        }else {
+            ExecResult er=  new ExecResult(false,"新增教师失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
 
     @ApiOperation(value = "根据教师编号查教师名称")
     @GetMapping(value = "/teacher")
