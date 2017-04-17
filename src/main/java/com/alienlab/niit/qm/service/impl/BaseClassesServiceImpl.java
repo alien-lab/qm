@@ -37,4 +37,9 @@ public class BaseClassesServiceImpl implements BaseClassesService{
     public Page<BaseClassesEntity> getBaseClassesByDepNoAndClassYearAndKey(String depNo, String classSessionYear, String stuName, Pageable page) {
         return baseClassesRepository.findBaseClassesByDepNoAndClassYearAndKey(depNo,classSessionYear,stuName,page);
     }
+
+    @Override
+    public Page<BaseClassesEntity> listClass(String keyword, Pageable page) throws Exception {
+        return baseClassesRepository.findClassesByClassNameLike(keyword,page);
+    }
 }

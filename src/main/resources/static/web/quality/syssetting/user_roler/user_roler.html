@@ -16,11 +16,11 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <em  ng-if=(user.userType=="教师") class="fa fa-mortar-board fa-5x"></em>
-                        <em  ng-if=(user.userType=="学生") class="fa fa-user fa-5x"></em>
+                        <em  ng-if=(user.userType=="教师") class="fa fa-mortar-board fa-3x"></em>
+                        <em  ng-if=(user.userType=="学生") class="fa fa-user fa-3x"></em>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="text-lg">{{user.userName}}</div>
+                        <div style="font-size: 30px">{{user.userName}}</div>
                         <p class="m0">工号：{{user.userLoginname}}</p>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
         </div>
     </div>
     </div>
-    <div class="col-lg-4 col-md-12" style="margin-top: 50px;">
+    <div class="col-lg-4 col-md-12" style="margin-top: 30px;">
         <button type="button" ng-click="roler.checked = !roler.checked;oksubRoler(roler.roleId)"  ng-class="{true:'btn-danger',false:'btn-default'}[roler.checked]"  ng-repeat="roler in rolersArrays"  class="btn btn-oval" style=" margin: 10px;">{{roler.roleName}}</button>
 </div>
 </div>

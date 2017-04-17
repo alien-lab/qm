@@ -1,17 +1,12 @@
-<style>
-    .sweetinput{
-        background-color: red;
-    }
-</style>
-<div class="row">
+<div class="row" >
         <div class="col-lg-12">
             <div id="panelPortlet6" class="panel-info" style="margin-bottom: -3px;">
                 <em ng-click="cancel()" style="float: right;font-size: 20px;" class="fa fa-close " ></em>
                 <div class="panel-heading portlet-handler">新添课程信息</div>
                 <div class="panel-default">
                     <div class="panel-body">
-                        <form action="/" method="POST" form-wizard="" validate-steps="true" validate-form="" steps="4">
-                            <div class="form-wizard wizard-horizontal">
+                        <form   form-wizard="" validate-steps="true" validate-form="" steps="4">
+                            <div class="form-wizard wizard-horizontal" >
                                 <!-- START wizard steps indicator-->
                                 <ol class="row">
                                     <li ng-class="{'active':wizard.active(1)}" ng-click="wizard.go(1)" class="col-md-3">
@@ -38,45 +33,61 @@
                                         <legend></legend>
                                         <!-- START row -->
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>课程代码</label>
                                                     <div class="controls">
-                                                        <input type="text" name="username" data-parsley-group="step1" placeholder="例如:110042363" required="required" class="form-control" />
+                                                        <input ng-model="$parent.courseNo" type="text"  placeholder="例如:110042363"  class="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>课程名称</label>
                                                     <div class="controls">
-                                                        <input type="text" name="password" data-parsley-group="step1" placeholder="例如:计算机应用基础" required="required" class="form-control" />
+                                                        <input  ng-model="$parent.courseName" type="text"   placeholder="例如:计算机应用基础"  class="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>上课人数</label>
                                                     <div class="controls">
-                                                        <input type="text" name="password2" data-parsley-group="step1" placeholder="例如：36" required="required" class="form-control" />
+                                                        <input ng-model="$parent.studentNumber" type="text"  placeholder="例如：36"  class="form-control" />
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>承担部门</label>
+                                                    <select type="button" style="width:auto;float:left;"  class="form-control" data-toggle="dropdown"
+                                                            ng-model="$parent.department" ng-options="dep.name as dep.name for dep in depatments">
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row" style="margin-top: 20px;">
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label>课程类型</label>
-                                                    <div class="controls">
-                                                        <input type="text" name="username" data-parsley-group="step1" placeholder="例如:讲述课" required="required" class="form-control" />
-                                                    </div>
+                                                    <select type="button"  class="form-control" data-toggle="dropdown"
+                                                             ng-model="$parent.courseType" ng-options="course.name as course.name for course in courseTypes">
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label>课程属性</label>
                                                     <div class="controls">
-                                                        <input type="text" name="password" data-parsley-group="step1" placeholder="例如:公共基础课" required="required" class="form-control" />
+                                                        <input ng-model="$parent.courseAttr" type="text" placeholder="例:公共基础课" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>课程课时</label>
+                                                    <div class="controls">
+                                                        <input ng-model="$parent.courseHours" type="text" placeholder="例如：32"  class="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -84,20 +95,22 @@
                                                 <div class="form-group">
                                                     <label>课程周数</label>
                                                     <div class="controls">
-                                                        <input type="text" name="password2" data-parsley-group="step1" placeholder="例如：1-18" required="required" class="form-control" />
+                                                        <input ng-model="$parent.courseWeeks" type="text" placeholder="例如：1-18" class="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>课程课时</label>
-                                                    <div class="controls">
-                                                        <input type="text" name="password2" data-parsley-group="step1" placeholder="例如：32" required="required" class="form-control" />
-                                                    </div>
+                                                    <label>课程学期</label>
+                                                    <select type="button"  class="form-control" data-toggle="dropdown"
+                                                            ng-model="$parent.courseTerm" ng-options="courseterm.termName as courseterm.termName for courseterm in courseTerms">
+                                                    </select>
                                                 </div>
                                             </div>
+
                                         </div>
                                         <!-- END row -->
+
                                     </fieldset>
                                     <ul class="pager">
                                         <li class="next"><a  ng-click="wizard.go(2)">下一步 <span>&rarr;</span></a>
@@ -115,61 +128,45 @@
                                                 <div class="form-group">
                                                     <label>授课教师</label>
                                                     <div class="input-group">
-                                                        <input type="text" name="first-name" data-parsley-group="step2" placeholder="可搜索教师姓名、工号" required="required" class="form-control" />
+                                                        <input type="text" ng-model="$parent.teacherString" name="first-name" data-parsley-group="step2" placeholder="可搜索姓名、工号" required="required" class="form-control" />
                                                         <span class="input-group-btn">
-                                                          <button class="btn btn-primary" type="button">搜索</button>
+                                                          <button ng-click="loadteacherData(0,3)" class="btn btn-primary" type="button">搜索</button>
                                                         </span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-7">
+                                            <div class="col-md-7" ng-if=(teachers.length!=0)>
                                                     <label>已选教师</label><br/>
                                                 <div class="col-md-12">
-                                                    <span ng-repeat="teacher in teachers" class="label label-success"  style="font-size: 15px;margin: 5px;display: inline-block;">{{teacher.name}} <em ng-click="removeteacher($index)" class="fa fa-close" ></em></span>
+                                                    <span ng-repeat="teacher in teachers" class="label label-success"  style="font-size: 15px;margin: 5px;display: inline-block;">{{teacher.userLoginname}}--{{teacher.userName}} <em ng-click="removeteacher($index,teacher.userLoginname)" class="fa fa-close" ></em></span>
                                             </div>
                                             </div>
                                         </div>
                                         <legend style="margin-top: 20px"></legend>
-                                        <div class="row">
-                                            <div   class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
-                                                <div class="panel-heading">
+                                        <div class="row" ng-if=(teaArrays)>
+                                            <div ng-click="chooseTeacher(teacher.userId,teacher.userName,teacher.userLoginname,teacher.userType)"  ng-repeat="teacher in teaArrays.content" class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
+                                                <div  class="panel-heading">
                                                     <div class="row">
                                                         <div class="col-xs-3">
-                                                            <em  class="fa fa-mortar-board fa-5x"></em>
+                                                            <em  ng-if=(teacher.userType=="教师") style="font-size: 25px">教师</em>
+                                                            <em  ng-if=(teacher.userType=="学生") style="font-size: 25px">学生</em>
                                                         </div>
                                                         <div class="col-xs-9 text-right">
-                                                            <div class="text-lg">胡光永</div>
-                                                            <p class="m0">工号：1402753102</p>
+                                                            <div style="font-size: 30px">{{teacher.userName}}</div>
+                                                            <p class="m0">工号：{{teacher.userLoginname}}</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div   class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
-                                                <div class="panel-heading">
-                                                    <div class="row">
-                                                        <div class="col-xs-3">
-                                                            <em  class="fa fa-mortar-board fa-5x"></em>
-                                                        </div>
-                                                        <div class="col-xs-9 text-right">
-                                                            <div class="text-lg">胡光永</div>
-                                                            <p class="m0">工号：1402753102</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div   class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
-                                                <div class="panel-heading">
-                                                    <div class="row">
-                                                        <div class="col-xs-3">
-                                                            <em  class="fa fa-mortar-board fa-5x"></em>
-                                                        </div>
-                                                        <div class="col-xs-9 text-right">
-                                                            <div class="text-lg">胡光永</div>
-                                                            <p class="m0">工号：1402753102</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 row">
+                                            <nav  aria-label="Page navigation" ng-if=(teaArrays)>
+                                                <ul class="pagination pagination-sm" style="float: right">
+                                                    <li ng-disabled="teaArrays.first" ng-click="loadteacherData(teaArrays.number-1,teaArrays.size)"><a href="javascript:void(0)">上一页</a></li>
+                                                    <li><a href="javascript:void(0)">{{teaArrays.number+1}}/{{teaArrays.totalPages}}</a></li>
+                                                    <li ng-disabled="teaArrays.last" ng-click="loadteacherData(teaArrays.number+1,teaArrays.size)"><a href="javascript:void(0)">下一页</a></li>
+                                                </ul>
+                                            </nav>
                                         </div>
                                         <!-- END row -->
                                     </fieldset>
@@ -194,63 +191,46 @@
                                                 <div class="form-group">
                                                     <label>授课班级（可多选）</label>
                                                     <div class="input-group">
-                                                        <input type="text" name="first-name" data-parsley-group="step2" placeholder="可搜索班级名称、编号" required="required" class="form-control" />
+                                                        <input  ng-model="$parent.classString" type="text" name="first-name" data-parsley-group="step2" placeholder="可搜索班级名称、编号" required="required" class="form-control" />
                                                         <span class="input-group-btn">
-                                                          <button class="btn btn-primary" type="button">搜索</button>
+                                                          <button ng-click="loadclassData(0,3)"  class="btn btn-primary" type="button">搜索</button>
                                                         </span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
+                                            <div class="col-md-7">
+                                                <div class="form-group" ng-if=(classes.length!=0)>
                                                     <label>已选班级</label><br/>
                                                     <div class="col-md-12">
-                                                        <span ng-repeat="teacher in teachers" class="label label-success"  style="font-size: 15px;margin: 5px;display: inline-block;">{{teacher.name}} <em ng-click="removeteacher($index)" class="fa fa-close" ></em></span>
+                                                        <span ng-repeat="class in classes" class="label label-success"  style="font-size: 15px;margin: 5px;display: inline-block;">{{class.classNo}}--{{class.className}} <em ng-click="removeclass($index,class.id)" class="fa fa-close" ></em></span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <legend style="margin-top: 20px"></legend>
                                         <div class="row">
-                                            <div   class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
+                                            <div ng-click="chooseClass(class.className,class.classNo)" ng-repeat="class in classArrays.content"  class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
                                                 <div class="panel-heading">
                                                     <div class="row">
                                                         <div class="col-xs-3">
-                                                            <em  class="fa fa-mortar-board fa-5x"></em>
+                                                            <em  class="fa fa-spinner fa-2x" ></em>
                                                         </div>
                                                         <div class="col-xs-9 text-right">
-                                                            <div class="text-lg">胡光永</div>
-                                                            <p class="m0">工号：1402753102</p>
+                                                            <div style="font-size: 30px">{{class.className}}</div>
+                                                            <p class="m0">编号：{{class.classNo}}</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div   class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
-                                                <div class="panel-heading">
-                                                    <div class="row">
-                                                        <div class="col-xs-3">
-                                                            <em  class="fa fa-mortar-board fa-5x"></em>
-                                                        </div>
-                                                        <div class="col-xs-9 text-right">
-                                                            <div class="text-lg">胡光永</div>
-                                                            <p class="m0">工号：1402753102</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div   class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
-                                                <div class="panel-heading">
-                                                    <div class="row">
-                                                        <div class="col-xs-3">
-                                                            <em  class="fa fa-mortar-board fa-5x"></em>
-                                                        </div>
-                                                        <div class="col-xs-9 text-right">
-                                                            <div class="text-lg">胡光永</div>
-                                                            <p class="m0">工号：1402753102</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 row">
+                                            <nav  aria-label="Page navigation" ng-if=(classArrays)>
+                                                <ul class="pagination pagination-sm" style="float: right">
+                                                    <li ng-disabled="classArrays.first" ng-click="loadclassData(classArrays.number-1,classArrays.size)"><a href="javascript:void(0)">上一页</a></li>
+                                                    <li><a href="javascript:void(0)">{{classArrays.number+1}}/{{classArrays.totalPages}}</a></li>
+                                                    <li ng-disabled="classArrays.last" ng-click="loadclassData(classArrays.number+1,classArrays.size)"><a href="javascript:void(0)">下一页</a></li>
+                                                </ul>
+                                            </nav>
                                         </div>
                                         <!-- END row -->
                                     </fieldset>
@@ -306,12 +286,13 @@
                                                     <div class="col-md-12">
                                                         <span ng-repeat="onelocation in locations" class="label label-success"  style="font-size: 15px;margin: 5px;display: inline-block;font-family: '微软雅黑'">{{onelocation.section}}--{{onelocation.location}} <em ng-click="removesection($index,onelocation.section)" class="fa fa-close" ></em></span>
                                                     </div>
-                                        </div>
+                                                 </div>
                                             <p style="text-align: center">
                                                 <button ng-click="submitCourse()" style="font-size: 15px;" type="button" class="btn btn-info btn-lg">提交课程</button>
                                             </p>
                                         </div>
                                         <!-- END row -->
+                                            </div>
                                     </fieldset>
                                     <ul class="pager">
                                         <li class="previous">

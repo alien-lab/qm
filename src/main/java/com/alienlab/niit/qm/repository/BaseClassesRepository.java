@@ -34,4 +34,9 @@ public interface BaseClassesRepository extends JpaRepository<BaseClassesEntity,L
             "WHERE a.classSessionYear = ?2 AND a.depNo=?1 AND b.depNo=a.depNo " +
             "AND c.majorNo=a.majorNo AND d.teacherNo=a.teacherNo AND e.stuNo=a.stuNo AND a.className like CONCAT('%',?3,'%')")
     public Page<BaseClassesEntity> findBaseClassesByDepNoAndClassYearAndKey(String depNo,String classSessionYear,String stuName,Pageable page);
+
+    @Query("from BaseClassesEntity a where (a.classNo like CONCAT('%',?1,'%') ) or (a.className like CONCAT('%',?1,'%') ) ")
+    Page<BaseClassesEntity> findClassesByClassNameLike(String keyword,Pageable page);
+
+
 }
