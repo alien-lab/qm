@@ -7,14 +7,14 @@
 <body>
 <h3>课程维护</h3>
 <div class="row">
-    <div class="col-md-4">
-        <select type="button" style="width:auto;float:left;" ng-controller="subject" class="form-control" data-toggle="dropdown"
-                ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+    <div class="col-md-5">
+        <select type="button" style="width:auto;float:left;"  class="form-control" data-toggle="dropdown" ng-model="selectedTerm" >
+            <option value="{{term.termNo}}" ng-repeat="term in terms" >{{term.termName}}</option>
         </select>
-        <select type="button" style="width:auto;float:left;" ng-controller="subject1" class="form-control" data-toggle="dropdown"
-                ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names">
+        <select type="button" style="width:auto;float:left;"  class="form-control" data-toggle="dropdown" ng-model="selectedDepartment" >
+            <option value="{{department.depNo}}" ng-repeat="department in departments" >{{department.depName}}</option>
         </select>
-        <button style="margin-left: 5px;" class="btn btn-success" type="button" ng-click="searchClasses()">搜索</button>
+        <button style="margin-left: 5px;" class="btn btn-success" type="button" ng-click="searchCourse()">搜索</button>
     </div>
     <div class="col-md-3">
         <div style="width:auto;float:left;" class="input-group">
@@ -55,7 +55,7 @@
             <button type="button" class="btn btn-sm btn-warning" title="修改课程">
                 <em class="fa fa-edit"></em>
             </button>
-            <button ng-click="removeS($index,menu.menuId)" title="删除课程" class="btn btn-sm btn-danger">
+            <button ng-click="removeCourse($index)" title="删除课程" class="btn btn-sm btn-danger">
                 <em class="fa fa-trash"></em>
             </button>
         </td>

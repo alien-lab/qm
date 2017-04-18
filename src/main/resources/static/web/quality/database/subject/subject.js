@@ -13,16 +13,21 @@
             controller:"courseMaintenanceController"
         });
     }]);
+    courseMaintenance_module.factory("gettermsResource",["$resource",function($resource){
+        var service = $resource('../qm-api/terms', {}, {
+            getTerms: { method: 'GET',isArray:true},
+        });
+        return service;
 
+    }]);
 
+    courseMaintenance_module.factory("saveCourseResource",["$resource",function($resource){
+        var service = $resource('../qm-api/terms', {}, {
+            saveCourse: { method: 'POST'},
+        });
+        return service;
 
-    courseMaintenance_module.controller('subject', function($scope) {
-        $scope.names = ["学年","2016年第二学期","2016年第一学期","2015年第二学期","2015年第一学期"];
-    });
-
-    courseMaintenance_module.controller('subject1', function($scope) {
-        $scope.names = ["部门","机械工程","计算机与软件","能源与电气工程","文理学院"];
-    });
+    }]);
 
 
     courseMaintenance_module.directive('formWizard',formWizard)
@@ -94,7 +99,8 @@
 
 
 
-    courseMaintenance_module.controller("courseMaintenanceController",["$scope","$uibModal",function($scope,$uibModal){
+    courseMaintenance_module.controller("courseMaintenanceController",["$scope","$uibModal","gettermsResource","departmentResource","courseinstance",function($scope,$uibModal,gettermsResource,departmentResource,courseinstance){
+
         $scope.addSubject=function () {
                 var addsubjectInfo = $uibModal.open({
                     animation: true,
@@ -106,6 +112,46 @@
                 });
 
         }
+        getTermsAndDepartments();
+
+        //获得学期
+        function getTermsAndDepartments() {
+            gettermsResource.getTerms({
+            },function(result){
+                console.log("获取学期成功！");
+                console.log(result);
+                $scope.terms = result;
+                $scope.selectedTerm = $scope.terms[0].termName;
+                courseinstance.showterms = $scope.terms;
+            },function(result){
+                console.log("获取学期失败");
+            });
+
+            //查询所有部门
+            departmentResource.getDepartment({}, function (result) {
+                console.log(result);
+                $scope.departments = result;
+                courseinstance.showdepartments = $scope.departments;
+                $scope.selectedDepartment = $scope.departments[0].depName;
+            }, function () {
+                console.log("获取部门信息失败");
+            });
+
+
+        }
+
+
+
+        $scope.removeCourse = function (index) {
+          /*  $scope.menus.splice(index, 1);*/
+        }
+        $scope.searchCourse = function () {
+            console.log($scope.selectedTerm);
+            console.log($scope.selectedDepartment);
+        }
+
+
+
 
 
 
@@ -134,7 +180,7 @@
         }
     }]);
 
-    courseMaintenance_module.controller("addcourseController",["$scope","$uibModalInstance","SweetAlert","userService","courseinstance","subgetclassService",function($scope,$uibModalInstance,SweetAlert,userService,courseinstance,subgetclassService){
+    courseMaintenance_module.controller("addcourseController",["$scope","$uibModalInstance","SweetAlert","userService","courseinstance","subgetclassService","saveCourseResource",function($scope,$uibModalInstance,SweetAlert,userService,courseinstance,subgetclassService,saveCourseResource){
 
 
         //定义一个数组，用于装载节次信息
@@ -152,14 +198,7 @@
 
 
         //定义一个数组，用于承担部门信息
-        $scope.depatments = [
-            {id: 140001, name: '计算机与软件学院'},
-            {id: 140002, name: '学工处'},
-            {id: 145510, name: '商务贸易学院'},
-            {id: 150023, name: '能源与电气学院'},
-            {id: 130045, name: '艺术设计学院'},
-            {id: 120001, name: '经济管理学院'}
-        ];
+        $scope.depatments =  courseinstance.showdepartments;
 
         //定义一个数组，用于课程类型（3公选课、1讲授课、2实训课）
         $scope.courseTypes = [
@@ -169,13 +208,7 @@
         ];
 
         //定义一个数组，用于课程学期（3公选课、1讲授课、2实训课）
-        $scope.courseTerms = [
-            {termNo: 20150, termName: '2015学年第一学期'},
-            {termNo: 20151, termName: '2015学年第二学期'},
-            {termNo: 20160, termName: '2016学年第一学期'},
-            {termNo: 20161, termName: '2016学年第二学期'},
-            {termNo: 20170, termName: '2017学年第一学期'}
-        ];
+        $scope.courseTerms = courseinstance.showterms;
 
 
         function  ObjStory(section,location) //创建对象function
@@ -382,8 +415,38 @@
             for (var j =0;j<$scope.locations.length;j++){
                 $scope.checkedsections=$scope.checkedsections+$scope.locations[j].section+'-'+$scope.locations[j].location+',';
             }
-
             console.log($scope.checkedsections);
+
+
+            saveCourseResource.saveCourse({
+                courseNo:$scope.courseNo,
+                courseName:$scope.courseName,
+                studentNumber:$scope.studentNumber,
+                department:$scope.department,
+                courseType:$scope.courseType,
+                courseAttr:$scope.courseAttr,
+                courseWeeks:$scope.courseWeeks,
+                courseHours:$scope.courseHours,
+                courseTerm:$scope.courseTerm,
+                tealoginname:$scope.tealoginname,
+                checkedclass:$scope.checkedclass,
+                checkedsections:$scope.checkedsections
+            },function(result){
+
+            },function(result){
+                console.log("课程保存失败",result);
+            });
+
+
+
+
+
+
+
+
+
+
+
         }
 
 
