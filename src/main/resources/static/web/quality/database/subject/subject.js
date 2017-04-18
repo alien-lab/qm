@@ -22,7 +22,7 @@
     }]);
 
     courseMaintenance_module.factory("saveCourseResource",["$resource",function($resource){
-        var service = $resource('../qm-api/terms', {}, {
+        var service = $resource('../qm-api/course', {}, {
             saveCourse: { method: 'POST'},
         });
         return service;
@@ -413,7 +413,7 @@
 
 
             for (var j =0;j<$scope.locations.length;j++){
-                $scope.checkedsections=$scope.checkedsections+$scope.locations[j].section+'-'+$scope.locations[j].location+',';
+                $scope.checkedsections=$scope.checkedsections+$scope.locations[j].section+','+$scope.locations[j].location+';';
             }
             console.log($scope.checkedsections);
 
@@ -432,6 +432,17 @@
                 checkedclass:$scope.checkedclass,
                 checkedsections:$scope.checkedsections
             },function(result){
+                console.log("课程保存成功！",result);
+                SweetAlert.swal({
+                    title: '课程保存成功',
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'ok',
+                    closeOnConfirm: true
+                },function () {
+                    $uibModalInstance.dismiss('cancel');
+                });
 
             },function(result){
                 console.log("课程保存失败",result);

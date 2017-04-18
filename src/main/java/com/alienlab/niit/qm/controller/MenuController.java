@@ -17,8 +17,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.metamodel.Metamodel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Master QB on 2017/3/29.
@@ -176,6 +183,7 @@ public class MenuController {
     @PostMapping(value = "/menus")
     public ResponseEntity saveMenu( @RequestParam int id,@RequestParam String  name,@RequestParam String  type,
                                     @RequestParam  Integer pid,@RequestParam String  content,@RequestParam String  attr)  {
+
         //id 为-1是新增菜单
         if (id == -1){
             TbMenuEntity tbMenuEntity1 = new TbMenuEntity();
@@ -187,9 +195,9 @@ public class MenuController {
             tbMenuEntity1.setMenuStatus("0");
             try {
                 TbMenuEntity tbMenuEntity =  menuService.saveMenu(tbMenuEntity1);
+
                 if (tbMenuEntity != null)
                 {
-                    //ExecResult right=  new ExecResult(true,"新增菜单成功！");
                     return ResponseEntity.ok().body(tbMenuEntity1);
                 }else {
                     ExecResult er=  new ExecResult(false,"新增菜单失败！请重试");
