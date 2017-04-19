@@ -21,6 +21,11 @@ public class BaseTeacherServiceImpl implements BaseTeacherService{
     }
 
     @Override
+    public Page<BaseTeacherEntity> findTeacherByKeywords(String keyword,Pageable page) {
+        return baseTeacherRepository.findteachersByKeyword(keyword,page);
+    }
+
+    @Override
     public BaseTeacherEntity saveTeacher(BaseTeacherEntity teacherEntity) {
         return baseTeacherRepository.save(teacherEntity);
     }

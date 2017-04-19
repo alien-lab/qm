@@ -28,4 +28,11 @@ public interface BaseTeacherRepository extends JpaRepository<BaseTeacherEntity,L
             "from BaseTeacherEntity a,com.alienlab.niit.qm.entity.BaseDepartmentEntity b " +
             "where b.depNo=a.depNo and a.teacherType=?2 and a.depNo=?1 and a.teacherName like CONCAT('%',?3,'%')")
     public Page<BaseTeacherEntity> getBaseTeacherByDepNoAndTypeAndTeacherkey(String depNo,String teacherType,String teacherName,Pageable page);
+
+
+    @Query("from BaseTeacherEntity a where (a.teacherNo like CONCAT('%',?1,'%') ) or (a.teacherName like CONCAT('%',?1,'%') ) ")
+    public Page<BaseTeacherEntity> findteachersByKeyword(String teacherNo,Pageable page);
+
+
+
 }

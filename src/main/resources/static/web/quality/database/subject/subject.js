@@ -3,7 +3,7 @@
  */
 (function(){
     'use strict';
-    var courseMaintenance_module=angular.module("qm.base_subject",['ui.router']);
+    var courseMaintenance_module=angular.module("qm.base_subject",['ui.router','ui.select']);
     courseMaintenance_module.factory("courseinstance",function(){return {}});
     courseMaintenance_module.config(["$stateProvider",function ($stateProvider) {
         $stateProvider.state('qm.base_subject',{
@@ -13,16 +13,32 @@
             controller:"courseMaintenanceController"
         });
     }]);
+    courseMaintenance_module.factory("gettermsResource",["$resource",function($resource){
+        var service = $resource('../qm-api/terms', {}, {
+            getTerms: { method: 'GET',isArray:true},
+        });
+        return service;
 
+    }]);
 
+    courseMaintenance_module.factory("subteacherResource",["$resource",function($resource){
+        var service = $resource('../qm-api/teacher', {}, {
+            getTeachers: { method: 'GET', url:'../qm-api/teacher/findTeacherpage'},
+        });
+        return service;
 
-    courseMaintenance_module.controller('subject', function($scope) {
-        $scope.names = ["学年","2016年第二学期","2016年第一学期","2015年第二学期","2015年第一学期"];
-    });
+    }]);
 
-    courseMaintenance_module.controller('subject1', function($scope) {
-        $scope.names = ["部门","机械工程","计算机与软件","能源与电气工程","文理学院"];
-    });
+    courseMaintenance_module.factory("CourseResource",["$resource",function($resource){
+        var service = $resource('../qm-api/course', {}, {
+            saveCourse: { method: 'POST'},
+            getCourses:{ method: 'GET'
+            }
+
+        });
+        return service;
+
+    }]);
 
 
     courseMaintenance_module.directive('formWizard',formWizard)
@@ -94,7 +110,8 @@
 
 
 
-    courseMaintenance_module.controller("courseMaintenanceController",["$scope","$uibModal",function($scope,$uibModal){
+    courseMaintenance_module.controller("courseMaintenanceController",["$scope","$uibModal","gettermsResource","departmentResource","courseinstance","CourseResource",function($scope,$uibModal,gettermsResource,departmentResource,courseinstance,CourseResource){
+
         $scope.addSubject=function () {
                 var addsubjectInfo = $uibModal.open({
                     animation: true,
@@ -107,6 +124,70 @@
 
         }
 
+        $scope.showSubject=function () {
+            var showSjectInfo = $uibModal.open({
+                animation: true,
+                templateUrl: "quality/database/subject/subjectDetail.html",
+                controller: 'showcourseController',
+                bindToController: true,
+                size: "lg",
+                backdrop: false
+            });
+
+        }
+
+        getTermsAndDepartments();
+
+        //获得学期与部门
+        function getTermsAndDepartments() {
+            gettermsResource.getTerms({
+            },function(result){
+                console.log("获取学期成功！");
+                console.log(result);
+                $scope.terms = result;
+                $scope.selectedTerm = $scope.terms[0].termName;
+                courseinstance.showterms = $scope.terms;
+            },function(result){
+                console.log("获取学期失败");
+            });
+
+            //查询所有部门
+            departmentResource.getDepartment({}, function (result) {
+                console.log(result);
+                $scope.departments = result;
+                courseinstance.showdepartments = $scope.departments;
+                $scope.selectedDepartment = $scope.departments[0].depName;
+            }, function () {
+                console.log("获取部门信息失败");
+            });
+
+
+        }
+
+
+
+        $scope.removeCourse = function (index) {
+          /*  $scope.menus.splice(index, 1);*/
+        }
+        //根据学期和部门查询课程
+        $scope.searchCourse = function (index,length) {
+            CourseResource.getCourses({
+                selectedTerm:$scope.selectedTerm,
+                selectedDepartment:$scope.selectedDepartment,
+                index:index,
+                length:length
+            },function(result){
+                console.log("获取课程成功！");
+                console.log(result);
+                $scope.courseArrays = result;
+            },function(result){
+                console.log("获取课程失败");
+            });
+        }
+
+
+
+
 
 
     }]);
@@ -116,6 +197,22 @@
         });
         return service;
 
+    }]);
+
+    courseMaintenance_module.service("subgetteacherService",["subteacherResource",function(subteacherResource){
+        this.getTeachers=function(keyword,index,length,callback){
+            subteacherResource.getTeachers({
+                keyword:keyword,
+                index:index,
+                length:length
+            },function(result){
+                if(callback){
+                    callback(result);
+                }
+            },function(result){
+                console.log("教师列表获取失败",result);
+            });
+        }
     }]);
 
     courseMaintenance_module.service("subgetclassService",["subgetclassResource",function(subgetclassResource){
@@ -134,7 +231,7 @@
         }
     }]);
 
-    courseMaintenance_module.controller("addcourseController",["$scope","$uibModalInstance","SweetAlert","userService","courseinstance","subgetclassService",function($scope,$uibModalInstance,SweetAlert,userService,courseinstance,subgetclassService){
+    courseMaintenance_module.controller("addcourseController",["$scope","$uibModalInstance","SweetAlert","userService","courseinstance","subgetclassService","CourseResource","subgetteacherService",function($scope,$uibModalInstance,SweetAlert,userService,courseinstance,subgetclassService,CourseResource,subgetteacherService){
 
 
         //定义一个数组，用于装载节次信息
@@ -152,14 +249,7 @@
 
 
         //定义一个数组，用于承担部门信息
-        $scope.depatments = [
-            {id: 140001, name: '计算机与软件学院'},
-            {id: 140002, name: '学工处'},
-            {id: 145510, name: '商务贸易学院'},
-            {id: 150023, name: '能源与电气学院'},
-            {id: 130045, name: '艺术设计学院'},
-            {id: 120001, name: '经济管理学院'}
-        ];
+        $scope.depatments =  courseinstance.showdepartments;
 
         //定义一个数组，用于课程类型（3公选课、1讲授课、2实训课）
         $scope.courseTypes = [
@@ -169,13 +259,7 @@
         ];
 
         //定义一个数组，用于课程学期（3公选课、1讲授课、2实训课）
-        $scope.courseTerms = [
-            {termNo: 20150, termName: '2015学年第一学期'},
-            {termNo: 20151, termName: '2015学年第二学期'},
-            {termNo: 20160, termName: '2016学年第一学期'},
-            {termNo: 20161, termName: '2016学年第二学期'},
-            {termNo: 20170, termName: '2017学年第一学期'}
-        ];
+        $scope.courseTerms = courseinstance.showterms;
 
 
         function  ObjStory(section,location) //创建对象function
@@ -273,22 +357,14 @@
                     closeOnConfirm: true
                 });
             }else {
-                userService.getUsers($scope.teacherString,index,length,renderteacherData);
+                subgetteacherService.getTeachers($scope.teacherString,index,length,renderteacherData);
+
+               /* userService.getUsers($scope.teacherString,index,length,renderteacherData);*/
             }
         }
 
         //选择教师
-        $scope.chooseTeacher = function (userId,username,loginnam,type) {
-            if (type=="学生"){
-                SweetAlert.swal({
-                    title: '请选择一名教师',
-                    type: 'warning',
-                    showCancelButton: false,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: '知道了!',
-                    closeOnConfirm: true
-                });
-            }else {
+        $scope.chooseTeacher = function (username,loginnam) {
                 if($scope.teachers.length==0){
                     var oneteacher= new teacherObjStory(username,loginnam);//声明对象
                     $scope.teachers.push(oneteacher);
@@ -304,8 +380,6 @@
                         closeOnConfirm: true
                     });
                 }
-
-            }
         }
 
         function renderclassData(data){
@@ -380,11 +454,97 @@
 
 
             for (var j =0;j<$scope.locations.length;j++){
-                $scope.checkedsections=$scope.checkedsections+$scope.locations[j].section+'-'+$scope.locations[j].location+',';
+                $scope.checkedsections=$scope.checkedsections+$scope.locations[j].section+','+$scope.locations[j].location+';';
             }
-
             console.log($scope.checkedsections);
+
+
+            CourseResource.saveCourse({
+                courseNo:$scope.courseNo,
+                courseName:$scope.courseName,
+                studentNumber:$scope.studentNumber,
+                department:$scope.department,
+                courseType:$scope.courseType,
+                courseAttr:$scope.courseAttr,
+                courseWeeks:$scope.courseWeeks,
+                courseHours:$scope.courseHours,
+                courseTerm:$scope.courseTerm,
+                tealoginname:$scope.tealoginname,
+                checkedclass:$scope.checkedclass,
+                checkedsections:$scope.checkedsections
+            },function(result){
+                console.log("课程保存成功！",result);
+                SweetAlert.swal({
+                    title: '课程保存成功',
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'ok',
+                    closeOnConfirm: true
+                },function () {
+                    $uibModalInstance.dismiss('cancel');
+                });
+
+            },function(result){
+                console.log("课程保存失败",result);
+            });
+
+
+
+
+
+
+
+
+
+
+
         }
+
+
+
+
+    }]);
+
+    //显示任选课学生信息
+    courseMaintenance_module.controller("showcourseController",["$scope","$uibModalInstance","SweetAlert","$http",function($scope,$uibModalInstance,SweetAlert,$http){
+
+        //弹出层关闭按钮
+        $scope.cancel = function cancel(flag){
+            $uibModalInstance.dismiss('cancel');
+        }
+        $scope.person = {};
+        $scope.people = [
+            { name: 'Adam',      email: 'adam@email.com',      age: 10 },
+            { name: 'Amalie',    email: 'amalie@email.com',    age: 12 },
+            { name: 'Wladimir',  email: 'wladimir@email.com',  age: 30 },
+            { name: 'Samantha',  email: 'samantha@email.com',  age: 31 },
+            { name: 'Estefanía', email: 'estefanía@email.com', age: 16 },
+            { name: 'Natasha',   email: 'natasha@email.com',   age: 54 },
+            { name: 'Nicole',    email: 'nicole@email.com',    age: 43 },
+            { name: 'Adrian',    email: 'adrian@email.com',    age: 21 }
+        ];
+
+        $scope.address = {};
+        $scope.refreshAddresses = function(address) {
+            var params = {address: address, sensor: false};
+            return $http.get(
+                '//maps.googleapis.com/maps/api/geocode/json',
+                {params: params}
+            ).then(function(response) {
+                $scope.addresses = response.data.results;
+            });
+        };
+
+        $scope.counter = 0;
+        $scope.someFunction = function (item, model){
+            vm.counter++;
+            vm.eventResult = {item: item, model: model};
+        };
+
+        $scope.selectedPeople = [$scope.people[5]];
+
+
 
 
 

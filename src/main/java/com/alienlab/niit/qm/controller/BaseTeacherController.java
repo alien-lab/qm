@@ -12,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -164,4 +162,18 @@ public class BaseTeacherController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
+
+    @ApiOperation(value = "分页根据教师ID查询教师信息")
+    @GetMapping(value = "/teacher/findTeacherpage")
+    public ResponseEntity pageGetTeacher(@RequestParam String keyword, @RequestParam int index,@RequestParam int length){
+        Page<BaseTeacherEntity> baseTeacherEntities = baseTeacherService.findTeacherByKeywords(keyword,new PageRequest(index,length));
+        if (baseTeacherEntities!=null){
+            return ResponseEntity.ok().body(baseTeacherEntities);
+        }else {
+            ExecResult er= new ExecResult(false,"用户不存在");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
+
 }

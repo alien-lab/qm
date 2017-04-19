@@ -10,8 +10,15 @@ import com.alienlab.niit.qm.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.metamodel.Metamodel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Master QB on 2017/3/29.
@@ -24,15 +31,19 @@ public class MenuServiceImpl implements MenuService {
     @Autowired
     RolerMenuRepository rolerMenuRepository;
 
+
     @Override
     public List<TbMenuEntity> getAllMenus() throws Exception {
+
         return menuRepository.findAll();
     }
 
     @Override
     public TbMenuEntity saveMenu(TbMenuEntity tbMenuEntity) throws Exception {
         if (tbMenuEntity != null){
-            return  menuRepository.save(tbMenuEntity);
+            TbMenuEntity tbMenuEntity1 = menuRepository.save(tbMenuEntity);
+            return  tbMenuEntity1;
+
         }
         else {
             return null;

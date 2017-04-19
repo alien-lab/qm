@@ -3,6 +3,7 @@ package com.alienlab.niit.qm.entity;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.GeneratedValue;
 import java.sql.Timestamp;
 /**
  * Created by Master QB on 2017/3/14.
@@ -15,6 +16,7 @@ public class BaseTeachTaskEntity {
 
     @javax.persistence.Id
     @javax.persistence.Column(name = "task_no")
+    @GeneratedValue
     public long getTaskNo() {
         return taskNo;
     }

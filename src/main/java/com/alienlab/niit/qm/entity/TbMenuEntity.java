@@ -3,6 +3,11 @@ package com.alienlab.niit.qm.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+import static java.awt.font.TransformAttribute.IDENTITY;
+
 /**
  * Created by Master QB on 2017/3/14.
  */
@@ -15,6 +20,7 @@ public class TbMenuEntity {
 
     @javax.persistence.Id
     @javax.persistence.Column(name = "menu_id")
+
     public long getMenuId() {
         return menuId;
     }
