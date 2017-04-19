@@ -7,7 +7,7 @@
         <select type="button" style="width:auto;float:left;"  class="form-control" data-toggle="dropdown" ng-model="selectedDepartment" >
             <option value="{{department.depNo}}" ng-repeat="department in departments" >{{department.depName}}</option>
         </select>
-        <button style="margin-left: 5px;" class="btn btn-success" type="button" ng-click="searchCourse(5,9)">搜索</button>
+        <button style="margin-left: 5px;" class="btn btn-success" type="button" ng-click="loadData(0,9)">搜索</button>
     </div>
     <div class="col-md-3">
         <div style="width:auto;float:left;" class="input-group">
@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped" style="text-align: center">
     <tr class="active">
         <td><b>课程名称</b></td>
         <td><b>课程类型</b></td>
@@ -39,16 +39,20 @@
         <td><b>任课教师</b></td>
         <td><b>操作</b></td>
     </tr>
-    <tr class="active">
-        <td>软件1431</td>
-        <td>23</td>
+    <tr class="active" ng-repeat="course in courseArrays.content">
+        <td>{{course.course_name}}</td>
+        <td>{{course.course_type}}</td>
         <td>
-            <button type="button" ng-click="showSubject()" class="btn btn-sm btn-info" title="学生详情">
+            <button  ng-if="course.logicClass==true" type="button" ng-click="showSubject()" class="btn btn-sm btn-info" title="学生详情">
                 <em class="fa fa-paperclip"></em>
             </button>
+            <span ng-if="course.logicClass==false">{{course.class_name}}</span>
         </td>
-        <td>谢继刚</td>
+        <td>{{course.teacher_name}}</td>
         <td>
+            <button  type="button" ng-click="showSubject()" class="btn btn-sm btn-info" title="学生详情">
+                <em class="fa fa-paperclip"></em>
+            </button>
             <button type="button" class="btn btn-sm btn-warning" title="修改课程">
                 <em class="fa fa-edit"></em>
             </button>
@@ -57,60 +61,13 @@
             </button>
         </td>
     </tr>
-
-    <tr class="active">
-        <td>软件1431</td>
-        <td>23</td>
-        <td>杨静丽</td>
-        <td>谢继刚</td>
-        <td>
-            <button type="button" class="btn btn-sm btn-warning">
-                <em class="fa fa-edit"></em>
-            </button>
-        </td>
-    </tr>
-    <tr class="active">
-        <td>软件1431</td>
-        <td>23</td>
-        <td>杨静丽</td>
-        <td>谢继刚</td>
-        <td>
-            <button type="button" class="btn btn-sm btn-warning">
-                <em class="fa fa-edit"></em>
-            </button>
-        </td>
-    </tr>
-    <tr class="active">
-        <td>软件1431</td>
-        <td>23</td>
-        <td>杨静丽</td>
-        <td>谢继刚</td>
-        <td>
-            <button type="button" class="btn btn-sm btn-warning">
-                <em class="fa fa-edit"></em>
-            </button>
-        </td>
-    </tr>
-
 </table>
-<div class="col-lg-12 col-md-12 row" >
-    <nav aria-label="Page navigation" style="float: right">
-        <ul class="pagination">
-            <li>
-                <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
+<div class="col-lg-12 col-md-12 " style="margin-top: -35px;">
+    <nav aria-label="Page navigation" style="float: right" ng-if=(courseArrays)>
+        <ul class="pagination pagination-sm" style="float: right">
+            <li ng-disabled="courseArrays.first" ng-click="loadData(courseArrays.number-1,courseArrays.size)"><a href="javascript:void(0)">上一页</a></li>
+            <li><a href="javascript:void(0)">{{courseArrays.number+1}}/{{courseArrays.totalPages}}</a></li>
+            <li ng-disabled="courseArrays.last" ng-click="loadData(courseArrays.number+1,courseArrays.size)"><a href="javascript:void(0)">下一页</a></li>
         </ul>
     </nav>
 </div>

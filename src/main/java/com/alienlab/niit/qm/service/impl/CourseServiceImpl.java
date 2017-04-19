@@ -1,5 +1,7 @@
 package com.alienlab.niit.qm.service.impl;
 
+import com.alienlab.niit.qm.entity.BaseClassLogicEntity;
+import com.alienlab.niit.qm.entity.BaseClassesEntity;
 import com.alienlab.niit.qm.entity.BaseTaskScheEntity;
 import com.alienlab.niit.qm.entity.BaseTeachTaskEntity;
 import com.alienlab.niit.qm.entity.dto.CourseDto;
@@ -101,9 +103,19 @@ public class CourseServiceImpl implements CourseService {
                if (baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo())!=null){
                    String className = baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo()).getClassName();
                    courseDto.setClass_name(className);
-                   courseDto.setStudentNumber(baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo()).getClassStuAmount());
+                   BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo());
+                   if (baseClassesEntity!=null) {
+                       courseDto.setStudentNumber(baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo()).getClassStuAmount());
+                   }else {
+                       courseDto.setStudentNumber(0);
+                   }
                }else {
-                   courseDto.setStudentNumber(baseClassLogicRepository.findByTaskNo(baseTeachTaskEntities.getContent().get(i).getTaskNo()).size());
+                  List<BaseClassLogicEntity> baseClassLogicEntities2 = baseClassLogicRepository.findByTaskNo(baseTeachTaskEntities.getContent().get(i).getTaskNo());
+                   if (baseClassLogicEntities2!=null){
+                       courseDto.setStudentNumber(baseClassLogicRepository.findByTaskNo(baseTeachTaskEntities.getContent().get(i).getTaskNo()).size());
+                   }else {
+                       courseDto.setStudentNumber(0);
+                   }
                    courseDto.setLogicClass(true);
                }
                 courseDtos.add(courseDto);

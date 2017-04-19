@@ -40,6 +40,22 @@
 
     }]);
 
+    courseMaintenance_module.service("loadCourseService",["CourseResource",function(CourseResource){
+        this.loadCourse=function(selectedTerm,selectedDepartment,index,length,callback){
+            CourseResource.getCourses({
+                selectedTerm:selectedTerm,
+                selectedDepartment:selectedDepartment,
+                index:index,
+                length:length
+            },function(result){
+                if(callback){
+                    callback(result);}
+            },function(result){
+                console.log("课程获取失败",result);
+            });
+        }
+    }]);
+
 
     courseMaintenance_module.directive('formWizard',formWizard)
         formWizard.$inject = ['$parse'];
@@ -110,7 +126,7 @@
 
 
 
-    courseMaintenance_module.controller("courseMaintenanceController",["$scope","$uibModal","gettermsResource","departmentResource","courseinstance","CourseResource",function($scope,$uibModal,gettermsResource,departmentResource,courseinstance,CourseResource){
+    courseMaintenance_module.controller("courseMaintenanceController",["$scope","$uibModal","gettermsResource","departmentResource","courseinstance","CourseResource","loadCourseService",function($scope,$uibModal,gettermsResource,departmentResource,courseinstance,CourseResource,loadCourseService){
 
         $scope.addSubject=function () {
                 var addsubjectInfo = $uibModal.open({
@@ -163,31 +179,20 @@
 
 
         }
+        function renderCourseData(data){
+            $scope.courseArrays=data;
+            console.log($scope.courseArrays);
+        }
 
+        //根据学期和部门查询课程
+        $scope.loadData = function (index,length) {
+            loadCourseService.loadCourse($scope.selectedTerm,$scope.selectedDepartment,index,length,renderCourseData);
+        }
 
 
         $scope.removeCourse = function (index) {
           /*  $scope.menus.splice(index, 1);*/
         }
-        //根据学期和部门查询课程
-        $scope.searchCourse = function (index,length) {
-            CourseResource.getCourses({
-                selectedTerm:$scope.selectedTerm,
-                selectedDepartment:$scope.selectedDepartment,
-                index:index,
-                length:length
-            },function(result){
-                console.log("获取课程成功！");
-                console.log(result);
-                $scope.courseArrays = result;
-            },function(result){
-                console.log("获取课程失败");
-            });
-        }
-
-
-
-
 
 
     }]);
