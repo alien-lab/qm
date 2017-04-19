@@ -11,5 +11,5 @@ public interface BaseDepartmentService {
     public List<BaseDepartmentEntity> getDepartment();
     public BaseDepartmentEntity saveDepartment(BaseDepartmentEntity department);
     public boolean deleteDepartment(String dep_no);
-    public BaseDepartmentEntity getBaseDepartmentById(String depNo);
+    public BaseDepartmentEntity getBaseDepartmentBydepNo(String depNo);
 }

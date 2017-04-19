@@ -4,6 +4,7 @@
 (function(){
     'use strict';
     var product_module=angular.module("qm.base_teacher",['ui.router']);
+    product_module.factory("teacherinstance",function(){return {}});
     product_module.config(["$stateProvider",function ($stateProvider) {
         $stateProvider.state('qm.base_teacher',{
             url:'/data_base/teacher',
@@ -60,7 +61,10 @@
             'getTeacherByDepNoAndType':{method:'GET',url:"../qm-api/teacher/findTeacherByDepNoAndType"},
             'getAllTeacher':{method:'GET',url:"../qm-api/teacher/findTeacher"},
             'getTeacherByDepNoAndTypeAndKey':{method:'GET',url:"../qm-api/teacher/findTeacherByDepNoAndTypeAndKey"},
-            'addTeacher':{method:'POST'}
+            'addTeacher':{method:'POST'},
+            'getTeacherByTeacherNo':{method:'GET',url:"../qm-api/teacher/findOneTeacher"},
+            'updateOneTeacher':{method:'GET',url:"../qm-api/teacher/updateTeacher"},
+            'switchMenu':{method:'PUT',url:'../qm-api/teacher/switch'},
         });
         return service;
     }]);
@@ -116,7 +120,7 @@
     }]);
 
 
-    product_module.controller('teacherController',["$scope","teacherResource","teacherService","$uibModal",function ($scope,teacherResource,teacherService,$uibModal){
+    product_module.controller('teacherController',["$scope","teacherinstance","teacherResource","teacherService","$uibModal",function ($scope,teacherinstance,teacherResource,teacherService,$uibModal){
         $scope.names = ["全部","校内教师","外聘"];
 
         var index = 0;
@@ -162,6 +166,20 @@
                 }
             }
 
+            //开关设置
+        $scope.openTeachSwitch = function (teacherNo) {
+            console.log(teacherNo);
+            teacherResource.switchMenu({
+                teacherNo:teacherNo
+            },function(result){
+                console.log("switch开关修改成功！");
+                console.log(result);
+            },function(result){
+                console.log("switch开关修改失败");
+            });
+
+        }
+
         $scope.loadData = function (index,length) {
             if ($scope.depNo == null && $scope.teacherType == null && $scope.teacherkey == null){
                 teacherService.getTeacherAll(index,length,renderData);
@@ -182,21 +200,25 @@
                 size: "lg",
                 backdrop: false
             });
-            /*modalInstance.result.then(function (data) {
-                if(data.result > 0) {
-                    var farm = data.data;
-                    $scope.farm_data.content.push(farm);
-                }
-            }, function(flag) {
-                if(flag.indexOf("back") >= 0) {
-                    return false;
-                }
-            })*/
+        }
+
+        $scope.modifyteacher = showModifyteacher;
+        function showModifyteacher(teacherNo){
+            teacherinstance.modify=teacherNo;
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: "quality/database/teacher/modifyTeacher.html",
+                controller: 'updateTeacherController',
+                bindToController:true,
+                size: "lg",
+                backdrop:false
+            });
+
         }
     }]);
 
     product_module.controller("addTeacherController",["$scope","teacherResource","$uibModalInstance","$rootScope",function($scope,teacherResource,$uibModalInstance,$rootScope){
-        $scope.ModTitle = "增加学年学期";
+        $scope.ModTitle = "增加教师信息";
 
         teacherResource.getDepartment({}, function (result) {
             console.log(result);
@@ -240,6 +262,62 @@
             });
         }
 
+
+        $scope.cancel = function cancel(flag){
+            $uibModalInstance.dismiss('cancel');
+        }
+
+    }]);
+
+
+    product_module.controller("updateTeacherController",["$scope","$state","$uibModalInstance","$rootScope","teacherResource","teacherinstance",function($scope,$state,$uibModalInstance,$rootScope,teacherResource,teacherinstance){
+        $scope.ModTitle = "修改部门信息";
+        $scope.form=teacherinstance.modify;
+        console.log($scope.form);
+        teacherResource.getTeacherByTeacherNo({
+            teacherNo:$scope.form
+        },function(result){
+            console.log("获取部门信息成功！");
+            $scope.teachers = result;
+            console.log(result);
+        },function(result){
+            console.log("获取部门信息失败");
+        });
+
+        $scope.save=function save(updateteacher){
+            teacherResource.updateOneTeacher({
+                teacherNo:updateteacher.teacherNo,
+                teacherName:updateteacher.teacherName,
+                teacherTitle:updateteacher.teacherTitle,
+                teacherType:updateteacher.teacherType,
+            },function(result){
+                console.log("保存部门信息成功！");
+                //刷新前台界面
+                teacherResource.getAllTeacher({
+                    index:0,
+                    length:20
+                }, function (result) {
+                    $scope.teachercontent=result.content;
+                    $scope.teacherArrays=result;
+                    console.log($scope.teachercontent);
+                    $scope.pagnumbers =[];
+                    for(var i = 1; i<$scope.teacherArrays.totalPages+1;i++){
+                        $scope.pagnumbers.push(i);
+                    }
+                    console.log(result);
+                    swal({title:"成功",
+                        text:"教师修改成功！",
+                        type:"success",
+                    })
+                    $uibModalInstance.dismiss('cancel');
+                    $state.go("qm.base_teacher");
+                }, function () {
+                    console.log("获取部门信息失败");
+                });
+            },function(result){
+                console.log("获取部门信息失败");
+            });
+        }
 
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');

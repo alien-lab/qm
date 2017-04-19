@@ -25,11 +25,11 @@ public class BaseDepartmentServiceImpl implements BaseDepartmentService {
         return department;
     }
     public boolean deleteDepartment(String dep_no){
-        baseDepartmentRepository.delete(Long.valueOf(dep_no));
+        baseDepartmentRepository.delete(dep_no);
         return true;
     }
-    public BaseDepartmentEntity getBaseDepartmentById(String depNo){
-        return baseDepartmentRepository.findOne(Long.valueOf(depNo));
+    public BaseDepartmentEntity getBaseDepartmentBydepNo(String depNo){
+        return baseDepartmentRepository.findDepartmentBydepNo(depNo);
     }
     /*public Premise getPremiseById(Long id){
         return premiseRepository.findOne(id);

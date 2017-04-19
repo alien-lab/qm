@@ -1,0 +1,87 @@
+
+<h3>学年考核设置</h3>
+<div class="row">
+    <div class="col-md-5">
+        <select style="width:auto;float:left;" class="form-control" data-toggle="dropdown" ng-model="yearNo" ng-change="judgeyearNoChanged(yearNo)">
+            <option ng-repeat="judgeconfig in judgeconfigs" value="{{judgeconfig.yearNo}}">{{judgeconfig.yearNo}}</option>
+        </select>
+        &nbsp;
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
+        <button style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-info">
+               <span class="btn-label"><i class="fa fa-plus"></i>
+               </span>设置学年标准
+        </button>
+    </div>
+</div>
+&nbsp;
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+        <tr class="success">
+            <th>编号</th>
+            <th>评判标准</th>
+            <th>优秀线</th>
+            <th>良好线</th>
+            <th>状态</th>
+            <th check-all="check-all">
+                <div class="checkbox c-checkbox">
+                    <label>
+                        <input type="checkbox" />
+                        <span class="fa fa-check"></span>
+                    </label>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="judge in judgeconfiges" class="{{judge.judgeSet==1?'info':'danger'}}">
+            <td>1</td>
+            <td>{{judge.judgeType=='percent'?'百分比':'分值'}}</td>
+            <td><div data-label="{{judge.judgeYouxiu}}%" class="radial-bar radial-bar-{{judge.judgeYouxiu}} radial-bar-xs"></div></td>
+            <td class="text-center">
+                <div data-label="{{judge.judgeYouxiu}}%" class="radial-bar radial-bar-{{judge.judgeLianghao}} radial-bar-xs"></div>
+            </td>
+            <td>{{judge.judgeSet==1?'启用':'禁用'}}</td>
+            <td>
+                <div class="checkbox c-checkbox">
+                    <label>
+                        <input type="checkbox" />
+                        <span class="fa fa-check"></span>
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <!--<tr class="danger">
+            <td>2</td>
+            <td>分值</td>
+            <td class="text-center">
+                <div class="progress progress-striped progress-xs">
+                    <div class="progress-bar progress-bar-success progress-80" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                        <span class="sr-only">80% Complete</span>
+                    </div>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="progress progress-striped progress-xs">
+                    <div class="progress-bar progress-bar-success progress-80" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                        <span class="sr-only">80% Complete</span>
+                    </div>
+                </div>
+            </td>
+            <td>禁用</td>
+            <td>
+                <div class="checkbox c-checkbox">
+                    <label>
+                        <input type="checkbox" />
+                        <span class="fa fa-check"></span>
+                    </label>
+                </div>
+            </td>
+        </tr>-->
+        </tbody>
+    </table>
+</div>
+</div>

@@ -39,7 +39,7 @@ public class BaseDepartmentController {
        /* String jsonBody=IOUtils.toString(request.getInputStream(),"UTF-8");
         JSONObject form=JSONObject.parseObject(jsonBody);
         Long depSort = form.getLong("depSort");*/
-        BaseDepartmentEntity departmentEntity =baseDepartmentService.getBaseDepartmentById(id);
+        BaseDepartmentEntity departmentEntity =baseDepartmentService.getBaseDepartmentBydepNo(id);
         if(departmentEntity != null){
             return ResponseEntity.ok().body(departmentEntity);
         }else {
@@ -53,7 +53,7 @@ public class BaseDepartmentController {
     @PostMapping(value = "/department")
     public ResponseEntity saveDepartment(@RequestParam String depNo,@RequestParam String depName,@RequestParam String depCddwNo,
                                          @RequestParam String depType,@RequestParam Integer depSort,@RequestParam String depAbbreviation){
-        BaseDepartmentEntity departmentEntity =baseDepartmentService.getBaseDepartmentById(depNo);
+        BaseDepartmentEntity departmentEntity =baseDepartmentService.getBaseDepartmentBydepNo(depNo);
         if(departmentEntity != null){
             departmentEntity.setDepNo(depNo);
             departmentEntity.setDepName(depName);
@@ -103,5 +103,6 @@ public class BaseDepartmentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
+
 
 }

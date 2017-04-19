@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface BaseTermStudentService {
     public List<BaseTermStudentEntity> getBaseTermStudentByClassNo(String classNo);
+
+    public BaseTermStudentEntity saveTermSudent(BaseTermStudentEntity baseTermStudentEntity);
 }

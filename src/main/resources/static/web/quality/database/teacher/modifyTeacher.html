@@ -1,0 +1,34 @@
+<h3 style="margin-left: 20px">填写修改教师的信息</h3>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">教师工号</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="teachers.teacherNo" class="form-control" />
+        </div>
+        <label class="col-sm-2 control-label">教师姓名</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="teachers.teacherName" class="form-control" />
+        </div>
+    </div>
+</fieldset>
+<fieldset name="myForm">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">教师职称</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" placeholder="请输入教师职称" tagsinput="tagsinput" ng-model="teachers.teacherTitle" class="form-control" />
+            <span ng-show="myForm.teachers.teacherTitle.$error.required">教师职称是必须的。</span>
+        </div>
+        <label class="col-sm-2 control-label">教师类别</label>
+        <div class="col-sm-4">
+            <select name="select" required="" ng-model="teachers.teacherType" class="form-control">
+                <option value="校内教师">校内教师</option>
+                <option value="外聘">外聘</option>
+            </select>
+        </div>
+    </div>
+</fieldset>
+
+<div class="panel-footer text-center">
+    <button type="submit" class="btn btn-success" ng-click="save(teachers)">保存</button>
+    <button ng-click="cancel()" type="submit" class="btn btn-danger">取消</button>
+</div>

@@ -8,9 +8,9 @@ import javax.persistence.Id;
 @javax.persistence.Entity
 @javax.persistence.Table(name = "qm_judge_config", schema = "qualitymonitor", catalog = "")
 public class QmJudgeConfigEntity {
-    @Id
-    private Long id;
 
+    //private Long id;
+    @Id
     private Integer yearNo;
     @javax.persistence.Basic
     @javax.persistence.Column(name = "year_no")
@@ -95,5 +95,16 @@ public class QmJudgeConfigEntity {
         result = 31 * result + (judgeLianghao != null ? judgeLianghao.hashCode() : 0);
         result = 31 * result + (judgeSet != null ? judgeSet.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "QmJudgeConfigEntity{" +
+                "yearNo=" + yearNo +
+                ", judgeType='" + judgeType + '\'' +
+                ", judgeYouxiu=" + judgeYouxiu +
+                ", judgeLianghao=" + judgeLianghao +
+                ", judgeSet=" + judgeSet +
+                '}';
     }
 }

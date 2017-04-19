@@ -112,4 +112,16 @@ public class BaseDepartmentEntity {
         result = 31 * result + (depAbbreviation != null ? depAbbreviation.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "BaseDepartmentEntity{" +
+                "depNo='" + depNo + '\'' +
+                ", depName='" + depName + '\'' +
+                ", depType='" + depType + '\'' +
+                ", depCddwNo='" + depCddwNo + '\'' +
+                ", depSort=" + depSort +
+                ", depAbbreviation='" + depAbbreviation + '\'' +
+                '}';
+    }
 }

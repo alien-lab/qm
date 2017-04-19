@@ -3,7 +3,9 @@ package com.alienlab.niit.qm.controller;
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.BaseClassesEntity;
 import com.alienlab.niit.qm.entity.BaseStudentEntity;
+import com.alienlab.niit.qm.entity.BaseTermStudentEntity;
 import com.alienlab.niit.qm.service.BaseStudentService;
+import com.alienlab.niit.qm.service.BaseTermStudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 public class BaseStudentController{
     @Autowired
     private BaseStudentService baseStudentService;
+    @Autowired
+    private BaseTermStudentService baseTermStudentService;
 
     @ApiOperation(value = "根据学生编号查学生信息")
     @GetMapping(value = "/student")
@@ -68,6 +72,33 @@ public class BaseStudentController{
             return ResponseEntity.ok().body(baseClassesEntities);
         }else {
             ExecResult er = new ExecResult(false, "未获取部门信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value="增加部门内容")
+    @GetMapping(value = "/student/addStudent")
+    public ResponseEntity addStudent(@RequestParam String stuNo,@RequestParam String stuName,@RequestParam String stuBirthday,
+                                        @RequestParam String stuPhone,@RequestParam String stuStatus/*,@RequestParam String classNo,
+                                     @RequestParam String marjorNo*/){
+
+       /* BaseTermStudentEntity termStudentEntity = new BaseTermStudentEntity();
+        termStudentEntity.setStuNo(stuNo);
+        termStudentEntity.setClassNo(classNo);
+        termStudentEntity.setMajorNo(marjorNo);
+        BaseTermStudentEntity termStudentEntity1 = baseTermStudentService.saveTermSudent(termStudentEntity);*/
+
+        BaseStudentEntity studentEntity = new BaseStudentEntity();
+        studentEntity.setStuNo(stuNo);
+        studentEntity.setStuName(stuName);
+        studentEntity.setStuBirthday(stuBirthday);
+        studentEntity.setStuPhone(stuPhone);
+        studentEntity.setStuPhone(stuStatus);
+        BaseStudentEntity studentEntity1 = baseStudentService.saveStudent(studentEntity);
+        if (studentEntity1!=null){
+            return ResponseEntity.ok().body(studentEntity1);
+        }else {
+            ExecResult er=  new ExecResult(false,"新增学生失败！请重试");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }

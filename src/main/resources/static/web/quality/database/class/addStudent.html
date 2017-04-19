@@ -1,0 +1,49 @@
+<h3 style="margin-left: 20px">新增学生</h3>
+<fieldset>
+    <div class="form-group">
+        <!--<label class="col-sm-2 control-label">班级名称</label>
+        <div class="col-sm-4">
+            <input type="text" readonly="readonly" required="" name="tagsinput" tagsinput="tagsinput" ng-model="department.depName" class="form-control" />
+        </div>-->
+        <label class="col-sm-2 control-label">学生学号</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="student.stuNo" class="form-control" />
+        </div>
+        <label class="col-sm-2 control-label">姓名</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="student.stuName" class="form-control" />
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">生日</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="student.stuBirthday" class="form-control" />
+        </div>
+        <label class="col-sm-2 control-label">手机号码</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="student.stuPhone" class="form-control" />
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">入学年份</label>
+        <div class="col-sm-4">
+            <input readonly="readonly" type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="student.depSort" class="form-control" />
+        </div>
+        <label class="col-sm-2 control-label">是否启用</label>
+        <div class="col-sm-4">
+            <select name="select" required="" ng-model="student.stuStatus" class="form-control">
+                <option value="启用">启用</option>
+                <option value="禁用">禁用</option>
+            </select>
+        </div>
+    </div>
+</fieldset>
+</div>
+<div class="panel-footer text-center">
+    <button type="submit" class="btn btn-info" ng-click="save(student)">保存</button>
+    <button ng-click="cancel()" type="submit" class="btn btn-info">取消</button>
+</div>
