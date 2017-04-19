@@ -131,4 +131,17 @@ public class BaseTeacherEntity {
         result = 31 * result + (teacherType != null ? teacherType.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "BaseTeacherEntity{" +
+                "teacherNo='" + teacherNo + '\'' +
+                ", teacherName='" + teacherName + '\'' +
+                ", depNo='" + depNo + '\'' +
+                ", teacherStatus='" + teacherStatus + '\'' +
+                ", teacherTitle='" + teacherTitle + '\'' +
+                ", dataTime=" + dataTime +
+                ", teacherType='" + teacherType + '\'' +
+                '}';
+    }
 }

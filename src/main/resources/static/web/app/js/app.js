@@ -39,7 +39,8 @@
             'qm.base_student',
             'qm.base_teacher',
             'qm.base_subject',
-            'qm.stuevaluation'
+            'qm.stuevaluation',
+            'qm.base_judgeconfig'
         ]);
 })();
 (function(){

@@ -16,4 +16,6 @@ public interface BaseStudentService {
     Page<BaseStudentEntity> getStudentByClassNameAndTermNo(String className,String termNo,Pageable page);
 
     Page<BaseStudentEntity> getStudentByClassNameAndTermNoAndStuName(String className,String termNo,String stuName,Pageable page);
+
+    public BaseStudentEntity saveStudent(BaseStudentEntity baseStudentEntity);
 }

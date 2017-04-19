@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -72,6 +74,22 @@ public class BaseTeacherController {
         }
     }
 
+    @ApiOperation(value="获取单个教师内容")
+    @GetMapping(value = "/teacher/findOneTeacher")
+    public ResponseEntity updateDepartment(@RequestParam String teacherNo,HttpServletRequest request) throws IOException {
+       /* String jsonBody=IOUtils.toString(request.getInputStream(),"UTF-8");
+        JSONObject form=JSONObject.parseObject(jsonBody);
+        Long depSort = form.getLong("depSort");*/
+        BaseTeacherEntity teacherEntity =baseTeacherService.getTeacherByteacherNo(teacherNo);
+        if(teacherEntity != null){
+            return ResponseEntity.ok().body(teacherEntity);
+        }else {
+            ExecResult er=  new ExecResult(false,"获取教师列表失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+
+        }
+    }
+
 
     @ApiOperation(value = "根据部门和类型查找教师")
     @GetMapping(value = "/teacher/findTeacher")
@@ -88,6 +106,61 @@ public class BaseTeacherController {
             return ResponseEntity.ok().body(baseTeacherEntity);
         }else {
             ExecResult er = new ExecResult(false, "未获取专业信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value="修改教师内容")
+    @GetMapping(value = "/teacher/updateTeacher")
+    public ResponseEntity saveDepartment(@RequestParam String teacherNo,@RequestParam String teacherName,
+                                         @RequestParam String teacherTitle,@RequestParam String teacherType){
+        BaseTeacherEntity teacherEntity =baseTeacherService.getTeacherByteacherNo(teacherNo);
+        if(teacherEntity != null){
+            teacherEntity.setTeacherNo(teacherNo);
+            teacherEntity.setTeacherName(teacherName);
+            teacherEntity.setTeacherType(teacherType);
+            teacherEntity.setTeacherTitle(teacherTitle);
+            BaseTeacherEntity result = baseTeacherService.saveTeacher(teacherEntity);
+            return ResponseEntity.ok().body(result);
+        }else {
+            ExecResult er=  new ExecResult(false,"保存部门信息失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value="菜单switch开关")
+    @PutMapping(value = "/teacher/switch")
+    public ResponseEntity switchMenu( @RequestParam String teacherNo)  {
+        BaseTeacherEntity baseTeacherEntity = null;
+        try {
+            baseTeacherEntity = baseTeacherService.getTeacherByteacherNo(teacherNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (baseTeacherEntity != null){
+            String teacherStatu = baseTeacherEntity.getTeacherStatus();
+            System.out.print(teacherStatu);
+            if (teacherStatu.equals("1")){
+                baseTeacherEntity.setTeacherStatus("0");
+            }else {
+                baseTeacherEntity.setTeacherStatus("1");
+            }
+            try {
+                BaseTeacherEntity baseTeacherEntity1 =  baseTeacherService.saveTeacher(baseTeacherEntity);
+                if (baseTeacherEntity1 != null)
+                {
+                    ExecResult right=  new ExecResult(true,"修改教师switch成功！");
+                    return ResponseEntity.ok().body(right);
+                }else {
+                    ExecResult er=  new ExecResult(false,"修改教师switch保存失败！请重试");
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+                }
+            } catch (Exception e) {
+                ExecResult er=  new ExecResult(false,"修改教师switch失败，系统异常！请重试");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+        }else {
+            ExecResult er=  new ExecResult(false,"系统获取需要修改的教师switch失败！请重试");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }

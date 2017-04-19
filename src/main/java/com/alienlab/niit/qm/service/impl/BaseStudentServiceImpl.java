@@ -35,4 +35,9 @@ public class BaseStudentServiceImpl implements BaseStudentService {
     public Page<BaseStudentEntity> getStudentByClassNameAndTermNoAndStuName(String className, String termNo, String stuName, Pageable page) {
         return baseStudentRepository.findStudentByClassNoAndTermNoAndName(className,termNo,stuName,page);
     }
+
+    @Override
+    public BaseStudentEntity saveStudent(BaseStudentEntity baseStudentEntity) {
+        return baseStudentRepository.save(baseStudentEntity);
+    }
 }

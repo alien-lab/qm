@@ -98,7 +98,7 @@
   },
   {
     "text": "基础数据",
-    "sref": "qm.base_student",
+    "sref": "",
     "icon": "icon-folder",
     "submenu": [
       {"text": "部门维护",       "sref": "qm.base_department"},
@@ -109,7 +109,7 @@
       {"text": "本学期考核教师",       "sref": "app.dashboard_v3" },
       {"text": "指标管理与设置",       "sref": "app.dashboard_v3" },
       {"text": "考核指标设置",       "sref": "app.dashboard_v2" },
-      {"text": "学年考核设置",       "sref": "app.dashboard_v3" }
+      {"text": "学年考核设置",       "sref": "qm.base_judgeconfig" }
     ]
   },
   {

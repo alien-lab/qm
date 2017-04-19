@@ -52,14 +52,20 @@
         <!--<td>{{teacher[5]}}</td>-->
         <td>
             <label style="float:left" class="switch switch-lg">
+                <input type="checkbox" ng-model="teacher[5]" ng-checked="teacher[5] == 1" ng-click="openTeachSwitch(teacher[0])" ng-true-value="1" ng-false-value="0" />
+                <span></span>
+            </label>
+            <span ng-if="teacher[5]" style="padding-left:10px;float:left;color: lawngreen;">启用</span>
+            <span ng-if="!teacher[5]" style="padding-left:10px;float:left;color: red">禁用</span>
+            <!--<label style="float:left" class="switch switch-lg">
                 <input ng-model="swing" type="checkbox" checked="checked" ng-init="swing = true" />
                 <span></span>
             </label>
             <span ng-if="swing" style="padding-left:10px;float:left;color: lawngreen;">启用</span>
-            <span ng-if="!swing" style="padding-left:10px;float:left;color: red">禁用</span>
+            <span ng-if="!swing" style="padding-left:10px;float:left;color: red">禁用</span>-->
         </td>
         <td>
-            <button type="button" class="btn btn-sm btn-warning">
+            <button type="button" class="btn btn-sm btn-warning" ng-click="modifyteacher(teacher[0])">
                 <em class="fa fa-edit"></em>
             </button>
         </td>
