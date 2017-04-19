@@ -1,0 +1,127 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div id="panelPortlet6" class=" panel-info" style="margin-bottom: -3px;">
+            <em ng-click="cancel()" style="float: right;font-size: 20px;" class="fa fa-close " ></em>
+            <div class="panel-heading portlet-handler">任选学生信息</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="btn-group btn-group-justified mb">课程名称：</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="btn-group btn-group-justified mb">班级人数：</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="btn-group btn-group-justified mb">学年学期：</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="row" >
+        <div class="col-md-1" ></div>
+        <div class="col-md-4" >
+            <div style="width:auto;float:left;" class="input-group">
+                <input type="text" class="form-control" placeholder="输入学生姓名、学号">
+                <span class="input-group-btn">
+                <button class="btn btn-default" type="button">查找</button>
+                 </span>
+            </div>
+        </div>
+        <div class="col-md-7">
+                <div class="col-md-8 col-xs-7">
+                    <ui-select multiple="" ng-model="selectedPeople" theme="bootstrap" ng-disabled="disabled">
+                        <ui-select-match placeholder="输入学生姓名、学号">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
+                        <ui-select-choices repeat="person in people">
+                            <div ng-bind-html="person.name | highlight: $select.search"></div>
+                            <small>email: {{person.email}} age:
+                                <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                            </small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            <div class="col-md-4 col-xs-4">
+                  <button  ng-click="addSubject()"  type="button" class="btn btn-labeled btn-info">
+                   <span class="btn-label"><i class="fa fa-plus"></i>
+                   </span>新增学生</button>
+            </div>
+
+        </div>
+    </div>
+
+    <table class="table table-striped" style="margin-top: 20px;text-align: center">
+        <tr >
+            <td><b>学号</b></td>
+            <td><b>学生姓名</b></td>
+            <td><b>学生状态</b></td>
+            <td><b>操作</b></td>
+        </tr>
+        <tr>
+            <td>软件1431</td>
+            <td>23</td>
+            <td>软件1431</td>
+            <td>
+                <button ng-click="removeSudent($index)" title="删除学生信息" class="btn btn-sm btn-danger">
+                    <em class="fa fa-trash"></em>
+                </button>
+            </td>
+        </tr>
+        <tr >
+            <td>软件1431</td>
+            <td>23</td>
+            <td>软件1431</td>
+            <td>
+                <button ng-click="removeSudent($index)" title="删除学生信息" class="btn btn-sm btn-danger">
+                    <em class="fa fa-trash"></em>
+                </button>
+            </td>
+        </tr>
+        <tr >
+            <td>软件1431</td>
+            <td>23</td>
+            <td>软件1431</td>
+            <td>
+                <button ng-click="removeSudent($index)" title="删除学生信息" class="btn btn-sm btn-danger">
+                    <em class="fa fa-trash"></em>
+                </button>
+            </td>
+        </tr>
+        <tr >
+            <td>软件1431</td>
+            <td>23</td>
+            <td>软件1431</td>
+            <td>
+                <button ng-click="removeSudent($index)" title="删除学生信息" class="btn btn-sm btn-danger">
+                    <em class="fa fa-trash"></em>
+                </button>
+            </td>
+        </tr>
+    </table>
+<div class="row">
+    <div class="col-md-1 "></div>
+    <nav aria-label="Page navigation"  class="col-md-5 col-xs-6">
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+    </nav>
+    <div class="col-md-6" style="margin-top: 10px">
+        <button style="width:auto;float:right;margin-right: 2px;margin-top: 10px" type="button" class="btn btn-labeled btn-success">
+               <span class="btn-label"><i class="icon-login"></i>
+               </span>导入</button>
+        <button style="width:auto;float:right;margin-right: 2px;margin-top: 10px" type="button" class="btn btn-labeled btn-success">
+               <span class="btn-label"><i class="icon-logout"></i>
+               </span>导出</button>
+     </div>
+</div>
+

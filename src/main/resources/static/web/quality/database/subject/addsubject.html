@@ -60,7 +60,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>承担部门</label>
-                                                    <select type="button" style="width:auto;float:left;"  class="form-control" data-toggle="dropdown" ng-model="$parent.department" >
+                                                    <select type="button"   class="form-control" data-toggle="dropdown" ng-model="$parent.department" >
                                                     <option value="{{dep.depNo}}" ng-repeat="dep in depatments" >{{dep.depName}}</option>
                                                     </select>
                                                 </div>
@@ -145,16 +145,15 @@
                                         </div>
                                         <legend style="margin-top: 20px"></legend>
                                         <div class="row" ng-if=(teaArrays)>
-                                            <div ng-click="chooseTeacher(teacher.userId,teacher.userName,teacher.userLoginname,teacher.userType)"  ng-repeat="teacher in teaArrays.content" class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
+                                            <div ng-click="chooseTeacher(teacher.teacherName,teacher.teacherNo)"  ng-repeat="teacher in teaArrays.content" class=" panel-green col-md-4  col-sm-4" style="margin-top: 20px" >
                                                 <div  class="panel-heading">
                                                     <div class="row">
                                                         <div class="col-xs-3">
-                                                            <em  ng-if=(teacher.userType=="教师") style="font-size: 25px">教师</em>
-                                                            <em  ng-if=(teacher.userType=="学生") style="font-size: 25px">学生</em>
+                                                            <em  ) style="font-size: 25px">教师</em>
                                                         </div>
                                                         <div class="col-xs-9 text-right">
-                                                            <div style="font-size: 30px">{{teacher.userName}}</div>
-                                                            <p class="m0">工号：{{teacher.userLoginname}}</p>
+                                                            <div style="font-size: 30px">{{teacher.teacherName}}</div>
+                                                            <p class="m0">工号：{{teacher.teacherNo}}</p>
                                                         </div>
                                                     </div>
                                                 </div>

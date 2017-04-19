@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 <h3>课程维护</h3>
 <div class="row">
     <div class="col-md-5">
@@ -14,7 +7,7 @@
         <select type="button" style="width:auto;float:left;"  class="form-control" data-toggle="dropdown" ng-model="selectedDepartment" >
             <option value="{{department.depNo}}" ng-repeat="department in departments" >{{department.depName}}</option>
         </select>
-        <button style="margin-left: 5px;" class="btn btn-success" type="button" ng-click="searchCourse()">搜索</button>
+        <button style="margin-left: 5px;" class="btn btn-success" type="button" ng-click="searchCourse(5,9)">搜索</button>
     </div>
     <div class="col-md-3">
         <div style="width:auto;float:left;" class="input-group">
@@ -49,7 +42,11 @@
     <tr class="active">
         <td>软件1431</td>
         <td>23</td>
-        <td>杨静丽</td>
+        <td>
+            <button type="button" ng-click="showSubject()" class="btn btn-sm btn-info" title="学生详情">
+                <em class="fa fa-paperclip"></em>
+            </button>
+        </td>
         <td>谢继刚</td>
         <td>
             <button type="button" class="btn btn-sm btn-warning" title="修改课程">
@@ -117,5 +114,3 @@
         </ul>
     </nav>
 </div>
-</body>
-</html>

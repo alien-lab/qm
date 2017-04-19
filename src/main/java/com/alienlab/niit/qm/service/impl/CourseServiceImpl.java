@@ -2,12 +2,15 @@ package com.alienlab.niit.qm.service.impl;
 
 import com.alienlab.niit.qm.entity.BaseTaskScheEntity;
 import com.alienlab.niit.qm.entity.BaseTeachTaskEntity;
-import com.alienlab.niit.qm.repository.BaseTaskScheRepository;
-import com.alienlab.niit.qm.repository.BaseTeachTaskRepository;
+import com.alienlab.niit.qm.entity.dto.CourseDto;
+import com.alienlab.niit.qm.repository.*;
 import com.alienlab.niit.qm.service.CourseService;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.hibernate.jpa.internal.EntityManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -26,6 +29,12 @@ public class CourseServiceImpl implements CourseService {
     BaseTeachTaskRepository baseTeachTaskRepository;
     @Autowired
     BaseTaskScheRepository baseTaskScheRepository;
+    @Autowired
+    BaseClassesRepository baseClassesRepository;
+    @Autowired
+    BaseTeacherRepository baseTeacherRepository;
+    @Autowired
+    BaseClassLogicRepository baseClassLogicRepository;
 
     @Override
     public boolean addCourse(String courseNo, String courseName, int studentNumber, String department, String courseType, String courseAttr, String courseWeeks, int courseHours, String courseTerm, String tealoginname, String checkedclass, String checkedsections) throws Exception {
@@ -74,5 +83,35 @@ public class CourseServiceImpl implements CourseService {
             }
         }
         return flag;
+    }
+
+    @Override
+    public List<CourseDto> getCoursesByTermAndDepartment(String termNo, String depNo, Pageable page) throws Exception {
+
+        List<CourseDto>courseDtos = new ArrayList<>();
+        Page<BaseTeachTaskEntity> baseTeachTaskEntities = baseTeachTaskRepository.findByTermNoAndDepNo(termNo,depNo,page);
+        if (baseTeachTaskEntities.getContent().size()!=0){
+            for (int i =0;i<baseTeachTaskEntities.getContent().size();i++){
+                CourseDto courseDto = new CourseDto();
+                String teacherName = baseTeacherRepository.findByTeacherNo(baseTeachTaskEntities.getContent().get(i).getTeacherNo()).getTeacherName();
+                courseDto.setCourse_name(baseTeachTaskEntities.getContent().get(i).getCourseName());
+                courseDto.setCourse_type(baseTeachTaskEntities.getContent().get(i).getCourseType());
+                courseDto.setTeacher_name(teacherName);
+                courseDto.setTaskNo(baseTeachTaskEntities.getContent().get(i).getTaskNo());
+               if (baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo())!=null){
+                   String className = baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo()).getClassName();
+                   courseDto.setClass_name(className);
+                   courseDto.setStudentNumber(baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo()).getClassStuAmount());
+               }else {
+                   courseDto.setStudentNumber(baseClassLogicRepository.findByTaskNo(baseTeachTaskEntities.getContent().get(i).getTaskNo()).size());
+                   courseDto.setLogicClass(true);
+               }
+                courseDtos.add(courseDto);
+            }
+            return courseDtos;
+
+        }else {
+            return  null;
+        }
     }
 }

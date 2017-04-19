@@ -11,6 +11,8 @@ public interface BaseTeacherService {
     //根据教师编号获取教师信息
     public BaseTeacherEntity getTeacherByteacherNo(String teacherNo);
 
+    public Page<BaseTeacherEntity> findTeacherByKeywords(String keyword,Pageable page);
+
     public BaseTeacherEntity saveTeacher(BaseTeacherEntity teacherEntity);
 
     Page<BaseTeacherEntity> getTeacherByTypeAndDepNo(String depNo,String teacherType,Pageable page);
@@ -18,4 +20,7 @@ public interface BaseTeacherService {
     Page<BaseTeacherEntity> getAllTeacher(Pageable page);
 
     Page<BaseTeacherEntity> getteacherByDepNoAndTypeAndKey(String depNo,String teacherType,String teacherName,Pageable page);
+
+
+
 }

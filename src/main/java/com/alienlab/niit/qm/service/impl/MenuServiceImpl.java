@@ -34,6 +34,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<TbMenuEntity> getAllMenus() throws Exception {
+
         return menuRepository.findAll();
     }
 
@@ -41,7 +42,6 @@ public class MenuServiceImpl implements MenuService {
     public TbMenuEntity saveMenu(TbMenuEntity tbMenuEntity) throws Exception {
         if (tbMenuEntity != null){
             TbMenuEntity tbMenuEntity1 = menuRepository.save(tbMenuEntity);
-            System.out.println("service"+tbMenuEntity1.getMenuId());
             return  tbMenuEntity1;
 
         }

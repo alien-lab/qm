@@ -6,13 +6,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/4/1.
  */
+@Repository
 public interface BaseClassesRepository extends JpaRepository<BaseClassesEntity,Long>{
+   public BaseClassesEntity findByClassNo(String classNo);
+
     public List<BaseClassesEntity> findBaseClassesBydepNo(String depNo);
 
     public List<BaseClassesEntity> findBaseClassesByClassNameLike(String like);

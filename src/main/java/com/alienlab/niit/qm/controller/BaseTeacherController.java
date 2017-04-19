@@ -91,4 +91,18 @@ public class BaseTeacherController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
+
+    @ApiOperation(value = "分页根据教师ID查询教师信息")
+    @GetMapping(value = "/teacher/findTeacherpage")
+    public ResponseEntity pageGetTeacher(@RequestParam String keyword, @RequestParam int index,@RequestParam int length){
+        Page<BaseTeacherEntity> baseTeacherEntities = baseTeacherService.findTeacherByKeywords(keyword,new PageRequest(index,length));
+        if (baseTeacherEntities!=null){
+            return ResponseEntity.ok().body(baseTeacherEntities);
+        }else {
+            ExecResult er= new ExecResult(false,"用户不存在");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
+
 }
