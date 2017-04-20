@@ -4,15 +4,15 @@
             <em ng-click="cancel()" style="float: right;font-size: 20px;" class="fa fa-close " ></em>
             <div class="panel-heading portlet-handler">任选学生信息</div>
             <div class="panel-body">
-                <div class="row">
+                <div class="row" style="font-weight: bold;">
                     <div class="col-md-4">
-                        <div class="btn-group btn-group-justified mb">课程名称：</div>
+                        <div class="btn-group btn-group-justified mb">课程名称：{{currentgxhcoursename}}</div>
                     </div>
                     <div class="col-md-4">
-                        <div class="btn-group btn-group-justified mb">班级人数：</div>
+                        <div class="btn-group btn-group-justified mb">班级人数：{{currentgxhstudentNumber}}人</div>
                     </div>
                     <div class="col-md-4">
-                        <div class="btn-group btn-group-justified mb">学年学期：</div>
+                        <div class="btn-group btn-group-justified mb">学年学期：{{currentgxhTermName}}</div>
                     </div>
                 </div>
             </div>
@@ -23,9 +23,9 @@
         <div class="col-md-1" ></div>
         <div class="col-md-4" >
             <div style="width:auto;float:left;" class="input-group">
-                <input type="text" class="form-control" placeholder="输入学生姓名、学号">
+                <input type="text" class="form-control" ng-model="detailStudentinfo" placeholder="输入学生姓名、学号">
                 <span class="input-group-btn">
-                <button class="btn btn-default" type="button">查找</button>
+                <button ng-click="searchgxhStu(0,4)" class="btn btn-default" type="button">查找</button>
                  </span>
             </div>
         </div>

@@ -40,7 +40,19 @@
 
     }]);
 
-    courseMaintenance_module.service("loadCourseService",["CourseResource",function(CourseResource){
+    courseMaintenance_module.factory("subStudentResource",["$resource",function($resource){
+        var service = $resource('../qm-api/student', {}, {
+            getallgxhStudent:{method: 'GET', url:'../qm-api/pagestudent'},
+           /* getkeyStudents:{ method: 'GET'}*/
+
+        });
+        return service;
+
+    }]);
+
+
+
+    courseMaintenance_module.service("loadCourseService",["CourseResource","courseinstance",function(CourseResource,courseinstance){
         this.loadCourse=function(selectedTerm,selectedDepartment,index,length,callback){
             CourseResource.getCourses({
                 selectedTerm:selectedTerm,
@@ -48,8 +60,10 @@
                 index:index,
                 length:length
             },function(result){
+                courseinstance.gxhTerm = selectedTerm;
                 if(callback){
-                    callback(result);}
+                    callback(result);
+                }
             },function(result){
                 console.log("课程获取失败",result);
             });
@@ -140,7 +154,8 @@
 
         }
 
-        $scope.showSubject=function () {
+        //显示个性化课程的学生信息
+        $scope.showSubject=function (coursename,taskNo,studentNumber) {
             var showSjectInfo = $uibModal.open({
                 animation: true,
                 templateUrl: "quality/database/subject/subjectDetail.html",
@@ -149,6 +164,10 @@
                 size: "lg",
                 backdrop: false
             });
+            courseinstance.gxhcoursename = coursename;
+            courseinstance.gxhtaskNo = taskNo;
+            courseinstance.gxhstudentNumber = studentNumber;
+
 
         }
 
@@ -235,6 +254,23 @@
             });
         }
     }]);
+
+    courseMaintenance_module.service("loadStudentService",["subStudentResource",function(subStudentResource){
+        this.getStudent=function(studentkeyword,taskNo,index,length,callback){
+            subStudentResource.getkeyStudents({
+                studentkeyword:studentkeyword,
+                taskNo:taskNo,
+                index:index,
+                length:length
+            },function(result){
+                if(callback){
+                    callback(result);}
+            },function(result){
+                console.log("个性化课程中的学生信息获取失败",result);
+            });
+        }
+    }]);
+
 
     courseMaintenance_module.controller("addcourseController",["$scope","$uibModalInstance","SweetAlert","userService","courseinstance","subgetclassService","CourseResource","subgetteacherService",function($scope,$uibModalInstance,SweetAlert,userService,courseinstance,subgetclassService,CourseResource,subgetteacherService){
 
@@ -511,8 +547,12 @@
 
     }]);
 
+
+
     //显示任选课学生信息
-    courseMaintenance_module.controller("showcourseController",["$scope","$uibModalInstance","SweetAlert","$http",function($scope,$uibModalInstance,SweetAlert,$http){
+    courseMaintenance_module.controller("showcourseController",["$scope","$uibModalInstance","SweetAlert","loadStudentService","courseinstance","subStudentResource",function($scope,$uibModalInstance,SweetAlert,loadStudentService,courseinstance,subStudentResource){
+
+
 
         //弹出层关闭按钮
         $scope.cancel = function cancel(flag){
@@ -548,6 +588,42 @@
         };
 
         $scope.selectedPeople = [$scope.people[5]];
+
+        //显示当前页面的课程信息
+        $scope.currentgxhcoursename = courseinstance.gxhcoursename;
+        $scope.currentgxhtaskNo  = courseinstance.gxhtaskNo ;
+        $scope.currentgxhstudentNumber = courseinstance.gxhstudentNumber ;
+        $scope.currentgxhTermNo = courseinstance.gxhTerm
+        $scope.currentgxhTermArrays = courseinstance.showterms;
+        for (var i =0;i<$scope.currentgxhTermArrays.length;i++){
+            if($scope.currentgxhTermNo==$scope.currentgxhTermArrays[i].termNo){
+                $scope.currentgxhTermName = $scope.currentgxhTermArrays[i].termName;
+            }
+        }
+
+        subStudentResource.getallgxhStudent({
+            taskNo:38163,
+            index:0,
+            length:4
+        },function(result){
+            console.log(result);
+        },function(result){
+            console.log("个性化课程中的学生信息获取失败",result);
+        });
+
+        //返回个性化课程中的学生信息
+        function renderstudentData(data){
+            $scope.gxhstudentArrays=data;
+            console.log($scope.classArrays);
+        }
+
+        //搜索班级信息
+        $scope.searchgxhStu = function (index,length) {
+            console.log($scope.detailStudentinfo);
+            loadStudentService.getStudent($scope.detailStudentinfo, $scope.currentgxhtaskNo,index,length,renderstudentData);
+
+        }
+
 
 
 

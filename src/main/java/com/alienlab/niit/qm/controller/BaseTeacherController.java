@@ -5,6 +5,7 @@ import com.alienlab.niit.qm.entity.BaseTeacherEntity;
 import com.alienlab.niit.qm.service.BaseTeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -74,7 +76,7 @@ public class BaseTeacherController {
 
     @ApiOperation(value="获取单个教师内容")
     @GetMapping(value = "/teacher/findOneTeacher")
-    public ResponseEntity updateDepartment(@RequestParam String teacherNo,HttpServletRequest request) throws IOException {
+    public ResponseEntity updateDepartment(@RequestParam String teacherNo) {
        /* String jsonBody=IOUtils.toString(request.getInputStream(),"UTF-8");
         JSONObject form=JSONObject.parseObject(jsonBody);
         Long depSort = form.getLong("depSort");*/

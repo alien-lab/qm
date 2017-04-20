@@ -18,4 +18,11 @@ public interface BaseStudentService {
     Page<BaseStudentEntity> getStudentByClassNameAndTermNoAndStuName(String className,String termNo,String stuName,Pageable page);
 
     public BaseStudentEntity saveStudent(BaseStudentEntity baseStudentEntity);
+
+    //通过学生关键字查找学生信息，返回Page
+    Page<BaseStudentEntity>getStudentByKeyword(String keyword, Pageable page);
+
+    //通过课程TaskNo查找学生信息，返回Page
+    Page<BaseStudentEntity>getStudentByTaskNo(long taskNo, Pageable page);
+
 }

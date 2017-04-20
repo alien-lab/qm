@@ -4,6 +4,7 @@ import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.BaseClassesEntity;
 import com.alienlab.niit.qm.entity.BaseStudentEntity;
 import com.alienlab.niit.qm.entity.BaseTermStudentEntity;
+import com.alienlab.niit.qm.repository.BaseStudentRepository;
 import com.alienlab.niit.qm.service.BaseStudentService;
 import com.alienlab.niit.qm.service.BaseTermStudentService;
 import io.swagger.annotations.Api;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,20 @@ public class BaseStudentController{
     private BaseStudentService baseStudentService;
     @Autowired
     private BaseTermStudentService baseTermStudentService;
+
+
+
+    @ApiOperation(value = "根据taskNo学生信息Page")
+    @GetMapping(value = "/pagestudent")
+    public ResponseEntity findStudentByTaskNo(@RequestParam long taskNo,@RequestParam int index,@RequestParam int length){
+       Page<BaseStudentEntity> baseStudentEntityPage = baseStudentService.getStudentByTaskNo(taskNo,new PageRequest(index,length));
+        if (baseStudentEntityPage!=null){
+            return ResponseEntity.ok().body(baseStudentEntityPage);
+        }else {
+            ExecResult er = new ExecResult(false, "未获取该taskNo下的学生信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
 
     @ApiOperation(value = "根据学生编号查学生信息")
     @GetMapping(value = "/student")

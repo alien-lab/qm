@@ -103,19 +103,9 @@ public class CourseServiceImpl implements CourseService {
                if (baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo())!=null){
                    String className = baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo()).getClassName();
                    courseDto.setClass_name(className);
-                   BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo());
-                   if (baseClassesEntity!=null) {
-                       courseDto.setStudentNumber(baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo()).getClassStuAmount());
-                   }else {
-                       courseDto.setStudentNumber(0);
-                   }
+                   courseDto.setStudentNumber(baseClassesRepository.findByClassNo(baseTeachTaskEntities.getContent().get(i).getClassNo()).getClassStuAmount());
                }else {
-                  List<BaseClassLogicEntity> baseClassLogicEntities2 = baseClassLogicRepository.findByTaskNo(baseTeachTaskEntities.getContent().get(i).getTaskNo());
-                   if (baseClassLogicEntities2!=null){
-                       courseDto.setStudentNumber(baseClassLogicRepository.findByTaskNo(baseTeachTaskEntities.getContent().get(i).getTaskNo()).size());
-                   }else {
-                       courseDto.setStudentNumber(0);
-                   }
+                   courseDto.setStudentNumber(baseClassLogicRepository.findByTaskNo(baseTeachTaskEntities.getContent().get(i).getTaskNo()).size());
                    courseDto.setLogicClass(true);
                }
                 courseDtos.add(courseDto);

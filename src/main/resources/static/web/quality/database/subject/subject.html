@@ -19,7 +19,7 @@
     </div>
     <div class="col-md-1"></div>
     <div class="col-md-4">
-        <button style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-success">
+        <button ng-click="showSubject()" style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-success">
                <span class="btn-label"><i class="icon-login"></i>
                </span>导入</button>
         <button style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-success">
@@ -50,7 +50,7 @@
         </td>
         <td>{{course.teacher_name}}</td>
         <td>
-            <button  type="button" ng-click="showSubject()" class="btn btn-sm btn-info" title="学生详情">
+            <button  type="button" ng-click="showSubject(course.course_name,course.taskNo,course.studentNumber)" class="btn btn-sm btn-info" title="学生详情">
                 <em class="fa fa-paperclip"></em>
             </button>
             <button type="button" class="btn btn-sm btn-warning" title="修改课程">
