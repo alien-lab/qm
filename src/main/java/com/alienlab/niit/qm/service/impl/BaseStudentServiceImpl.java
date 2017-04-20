@@ -71,4 +71,10 @@ public class BaseStudentServiceImpl implements BaseStudentService {
             return null;
         }
     }
+
+    @Override
+    public Page<BaseStudentEntity> getStudentByTaskNoAndKeyword(String keyword, long taskNo, Pageable page) {
+       return  baseStudentRepository.findBygxhStudentKeyword(keyword,taskNo,page);
+
+    }
 }

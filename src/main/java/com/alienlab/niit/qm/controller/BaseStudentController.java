@@ -30,7 +30,17 @@ public class BaseStudentController{
     @Autowired
     private BaseTermStudentService baseTermStudentService;
 
-
+    @ApiOperation(value = "根据taskNo与学生关键字查询学生信息Page")
+    @GetMapping(value = "/pagekeystudent")
+    public ResponseEntity findStudentByTaskNoAndKeyword(@RequestParam String studentkeyword,@RequestParam long taskNo,@RequestParam int index,@RequestParam int length){
+            Page<BaseStudentEntity> baseStudentEntityPage = baseStudentService.getStudentByTaskNoAndKeyword(studentkeyword,taskNo,new PageRequest(index,length));
+            if (baseStudentEntityPage!=null){
+                return ResponseEntity.ok().body(baseStudentEntityPage);
+            }else {
+                ExecResult er = new ExecResult(false, "未获取该taskNo下的关键字学生信息");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+    }
 
     @ApiOperation(value = "根据taskNo学生信息Page")
     @GetMapping(value = "/pagestudent")

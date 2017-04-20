@@ -57,63 +57,43 @@
             <td><b>学生状态</b></td>
             <td><b>操作</b></td>
         </tr>
-        <tr>
-            <td>软件1431</td>
-            <td>23</td>
-            <td>软件1431</td>
+        <tr ng-if="!serachergxhstudentArrays||serachergxhstudentArrays.length==0" ng-repeat=" student in gxhstudentArrays.content">
+            <td>{{student.stuNo}}</td>
+            <td>{{student.stuName}}</td>
+            <td>{{student.stuStatus}}</td>
             <td>
                 <button ng-click="removeSudent($index)" title="删除学生信息" class="btn btn-sm btn-danger">
                     <em class="fa fa-trash"></em>
                 </button>
             </td>
         </tr>
-        <tr >
-            <td>软件1431</td>
-            <td>23</td>
-            <td>软件1431</td>
+        <tr ng-if="serachergxhstudentArrays||serachergxhstudentArrays.length!=0" ng-repeat=" student in serachergxhstudentArrays.content">
+            <td>{{student[0]}}</td>
+            <td>{{student[1]}}</td>
+            <td ng-if="student[4]=='1'">正常</td>
+            <td ng-if="student[4]=='0'">失效</td>
             <td>
                 <button ng-click="removeSudent($index)" title="删除学生信息" class="btn btn-sm btn-danger">
                     <em class="fa fa-trash"></em>
                 </button>
             </td>
         </tr>
-        <tr >
-            <td>软件1431</td>
-            <td>23</td>
-            <td>软件1431</td>
-            <td>
-                <button ng-click="removeSudent($index)" title="删除学生信息" class="btn btn-sm btn-danger">
-                    <em class="fa fa-trash"></em>
-                </button>
-            </td>
-        </tr>
-        <tr >
-            <td>软件1431</td>
-            <td>23</td>
-            <td>软件1431</td>
-            <td>
-                <button ng-click="removeSudent($index)" title="删除学生信息" class="btn btn-sm btn-danger">
-                    <em class="fa fa-trash"></em>
-                </button>
-            </td>
-        </tr>
+
     </table>
 <div class="row">
-    <div class="col-md-1 "></div>
-    <nav aria-label="Page navigation"  class="col-md-5 col-xs-6">
-            <ul class="pagination">
-                <li>
-                    <a href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li><a href="#">1</a></li>
-                <li>
-                    <a href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
+    <nav aria-label="Page navigation"  class="col-md-4 col-xs-6" ng-if="!serachergxhstudentArrays||serachergxhstudentArrays.length==0">
+        <ul class="pagination pagination-sm" style="float: right">
+            <li ng-disabled="gxhstudentArrays.first" ng-click="searchgxhStu(gxhstudentArrays.number-1,gxhstudentArrays.size)"><a href="javascript:void(0)">上一页</a></li>
+            <li><a href="javascript:void(0)">{{gxhstudentArrays.number+1}}/{{gxhstudentArrays.totalPages}}</a></li>
+            <li ng-disabled="gxhstudentArrays.last" ng-click="searchgxhStu(gxhstudentArrays.number+1,gxhstudentArrays.size)"><a href="javascript:void(0)">下一页</a></li>
+        </ul>
+    </nav>
+    <nav aria-label="Page navigation"  class="col-md-4 col-xs-6"  ng-if="serachergxhstudentArrays.length!=0">
+        <ul class="pagination pagination-sm" style="float: right">
+            <li ng-disabled="serachergxhstudentArrays.first" ng-click="searchgxhStu(serachergxhstudentArrays.number-1,serachergxhstudentArrays.size)"><a href="javascript:void(0)">上一页</a></li>
+            <li><a href="javascript:void(0)">{{serachergxhstudentArrays.number+1}}/{{serachergxhstudentArrays.totalPages}}</a></li>
+            <li ng-disabled="serachergxhstudentArrays.last" ng-click="searchgxhStu(serachergxhstudentArrays.number+1,serachergxhstudentArrays.size)"><a href="javascript:void(0)">下一页</a></li>
+        </ul>
     </nav>
     <div class="col-md-6" style="margin-top: 10px">
         <button style="width:auto;float:right;margin-right: 2px;margin-top: 10px" type="button" class="btn btn-labeled btn-success">

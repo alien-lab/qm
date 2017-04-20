@@ -43,7 +43,7 @@
     courseMaintenance_module.factory("subStudentResource",["$resource",function($resource){
         var service = $resource('../qm-api/student', {}, {
             getallgxhStudent:{method: 'GET', url:'../qm-api/pagestudent'},
-           /* getkeyStudents:{ method: 'GET'}*/
+           getkeyStudents:{ method: 'GET', url:'../qm-api/pagekeystudent'}
 
         });
         return service;
@@ -553,6 +553,19 @@
     courseMaintenance_module.controller("showcourseController",["$scope","$uibModalInstance","SweetAlert","loadStudentService","courseinstance","subStudentResource",function($scope,$uibModalInstance,SweetAlert,loadStudentService,courseinstance,subStudentResource){
 
 
+        $scope.serachergxhstudentArrays=[];
+        function  ObjgxhstuinfoStory(stuNo,stuName,stuStatus) //创建对象function
+        {
+            this.stuNo = stuNo;
+            this.stuName= stuName;
+            if (stuStatus=="1"){
+                this.stuStatus = "正常";
+
+            }else {
+                this.stuStatus = "失效";
+            }
+
+        }
 
         //弹出层关闭按钮
         $scope.cancel = function cancel(flag){
@@ -602,25 +615,85 @@
         }
 
         subStudentResource.getallgxhStudent({
-            taskNo:38163,
+            taskNo: $scope.currentgxhtaskNo,
             index:0,
             length:4
         },function(result){
-            console.log(result);
+            for(var i =0;i<result.content.length;i++){
+                if (result.content[i].stuStatus=="1"){
+                    result.content[i].stuStatus = "正常";
+                }else {
+                    result.content[i].stuStatus = "失效";
+                }
+            }
+            $scope.gxhstudentArrays=result;
         },function(result){
             console.log("个性化课程中的学生信息获取失败",result);
         });
 
         //返回个性化课程中的学生信息
         function renderstudentData(data){
-            $scope.gxhstudentArrays=data;
-            console.log($scope.classArrays);
+            console.log(data);
+            if (data.content.length==0){
+                $scope.detailStudentinfo="";
+                SweetAlert.swal({
+                    title: '本课程无该学生信息',
+                    text: '请重新输入关键字查询',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'ok',
+                    closeOnConfirm: true
+                });
+            }else {
+                $scope.serachergxhstudentArrays = data;
+            }
+
         }
 
-        //搜索班级信息
+        //搜索班级学生信息
         $scope.searchgxhStu = function (index,length) {
             console.log($scope.detailStudentinfo);
-            loadStudentService.getStudent($scope.detailStudentinfo, $scope.currentgxhtaskNo,index,length,renderstudentData);
+            if($scope.detailStudentinfo==undefined){
+                subStudentResource.getallgxhStudent({
+                    taskNo: $scope.currentgxhtaskNo,
+                    index:index,
+                    length:length
+                },function(result){
+                    for(var i =0;i<result.content.length;i++){
+                        if (result.content[i].stuStatus=="1"){
+                            result.content[i].stuStatus = "正常";
+                        }else {
+                            result.content[i].stuStatus = "禁用";
+                        }
+                    }
+                    $scope.gxhstudentArrays=result;
+                },function(result){
+                    console.log("个性化课程中的学生信息获取失败",result);
+                });
+            }else if($scope.detailStudentinfo==""){
+                subStudentResource.getallgxhStudent({
+                    taskNo: $scope.currentgxhtaskNo,
+                    index:index,
+                    length:length
+                },function(result){
+                    for(var i =0;i<result.content.length;i++){
+                        if (result.content[i].stuStatus=="1"){
+                            result.content[i].stuStatus = "正常";
+                        }else {
+                            result.content[i].stuStatus = "禁用";
+                        }
+                    }
+                    $scope.serachergxhstudentArrays=[];
+                    $scope.gxhstudentArrays=[];
+                    $scope.gxhstudentArrays=result;
+                },function(result){
+                    console.log("个性化课程中的学生信息获取失败",result);
+                });
+            } else {
+                loadStudentService.getStudent($scope.detailStudentinfo, $scope.currentgxhtaskNo,index,length,renderstudentData);
+            }
+
 
         }
 

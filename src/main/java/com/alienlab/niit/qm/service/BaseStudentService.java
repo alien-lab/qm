@@ -25,4 +25,8 @@ public interface BaseStudentService {
     //通过课程TaskNo查找学生信息，返回Page
     Page<BaseStudentEntity>getStudentByTaskNo(long taskNo, Pageable page);
 
+
+    //通过课程TaskNo查找学生信息，返回Page
+    Page<BaseStudentEntity>getStudentByTaskNoAndKeyword(String keyword,long taskNo, Pageable page);
+
 }
