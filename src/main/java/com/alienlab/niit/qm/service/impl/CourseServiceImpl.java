@@ -116,4 +116,19 @@ public class CourseServiceImpl implements CourseService {
             return  null;
         }
     }
+
+    @Override
+    public boolean deleteCourseByTaskNo(long taskNo) throws Exception {
+        boolean flag = false;
+        BaseTeachTaskEntity baseTeachTaskEntity = baseTeachTaskRepository.findOne(taskNo);
+        if (baseTeachTaskEntity!=null){
+            baseTeachTaskRepository.delete(baseTeachTaskEntity);
+            List<BaseTaskScheEntity> baseTaskScheEntities = baseTaskScheRepository.findByTaskNo(taskNo);
+            for (int i=0;i<baseTaskScheEntities.size();i++){
+                baseTaskScheRepository.delete(baseTaskScheEntities.get(i));
+            }
+            flag  =true;
+        }
+        return flag;
+    }
 }

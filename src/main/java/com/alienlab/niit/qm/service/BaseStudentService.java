@@ -4,10 +4,14 @@ import com.alienlab.niit.qm.entity.BaseStudentEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/4/9.
  */
 public interface BaseStudentService {
+
+    public List<BaseStudentEntity> getAllStudent();
     //根据学生编号查找学生信息
     public BaseStudentEntity getStudentBystuNo(String stuNo);
 

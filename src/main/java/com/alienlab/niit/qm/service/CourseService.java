@@ -19,5 +19,7 @@ public interface CourseService {
     //根据学期和部门获取课程
     List<CourseDto> getCoursesByTermAndDepartment(String termNo, String depNo,Pageable page)throws  Exception;
 
+    public boolean deleteCourseByTaskNo(long taskNo) throws  Exception;
+
 
 }

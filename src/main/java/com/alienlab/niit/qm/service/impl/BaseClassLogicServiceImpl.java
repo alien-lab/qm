@@ -38,4 +38,25 @@ public class BaseClassLogicServiceImpl implements BaseClassLogicService {
             return null;
         }
     }
+
+    @Override
+    public boolean deleteClassLogicStudentByByTaskNoAndStuNo(long taskNo, String stuNo) {
+        boolean flag =false;
+        try {
+            List<BaseClassLogicEntity> baseClassLogicEntities = baseClassLogicRepository.findByTaskNo(taskNo);
+            if (baseClassLogicEntities!=null){
+                for (int i=0;i<baseClassLogicEntities.size();i++){
+                    if (baseClassLogicEntities.get(i).getStudentNo().equals(stuNo)){
+                        baseClassLogicRepository.delete((baseClassLogicEntities.get(i)));
+                        flag = true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return flag;
+    }
 }

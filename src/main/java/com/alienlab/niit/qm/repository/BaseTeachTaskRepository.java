@@ -22,4 +22,6 @@ public interface BaseTeachTaskRepository extends JpaRepository<BaseTeachTaskEnti
     @Query("from BaseTeachTaskEntity a where a.termNo=?1 and a.depNo=?2")
     List<BaseTeachTaskEntity> findByTermNoAndDepNo(String termNo, String depNo);
 
+    public  boolean deleteByTaskNo(long taskNo);
+
 }

@@ -5,6 +5,7 @@ import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.BaseTeachTaskEntity;
 import com.alienlab.niit.qm.entity.dto.CourseDto;
 import com.alienlab.niit.qm.repository.BaseTeachTaskRepository;
+import com.alienlab.niit.qm.service.BaseClassLogicService;
 import com.alienlab.niit.qm.service.CourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +31,7 @@ public class CourseController {
     CourseService courseService;
     @Autowired
     BaseTeachTaskRepository baseTeachTaskRepository;
+
 
     @ApiOperation(value="新增课程")
     @PostMapping(value = "/course")
@@ -76,4 +78,26 @@ public class CourseController {
         }
 
     }
+
+
+    @ApiOperation(value="删除课程")
+    @DeleteMapping(value = "/course")
+    public ResponseEntity deleteMenu( @RequestParam long taskId)  {
+        boolean flag = false;
+        try {
+            flag = courseService.deleteCourseByTaskNo(taskId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (flag == true){
+            ExecResult right=  new ExecResult(true,"删除课程成功！");
+            return ResponseEntity.ok().body(right);
+        }else {
+            ExecResult er=  new ExecResult(false,"删除课程失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+
+
 }

@@ -18,4 +18,6 @@ public interface BaseClassLogicRepository  extends JpaRepository<BaseClassLogicE
     List<BaseClassLogicEntity> findByTaskNo(long taskNo) throws  Exception;
 
     Page<BaseClassLogicEntity> findByTaskNo(long taskNo, Pageable page) throws  Exception;
+
+
 }

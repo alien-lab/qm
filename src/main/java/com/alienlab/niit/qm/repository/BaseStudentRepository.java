@@ -39,7 +39,7 @@ public interface BaseStudentRepository extends JpaRepository<BaseStudentEntity,L
 
     @Query("select distinct a.stuNo,a.stuName,a.stuPhone,a.stuBirthday,a.stuStatus,a.stuYear " +
             "from BaseStudentEntity a,com.alienlab.niit.qm.entity.BaseClassLogicEntity b" +
-            " where b.studentNo = a.stuNo AND b.taskNo=?2 AND (a.stuNo like CONCAT('%',?1,'%')) OR (a.stuName like CONCAT('%',?1,'%'))")
+            " where b.studentNo = a.stuNo AND b.taskNo=?2 AND a.stuNo like CONCAT('%',?1,'%')")
     Page<BaseStudentEntity> findBygxhStudentKeyword(String keyword,long taskNo, Pageable page);
 
 }

@@ -24,6 +24,12 @@ public class BaseStudentServiceImpl implements BaseStudentService {
     private BaseStudentRepository baseStudentRepository;
     @Autowired
     BaseClassLogicRepository baseClassLogicRepository;
+
+    @Override
+    public List<BaseStudentEntity> getAllStudent() {
+        return baseStudentRepository.findAll();
+    }
+
     @Override
     public BaseStudentEntity getStudentBystuNo(String stuNo) {
         return baseStudentRepository.findByStuNo(stuNo);

@@ -43,20 +43,20 @@
         <td>{{course.course_name}}</td>
         <td>{{course.course_type}}</td>
         <td>
-            <button  ng-if="course.logicClass==true" type="button" ng-click="showSubject(course.course_name,course.taskNo,course.studentNumber)" class="btn btn-sm btn-info" title="学生详情">
+            <button  ng-if="course.logicClass==true" type="button" ng-click="showSubject(course.course_name,course.taskNo)" class="btn btn-sm btn-info" title="学生详情">
                 <em class="fa fa-paperclip"></em>
             </button>
             <span ng-if="course.logicClass==false">{{course.class_name}}</span>
         </td>
         <td>{{course.teacher_name}}</td>
         <td>
-            <button  type="button" ng-click="showSubject(course.course_name,course.taskNo,course.studentNumber)" class="btn btn-sm btn-info" title="学生详情">
+            <button  type="button" ng-click="showSubject(course.course_name,course.taskNo)" class="btn btn-sm btn-info" title="学生详情">
                 <em class="fa fa-paperclip"></em>
             </button>
             <button type="button" class="btn btn-sm btn-warning" title="修改课程">
                 <em class="fa fa-edit"></em>
             </button>
-            <button ng-click="removeCourse($index)" title="删除课程" class="btn btn-sm btn-danger">
+            <button ng-click="removeCourse($index,course.taskNo)" title="删除课程" class="btn btn-sm btn-danger">
                 <em class="fa fa-trash"></em>
             </button>
         </td>
