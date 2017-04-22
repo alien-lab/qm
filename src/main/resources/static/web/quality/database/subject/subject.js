@@ -13,6 +13,43 @@
             controller:"courseMaintenanceController"
         });
     }]);
+        courseMaintenance_module.filter('propsFilter', propsFilter);
+        function propsFilter() {
+            return filterFilter;
+            ////////////////
+            function filterFilter(items, props) {
+                var out = [];
+
+                if (angular.isArray(items)) {
+                    items.forEach(function(item) {
+                        var itemMatches = false;
+
+                        var keys = Object.keys(props);
+                        for (var i = 0; i < keys.length; i++) {
+                            var prop = keys[i];
+                            var text = props[prop].toLowerCase();
+                            if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+                                itemMatches = true;
+                                break;
+                            }
+                        }
+
+                        if (itemMatches) {
+                            out.push(item);
+                        }
+                    });
+                } else {
+                    // Let the output be the input untouched
+                    out = items;
+                }
+
+                return out;
+            }
+        }
+
+
+
+
     courseMaintenance_module.factory("gettermsResource",["$resource",function($resource){
         var service = $resource('../qm-api/terms', {}, {
             getTerms: { method: 'GET',isArray:true},
@@ -32,12 +69,44 @@
     courseMaintenance_module.factory("CourseResource",["$resource",function($resource){
         var service = $resource('../qm-api/course', {}, {
             saveCourse: { method: 'POST'},
-            getCourses:{ method: 'GET'
-            }
+            getCourses:{ method: 'GET'},
+            deleteCourse:{method: 'DELETE'}
 
         });
         return service;
 
+    }]);
+
+    courseMaintenance_module.factory("subStudentResource",["$resource",function($resource){
+        var service = $resource('../qm-api/student', {}, {
+            getallgxhStudent:{method: 'GET', url:'../qm-api/pagestudent'},
+            getkeyStudents:{ method: 'GET', url:'../qm-api/pagekeystudent'},
+            getallStudent:{ method: 'GET',isArray:true, url:'../qm-api/allstudent'},
+            deleteStudent:{method: 'DELETE' , url:'../qm-api/gxhstudent'   }
+
+        });
+        return service;
+
+    }]);
+
+
+
+    courseMaintenance_module.service("loadCourseService",["CourseResource","courseinstance",function(CourseResource,courseinstance){
+        this.loadCourse=function(selectedTerm,selectedDepartment,index,length,callback){
+            CourseResource.getCourses({
+                selectedTerm:selectedTerm,
+                selectedDepartment:selectedDepartment,
+                index:index,
+                length:length
+            },function(result){
+                courseinstance.gxhTerm = selectedTerm;
+                if(callback){
+                    callback(result);
+                }
+            },function(result){
+                console.log("课程获取失败",result);
+            });
+        }
     }]);
 
 
@@ -110,8 +179,7 @@
 
 
 
-    courseMaintenance_module.controller("courseMaintenanceController",["$scope","$uibModal","gettermsResource","departmentResource","courseinstance","CourseResource",function($scope,$uibModal,gettermsResource,departmentResource,courseinstance,CourseResource){
-
+    courseMaintenance_module.controller("courseMaintenanceController",["$scope","$uibModal","gettermsResource","departmentResource","courseinstance","CourseResource","loadCourseService","SweetAlert",function($scope,$uibModal,gettermsResource,departmentResource,courseinstance,CourseResource,loadCourseService,SweetAlert){
         $scope.addSubject=function () {
                 var addsubjectInfo = $uibModal.open({
                     animation: true,
@@ -124,7 +192,8 @@
 
         }
 
-        $scope.showSubject=function () {
+        //显示个性化课程的学生信息
+        $scope.showSubject=function (coursename,taskNo) {
             var showSjectInfo = $uibModal.open({
                 animation: true,
                 templateUrl: "quality/database/subject/subjectDetail.html",
@@ -133,6 +202,8 @@
                 size: "lg",
                 backdrop: false
             });
+            courseinstance.gxhcoursename = coursename;
+            courseinstance.gxhtaskNo = taskNo;
 
         }
 
@@ -145,8 +216,8 @@
                 console.log("获取学期成功！");
                 console.log(result);
                 $scope.terms = result;
-                $scope.selectedTerm = $scope.terms[0].termName;
-                courseinstance.showterms = $scope.terms;
+                $scope.selectedTerm = result[0].termName;
+                courseinstance.showterms = result;
             },function(result){
                 console.log("获取学期失败");
             });
@@ -163,31 +234,49 @@
 
 
         }
-
-
-
-        $scope.removeCourse = function (index) {
-          /*  $scope.menus.splice(index, 1);*/
+        function renderCourseData(data){
+            $scope.courseArrays=data;
+            console.log($scope.courseArrays);
         }
+
         //根据学期和部门查询课程
-        $scope.searchCourse = function (index,length) {
-            CourseResource.getCourses({
-                selectedTerm:$scope.selectedTerm,
-                selectedDepartment:$scope.selectedDepartment,
-                index:index,
-                length:length
-            },function(result){
-                console.log("获取课程成功！");
-                console.log(result);
-                $scope.courseArrays = result;
-            },function(result){
-                console.log("获取课程失败");
-            });
+        $scope.loadData = function (index,length) {
+            loadCourseService.loadCourse($scope.selectedTerm,$scope.selectedDepartment,index,length,renderCourseData);
         }
 
 
+        //删除课程
+        $scope.removeCourse = function (index,taskId) {
+            SweetAlert.swal({
+                title: '您确定要删除该课程吗?',
+                text: '删除后将无法恢复，请谨慎操作！',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"让我再考虑一下…",
+                closeOnConfirm:true,
+                closeOnCancel:false
+            },  function(isConfirm){
+                if (isConfirm){
+                    CourseResource.deleteCourse({
+                        taskId:taskId
+                    },function(result){
+                        loadCourseService.loadCourse($scope.selectedTerm,$scope.selectedDepartment,"0","9",renderCourseData);
+                    },function(result){
+                        console.log("课程删除失败",result);
+                    });
+                }else {
+                    swal({title:"已取消",
+                        text:"您取消了删除操作！",
+                        type:"error"})
+                }
+            });
 
 
+
+
+        }
 
 
     }]);
@@ -230,6 +319,23 @@
             });
         }
     }]);
+
+    courseMaintenance_module.service("loadStudentService",["subStudentResource",function(subStudentResource){
+        this.getStudent=function(studentkeyword,taskNo,index,length,callback){
+            subStudentResource.getkeyStudents({
+                studentkeyword:studentkeyword,
+                taskNo:taskNo,
+                index:index,
+                length:length
+            },function(result){
+                if(callback){
+                    callback(result);}
+            },function(result){
+                console.log("个性化课程中的学生信息获取失败",result);
+            });
+        }
+    }]);
+
 
     courseMaintenance_module.controller("addcourseController",["$scope","$uibModalInstance","SweetAlert","userService","courseinstance","subgetclassService","CourseResource","subgetteacherService",function($scope,$uibModalInstance,SweetAlert,userService,courseinstance,subgetclassService,CourseResource,subgetteacherService){
 
@@ -489,32 +595,81 @@
                 console.log("课程保存失败",result);
             });
 
-
-
-
-
-
-
-
-
-
-
         }
-
-
-
 
     }]);
 
-    //显示任选课学生信息
-    courseMaintenance_module.controller("showcourseController",["$scope","$uibModalInstance","SweetAlert","$http",function($scope,$uibModalInstance,SweetAlert,$http){
 
+
+    //显示任选课学生信息
+    courseMaintenance_module.controller("showcourseController",["$scope","$uibModalInstance","SweetAlert","loadStudentService","courseinstance","subStudentResource",function($scope,$uibModalInstance,SweetAlert,loadStudentService,courseinstance,subStudentResource){
+
+       /* console.log($scope.$select.search);*/
+        $scope.serachergxhstudentArrays=[];
         //弹出层关闭按钮
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');
         }
-        $scope.person = {};
-        $scope.people = [
+
+        //增加学生信息
+        $scope.addStudent = function () {
+            console.log($scope.selectedPeople);
+        }
+        //删除学生信息
+        $scope.removeSudent = function (index,stuNo) {
+            SweetAlert.swal({
+                title: '您确定要删除该学生信息吗?',
+                text: '删除后将无法恢复，请谨慎操作！',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText:"是的，我要删除！",
+                cancelButtonText:"让我再考虑一下…",
+                closeOnConfirm:true,
+                closeOnCancel:false
+            },  function(isConfirm){
+                if (isConfirm){
+                    subStudentResource.deleteStudent({
+                        stuNo:stuNo,
+                        taskNo:courseinstance.gxhtaskNo
+                    },function(result){
+                        $scope.currentgxhstudentNumber =  $scope.currentgxhstudentNumber-1;
+                        subStudentResource.getallgxhStudent({
+                            taskNo: $scope.currentgxhtaskNo,
+                            index:0,
+                            length:4
+                        },function(result){
+                            for(var i =0;i<result.content.length;i++){
+                                if (result.content[i].stuStatus=="1"){
+                                    result.content[i].stuStatus = "正常";
+                                }else {
+                                    result.content[i].stuStatus = "失效";
+                                }
+                            }
+                            $scope.gxhstudentArrays=result;
+                        },function(result){
+                            console.log("个性化课程中的学生信息获取失败",result);
+                        });
+                    },function(result){
+                        console.log("课程删除失败",result);
+                    });
+                }else {
+                    swal({title:"已取消",
+                        text:"您取消了删除操作！",
+                        type:"error"})
+                }
+            });
+        }
+
+     /*   subStudentResource.getallStudent({
+        },function(result){
+        /!*  $scope.people=result;*!/
+          console.log(result);
+        },function(result){
+            console.log("个性化课程中的学生信息获取失败",result);
+        });*/
+
+      $scope.people = [
             { name: 'Adam',      email: 'adam@email.com',      age: 10 },
             { name: 'Amalie',    email: 'amalie@email.com',    age: 12 },
             { name: 'Wladimir',  email: 'wladimir@email.com',  age: 30 },
@@ -525,29 +680,85 @@
             { name: 'Adrian',    email: 'adrian@email.com',    age: 21 }
         ];
 
-        $scope.address = {};
-        $scope.refreshAddresses = function(address) {
-            var params = {address: address, sensor: false};
-            return $http.get(
-                '//maps.googleapis.com/maps/api/geocode/json',
-                {params: params}
-            ).then(function(response) {
-                $scope.addresses = response.data.results;
-            });
-        };
+      /*  $scope.selectedPeople = [$scope.people[5]];*/
 
-        $scope.counter = 0;
-        $scope.someFunction = function (item, model){
-            vm.counter++;
-            vm.eventResult = {item: item, model: model};
-        };
+        //显示当前个性化课程页面的课程信息
+        $scope.currentgxhcoursename = courseinstance.gxhcoursename;
+        $scope.currentgxhtaskNo  = courseinstance.gxhtaskNo ;
+        $scope.currentgxhTermNo = courseinstance.gxhTerm;
+        $scope.currentgxhTermArrays = courseinstance.showterms;
+        for (var i =0;i<$scope.currentgxhTermArrays.length;i++){
+            if($scope.currentgxhTermNo==$scope.currentgxhTermArrays[i].termNo){
+                $scope.currentgxhTermName = $scope.currentgxhTermArrays[i].termName;
+            }
+        }
 
-        $scope.selectedPeople = [$scope.people[5]];
+        //显示个性化课程学生信息
+        subStudentResource.getallgxhStudent({
+            taskNo: $scope.currentgxhtaskNo,
+            index:0,
+            length:4
+        },function(result){
+            for(var i =0;i<result.content.length;i++){
+                if (result.content[i].stuStatus=="1"){
+                    result.content[i].stuStatus = "正常";
+                }else {
+                    result.content[i].stuStatus = "失效";
+                }
+            }
+            console.log(result);
+            $scope.gxhstudentArrays=result;
+            $scope.currentgxhstudentNumber = result.totalElements;
+        },function(result){
+            console.log("个性化课程中的学生信息获取失败",result);
+        });
 
+        //返回个性化课程中的学生信息
+        function renderstudentData(data){
+            console.log(data);
+            if (data.content.length==0){
+                $scope.detailStudentinfo="";
+                SweetAlert.swal({
+                    title: '本课程无该学生信息',
+                    text: '请重新输入关键字查询',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'ok',
+                    closeOnConfirm: true
+                });
+            }else {
+                $scope.serachergxhstudentArrays = data;
+            }
 
+        }
 
-
-
+        //搜索班级学生信息
+        $scope.searchgxhStu = function (index,length) {
+            console.log($scope.detailStudentinfo);
+            if($scope.detailStudentinfo==undefined ||$scope.detailStudentinfo == ""|| $scope.detailStudentinfo == null){
+                subStudentResource.getallgxhStudent({
+                    taskNo: $scope.currentgxhtaskNo,
+                    index:index,
+                    length:length
+                },function(result){
+                    for(var i =0;i<result.content.length;i++){
+                        if (result.content[i].stuStatus=="1"){
+                            result.content[i].stuStatus = "正常";
+                        }else {
+                            result.content[i].stuStatus = "禁用";
+                        }
+                    }
+                    $scope.serachergxhstudentArrays=[];
+                    $scope.gxhstudentArrays=[];
+                    $scope.gxhstudentArrays=result;
+                },function(result){
+                    console.log("个性化课程中的学生信息获取失败",result);
+                });
+            }else {
+                loadStudentService.getStudent($scope.detailStudentinfo, $scope.currentgxhtaskNo,index,length,renderstudentData);
+            }
+        }
 
     }]);
 

@@ -4,6 +4,8 @@ import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.BaseClassesEntity;
 import com.alienlab.niit.qm.entity.BaseStudentEntity;
 import com.alienlab.niit.qm.entity.BaseTermStudentEntity;
+import com.alienlab.niit.qm.repository.BaseStudentRepository;
+import com.alienlab.niit.qm.service.BaseClassLogicService;
 import com.alienlab.niit.qm.service.BaseStudentService;
 import com.alienlab.niit.qm.service.BaseTermStudentService;
 import io.swagger.annotations.Api;
@@ -11,10 +13,13 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/4/9.
@@ -27,6 +32,45 @@ public class BaseStudentController{
     private BaseStudentService baseStudentService;
     @Autowired
     private BaseTermStudentService baseTermStudentService;
+    @Autowired
+    BaseClassLogicService baseClassLogicService;
+
+    @ApiOperation(value = "根据taskNo与学生关键字查询学生信息Page")
+    @GetMapping(value = "/allstudent")
+    public ResponseEntity findAllStudent(){
+       List<BaseStudentEntity> baseStudentEntityPage = baseStudentService.getAllStudent();
+        if (baseStudentEntityPage!=null){
+            return ResponseEntity.ok().body(baseStudentEntityPage);
+        }else {
+            ExecResult er = new ExecResult(false, "为获得全部学生信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+
+    @ApiOperation(value = "根据taskNo与学生关键字查询学生信息Page")
+    @GetMapping(value = "/pagekeystudent")
+    public ResponseEntity findStudentByTaskNoAndKeyword(@RequestParam String studentkeyword,@RequestParam long taskNo,@RequestParam int index,@RequestParam int length){
+            Page<BaseStudentEntity> baseStudentEntityPage = baseStudentService.getStudentByTaskNoAndKeyword(studentkeyword,taskNo,new PageRequest(index,length));
+            if (baseStudentEntityPage!=null){
+                return ResponseEntity.ok().body(baseStudentEntityPage);
+            }else {
+                ExecResult er = new ExecResult(false, "未获取该taskNo下的关键字学生信息");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+    }
+
+    @ApiOperation(value = "根据taskNo学生信息Page")
+    @GetMapping(value = "/pagestudent")
+    public ResponseEntity findStudentByTaskNo(@RequestParam long taskNo,@RequestParam int index,@RequestParam int length){
+       Page<BaseStudentEntity> baseStudentEntityPage = baseStudentService.getStudentByTaskNo(taskNo,new PageRequest(index,length));
+        if (baseStudentEntityPage!=null){
+            return ResponseEntity.ok().body(baseStudentEntityPage);
+        }else {
+            ExecResult er = new ExecResult(false, "未获取该taskNo下的学生信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
 
     @ApiOperation(value = "根据学生编号查学生信息")
     @GetMapping(value = "/student")
@@ -64,7 +108,7 @@ public class BaseStudentController{
         }
     }
 
-    @ApiOperation(value = "根据姓名查学生信息")
+    @ApiOperation(value = "根据班级名称，学期，学生姓名查学生信息")
     @GetMapping(value = "/student/findStudentByClassNameAndTermNoAndstuName")
     public ResponseEntity findStudentByClassNameAndTermNoAndStuName(@RequestParam String className,@RequestParam String termNo,@RequestParam String stuName,@RequestParam int index,@RequestParam int length){
         if (className!=null){
@@ -76,7 +120,7 @@ public class BaseStudentController{
         }
     }
 
-    @ApiOperation(value="增加部门内容")
+    @ApiOperation(value="增加学生内容")
     @GetMapping(value = "/student/addStudent")
     public ResponseEntity addStudent(@RequestParam String stuNo,@RequestParam String stuName,@RequestParam String stuBirthday,
                                         @RequestParam String stuPhone,@RequestParam String stuStatus/*,@RequestParam String classNo,
@@ -99,6 +143,26 @@ public class BaseStudentController{
             return ResponseEntity.ok().body(studentEntity1);
         }else {
             ExecResult er=  new ExecResult(false,"新增学生失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+
+
+    @ApiOperation(value="删除个性化课程中的学生")
+    @DeleteMapping(value = "/gxhstudent")
+    public ResponseEntity deletegxhStudent( @RequestParam String stuNo,@RequestParam long taskNo)  {
+        boolean flag = false;
+        try {
+            flag = baseClassLogicService.deleteClassLogicStudentByByTaskNoAndStuNo(taskNo,stuNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (flag == true){
+            ExecResult right=  new ExecResult(true,"删除个性化课程中学生信息成功！");
+            return ResponseEntity.ok().body(right);
+        }else {
+            ExecResult er=  new ExecResult(false,"删除个性化课程中学生信息失败！请重试");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }

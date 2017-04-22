@@ -53,6 +53,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public boolean deleteMenu(long id) throws Exception {
         try {
+
             menuRepository.delete(id);
             return true;
         }catch (Exception e){

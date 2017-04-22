@@ -1,5 +1,7 @@
 package com.alienlab.niit.qm.service.impl;
 
+import com.alienlab.niit.qm.entity.BaseClassLogicEntity;
+import com.alienlab.niit.qm.entity.BaseClassesEntity;
 import com.alienlab.niit.qm.entity.BaseTaskScheEntity;
 import com.alienlab.niit.qm.entity.BaseTeachTaskEntity;
 import com.alienlab.niit.qm.entity.dto.CourseDto;
@@ -113,5 +115,20 @@ public class CourseServiceImpl implements CourseService {
         }else {
             return  null;
         }
+    }
+
+    @Override
+    public boolean deleteCourseByTaskNo(long taskNo) throws Exception {
+        boolean flag = false;
+        BaseTeachTaskEntity baseTeachTaskEntity = baseTeachTaskRepository.findOne(taskNo);
+        if (baseTeachTaskEntity!=null){
+            baseTeachTaskRepository.delete(baseTeachTaskEntity);
+            List<BaseTaskScheEntity> baseTaskScheEntities = baseTaskScheRepository.findByTaskNo(taskNo);
+            for (int i=0;i<baseTaskScheEntities.size();i++){
+                baseTaskScheRepository.delete(baseTaskScheEntities.get(i));
+            }
+            flag  =true;
+        }
+        return flag;
     }
 }

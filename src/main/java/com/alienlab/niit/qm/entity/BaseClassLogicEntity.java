@@ -14,17 +14,26 @@ import java.sql.Timestamp;
 @javax.persistence.Table(name = "base_class_logic", schema = "qualitymonitor", catalog = "")
 public class BaseClassLogicEntity {
     @ApiModelProperty(value="逻辑班级表")
+    private Long id;
     private String termNo;
     private String studentNo;
-    private Integer taskNo;
+    private long taskNo;
     private String logicNo;
     private String logicName;
     private String courseNo;
     private Timestamp datatime;
 
 
+
     @Id
-    private Long id;
+    @javax.persistence.Column(name = "id")
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @javax.persistence.Basic
     @javax.persistence.Column(name = "term_no")
@@ -48,11 +57,11 @@ public class BaseClassLogicEntity {
 
     @javax.persistence.Basic
     @javax.persistence.Column(name = "task_no")
-    public Integer getTaskNo() {
+    public Long getTaskNo() {
         return taskNo;
     }
 
-    public void setTaskNo(Integer taskNo) {
+    public void setTaskNo(long taskNo) {
         this.taskNo = taskNo;
     }
 
@@ -96,33 +105,34 @@ public class BaseClassLogicEntity {
         this.datatime = datatime;
     }
 
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        BaseClassLogicEntity that = (BaseClassLogicEntity) object;
+        BaseClassLogicEntity that = (BaseClassLogicEntity) o;
 
-        if (termNo != null ? !termNo.equals(that.termNo) : that.termNo != null) return false;
-        if (studentNo != null ? !studentNo.equals(that.studentNo) : that.studentNo != null) return false;
-        if (taskNo != null ? !taskNo.equals(that.taskNo) : that.taskNo != null) return false;
-        if (logicNo != null ? !logicNo.equals(that.logicNo) : that.logicNo != null) return false;
-        if (logicName != null ? !logicName.equals(that.logicName) : that.logicName != null) return false;
-        if (courseNo != null ? !courseNo.equals(that.courseNo) : that.courseNo != null) return false;
-        if (datatime != null ? !datatime.equals(that.datatime) : that.datatime != null) return false;
+        if (taskNo != that.taskNo) return false;
+        if (!termNo.equals(that.termNo)) return false;
+        if (!studentNo.equals(that.studentNo)) return false;
+        if (!logicNo.equals(that.logicNo)) return false;
+        if (!logicName.equals(that.logicName)) return false;
+        if (!courseNo.equals(that.courseNo)) return false;
+        if (!datatime.equals(that.datatime)) return false;
+        return id.equals(that.id);
 
-        return true;
     }
 
+    @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (termNo != null ? termNo.hashCode() : 0);
-        result = 31 * result + (studentNo != null ? studentNo.hashCode() : 0);
-        result = 31 * result + (taskNo != null ? taskNo.hashCode() : 0);
-        result = 31 * result + (logicNo != null ? logicNo.hashCode() : 0);
-        result = 31 * result + (logicName != null ? logicName.hashCode() : 0);
-        result = 31 * result + (courseNo != null ? courseNo.hashCode() : 0);
-        result = 31 * result + (datatime != null ? datatime.hashCode() : 0);
+        int result = termNo.hashCode();
+        result = 31 * result + studentNo.hashCode();
+        result = 31 * result + (int) (taskNo ^ (taskNo >>> 32));
+        result = 31 * result + logicNo.hashCode();
+        result = 31 * result + logicName.hashCode();
+        result = 31 * result + courseNo.hashCode();
+        result = 31 * result + datatime.hashCode();
+        result = 31 * result + id.hashCode();
         return result;
     }
 }
