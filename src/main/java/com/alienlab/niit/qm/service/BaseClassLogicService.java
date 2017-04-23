@@ -12,7 +12,7 @@ import java.util.List;
 public interface BaseClassLogicService {
   public  List<BaseClassLogicEntity> getBaseClassLogicByTaskNo(int taskNo) ;
 
-    public Page<BaseClassLogicEntity> getBaseClassLogicByTaskNoPage(int taskNo,Pageable page);
+  public Page<BaseClassLogicEntity> getBaseClassLogicByTaskNoPage(int taskNo,Pageable page);
 
   public  boolean deleteClassLogicStudentByByTaskNoAndStuNo(long taskNo,String stuNo);
 
