@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/4/9.
  */
@@ -31,5 +34,12 @@ public class BaseMajorController {
             ExecResult er = new ExecResult(false, "未获取专业信息");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
+    }
+    @ApiOperation(value="查询所有部门")
+    @GetMapping(value = "/major/getMajor")
+    public ResponseEntity findAllMajor(HttpServletRequest request){
+        List<BaseMajorEntity> majorEntities = baseMajorService.findAllMajor();
+        request.getSession().setAttribute("majorEntities",majorEntities);
+        return ResponseEntity.ok(majorEntities);
     }
 }

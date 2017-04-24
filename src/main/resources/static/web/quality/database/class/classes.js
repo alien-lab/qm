@@ -19,7 +19,10 @@
             'getClassesBydepAndyear': { method: 'GET'},
             'getDepartment': { method: 'GET',isArray:true,url:"../qm-api/department"},//得到所有部门信息
             'getClassesBykey':{method:"GET",url:"../qm-api/classes/getClassBykey"},
-            'getStudentByClassName':{method:"POST",url:"../qm-api/student"}
+            'getStudentByClassName':{method:"POST",url:"../qm-api/student"},
+            'getClassesByclassNo':{method:"GET",url:"../qm-api/classes/getClassByclassNo"},
+            'getAllMajor':{method:"GET",url:"../qm-api/major/getMajor",isArray:true},
+            'updateClasses':{method:"GET",url:"../qm-api/classes/updateClases"}
         });
         return service;
     }]);
@@ -152,6 +155,21 @@
             });
         }
 
+        //修改班级信息
+        $scope.modifyclasses = showModifyclasses;
+        function showModifyclasses(classNo){
+            classesinstance.modify=classNo;
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: "quality/database/class/modifyClasses.html",
+                controller: 'updateClassesController',
+                bindToController:true,
+                size: "lg",
+                backdrop:false
+            });
+
+        }
+
     }]);
 
     product_module.controller("batchClassController",["$scope","$uibModalInstance","$rootScope",function($scope,$uibModalInstance,$rootScope){
@@ -161,4 +179,60 @@
         }
 
     }]);
+
+    //修改班级信息controller
+    product_module.controller("updateClassesController",["$scope","$state","$uibModalInstance","$rootScope","classResource","classesinstance",function($scope,$state,$uibModalInstance,$rootScope,classResource,classesinstance){
+        $scope.ModTitle = "修改部门信息";
+        $scope.form=classesinstance.modify;
+        console.log($scope.form);
+        classResource.getClassesByclassNo({
+            classNo:$scope.form
+        },function(result){
+            classResource.getDepartment({}, function (result) {
+                console.log(result);
+                $scope.departments = result;
+            }, function () {
+                console.log("获取部门信息失败");
+            });
+            classResource.getAllMajor({}, function (result) {
+                console.log(result);
+                $scope.majors = result;
+            }, function () {
+                console.log("获取部门信息失败");
+            });
+            console.log("获取班级信息成功！");
+            $scope.classes = result;
+            console.log(result);
+        },function(result){
+            console.log("获取班级信息失败");
+        });
+
+        $scope.save=function save(updateclass){
+            classResource.updateClasses({
+                classNo:updateclass.classNo,
+                classIsover:updateclass.classIsover,
+                className:updateclass.className,
+                depName:updateclass.depName,
+                majorName:updateclass.majorName,
+                stuName:updateclass.stuName,
+                teacherName:updateclass.teacherName,
+                classStuAmount:updateclass.classStuAmount,
+                classSessionYear:updateclass.classSessionYear
+            },function(result){
+                console.log(result);
+                console.log("保存部门信息成功！");
+                //刷新前台界面
+                $uibModalInstance.dismiss('cancel');
+                $state.go("qm.base_classes");
+            },function(result){
+                console.log("获取部门信息失败");
+            });
+        }
+
+        $scope.cancel = function cancel(flag){
+            $uibModalInstance.dismiss('cancel');
+        }
+
+    }]);
+
 })();

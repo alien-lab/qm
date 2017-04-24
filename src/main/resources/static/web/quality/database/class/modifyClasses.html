@@ -1,0 +1,64 @@
+<h2 style="margin-left: 20px">修改班级</h2>
+<fieldset>
+    <div class="form-group">
+        <!--<label class="col-sm-2 control-label">班级名称</label>
+        <div class="col-sm-4">
+            <input type="text" readonly="readonly" required="" name="tagsinput" tagsinput="tagsinput" ng-model="department.depName" class="form-control" />
+        </div>-->
+        <label class="col-sm-1 control-label">班级名称</label>
+        <div class="col-sm-3">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="classes.className" class="form-control" />
+        </div>
+        <label class="col-sm-1 control-label">班级人数</label>
+        <div class="col-sm-3">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="classes.classStuAmount" class="form-control" />
+        </div>
+        <label class="col-sm-1 control-label">所属专业</label>
+        <div class="col-sm-3">
+            <select name="select" required="" ng-model="classes.majorName" class="form-control">
+                <option ng-repeat="major in majors" value="{{major.majorName}}">{{major.majorName}}</option>
+            </select>
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">设置本班班主任</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="classes.teacherName" class="form-control" />
+        </div>
+        <label class="col-sm-2 control-label">设置本班信息员</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="classes.stuName" class="form-control" />
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-1 control-label">入学年级</label>
+        <div class="col-sm-3">
+            <input type="text" readonly="readonly" required="" name="tagsinput" tagsinput="tagsinput" ng-model="classes.classSessionYear" class="form-control" />
+        </div>
+        <label class="col-sm-1 control-label">所属部门</label>
+        <div class="col-sm-3">
+            <select name="select" required="" ng-model="classes.depName" class="form-control">
+                <option ng-repeat="department in departments" value="{{department.depName}}">{{department.depName}}</option>
+            </select>
+        </div>
+        <label class="col-sm-1 control-label">是否毕业班</label>
+        <div class="col-sm-3">
+            <select name="select" required="" ng-model="classes.classIsover" class="form-control">
+                <option value="1">是</option>
+                <option value="0">否</option>
+            </select>
+        </div>
+    </div>
+</fieldset>
+</div>
+<div class="panel-footer text-center">
+    <button type="submit" class="btn btn-info" ng-click="save(classes)">保存</button>
+    <button ng-click="cancel()" type="submit" class="btn btn-info">取消</button>
+</div>
+
+
+<!--<input readonly="readonly" type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="classes.depName" class="form-control" />-->

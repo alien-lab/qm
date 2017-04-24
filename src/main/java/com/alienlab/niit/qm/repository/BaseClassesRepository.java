@@ -15,14 +15,14 @@ import java.util.List;
  */
 @Repository
 public interface BaseClassesRepository extends JpaRepository<BaseClassesEntity,Long>{
-   public BaseClassesEntity findByClassNo(String classNo);
+    public BaseClassesEntity findByClassNo(String classNo);
 
     public List<BaseClassesEntity> findBaseClassesBydepNo(String depNo);
 
     public List<BaseClassesEntity> findBaseClassesByClassNameLike(String like);
 
     @Query("select distinct a.classStuAmount,a.className," +
-            "b.depName,c.majorName,d.teacherName,e.stuName,a.classIsover " +
+            "b.depName,c.majorName,d.teacherName,e.stuName,a.classIsover,a.classNo " +
             "from BaseClassesEntity a,com.alienlab.niit.qm.entity.BaseDepartmentEntity b," +
             "com.alienlab.niit.qm.entity.BaseMajorEntity c," +
             "com.alienlab.niit.qm.entity.BaseTeacherEntity d,com.alienlab.niit.qm.entity.BaseStudentEntity e " +
@@ -31,7 +31,7 @@ public interface BaseClassesRepository extends JpaRepository<BaseClassesEntity,L
     public Page<BaseClassesEntity> findBaseClassesByDepNoAndClassYear(String depNo, String classSessionYear, Pageable page);
 
     @Query("SELECT distinct a.classStuAmount,a.className," +
-            "b.depName,c.majorName,d.teacherName,e.stuName,a.classIsover " +
+            "b.depName,c.majorName,d.teacherName,e.stuName,a.classIsover,a.classNo " +
             "FROM BaseClassesEntity a,com.alienlab.niit.qm.entity.BaseDepartmentEntity b," +
             "com.alienlab.niit.qm.entity.BaseMajorEntity c," +
             "com.alienlab.niit.qm.entity.BaseTeacherEntity d,com.alienlab.niit.qm.entity.BaseStudentEntity e " +
@@ -41,6 +41,8 @@ public interface BaseClassesRepository extends JpaRepository<BaseClassesEntity,L
 
     @Query("from BaseClassesEntity a where (a.classNo like CONCAT('%',?1,'%') ) or (a.className like CONCAT('%',?1,'%') ) ")
     Page<BaseClassesEntity> findClassesByClassNameLike(String keyword,Pageable page);
+
+
 
 
 }
