@@ -1,0 +1,53 @@
+<h2 style="margin-left: 20px">修改班级</h2>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">学生编号</label>
+        <div class="col-sm-4">
+            <input type="text" required="" readonly="readonly" name="tagsinput" tagsinput="tagsinput" ng-model="students.stuNo" class="form-control" />
+        </div>
+        <label class="col-sm-2 control-label">学生姓名</label>
+        <div class="col-sm-4">
+            <input type="text" required="" readonly="readonly" name="tagsinput" tagsinput="tagsinput" ng-model="students.stuName" class="form-control" />
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">入学年级</label>
+        <div class="col-sm-4">
+            <input type="text" readonly="readonly" required="" name="tagsinput" tagsinput="tagsinput" ng-model="students.stuYear" class="form-control" />
+        </div>
+        <label class="col-sm-2 control-label">手机号码</label>
+        <div class="col-sm-4">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="students.stuPhone" class="form-control" />
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label class="col-sm-1 control-label">班级</label>
+        <div class="col-sm-2">
+            <select name="select" required="" ng-model="students.className" class="form-control">
+                <option ng-repeat="class in classes" value="{{class[0]}}">{{class[0]}}</option>
+            </select>
+        </div>
+        <label class="col-sm-2 control-label">学年学期</label>
+        <div class="col-sm-4">
+            <select name="select" required="" ng-model="students.termName" class="form-control">
+                <option ng-repeat="studentTerm in studentTerms" value="{{studentTerm[0]}}">{{studentTerm[0]}}</option>
+            </select>
+        </div>
+        <label class="col-sm-1 control-label">生日</label>
+        <div class="col-sm-2">
+            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="students.stuBirthday" class="form-control" />
+        </div>
+    </div>
+</fieldset>
+</div>
+<div class="panel-footer text-center">
+    <button type="submit" class="btn btn-info" ng-click="save(students)">保存</button>
+    <button ng-click="cancel()" type="submit" class="btn btn-info">取消</button>
+</div>
+
+
+<!--<input readonly="readonly" type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="classes.depName" class="form-control" />-->

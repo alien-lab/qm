@@ -24,4 +24,9 @@ public class BaseMajorServiceImpl implements BaseMajorService {
     public List<BaseMajorEntity> findAllMajor() {
         return baseMajorRepository.findAll();
     }
+
+    @Override
+    public BaseMajorEntity saveBaseMajor(BaseMajorEntity baseMajorEntity) {
+        return baseMajorRepository.save(baseMajorEntity);
+    }
 }

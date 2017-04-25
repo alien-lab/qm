@@ -4,8 +4,10 @@ import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.BaseClassesEntity;
 import com.alienlab.niit.qm.entity.BaseStudentEntity;
 import com.alienlab.niit.qm.entity.BaseTermStudentEntity;
+import com.alienlab.niit.qm.entity.dto.StudentDto;
 import com.alienlab.niit.qm.repository.BaseStudentRepository;
 import com.alienlab.niit.qm.service.BaseClassLogicService;
+import com.alienlab.niit.qm.service.BaseClassesService;
 import com.alienlab.niit.qm.service.BaseStudentService;
 import com.alienlab.niit.qm.service.BaseTermStudentService;
 import io.swagger.annotations.Api;
@@ -34,6 +36,8 @@ public class BaseStudentController{
     private BaseTermStudentService baseTermStudentService;
     @Autowired
     BaseClassLogicService baseClassLogicService;
+    @Autowired
+    BaseClassesService baseClassesService;
 
     @ApiOperation(value = "根据taskNo与学生关键字查询学生信息Page")
     @GetMapping(value = "/allstudent")
@@ -84,7 +88,19 @@ public class BaseStudentController{
         }
     }
 
-    @ApiOperation(value = "根据学生编号查学生信息")
+    @ApiOperation(value = "根据学生编号查学生信息Dto")
+    @GetMapping(value = "/student/getstudentDtoBystuNo")
+    public ResponseEntity findStudentDtoByStuNo(@RequestParam String stuNo){
+        if (stuNo!=null){
+            StudentDto studentDto = baseStudentService.getStudentDtoByStuNo(stuNo);
+            return ResponseEntity.ok().body(studentDto);
+        }else {
+            ExecResult er = new ExecResult(false, "未获取专业信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value = "根据班级编号查学生信息")
     @PostMapping(value = "/student")
     public ResponseEntity findStudentByClassNo(@RequestParam String className,@RequestParam int index,@RequestParam int length){
         if (className!=null){
@@ -145,6 +161,26 @@ public class BaseStudentController{
             ExecResult er=  new ExecResult(false,"新增学生失败！请重试");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
+    }
+
+    @ApiOperation(value = "修改学生信息")
+    @GetMapping(value = "/student/updateStudent")
+    public ResponseEntity updateStudent(@RequestParam String stuNo,@RequestParam String stuName,@RequestParam String stuBirthday,
+                                        @RequestParam String stuYear, @RequestParam String className,@RequestParam String stuPhone) {
+        BaseStudentEntity baseStudentEntity = baseStudentService.getStudentBystuNo(stuNo);
+        BaseClassesEntity baseClassesEntity = baseClassesService.getBaseClassesByClassName(className);
+        //BaseTermStudentEntity baseTermStudentEntity = baseTermStudentService.
+        if (stuBirthday!=null){
+            baseStudentEntity.setStuBirthday(stuBirthday);
+        }else {
+            baseStudentEntity.setStuBirthday(null);
+        }
+        if (stuPhone!=null){
+            baseStudentEntity.setStuPhone(stuPhone);
+        }else {
+            baseStudentEntity.setStuPhone(null);
+        }
+        return null;
     }
 
 

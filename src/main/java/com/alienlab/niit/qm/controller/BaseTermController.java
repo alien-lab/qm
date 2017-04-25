@@ -8,9 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -46,6 +44,18 @@ public class BaseTermController{
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
 
+    }
+
+    @ApiOperation(value = "得到所有年级")
+    @PostMapping(value = "/term/studentTermBystuNo")
+    public ResponseEntity findStudentTermByStuNo(@RequestParam String stuNo){
+        if (stuNo!=null){
+            List<BaseTermEntity> baseTermEntities = baseTermService.findStudentTermByStuNo(stuNo);
+            return ResponseEntity.ok(baseTermEntities);
+        }else {
+            ExecResult er = new ExecResult(false, "未获取班级信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
     }
 
 }

@@ -9,4 +9,8 @@ import java.util.List;
  */
 public interface BaseTermService {
     public List<BaseTermEntity> getAllTerm();
+
+    public BaseTermEntity getTermByTermNo(String termNo);
+
+    public List<BaseTermEntity> findStudentTermByStuNo(String stuNo);
 }

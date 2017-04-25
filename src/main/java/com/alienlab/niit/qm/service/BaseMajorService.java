@@ -12,4 +12,6 @@ public interface BaseMajorService {
     public BaseMajorEntity getMajorBymajorNo(String majorNo);
 
     public List<BaseMajorEntity> findAllMajor();
+
+    public BaseMajorEntity saveBaseMajor(BaseMajorEntity baseMajorEntity);
 }

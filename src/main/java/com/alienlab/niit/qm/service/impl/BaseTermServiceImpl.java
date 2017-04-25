@@ -19,4 +19,14 @@ public class BaseTermServiceImpl implements BaseTermService {
     public List<BaseTermEntity> getAllTerm() {
         return baseTermRepository.findAll();
     }
+
+    @Override
+    public BaseTermEntity getTermByTermNo(String termNo) {
+        return baseTermRepository.findOne(termNo);
+    }
+
+    @Override
+    public List<BaseTermEntity> findStudentTermByStuNo(String stuNo) {
+        return baseTermRepository.getStudentTermByStuNo(stuNo);
+    }
 }

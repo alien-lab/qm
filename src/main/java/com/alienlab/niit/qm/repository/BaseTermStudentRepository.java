@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface BaseTermStudentRepository extends JpaRepository<BaseTermStudentEntity,Long>{
     public List<BaseTermStudentEntity> findStudentByClassNo(String classNo);
+
+    public List<BaseTermStudentEntity> findStudentByStuNo(String stuNo);
 }

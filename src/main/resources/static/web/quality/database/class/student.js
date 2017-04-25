@@ -4,6 +4,7 @@
 (function(){
     'use strict';
     var product_module=angular.module("qm.base_student",['ui.router']);
+    product_module.factory("studentinstance",function(){return {}});
     product_module.config(["$stateProvider",function ($stateProvider) {
         $stateProvider.state('qm.base_student',{
             url:'/database/student:classNamee',
@@ -19,7 +20,10 @@
             'getStudentByClassName':{method:"POST"},
             'getStudentByClassNameAndtermNo':{method:"POST",url:"../qm-api/student/findStudentByClassNameAndTermNo"},
             'getStudentByClassNameAndTermNoAndstuName':{method:"GET",url:"../qm-api/student/findStudentByClassNameAndTermNoAndstuName"},
-            'insertStudent':{method:"GET",url:"../qm-api/student/addStudent"}
+            'insertStudent':{method:"GET",url:"../qm-api/student/addStudent"},
+            'getStudentDtoByStuNo':{method:"GET",url:"../qm-api/student/getstudentDtoBystuNo"},
+            'getStudentTermByStuNo':{method:"POST",url:"../qm-api/term/studentTermBystuNo",isArray:true},
+            'getAllClass':{method:"GET",url:"../qm-api/classes/findAllclass",isArray:true}
         });
         return service;
     }]);
@@ -115,7 +119,7 @@
         }
     }]);
 
-    product_module.controller("studentController",["$uibModal","$stateParams","studentResource","studentService","$scope",function($uibModal,$stateParams,studentResource,studentService,$scope){
+    product_module.controller("studentController",["$uibModal","studentinstance","$stateParams","studentResource","studentService","$scope",function($uibModal,studentinstance,$stateParams,studentResource,studentService,$scope){
         var className = $stateParams.classNamee;
         var index = 0;
         var length = 10;
@@ -177,9 +181,85 @@
             });
         }
 
+        //修改学生信息
+        $scope.modifystudent = showModifystudent;
+        function showModifystudent(stuNo){
+            studentinstance.modify=stuNo;
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: "quality/database/class/modifyStudent.html",
+                controller: 'updateStudentController',
+                bindToController:true,
+                size: "lg",
+                backdrop:false
+            });
+
+        }
+
 
     }]);
 
+    //修改单个学生信息
+    product_module.controller("updateStudentController",["$scope","$state","$uibModalInstance","$rootScope","studentResource","studentinstance",function($scope,$state,$uibModalInstance,$rootScope,studentResource,studentinstance){
+        $scope.ModTitle = "修改学生信息";
+        $scope.form=studentinstance.modify;
+        console.log($scope.form);
+        studentResource.getStudentDtoByStuNo({
+            stuNo:$scope.form
+        },function(result){
+            console.log("获取学生信息成功！");
+            $scope.students = result;
+
+            studentResource.getAllClass({}, function (result) {
+                console.log(result);
+                $scope.classes = result;
+            }, function () {
+                console.log("获取班级信息失败");
+            });
+
+            studentResource.getStudentTermByStuNo({
+                stuNo:$scope.form
+            }, function (result) {
+                console.log(result);
+                $scope.studentTerms = result;
+            }, function () {
+                console.log("获取学生年级信息失败");
+            });
+
+            console.log(result);
+        },function(result){
+            console.log("获取班级信息失败");
+        });
+
+        $scope.save=function save(updatestudent){
+            studentResource.updateStudent({
+                classNo:updateclass.classNo,
+                classIsover:updateclass.classIsover,
+                className:updateclass.className,
+                depName:updateclass.depName,
+                majorName:updateclass.majorName,
+                stuName:updateclass.stuName,
+                teacherName:updateclass.teacherName,
+                classStuAmount:updateclass.classStuAmount,
+                classSessionYear:updateclass.classSessionYear
+            },function(result){
+                console.log(result);
+                console.log("保存部门信息成功！");
+                //刷新前台界面
+                $uibModalInstance.dismiss('cancel');
+                $state.go("qm.base_classes");
+            },function(result){
+                console.log("获取部门信息失败");
+            });
+        }
+
+        $scope.cancel = function cancel(flag){
+            $uibModalInstance.dismiss('cancel');
+        }
+
+    }]);
+
+    //增加单个学生信息
     product_module.controller("addStudentController",["$scope","$rootScope","$stateParams","$state","studentService","studentResource","$uibModalInstance",function($scope,$rootScope,$stateParams,$state,studentService,studentResource,$uibModalInstance){
         $scope.ModTitle = "增加学生信息";
         $scope.save=function save(savedepartment){

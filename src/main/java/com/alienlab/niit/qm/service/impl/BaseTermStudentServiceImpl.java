@@ -24,4 +24,9 @@ public class BaseTermStudentServiceImpl implements BaseTermStudentService {
     public BaseTermStudentEntity saveTermSudent(BaseTermStudentEntity baseTermStudentEntity) {
         return baseTermStudentRepository.save(baseTermStudentEntity);
     }
+
+    @Override
+    public List<BaseTermStudentEntity> getBaseTermStudentByStuNo(String stuNo) {
+        return baseTermStudentRepository.findStudentByStuNo(stuNo);
+    }
 }

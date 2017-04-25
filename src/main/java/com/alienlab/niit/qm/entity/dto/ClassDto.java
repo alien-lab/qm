@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * Created by Master QB on 2017/4/18.
  */
-@ApiModel(value="课程维护Dto")
+@ApiModel(value="班级维护Dto")
 public class ClassDto {
     @ApiModelProperty(value="班级编号")
     private String classNo;

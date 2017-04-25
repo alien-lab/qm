@@ -11,4 +11,6 @@ public interface BaseTermStudentService {
     public List<BaseTermStudentEntity> getBaseTermStudentByClassNo(String classNo);
 
     public BaseTermStudentEntity saveTermSudent(BaseTermStudentEntity baseTermStudentEntity);
+
+    public List<BaseTermStudentEntity> getBaseTermStudentByStuNo(String stuNo);
 }
