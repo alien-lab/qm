@@ -2,6 +2,7 @@ package com.alienlab.niit.qm.controller;
 
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.BaseClassesEntity;
+import com.alienlab.niit.qm.entity.dto.ClassDto;
 import com.alienlab.niit.qm.service.BaseClassesService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,73 @@ public class BaseClassesController {
             e.printStackTrace();
             ExecResult er=new ExecResult(false,e.getMessage());
             //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value = "根据班级编号查询")
+    @GetMapping(value = "/classes/getClassByclassNo")
+    public ResponseEntity findClassByclassNo(@RequestParam String classNo) {
+        if (classNo!=null){
+            ClassDto classDto = baseClassesService.getClassDtoByClassNo(classNo);
+            return ResponseEntity.ok().body(classDto);
+        }else {
+            ExecResult er = new ExecResult(false, "未获取班级信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value = "修改班级信息")
+    @GetMapping(value = "/classes/updateClases")
+    public ResponseEntity updateClasses(@RequestParam String classNo,@RequestParam String classIsover,
+                                        @RequestParam String className,@RequestParam String classSessionYear,
+                                        @RequestParam String depName,@RequestParam String majorName,@RequestParam String stuName,
+                                        @RequestParam String teacherName,@RequestParam Integer classStuAmount) {
+        if (classNo!=null){
+            ClassDto classDto = baseClassesService.getClassDtoByClassNo(classNo);
+            if (majorName!=null){
+                classDto.setMajorName(majorName);
+            }else {
+                classDto.setMajorName(null);
+            }
+            if (teacherName!=null){
+                classDto.setTeacherName(teacherName);
+            }else {
+                classDto.setTeacherName(null);
+            }
+            if (classIsover!=null){
+                classDto.setClassIsover(classIsover);
+            }else {
+                classDto.setClassIsover(null);
+            }
+            if (stuName!=null){
+                classDto.setStuName(stuName);
+            }else {
+                classDto.setStuName(null);
+            }
+            if (className!=null){
+                classDto.setClassName(className);
+            }else {
+                classDto.setClassName(null);
+            }
+            if (classSessionYear!=null){
+                classDto.setClassSessionYear(classSessionYear);
+            }else {
+                classDto.setClassSessionYear(null);
+            }
+            if (depName!=null){
+                classDto.setDepName(depName);
+            }else {
+                classDto.setDepName(null);
+            }
+            if (classStuAmount!=null){
+                classDto.setClassStuAmount(classStuAmount);
+            }else {
+                classDto.setClassStuAmount(null);
+            }
+            return ResponseEntity.ok().body(classDto);
+        }else {
+            ExecResult er = new ExecResult(false, "未获取班级信息");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }

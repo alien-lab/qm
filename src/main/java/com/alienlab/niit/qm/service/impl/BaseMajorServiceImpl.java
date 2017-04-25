@@ -6,6 +6,8 @@ import com.alienlab.niit.qm.service.BaseMajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/4/9.
  */
@@ -16,5 +18,10 @@ public class BaseMajorServiceImpl implements BaseMajorService {
     @Override
     public BaseMajorEntity getMajorBymajorNo(String majorNo) {
         return baseMajorRepository.findByMajorNo(majorNo);
+    }
+
+    @Override
+    public List<BaseMajorEntity> findAllMajor() {
+        return baseMajorRepository.findAll();
     }
 }

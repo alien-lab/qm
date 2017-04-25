@@ -1,12 +1,13 @@
 package com.alienlab.niit.qm.service.impl;
 
-import com.alienlab.niit.qm.entity.BaseClassesEntity;
-import com.alienlab.niit.qm.entity.BaseDepartmentEntity;
-import com.alienlab.niit.qm.repository.BaseClassesRepository;
+import com.alienlab.niit.qm.entity.*;
+import com.alienlab.niit.qm.entity.dto.ClassDto;
+import com.alienlab.niit.qm.repository.*;
 import com.alienlab.niit.qm.service.BaseClassesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,14 @@ import java.util.List;
 public class BaseClassesServiceImpl implements BaseClassesService{
     @Autowired
     private BaseClassesRepository baseClassesRepository;
+    @Autowired
+    private BaseMajorRepository baseMajorRepository;
+    @Autowired
+    private BaseStudentRepository baseStudentRepository;
+    @Autowired
+    private BaseTeacherRepository baseTeacherRepository;
+    @Autowired
+    private BaseDepartmentRepository basedepartmentRepository;
 
     public List<BaseClassesEntity> getBaseClassesBydepNo(String depNo) {
         return baseClassesRepository.findBaseClassesBydepNo(depNo);
@@ -36,6 +45,62 @@ public class BaseClassesServiceImpl implements BaseClassesService{
     @Override
     public Page<BaseClassesEntity> getBaseClassesByDepNoAndClassYearAndKey(String depNo, String classSessionYear, String stuName, Pageable page) {
         return baseClassesRepository.findBaseClassesByDepNoAndClassYearAndKey(depNo,classSessionYear,stuName,page);
+    }
+
+    @Override
+    public ClassDto getClassDtoByClassNo(String classNo) {
+        ClassDto classDto = new ClassDto();
+        BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo(classNo);
+        classDto.setClassNo(baseClassesEntity.getClassNo());
+        classDto.setClassName(baseClassesEntity.getClassName());
+        classDto.setClassIsover(baseClassesEntity.getClassIsover());
+        //判断
+        if (baseClassesEntity.getClassIsover()!=null){
+            classDto.setClassIsover(baseClassesEntity.getClassIsover());
+        }else{
+            classDto.setClassIsover(null);
+        }
+        //入学年级
+        if (baseClassesEntity.getClassSessionYear()!=null){
+            classDto.setClassSessionYear(baseClassesEntity.getClassSessionYear());
+        }else{
+            classDto.setClassSessionYear(null);
+        }
+        //班级人数
+        if (baseClassesEntity.getClassStuAmount()!=null){
+            classDto.setClassStuAmount(baseClassesEntity.getClassStuAmount());
+        }else{
+            classDto.setClassStuAmount(null);
+        }
+        //专业
+        if (baseClassesEntity.getMajorNo()!=null){
+            BaseMajorEntity baseMajorEntity = baseMajorRepository.findByMajorNo(baseClassesEntity.getMajorNo());
+            classDto.setMajorName(baseMajorEntity.getMajorName());
+        }else{
+            classDto.setMajorName(null);
+        }
+        //部门
+        if (baseClassesEntity.getDepNo()!=null){
+            BaseDepartmentEntity baseDepartmentEntity = basedepartmentRepository.findDepartmentBydepNo(baseClassesEntity.getDepNo());
+            classDto.setDepName(baseDepartmentEntity.getDepName());
+        }else{
+            classDto.setDepName(null);
+        }
+        //信息员
+        if (baseClassesEntity.getStuNo()!=null){
+            BaseStudentEntity baseStudentEntity = baseStudentRepository.findByStuNo(baseClassesEntity.getStuNo());
+            classDto.setStuName(baseStudentEntity.getStuName());
+        }else{
+            classDto.setStuName(null);
+        }
+        //班主任
+        if (baseClassesEntity.getTeacherNo()!=null){
+            BaseTeacherEntity baseTeacherEntity = baseTeacherRepository.findByTeacherNo(baseClassesEntity.getTeacherNo());
+            classDto.setTeacherName(baseTeacherEntity.getTeacherName());
+        }else{
+            classDto.setTeacherName(null);
+        }
+        return classDto;
     }
 
     @Override

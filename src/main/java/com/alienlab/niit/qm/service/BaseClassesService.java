@@ -2,6 +2,7 @@ package com.alienlab.niit.qm.service;
 
 import com.alienlab.niit.qm.entity.BaseClassesEntity;
 import com.alienlab.niit.qm.entity.BaseDepartmentEntity;
+import com.alienlab.niit.qm.entity.dto.ClassDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,6 +20,7 @@ public interface BaseClassesService {
 
     public Page<BaseClassesEntity> getBaseClassesByDepNoAndClassYearAndKey(String depNo,String classSessionYear,String key,Pageable page);
 
+    public ClassDto getClassDtoByClassNo(String classNo);
 
     //分页模糊查找班级
     Page<BaseClassesEntity> listClass(String keyword, Pageable page) throws Exception;
