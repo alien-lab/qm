@@ -31,15 +31,24 @@
         </div>
         <div class="col-md-7">
                 <div class="col-md-8 col-xs-7">
-
-                    <ui-select multiple="" ng-model="selectedPeople" theme="bootstrap" ng-disabled="disabled">
-
-                       <ui-select-match placeholder="输入学生姓名、学号">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
-                        <ui-select-choices repeat="person in people | propsFilter: {name: $select.search, age: $select.search}  " >
-                            <div ng-bind-html="person.name | highlight: $select.search"></div>
-                            <small>学号: {{person.email}}</small>
+                    <ui-select ng-model="$parent.selectedPeople" theme="bootstrap" ng-disabled="disabled">
+                        <ui-select-match placeholder="输入学生姓名、学号">{{$select.selected.stuName}} &lt;{{$select.selected.stuNo}}&gt;</ui-select-match>
+                        <ui-select-choices repeat="person in people | propsFilter: {stuName: $select.search, stuNo: $select.search}  "
+                                           refresh="refreshStudents($select.search)">
+                            <div ng-bind-html="person.stuName | highlight: $select.search"></div>
+                            <small>学号: {{person.stuNo}}</small>
                         </ui-select-choices>
                     </ui-select>
+
+                   <!-- <ui-select multiple="" ng-model="$parent.selectedPeople" theme="bootstrap" ng-disabled="disabled">
+                       <ui-select-match placeholder="输入学生姓名、学号">{{$item.stuName}} &lt;{{$item.stuNo}}&gt;</ui-select-match>
+                        <ui-select-choices repeat="person in people | propsFilter: {stuName: $select.search, stuNo: $select.search}  "
+                                           refresh="refreshStudents($select.search)">
+                            <div ng-bind-html="person.stuName | highlight: $select.search"></div>
+                            <small>学号: {{person.stuNo}}</small>
+                        </ui-select-choices>
+
+                    </ui-select>-->
                 </div>
             <div class="col-md-4 col-xs-4">
                   <button  ng-click="addStudent()"  type="button" class="btn btn-labeled btn-info">
@@ -81,11 +90,11 @@
 
     </table>
 <div class="row">
-    <nav aria-label="Page navigation"  class="col-md-4 col-xs-6" ng-if="!serachergxhstudentArrays||serachergxhstudentArrays.length==0">
+    <nav aria-label="Page navigation"  class="col-md-4 col-xs-6" ng-if="!serachergxhstudentArrays||serachergxhstudentArrays.length==0&&gxhstudentArrays.totalPages!=0">
         <ul class="pagination pagination-sm" style="float: right">
             <li ng-disabled="gxhstudentArrays.first" ng-click="searchgxhStu(gxhstudentArrays.number-1,gxhstudentArrays.size)"><a href="javascript:void(0)">上一页</a></li>
             <li><a href="javascript:void(0)">{{gxhstudentArrays.number+1}}/{{gxhstudentArrays.totalPages}}</a></li>
-            <li ng-disabled="gxhstudentArrays.last" ng-click="searchgxhStu(gxhstudentArrays.number+1,gxhstudentArrays.size)"><a href="javascript:void(0)">下一页</a></li>
+            <li  ng-disabled="gxhstudentArrays.last" ng-click="searchgxhStu(gxhstudentArrays.number+1,gxhstudentArrays.size)"><a href="javascript:void(0)">下一页</a></li>
         </ul>
     </nav>
     <nav aria-label="Page navigation"  class="col-md-4 col-xs-6"  ng-if="serachergxhstudentArrays.length!=0">

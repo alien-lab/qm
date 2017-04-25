@@ -4,6 +4,7 @@ package com.alienlab.niit.qm.entity;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.sql.Timestamp;
 
@@ -26,6 +27,7 @@ public class BaseClassLogicEntity {
 
 
     @Id
+    @GeneratedValue
     @javax.persistence.Column(name = "id")
     public Long getId() {
         return id;
@@ -124,15 +126,16 @@ public class BaseClassLogicEntity {
     }
 
     @Override
-    public int hashCode() {
-        int result = termNo.hashCode();
-        result = 31 * result + studentNo.hashCode();
-        result = 31 * result + (int) (taskNo ^ (taskNo >>> 32));
-        result = 31 * result + logicNo.hashCode();
-        result = 31 * result + logicName.hashCode();
-        result = 31 * result + courseNo.hashCode();
-        result = 31 * result + datatime.hashCode();
-        result = 31 * result + id.hashCode();
-        return result;
+    public String toString() {
+        return "BaseClassLogicEntity{" +
+                "id=" + id +
+                ", termNo='" + termNo + '\'' +
+                ", studentNo='" + studentNo + '\'' +
+                ", taskNo=" + taskNo +
+                ", logicNo='" + logicNo + '\'' +
+                ", logicName='" + logicName + '\'' +
+                ", courseNo='" + courseNo + '\'' +
+                ", datatime=" + datatime +
+                '}';
     }
 }

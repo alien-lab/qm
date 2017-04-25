@@ -34,7 +34,6 @@ public interface BaseStudentRepository extends JpaRepository<BaseStudentEntity,L
     Page<BaseStudentEntity> findStudentByClassNoAndTermNoAndName(String className,String termNo,String stuName,Pageable page);
 
     @Query("from BaseStudentEntity a where (a.stuNo like CONCAT('%',?1,'%')) or (a.stuName like CONCAT('%',?1,'%')) ")
-
     Page<BaseStudentEntity> findByStudentKeyword(String keyword,Pageable page);
 
     @Query("select distinct a.stuNo,a.stuName,a.stuPhone,a.stuBirthday,a.stuStatus,a.stuYear " +

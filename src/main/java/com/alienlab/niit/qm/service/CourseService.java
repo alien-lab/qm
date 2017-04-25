@@ -1,6 +1,8 @@
 package com.alienlab.niit.qm.service;
 
+import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
 import com.alienlab.niit.qm.entity.dto.CourseDto;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,6 +22,17 @@ public interface CourseService {
     List<CourseDto> getCoursesByTermAndDepartment(String termNo, String depNo,Pageable page)throws  Exception;
 
     public boolean deleteCourseByTaskNo(long taskNo) throws  Exception;
+
+
+    Page<CourseDto> findCourseBykeywordAndTermNoAndDepNo(String keyword, String termNo, String depNo, Pageable page)throws Exception;
+
+
+    public CourseDetailDto getCourseDetailByTaskNo(long taskNo);
+
+    //修改课程
+    public  boolean updateCourse(long taskNo,  String courseNo,String courseName,int studentNumber,String department,
+                              String courseType,String courseAttr,String courseWeeks,int courseHours,String courseTerm,String tealoginname,
+                              String checkedclass, String checkedsections) throws  Exception;
 
 
 }

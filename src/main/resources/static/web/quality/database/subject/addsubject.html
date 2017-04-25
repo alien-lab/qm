@@ -60,9 +60,12 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>承担部门</label>
-                                                    <select type="button"   class="form-control" data-toggle="dropdown" ng-model="$parent.department" >
-                                                    <option value="{{dep.depNo}}" ng-repeat="dep in depatments" >{{dep.depName}}</option>
+                                                    <select  ng-model="$parent.department" ng-options="department.depNo as department.depName for department in depatments" class="form-control" >
+                                                        <option value="">请选择部门</option>
                                                     </select>
+                                                    <!--<select type="button"   class="form-control" data-toggle="dropdown" ng-model="$parent.department" >
+                                                    <option value="{{dep.depNo}}" ng-repeat="dep in depatments" >{{dep.depName}}</option>
+                                                    </select>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -73,6 +76,7 @@
                                                     <select type="button"  class="form-control" data-toggle="dropdown"
                                                              ng-model="$parent.courseType" ng-options="course.name as course.name for course in courseTypes">
 
+                                                        <option value="">课程类型</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -103,9 +107,12 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>课程学期</label>
-                                                    <select type="button"  class="form-control" data-toggle="dropdown" ng-model="$parent.courseTerm" >
-                                                        <option value="{{courseterm.termNo}}" ng-repeat="courseterm in courseTerms" >{{courseterm.termName}}</option>
+                                                    <select   ng-model="$parent.courseTerm" ng-options="term.termNo as term.termName for term in courseTerms" class="form-control" >
+                                                        <option value="">请选择学期</option>
                                                     </select>
+                                                   <!-- <select type="button"  class="form-control" data-toggle="dropdown" ng-model="$parent.courseTerm" >
+                                                        <option value="{{courseterm.termNo}}" ng-repeat="courseterm in courseTerms" >{{courseterm.termName}}</option>
+                                                    </select>-->
                                                 </div>
                                             </div>
 
