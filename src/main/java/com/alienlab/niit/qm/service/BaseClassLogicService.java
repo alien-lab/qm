@@ -16,4 +16,8 @@ public interface BaseClassLogicService {
 
   public  boolean deleteClassLogicStudentByByTaskNoAndStuNo(long taskNo,String stuNo);
 
+  public boolean addNewClassLogic(String stuNo,long taskNo,String termNo);
+
+  public List<BaseClassLogicEntity> searchClassLogic(String stuNo,long taskNo,String termNo);
+
 }

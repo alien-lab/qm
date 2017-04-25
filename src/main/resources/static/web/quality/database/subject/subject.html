@@ -1,23 +1,22 @@
 <h3>课程维护</h3>
 <div class="row">
     <div class="col-md-5">
-        <select type="button" style="width:auto;float:left;"  class="form-control" data-toggle="dropdown" ng-model="selectedTerm" >
-            <option value="{{term.termNo}}" ng-repeat="term in terms" >{{term.termName}}</option>
+        <select ng-init="selectedTerm = terms[0].termName" style="width:auto;float:left;"  ng-model="selectedTerm" ng-options="term.termNo as term.termName for term in terms" class="form-control" >
+           <option value="">请选择学期</option>
         </select>
-        <select type="button" style="width:auto;float:left;"  class="form-control" data-toggle="dropdown" ng-model="selectedDepartment" >
-            <option value="{{department.depNo}}" ng-repeat="department in departments" >{{department.depName}}</option>
+        <select style="width:auto;float:left;"  ng-model="selectedDepartment" ng-options="department.depNo as department.depName for department in departments" class="form-control" >
+           <option value="">请选择部门</option>
         </select>
         <button style="margin-left: 5px;" class="btn btn-success" type="button" ng-click="loadData(0,9)">搜索</button>
     </div>
     <div class="col-md-3">
         <div style="width:auto;float:left;" class="input-group">
-            <input type="text" class="form-control" placeholder="可输入相关课程信息">
+            <input type="text" class="form-control" placeholder="可输入相关课程信息" ng-model="coursekeyWords">
             <span class="input-group-btn">
-        <button class="btn btn-default" type="button">模糊查找</button>
+        <button class="btn btn-default" type="button" ng-click="keywordSearchCourse(0,9)">模糊查找</button>
       </span>
         </div>
     </div>
-    <div class="col-md-1"></div>
     <div class="col-md-4">
         <button ng-click="showSubject()" style="width:auto;float:right;margin-right: 2px;" type="button" class="btn btn-labeled btn-success">
                <span class="btn-label"><i class="icon-login"></i>
@@ -39,7 +38,7 @@
         <td><b>任课教师</b></td>
         <td><b>操作</b></td>
     </tr>
-    <tr class="active" ng-repeat="course in courseArrays.content">
+    <tr class="active" ng-repeat="course in courseArrays.content" ng-if="courseArrays||courseArrays.length!=0">
         <td>{{course.course_name}}</td>
         <td>{{course.course_type}}</td>
         <td>
@@ -50,10 +49,26 @@
         </td>
         <td>{{course.teacher_name}}</td>
         <td>
-            <button  type="button" ng-click="showSubject(course.course_name,course.taskNo)" class="btn btn-sm btn-info" title="学生详情">
+            <button ng-click="modifySubject($index,course.taskNo)" type="button" class="btn btn-sm btn-warning" title="修改课程">
+                <em class="fa fa-edit"></em>
+            </button>
+            <button ng-click="removeCourse($index,course.taskNo)" title="删除课程" class="btn btn-sm btn-danger">
+                <em class="fa fa-trash"></em>
+            </button>
+        </td>
+    </tr>
+    <tr class="active" ng-repeat="course in searchcourseArrays.content" ng-if="searchcourseArrays||searchcourseArrays.length!=0">
+        <td>{{course.course_name}}</td>
+        <td>{{course.course_type}}</td>
+        <td>
+            <button  ng-if="course.logicClass==true" type="button" ng-click="showSubject(course.course_name,course.taskNo)" class="btn btn-sm btn-info" title="学生详情">
                 <em class="fa fa-paperclip"></em>
             </button>
-            <button type="button" class="btn btn-sm btn-warning" title="修改课程">
+            <span ng-if="course.logicClass==false">{{course.class_name}}</span>
+        </td>
+        <td>{{course.teacher_name}}</td>
+        <td>
+            <button ng-click="modifySubject($index,course.taskNo)" type="button" class="btn btn-sm btn-warning" title="修改课程">
                 <em class="fa fa-edit"></em>
             </button>
             <button ng-click="removeCourse($index,course.taskNo)" title="删除课程" class="btn btn-sm btn-danger">
@@ -63,11 +78,20 @@
     </tr>
 </table>
 <div class="col-lg-12 col-md-12 " style="margin-top: -35px;">
-    <nav aria-label="Page navigation" style="float: right" ng-if=(courseArrays)>
+    <nav aria-label="Page navigation" style="float: right"  ng-if="searchcourseArrays.length==0&&courseArrays.length!=0">
         <ul class="pagination pagination-sm" style="float: right">
             <li ng-disabled="courseArrays.first" ng-click="loadData(courseArrays.number-1,courseArrays.size)"><a href="javascript:void(0)">上一页</a></li>
             <li><a href="javascript:void(0)">{{courseArrays.number+1}}/{{courseArrays.totalPages}}</a></li>
             <li ng-disabled="courseArrays.last" ng-click="loadData(courseArrays.number+1,courseArrays.size)"><a href="javascript:void(0)">下一页</a></li>
+        </ul>
+    </nav>
+</div>
+<div class="col-lg-12 col-md-12 " style="margin-top: -35px;">
+    <nav aria-label="Page navigation" style="float: right"  ng-if="searchcourseArrays.length!=0&&courseArrays.length==0">
+        <ul class="pagination pagination-sm" style="float: right">
+            <li ng-disabled="searchcourseArrays.first" ng-click="keywordSearchCourse(searchcourseArrays.number-1,searchcourseArrays.size)"><a href="javascript:void(0)">上一页</a></li>
+            <li><a href="javascript:void(0)">{{searchcourseArrays.number+1}}/{{searchcourseArrays.totalPages}}</a></li>
+            <li ng-disabled="searchcourseArrays.last" ng-click="keywordSearchCourse(searchcourseArrays.number+1,searchcourseArrays.size)"><a href="javascript:void(0)">下一页</a></li>
         </ul>
     </nav>
 </div>

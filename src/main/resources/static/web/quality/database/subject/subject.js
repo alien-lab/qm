@@ -22,16 +22,16 @@
 
                 if (angular.isArray(items)) {
                     items.forEach(function(item) {
-                        var itemMatches = false;
+                        var itemMatches = true;
 
                         var keys = Object.keys(props);
                         for (var i = 0; i < keys.length; i++) {
                             var prop = keys[i];
                             var text = props[prop].toLowerCase();
-                            if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+                          /*  if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
                                 itemMatches = true;
                                 break;
-                            }
+                            }*/
                         }
 
                         if (itemMatches) {
@@ -69,8 +69,13 @@
     courseMaintenance_module.factory("CourseResource",["$resource",function($resource){
         var service = $resource('../qm-api/course', {}, {
             saveCourse: { method: 'POST'},
+            updateCourse: { method: 'POST', url:'../qm-api/updatecourse'},
             getCourses:{ method: 'GET'},
-            deleteCourse:{method: 'DELETE'}
+            getDetailCourse:{ method: 'GET', url:'../qm-api/detailcourse'},
+            deleteCourse:{method: 'DELETE'},
+            saveLogicCourse:{ method: 'POST', url:'../qm-api/classlogic' },
+            searchLogicStudent:{method: 'GET',isArray:true, url:'../qm-api/classlogic'},
+            getCourseByKey:{method: 'GET', url:'../qm-api/keywordcourse'}
 
         });
         return service;
@@ -82,7 +87,8 @@
             getallgxhStudent:{method: 'GET', url:'../qm-api/pagestudent'},
             getkeyStudents:{ method: 'GET', url:'../qm-api/pagekeystudent'},
             getallStudent:{ method: 'GET',isArray:true, url:'../qm-api/allstudent'},
-            deleteStudent:{method: 'DELETE' , url:'../qm-api/gxhstudent'   }
+            deleteStudent:{method: 'DELETE' , url:'../qm-api/gxhstudent'   },
+            getkeywordStudents:{ method: 'GET', url:'../qm-api/keywordtudentpage'}
 
         });
         return service;
@@ -105,6 +111,25 @@
                 }
             },function(result){
                 console.log("课程获取失败",result);
+            });
+        }
+    }]);
+
+    courseMaintenance_module.service("getkeywordCourseService",["CourseResource",function(CourseResource){
+        this.loadkeywordCourse=function(keyword,selectedTerm,selectedDepartment,index,length,callback){
+            CourseResource.getCourseByKey({
+                keyword:keyword,
+                termNo:selectedTerm,
+                depNo:selectedDepartment,
+                index:index,
+                length:length
+            },function(result){
+                console.log("1111");
+                if(callback){
+                    callback(result);
+                }
+            },function(result){
+                console.log("关键字课程获取失败",result);
             });
         }
     }]);
@@ -179,8 +204,9 @@
 
 
 
-    courseMaintenance_module.controller("courseMaintenanceController",["$scope","$uibModal","gettermsResource","departmentResource","courseinstance","CourseResource","loadCourseService","SweetAlert",function($scope,$uibModal,gettermsResource,departmentResource,courseinstance,CourseResource,loadCourseService,SweetAlert){
+    courseMaintenance_module.controller("courseMaintenanceController",["$scope","$uibModal","gettermsResource","departmentResource","courseinstance","CourseResource","loadCourseService","SweetAlert","getkeywordCourseService",function($scope,$uibModal,gettermsResource,departmentResource,courseinstance,CourseResource,loadCourseService,SweetAlert,getkeywordCourseService){
         $scope.addSubject=function () {
+            courseinstance.chooseTaskNo=[];
                 var addsubjectInfo = $uibModal.open({
                     animation: true,
                     templateUrl: "quality/database/subject/addsubject.html",
@@ -189,6 +215,35 @@
                     size: "lg",
                     backdrop: false
                 });
+
+        }
+
+       /* loadCourseService.loadCourse("20161","2242",0,9,renderCourseData);*/
+
+        //根据关键字查询课程信息
+        $scope.keywordSearchCourse = function (index,length) {
+            console.log($scope.coursekeyWords);
+            getkeywordCourseService.loadkeywordCourse($scope.coursekeyWords,$scope.selectedTerm,$scope.selectedDepartment,index,length,renderkeywordCourseData);
+
+        }
+        function renderkeywordCourseData(data){
+           $scope.courseArrays=[];
+            $scope.searchcourseArrays=data;
+            console.log(data);
+
+        }
+
+        //修改课程详情
+        $scope.modifySubject = function (index,taskNo) {
+            var modifysubjectInfo = $uibModal.open({
+                animation: true,
+                templateUrl: "quality/database/subject/addsubject.html",
+                controller: 'addcourseController',
+                bindToController: true,
+                size: "lg",
+                backdrop: false
+            });
+            courseinstance.chooseTaskNo = taskNo;
 
         }
 
@@ -206,35 +261,30 @@
             courseinstance.gxhtaskNo = taskNo;
 
         }
+        //获得所有学期
+        gettermsResource.getTerms({
+        },function(result){
+            console.log("获取学期成功！");
+            console.log(result);
+            $scope.terms = result;
+            $scope.selectedTerm =  $scope.terms[0].termName;
+            courseinstance.showterms = result;
+        },function(result){
+            console.log("获取学期失败");
+        });
 
-        getTermsAndDepartments();
+        //查询所有部门
+        departmentResource.getDepartment({}, function (result) {
+            console.log(result);
+            $scope.departments = result;
+            courseinstance.showdepartments = $scope.departments;
+            $scope.selectedDepartment = $scope.departments[0].depName;
+        }, function () {
+            console.log("获取部门信息失败");
+        });
 
-        //获得学期与部门
-        function getTermsAndDepartments() {
-            gettermsResource.getTerms({
-            },function(result){
-                console.log("获取学期成功！");
-                console.log(result);
-                $scope.terms = result;
-                $scope.selectedTerm = result[0].termName;
-                courseinstance.showterms = result;
-            },function(result){
-                console.log("获取学期失败");
-            });
-
-            //查询所有部门
-            departmentResource.getDepartment({}, function (result) {
-                console.log(result);
-                $scope.departments = result;
-                courseinstance.showdepartments = $scope.departments;
-                $scope.selectedDepartment = $scope.departments[0].depName;
-            }, function () {
-                console.log("获取部门信息失败");
-            });
-
-
-        }
         function renderCourseData(data){
+            $scope.searchcourseArrays=[];
             $scope.courseArrays=data;
             console.log($scope.courseArrays);
         }
@@ -340,6 +390,56 @@
     courseMaintenance_module.controller("addcourseController",["$scope","$uibModalInstance","SweetAlert","userService","courseinstance","subgetclassService","CourseResource","subgetteacherService",function($scope,$uibModalInstance,SweetAlert,userService,courseinstance,subgetclassService,CourseResource,subgetteacherService){
 
 
+
+        //判断是否为修改课程信息
+        if (courseinstance.chooseTaskNo!=undefined && courseinstance.chooseTaskNo!=null &&courseinstance.chooseTaskNo!=""){
+
+            showModify();
+        }
+        function showModify() {
+            console.log(courseinstance.chooseTaskNo);
+            CourseResource.getDetailCourse({
+             taskNo:courseinstance.chooseTaskNo
+                //成功获得课程详情数据
+            },function(result){
+                console.log("获取课程详情");
+                $scope.locations =[];
+                console.log(result);
+                    $scope.courseNo = result.courseNo,
+                    $scope.courseName = result.courseName,
+                    $scope.studentNumber = result.stuAmount,
+                    $scope.department = result.depName,
+                    $scope.courseType = result.courseType,
+                    $scope.courseAttr = result.courseAttr,
+                    $scope.courseWeeks = result.courseWeek,
+                    $scope.courseHours = result.courseCcount,
+                    $scope.termNo = result.termNo,
+                    $scope.courseTerm = result.termName
+                var oneteacher= new teacherObjStory(result.teacherName,result.teacherNo);//声明对象
+                $scope.teachers.push(oneteacher);
+                var oneclass= new classObjStory(result.className,result.classNo);//声明对象
+                $scope.classes.push(oneclass);
+                    for(var i=0;i<result.sectionses.length;i++){
+                        var onelocation= new ObjStory(result.sectionses[i].scheSet,result.sectionses[i].scheAddr);//声明对象
+                        $scope.locations.push(onelocation);
+                    }
+                for(var i =0; i<$scope.locations.length;i++){
+                    var sec = $scope.locations[i].section;
+                    for(var j =0;j<$scope.sections.length;j++){
+                        for(var m = 0;m<8;m++){
+                            var thisname = $scope.sections[j].day[m].name;
+                            if (sec==thisname){
+                                $scope.sections[j].day[m].checked = true;
+                            }
+                        }
+                    }
+                }
+            },function(result){
+                console.log("课程详情获取失败",result);
+            });
+        }
+
+
         //定义一个数组，用于装载节次信息
         $scope.locations =[];
         //定义一个数组，用于授课教师信息
@@ -350,7 +450,7 @@
         //定义一个String，用于存放班级代码
         $scope.checkedclass="";
 
-        //定义一个String，用于存放班级代码
+        //定义一个String，用于存放节次代码
         $scope.checkedsections="";
 
 
@@ -535,8 +635,6 @@
                         }
                     }
                 }
-
-
         }
 
         //提交新增的课程信息
@@ -564,36 +662,94 @@
             }
             console.log($scope.checkedsections);
 
+            if (courseinstance.chooseTaskNo!=undefined && courseinstance.chooseTaskNo!=null &&courseinstance.chooseTaskNo!=""){
+               console.log("执行更新");
+                CourseResource.updateCourse({
+                    taskNo:courseinstance.chooseTaskNo,
+                    courseNo:$scope.courseNo,
+                    courseName:$scope.courseName,
+                    studentNumber:$scope.studentNumber,
+                    department:$scope.department,
+                    courseType:$scope.courseType,
+                    courseAttr:$scope.courseAttr,
+                    courseWeeks:$scope.courseWeeks,
+                    courseHours:$scope.courseHours,
+                    courseTerm:$scope.courseTerm,
+                    tealoginname:$scope.tealoginname,
+                    checkedclass:$scope.checkedclass,
+                    checkedsections:$scope.checkedsections
+                },function(result){
+                    console.log("课程修改成功！",result);
+                    SweetAlert.swal({
+                        title: '课程修改成功',
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: 'ok',
+                        closeOnConfirm: true
+                    },function () {
+                        $uibModalInstance.dismiss('cancel');
+                    });
 
-            CourseResource.saveCourse({
-                courseNo:$scope.courseNo,
-                courseName:$scope.courseName,
-                studentNumber:$scope.studentNumber,
-                department:$scope.department,
-                courseType:$scope.courseType,
-                courseAttr:$scope.courseAttr,
-                courseWeeks:$scope.courseWeeks,
-                courseHours:$scope.courseHours,
-                courseTerm:$scope.courseTerm,
-                tealoginname:$scope.tealoginname,
-                checkedclass:$scope.checkedclass,
-                checkedsections:$scope.checkedsections
-            },function(result){
-                console.log("课程保存成功！",result);
-                SweetAlert.swal({
-                    title: '课程保存成功',
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: 'ok',
-                    closeOnConfirm: true
-                },function () {
-                    $uibModalInstance.dismiss('cancel');
+                },function(result){
+                    console.log("课程修改失败",result);
+                    SweetAlert.swal({
+                        title: '课程修改失败',
+                        text:'请确认所有数据填写完毕！',
+                        type: 'warning',
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: 'ok',
+                        closeOnConfirm: true
+                    },function () {
+                        $uibModalInstance.dismiss('cancel');
+                    });
                 });
 
-            },function(result){
-                console.log("课程保存失败",result);
-            });
+            }else {
+                console.log("执行新增");
+                CourseResource.saveCourse({
+                    courseNo:$scope.courseNo,
+                    courseName:$scope.courseName,
+                    studentNumber:$scope.studentNumber,
+                    department:$scope.department,
+                    courseType:$scope.courseType,
+                    courseAttr:$scope.courseAttr,
+                    courseWeeks:$scope.courseWeeks,
+                    courseHours:$scope.courseHours,
+                    courseTerm:$scope.courseTerm,
+                    tealoginname:$scope.tealoginname,
+                    checkedclass:$scope.checkedclass,
+                    checkedsections:$scope.checkedsections
+                },function(result){
+                    console.log("课程保存成功！",result);
+                    SweetAlert.swal({
+                        title: '课程保存成功',
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: 'ok',
+                        closeOnConfirm: true
+                    },function () {
+                        $uibModalInstance.dismiss('cancel');
+                    });
+
+                },function(result){
+                    console.log("课程保存失败",result);
+                    SweetAlert.swal({
+                        title: '课程保存失败',
+                        text:'请确认所有数据填写完毕！',
+                        type: 'warning',
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: 'ok',
+                        closeOnConfirm: true
+                    },function () {
+                        $uibModalInstance.dismiss('cancel');
+                    });
+                });
+            }
+
 
         }
 
@@ -602,7 +758,7 @@
 
 
     //显示任选课学生信息
-    courseMaintenance_module.controller("showcourseController",["$scope","$uibModalInstance","SweetAlert","loadStudentService","courseinstance","subStudentResource",function($scope,$uibModalInstance,SweetAlert,loadStudentService,courseinstance,subStudentResource){
+    courseMaintenance_module.controller("showcourseController",["$scope","$uibModalInstance","SweetAlert","loadStudentService","courseinstance","subStudentResource","CourseResource",function($scope,$uibModalInstance,SweetAlert,loadStudentService,courseinstance,subStudentResource,CourseResource){
 
        /* console.log($scope.$select.search);*/
         $scope.serachergxhstudentArrays=[];
@@ -610,11 +766,22 @@
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');
         }
-
-        //增加学生信息
-        $scope.addStudent = function () {
-            console.log($scope.selectedPeople);
+        //查询学生信息
+        $scope.refreshStudents=function(keyword){
+            console.log("keyword",keyword);
+            if (keyword!=null||keyword!=""){
+                subStudentResource.getkeywordStudents({
+                    keyword:keyword,
+                    index:0,
+                    length:20
+                },function(result){
+                    return $scope.people=result.content;
+                },function(result){
+                    console.log("个性化课程中的查询学生信息获取失败",result);
+                });
+            }
         }
+
         //删除学生信息
         $scope.removeSudent = function (index,stuNo) {
             SweetAlert.swal({
@@ -660,27 +827,6 @@
                 }
             });
         }
-
-     /*   subStudentResource.getallStudent({
-        },function(result){
-        /!*  $scope.people=result;*!/
-          console.log(result);
-        },function(result){
-            console.log("个性化课程中的学生信息获取失败",result);
-        });*/
-
-      $scope.people = [
-            { name: 'Adam',      email: 'adam@email.com',      age: 10 },
-            { name: 'Amalie',    email: 'amalie@email.com',    age: 12 },
-            { name: 'Wladimir',  email: 'wladimir@email.com',  age: 30 },
-            { name: 'Samantha',  email: 'samantha@email.com',  age: 31 },
-            { name: 'Estefanía', email: 'estefanía@email.com', age: 16 },
-            { name: 'Natasha',   email: 'natasha@email.com',   age: 54 },
-            { name: 'Nicole',    email: 'nicole@email.com',    age: 43 },
-            { name: 'Adrian',    email: 'adrian@email.com',    age: 21 }
-        ];
-
-      /*  $scope.selectedPeople = [$scope.people[5]];*/
 
         //显示当前个性化课程页面的课程信息
         $scope.currentgxhcoursename = courseinstance.gxhcoursename;
@@ -729,6 +875,7 @@
                 });
             }else {
                 $scope.serachergxhstudentArrays = data;
+                console.log( $scope.serachergxhstudentArrays);
             }
 
         }
@@ -742,6 +889,7 @@
                     index:index,
                     length:length
                 },function(result){
+                    console.log(result);
                     for(var i =0;i<result.content.length;i++){
                         if (result.content[i].stuStatus=="1"){
                             result.content[i].stuStatus = "正常";
@@ -750,7 +898,8 @@
                         }
                     }
                     $scope.serachergxhstudentArrays=[];
-                    $scope.gxhstudentArrays=[];
+                   /* $scope.gxhstudentArrays=[];*/
+                    console.log(result);
                     $scope.gxhstudentArrays=result;
                 },function(result){
                     console.log("个性化课程中的学生信息获取失败",result);
@@ -760,6 +909,53 @@
             }
         }
 
+
+        //增加学生信息
+        $scope.addStudent = function () {
+            console.log($scope.selectedPeople);
+            var stuNo = $scope.selectedPeople.stuNo;
+            console.log(stuNo);
+            CourseResource.searchLogicStudent({
+                stuNo:stuNo,
+                taskNo: $scope.currentgxhtaskNo,
+                termNo:$scope.currentgxhTermNo
+            },function(result){
+                console.log(result);
+                if (result.length>0){
+                    SweetAlert.swal({
+                        title: '新增学生信息失败',
+                        text:'该课程中已有该学生信息，不可重复添加',
+                        type: 'warning',
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: 'ok',
+                        closeOnConfirm: true
+                    });
+                }else {
+                    CourseResource.saveLogicCourse({
+                        stuNo:stuNo,
+                        taskNo: $scope.currentgxhtaskNo,
+                        termNo:$scope.currentgxhTermNo
+                    },function(result){
+                        $scope.currentgxhstudentNumber =  $scope.currentgxhstudentNumber+1;
+                        SweetAlert.swal({
+                            title: '新增学生信息成功',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: 'ok',
+                            closeOnConfirm: true
+                        });
+                    },function(result){
+                        console.log("课程学生信息保存失败",result);
+                    });
+                }
+
+            },function(result){
+                console.log(result);
+
+            });
+        }
     }]);
 
 

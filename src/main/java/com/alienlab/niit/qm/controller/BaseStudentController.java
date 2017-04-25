@@ -203,4 +203,16 @@ public class BaseStudentController{
         }
     }
 
+    @ApiOperation(value = "根据关键字查询学生信息Page")
+    @GetMapping(value = "/keywordtudentpage")
+    public ResponseEntity findStudentByTaskNo(@RequestParam String keyword,@RequestParam int index,@RequestParam int length){
+        Page<BaseStudentEntity> baseStudentEntityPage = baseStudentService.getStudentByKeyword(keyword,new PageRequest(index,length));
+        if (baseStudentEntityPage!=null){
+            return ResponseEntity.ok().body(baseStudentEntityPage);
+        }else {
+            ExecResult er = new ExecResult(false, "未获取该关键字下的学生信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
 }

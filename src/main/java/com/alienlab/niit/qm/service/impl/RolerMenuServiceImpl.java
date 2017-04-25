@@ -33,8 +33,9 @@ public class RolerMenuServiceImpl implements RolerMenuService {
         List<TbRoleMenuEntity>  tbRoleMenuEntitys = rolerMenuRepository.findMenusByRoleId(roler_id);
         if (tbRoleMenuEntitys != null){
             return tbRoleMenuEntitys;
+        }else {
+            return null;
         }
-        return null;
     }
 
     @Override
