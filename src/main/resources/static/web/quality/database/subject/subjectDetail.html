@@ -39,16 +39,6 @@
                             <small>学号: {{person.stuNo}}</small>
                         </ui-select-choices>
                     </ui-select>
-
-                   <!-- <ui-select multiple="" ng-model="$parent.selectedPeople" theme="bootstrap" ng-disabled="disabled">
-                       <ui-select-match placeholder="输入学生姓名、学号">{{$item.stuName}} &lt;{{$item.stuNo}}&gt;</ui-select-match>
-                        <ui-select-choices repeat="person in people | propsFilter: {stuName: $select.search, stuNo: $select.search}  "
-                                           refresh="refreshStudents($select.search)">
-                            <div ng-bind-html="person.stuName | highlight: $select.search"></div>
-                            <small>学号: {{person.stuNo}}</small>
-                        </ui-select-choices>
-
-                    </ui-select>-->
                 </div>
             <div class="col-md-4 col-xs-4">
                   <button  ng-click="addStudent()"  type="button" class="btn btn-labeled btn-info">

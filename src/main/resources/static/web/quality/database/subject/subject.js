@@ -205,6 +205,10 @@
 
 
     courseMaintenance_module.controller("courseMaintenanceController",["$scope","$uibModal","gettermsResource","departmentResource","courseinstance","CourseResource","loadCourseService","SweetAlert","getkeywordCourseService",function($scope,$uibModal,gettermsResource,departmentResource,courseinstance,CourseResource,loadCourseService,SweetAlert,getkeywordCourseService){
+
+        $scope.selectedTerm="";
+        $scope.selectedDepartment="";
+
         $scope.addSubject=function () {
             courseinstance.chooseTaskNo=[];
                 var addsubjectInfo = $uibModal.open({
@@ -218,7 +222,7 @@
 
         }
 
-       /* loadCourseService.loadCourse("20161","2242",0,9,renderCourseData);*/
+
 
         //根据关键字查询课程信息
         $scope.keywordSearchCourse = function (index,length) {
@@ -267,7 +271,7 @@
             console.log("获取学期成功！");
             console.log(result);
             $scope.terms = result;
-            $scope.selectedTerm =  $scope.terms[0].termName;
+            $scope.selectedTerm =result[8].termNo;
             courseinstance.showterms = result;
         },function(result){
             console.log("获取学期失败");
@@ -278,10 +282,17 @@
             console.log(result);
             $scope.departments = result;
             courseinstance.showdepartments = $scope.departments;
-            $scope.selectedDepartment = $scope.departments[0].depName;
+            $scope.selectedDepartment = $scope.departments[4].depNo;
         }, function () {
             console.log("获取部门信息失败");
         });
+
+        console.log("这里");
+        console.log($scope.selectedTerm);
+        console.log($scope.selectedDepartment);
+/*
+        loadCourseService.loadCourse($scope.selectedTerm,$scope.selectedDepartment,0,9,renderCourseData);*/
+
 
         function renderCourseData(data){
             $scope.searchcourseArrays=[];
@@ -291,7 +302,7 @@
 
         //根据学期和部门查询课程
         $scope.loadData = function (index,length) {
-            loadCourseService.loadCourse($scope.selectedTerm,$scope.selectedDepartment,index,length,renderCourseData);
+                loadCourseService.loadCourse($scope.selectedTerm,$scope.selectedDepartment,index,length,renderCourseData);
         }
 
 
@@ -408,13 +419,13 @@
                     $scope.courseNo = result.courseNo,
                     $scope.courseName = result.courseName,
                     $scope.studentNumber = result.stuAmount,
-                    $scope.department = result.depName,
+                    $scope.department = result.depNo,
                     $scope.courseType = result.courseType,
                     $scope.courseAttr = result.courseAttr,
                     $scope.courseWeeks = result.courseWeek,
                     $scope.courseHours = result.courseCcount,
                     $scope.termNo = result.termNo,
-                    $scope.courseTerm = result.termName
+                    $scope.courseTerm = result.termNo
                 var oneteacher= new teacherObjStory(result.teacherName,result.teacherNo);//声明对象
                 $scope.teachers.push(oneteacher);
                 var oneclass= new classObjStory(result.className,result.classNo);//声明对象

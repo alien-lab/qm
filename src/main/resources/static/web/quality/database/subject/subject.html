@@ -1,8 +1,8 @@
 <h3>课程维护</h3>
 <div class="row">
-    <div class="col-md-5">
-        <select ng-init="selectedTerm = terms[0].termName" style="width:auto;float:left;"  ng-model="selectedTerm" ng-options="term.termNo as term.termName for term in terms" class="form-control" >
-           <option value="">请选择学期</option>
+    <div class="col-md-5" >
+        <select  style="width:auto;float:left;"  ng-model="selectedTerm" ng-options="term.termNo as term.termName for term in terms" class="form-control" >
+         <option value="">请选择学期</option>
         </select>
         <select style="width:auto;float:left;"  ng-model="selectedDepartment" ng-options="department.depNo as department.depName for department in departments" class="form-control" >
            <option value="">请选择部门</option>
@@ -11,9 +11,9 @@
     </div>
     <div class="col-md-3">
         <div style="width:auto;float:left;" class="input-group">
-            <input type="text" class="form-control" placeholder="可输入相关课程信息" ng-model="coursekeyWords">
+            <input type="text" class="form-control" placeholder="相关课程信息(当前学期、部门)" ng-model="coursekeyWords">
             <span class="input-group-btn">
-        <button class="btn btn-default" type="button" ng-click="keywordSearchCourse(0,9)">模糊查找</button>
+        <button class="btn btn-default" type="button" ng-click="keywordSearchCourse(0,9)">查找</button>
       </span>
         </div>
     </div>
