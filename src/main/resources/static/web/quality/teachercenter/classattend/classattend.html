@@ -1,0 +1,120 @@
+<style>
+    thead th{
+        text-align: center;
+        font-family: "微软雅黑";
+    }
+  tbody td{
+      width: 140px;
+        height: 90px;
+        text-align: center;
+      font-family: "微软雅黑";
+  }
+    .myclass{
+        width: 90%;
+        font-weight: bold;
+    }
+    .myclass:hover{
+        background-color: rgb(81,198,234);
+        width: 90%;
+        font-weight: bold;
+    }
+</style>
+<h3>课题考勤</h3>
+<div class="row">
+    <div class="col-md-9 col-xs-6">
+        <select  style="width:auto;float:left;"  ng-model="selectedSubjectType" ng-options="subjecttype as subjecttype for subjecttype in subjectTypes" class="form-control" >
+            <option value="">课程类型</option>
+        </select>
+        <select   style="width:auto;float:left;"  ng-model="selectedWeek" ng-options="week.weekid as week.weekname for week in subjectWeeks" class="form-control" >
+            <option value="">选择周次</option>
+        </select>
+        <button ng-click="searchCourse()" style="margin-left: 5px;" class="btn btn-success" type="button">搜索</button>
+    </div>
+    <div class="col-md-3  col-xs-6">
+        <button class="btn btn-primary" type="button" >考勤修改单<span class="fa fa-arrow-circle-down"></span></button>
+        <button ng-click="attendrecord()" class="btn btn-primary" type="button" >查看考勤记录<span class="fa fa-search"></span></button>
+    </div>
+</div>
+<div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover" style="margin-top: 10px;text-align: center">
+          <thead>
+            <tr style="text-align: center">
+                <th style="width: 10%">上课节次</th>
+                <th>周一</th>
+                <th>周二</th>
+                <th>周三</th>
+                <th>周四</th>
+                <th>周五</th>
+                <th>周六</th>
+                <th>周日</th>
+            </tr>
+          </thead>
+            <tbody>
+            <tr  ng-repeat="section in sections" >
+                <td ng-repeat="secone in section.day">
+                    <span data-ng-if="secone.mian==true">{{secone.name}}</span>
+                    <span data-ng-if="secone.checked==true">
+                        {{secone.courseNmae}}<br>
+                          <button   ng-click="attendDetail()" type="button" class="btn  bg-default myclass">{{secone.className}}</button>
+                    </span>
+                </td>
+            </tr>
+           <!-- <tr >
+                <th><br>1-2节</th>
+                <th>
+                    <span>
+                        C语言设计基础xxxxxxx<br>
+                          <button  ng-click="attendDetail()" type="button" class="btn  bg-info-light">软件1431班</button>
+                    </span>
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr >
+                <th> <br>3-4节</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr >
+                <th> <br>5-6节</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr >
+                <th><br>7-8节</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr >
+                <th><br>9-10节</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>-->
+            <tr></tr>
+            </tbody>
+        </table>
+</div>

@@ -1,0 +1,512 @@
+<style>
+    #fix{
+        position:fixed;
+        top:300px;
+        right:20px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    .attend{
+        color: rgb(35,183,299);
+    }
+
+</style>
+<h3>课程考勤</h3>
+<div class="row">
+    <div class="col-md-9 col-xs-8">
+        <select  style="width:auto;float:left;"  ng-model="selectedTerm" ng-options="term.termNo as term.termName for term in terms" class="form-control" >
+            <option value="">软件1431班</option>
+        </select>
+        <select style="width:auto;float:left;"  ng-model="selectedDepartment" ng-options="department.depNo as department.depName for department in departments" class="form-control" >
+            <option value="">C语言设计基础Ⅱ</option>
+        </select>
+        <select style="width:auto;float:left;"  ng-model="selectedDepartment" ng-options="department.depNo as department.depName for department in departments" class="form-control" >
+            <option value="">讲授课</option>
+        </select>
+        <select style="width:auto;float:left;"  ng-model="selectedDepartment" ng-options="department.depNo as department.depName for department in departments" class="form-control" >
+            <option value="">第十周</option>
+        </select>
+        <button class="btn btn-info" type="button" ng-click="goback()" >返回上一步   <span class="fa fa-reply"></span></button>
+
+    </div>
+    <div class="col-md-3  col-xs-4">
+        <button class="btn btn-success" type="button" title="忘记提交，考勤信息不会丢失" >完成考勤<span class="fa fa-check"></span></button>
+        <button ng-click="attendrecord()" class="btn btn-primary" type="button" >查看考勤记录  <span class="fa fa-search"></span></button>
+    </div>
+    <div id="fix" class="panel panel-default" style="width: 100px">
+    <div class="table-responsive table-bordered">
+        <table class="table">
+            <tbody>
+            <tr>
+                <td><span title="旷课" class="fa fa-close" style="color: red"></span></td>
+                <td style="font-weight: bold">0</td>
+            </tr>
+            <tr>
+                <td><span title="迟到" class="fa fa-history" style="color: orangered"></span></td>
+                <td style="font-weight: bold">0</td>
+            </tr>
+            <tr>
+                <td><span title="早退" class="fa fa-sign-out" style="color:orange;"></span></td>
+                <td style="font-weight: bold"> 0</td>
+            </tr>
+            <tr>
+                <td><span  title="请假" class="fa fa-phone attend"  ></span></td>
+                <td style="font-weight: bold">0</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+<div class="row">
+    <div class=" col-md-11 col-sm-9 col-xs-8" style="top: 30px;">
+        <div class="col-md-3 col-sm-6">
+            <!-- START panel-->
+            <div  class="panel panel-success">
+                <div class="panel-heading">
+                    <span style="text-align: left">
+                        正常出勤
+                    </span>
+                    <span style="float: right" class="fa fa-check"></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead style="font-size: 25px;font-family: 微软雅黑">
+                        <tr>
+                            <td colspan="2">
+                                陈新
+                            </td>
+                            <td colspan="2">
+                                01号
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody style="font-size: 22px;cursor: pointer;text-align: center">
+                        <tr>
+                            <td>
+                                <span title="旷课" class="fa fa-close" style="color: red"></span>
+                            </td>
+                            <td>
+                                <span title="迟到" class="fa fa-history" style="color: orangered"></span>
+                            </td>
+                            <td>
+                                <span title="早退" class="fa fa-sign-out" style="color:orange;"></span>
+                            </td>
+                            <td>
+                                <span  title="请假" class="fa fa-phone attend"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- END panel-->
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <!-- START panel-->
+            <div  class="panel panel-success">
+                <div class="panel-heading">
+                    <span style="text-align: left">
+                        正常出勤
+                    </span>
+                    <span style="float: right" class="fa fa-check"></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead style="font-size: 25px;font-family: 微软雅黑">
+                        <tr>
+                            <td colspan="2">
+                                仇博
+                            </td>
+                            <td colspan="2">
+                                02号
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody style="font-size: 22px;cursor: pointer;text-align: center">
+                        <tr>
+                            <td>
+                                <span title="旷课" class="fa fa-close" style="color: red"></span>
+                            </td>
+                            <td>
+                                <span title="迟到" class="fa fa-history" style="color: orangered"></span>
+                            </td>
+                            <td>
+                                <span title="早退" class="fa fa-sign-out" style="color:orange;"></span>
+                            </td>
+                            <td>
+                                <span  title="请假" class="fa fa-phone attend"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- END panel-->
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <!-- START panel-->
+            <div  class="panel panel-success">
+                <div class="panel-heading">
+                    <span style="text-align: left">
+                        正常出勤
+                    </span>
+                    <span style="float: right" class="fa fa-check"></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead style="font-size: 25px;font-family: 微软雅黑">
+                        <tr>
+                            <td colspan="2">
+                                高啸宇
+                            </td>
+                            <td colspan="2">
+                                03号
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody style="font-size: 22px;cursor: pointer;text-align: center">
+                        <tr>
+                            <td>
+                                <span title="旷课" class="fa fa-close" style="color: red"></span>
+                            </td>
+                            <td>
+                                <span title="迟到" class="fa fa-history" style="color: orangered"></span>
+                            </td>
+                            <td>
+                                <span title="早退" class="fa fa-sign-out" style="color:orange;"></span>
+                            </td>
+                            <td>
+                                <span  title="请假" class="fa fa-phone attend"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- END panel-->
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <!-- START panel-->
+            <div  class="panel panel-success">
+                <div class="panel-heading">
+                    <span style="text-align: left">
+                        正常出勤
+                    </span>
+                    <span style="float: right" class="fa fa-check"></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead style="font-size: 25px;font-family: 微软雅黑">
+                        <tr>
+                            <td colspan="2">
+                                李青阳
+                            </td>
+                            <td colspan="2">
+                                04号
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody style="font-size: 22px;cursor: pointer;text-align: center">
+                        <tr>
+                            <td>
+                                <span title="旷课" class="fa fa-close" style="color: red"></span>
+                            </td>
+                            <td>
+                                <span title="迟到" class="fa fa-history" style="color: orangered"></span>
+                            </td>
+                            <td>
+                                <span title="早退" class="fa fa-sign-out" style="color:orange;"></span>
+                            </td>
+                            <td>
+                                <span  title="请假" class="fa fa-phone attend"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- END panel-->
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <!-- START panel-->
+            <div  class="panel panel-success">
+                <div class="panel-heading">
+                    <span style="text-align: left">
+                        正常出勤
+                    </span>
+                    <span style="float: right" class="fa fa-check"></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead style="font-size: 25px;font-family: 微软雅黑">
+                        <tr>
+                            <td colspan="2">
+                                陆林辉
+                            </td>
+                            <td colspan="2">
+                                05号
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody style="font-size: 22px;cursor: pointer;text-align: center">
+                        <tr>
+                            <td>
+                                <span title="旷课" class="fa fa-close" style="color: red"></span>
+                            </td>
+                            <td>
+                                <span title="迟到" class="fa fa-history" style="color: orangered"></span>
+                            </td>
+                            <td>
+                                <span title="早退" class="fa fa-sign-out" style="color:orange;"></span>
+                            </td>
+                            <td>
+                                <span  title="请假" class="fa fa-phone attend"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- END panel-->
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <!-- START panel-->
+            <div  class="panel panel-success">
+                <div class="panel-heading">
+                    <span style="text-align: left">
+                        正常出勤
+                    </span>
+                    <span style="float: right" class="fa fa-check"></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead style="font-size: 25px;font-family: 微软雅黑">
+                        <tr>
+                            <td colspan="2">
+                                陈新
+                            </td>
+                            <td colspan="2">
+                                01号
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody style="font-size: 22px;cursor: pointer;text-align: center">
+                        <tr>
+                            <td>
+                                <span title="旷课" class="fa fa-close" style="color: red"></span>
+                            </td>
+                            <td>
+                                <span title="迟到" class="fa fa-history" style="color: orangered"></span>
+                            </td>
+                            <td>
+                                <span title="早退" class="fa fa-sign-out" style="color:orange;"></span>
+                            </td>
+                            <td>
+                                <span  title="请假" class="fa fa-phone attend"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- END panel-->
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <!-- START panel-->
+            <div  class="panel panel-success">
+                <div class="panel-heading">
+                    <span style="text-align: left">
+                        正常出勤
+                    </span>
+                    <span style="float: right" class="fa fa-check"></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead style="font-size: 25px;font-family: 微软雅黑">
+                        <tr>
+                            <td colspan="2">
+                                仇博
+                            </td>
+                            <td colspan="2">
+                                02号
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody style="font-size: 22px;cursor: pointer;text-align: center">
+                        <tr>
+                            <td>
+                                <span title="旷课" class="fa fa-close" style="color: red"></span>
+                            </td>
+                            <td>
+                                <span title="迟到" class="fa fa-history" style="color: orangered"></span>
+                            </td>
+                            <td>
+                                <span title="早退" class="fa fa-sign-out" style="color:orange;"></span>
+                            </td>
+                            <td>
+                                <span  title="请假" class="fa fa-phone attend"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- END panel-->
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <!-- START panel-->
+            <div  class="panel panel-success">
+                <div class="panel-heading">
+                    <span style="text-align: left">
+                        正常出勤
+                    </span>
+                    <span style="float: right" class="fa fa-check"></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead style="font-size: 25px;font-family: 微软雅黑">
+                        <tr>
+                            <td colspan="2">
+                                高啸宇
+                            </td>
+                            <td colspan="2">
+                                03号
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody style="font-size: 22px;cursor: pointer;text-align: center">
+                        <tr>
+                            <td>
+                                <span title="旷课" class="fa fa-close" style="color: red"></span>
+                            </td>
+                            <td>
+                                <span title="迟到" class="fa fa-history" style="color: orangered"></span>
+                            </td>
+                            <td>
+                                <span title="早退" class="fa fa-sign-out" style="color:orange;"></span>
+                            </td>
+                            <td>
+                                <span  title="请假" class="fa fa-phone attend"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- END panel-->
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <!-- START panel-->
+            <div  class="panel panel-success">
+                <div class="panel-heading">
+                    <span style="text-align: left">
+                        正常出勤
+                    </span>
+                    <span style="float: right" class="fa fa-check"></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead style="font-size: 25px;font-family: 微软雅黑">
+                        <tr>
+                            <td colspan="2">
+                                李青阳
+                            </td>
+                            <td colspan="2">
+                                04号
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody style="font-size: 22px;cursor: pointer;text-align: center">
+                        <tr>
+                            <td>
+                                <span title="旷课" class="fa fa-close" style="color: red"></span>
+                            </td>
+                            <td>
+                                <span title="迟到" class="fa fa-history" style="color: orangered"></span>
+                            </td>
+                            <td>
+                                <span title="早退" class="fa fa-sign-out" style="color:orange;"></span>
+                            </td>
+                            <td>
+                                <span  title="请假" class="fa fa-phone attend"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- END panel-->
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <!-- START panel-->
+            <div  class="panel panel-success">
+                <div class="panel-heading">
+                    <span style="text-align: left">
+                        正常出勤
+                    </span>
+                    <span style="float: right" class="fa fa-check"></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead style="font-size: 25px;font-family: 微软雅黑">
+                        <tr>
+                            <td colspan="2">
+                                陆林辉
+                            </td>
+                            <td colspan="2">
+                                05号
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody style="font-size: 22px;cursor: pointer;text-align: center">
+                        <tr>
+                            <td>
+                                <span title="旷课" class="fa fa-close" style="color: red"></span>
+                            </td>
+                            <td>
+                                <span title="迟到" class="fa fa-history" style="color: orangered"></span>
+                            </td>
+                            <td>
+                                <span title="早退" class="fa fa-sign-out" style="color:orange;"></span>
+                            </td>
+                            <td>
+                                <span  title="请假" class="fa fa-phone attend"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- END panel-->
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

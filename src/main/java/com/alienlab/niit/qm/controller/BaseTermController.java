@@ -58,4 +58,36 @@ public class BaseTermController{
         }
     }
 
+    @ApiOperation(value = "得到当前学期")
+    @GetMapping(value = "/term/currentTerm")
+    public ResponseEntity getcurrentTerm(){
+
+        BaseTermEntity baseTermEntity = baseTermService.getCurrentTerm();
+        if (baseTermEntity!=null){
+            return ResponseEntity.ok(baseTermEntity);
+        }else {
+
+            ExecResult er = new ExecResult(false, "未获取当前学期信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
+
+    @ApiOperation(value = "得到当前周次")
+    @GetMapping(value = "/term/currentWeek")
+    public ResponseEntity getcurrentWeek(){
+        long currentWeek = baseTermService.getCurrentWeek();
+        System.out.print(currentWeek);
+        if (currentWeek!=0){
+            ExecResult okweek = new ExecResult(true, String.valueOf(currentWeek));
+            return ResponseEntity.ok().body(okweek);
+        }else {
+
+            ExecResult er = new ExecResult(false, "未获取当前学期信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
+
+
 }

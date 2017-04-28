@@ -282,4 +282,86 @@ public class CourseServiceImpl implements CourseService {
         return flag;
     }
 
+    @Override
+    public List<CourseDetailDto>  getCourseBytypeAndweekAndteacherNo(String termNo,String type,int week,String tascherNo) {
+
+        List<CourseDetailDto> courseDetailDtos = new ArrayList<>();
+        String sql = "SELECT a.*,b.sche_set,b.sche_addr FROM base_teach_task a,base_task_sche b WHERE term_no='"+termNo+"' AND teacher_no='"+tascherNo+"' AND course_type='"+type+"'" +
+                "AND b.task_no=a.task_no";
+        List <Map<String,Object>> totallist = jdbcTemplate.queryForList(sql);
+        for (int i=0;i<totallist.size();i++){
+            String courseweek = (String) totallist.get(i).get("course_week");
+            if (courseweek.contains(",")){
+                String [] weeks = courseweek.split(",");
+                if (weeks!=null){
+                    for (int j=0;j<weeks.length;j++){
+                        String [] sections = weeks[j].split("-");
+                        int startweek =  Integer.parseInt(sections[0]);
+                        int endweek = Integer.parseInt(sections[1]);
+                        if (endweek>=week && week>=startweek){
+                            CourseDetailDto courseDetailDto = new CourseDetailDto();
+                            courseDetailDto.setCourseName((String) totallist.get(i).get("course_name"));
+                            courseDetailDto.setTaskNo((Long) totallist.get(i).get("task_no"));
+                            courseDetailDto.setClassNo((String) totallist.get(i).get("class_no"));
+                            BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo((String) totallist.get(i).get("class_no"));
+                            if (baseClassesEntity!=null){
+                                courseDetailDto.setClassName(baseClassesEntity.getClassName());
+                            }else {
+                                try {
+                                    List<BaseClassLogicEntity> baseClassLogicEntities =baseClassLogicRepository.findByTaskNo((Long) totallist.get(i).get("task_no"));
+                                    if (baseClassLogicEntities.size()!=0){
+                                        courseDetailDto.setClassName("逻辑班级"+baseClassLogicEntities.get(0).getLogicName());
+                                    }else {
+                                        courseDetailDto.setClassName("逻辑班级为null");
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            String []firstsection = ((String) totallist.get(i).get("sche_set")).split(":");
+                            String weekday = firstsection[0];
+                            String secondsection = firstsection[1];
+                            courseDetailDto.setTeacherName(weekday);
+                            courseDetailDto.setTermName(secondsection);
+                            courseDetailDtos.add(courseDetailDto);
+                        }
+                    }
+                }
+            }else {
+                String [] sections = courseweek.split("-");
+                int startweek =  Integer.parseInt(sections[0]);
+                int endweek = Integer.parseInt(sections[1]);
+                if (endweek>=week && week>=startweek){
+                    CourseDetailDto courseDetailDto = new CourseDetailDto();
+                    courseDetailDto.setCourseName((String) totallist.get(i).get("course_name"));
+                    courseDetailDto.setTaskNo((Long) totallist.get(i).get("task_no"));
+                    courseDetailDto.setClassNo((String) totallist.get(i).get("class_no"));
+                    BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo((String) totallist.get(i).get("class_no"));
+                    if (baseClassesEntity!=null){
+                        courseDetailDto.setClassName(baseClassesEntity.getClassName());
+                    }else {
+                        try {
+                            List<BaseClassLogicEntity> baseClassLogicEntities =baseClassLogicRepository.findByTaskNo((Long) totallist.get(i).get("task_no"));
+                            if (baseClassLogicEntities.size()!=0){
+                                courseDetailDto.setClassName("逻辑班级"+baseClassLogicEntities.get(0).getLogicName());
+                            }else {
+                                courseDetailDto.setClassName("逻辑班级为null");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    String []firstsection = ((String) totallist.get(i).get("sche_set")).split(":");
+                    String weekday = firstsection[0];
+                    String secondsection = firstsection[1];
+                    courseDetailDto.setTeacherName(weekday);
+                    courseDetailDto.setTermName(secondsection);
+                    courseDetailDtos.add(courseDetailDto);
+                }
+            }
+
+        }
+        return courseDetailDtos;
+    }
+
 }

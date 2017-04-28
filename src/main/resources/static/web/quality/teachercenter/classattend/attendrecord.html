@@ -1,0 +1,61 @@
+<style>
+    .intoattend:hover{
+        cursor: pointer;
+        color: rgb(35,183,299);
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div id="panelPortlet6" class="panel panel-info" style="margin-bottom: -3px;">
+            <em ng-click="cancel()" style="float: right;font-size: 20px;" class="fa fa-close " ></em>
+            <div class="panel-heading portlet-handler">查看考勤记录</div>
+            <div class="panel-body">
+                <div class="row">
+                    <select  style="width:auto;float:left;margin-left: 20px"  ng-model="selectedTerm" ng-options="term.termNo as term.termName for term in terms" class="form-control" >
+                        <option value="">选择课程</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class=" panel-default">
+                        <div class="panel-body">
+                            <div class="table-responsive table-bordered">
+                                <table class="table" style="text-align: center;font-family: 微软雅黑">
+                                    <thead>
+                                    <tr>
+                                        <th style="text-align: center">周次</th>
+                                        <th  style="text-align: center">节次</th>
+                                        <th  style="text-align: center">旷课</th>
+                                        <th  style="text-align: center">迟到</th>
+                                        <th  style="text-align: center">早退</th>
+                                        <th  style="text-align: center">请假</th>
+                                        <th  style="text-align: center">出勤率</th>
+                                        <th  style="text-align: center">状态</th>
+                                        <th  style="text-align: center">进入考勤</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr  >
+                                        <td>10</td>
+                                        <td>周一/三四节</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                        <td>1</td>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>未提交</td>
+                                        <td class="intoattend" style="font-size: 30px">
+                                            <span title="进入考勤" class=" fa fa-arrow-circle-right"></span>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

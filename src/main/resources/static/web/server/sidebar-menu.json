@@ -64,7 +64,7 @@
     "sref": "#",
     "icon": "icon-eyeglass",
     "submenu": [
-      {"text": "课堂考勤",       "sref": "app.dashboard"},
+      {"text": "课堂考勤",       "sref": "qm.classattend"},
       {"text": "教师评学",       "sref": "app.dashboard_v2" },
       {"text": "任教班级考勤",       "sref": "app.dashboard_v3" },
       {"text": "个人被听课记录",       "sref": "app.dashboard_v2" },

@@ -40,7 +40,9 @@
             'qm.base_teacher',
             'qm.base_subject',
             'qm.stuevaluation',
-            'qm.base_judgeconfig'
+            'qm.base_judgeconfig',
+            'qm.classattend',
+            'qm.stuattendDetail'
         ]);
 })();
 (function(){
@@ -426,8 +428,25 @@
                     console.log(result);
                        $rootScope.loginuser=result;
                        $state.go("qm.index");//登录成功跳转到主页
-                        // Put cookie
-                        $cookieStore.put("user",
+                    //获得当前学期
+                    loginResource.getcurrentTerm({
+                    },function(result){
+                        console.log(result);
+                        $cookieStore.put("currentTerm",
+                            {termName: result.termName,termNo:result.termNo,termStatus:result.termStatus});
+                    },function (result) {
+                        console.log("获得当前学期失败")
+                    });
+                    //获取当前周次
+                    loginResource.getcurrentWeek({
+                    },function(result){console.log(result);
+                        $cookieStore.put("currentWeek",
+                            {currentweek: result.message});
+                    },function (result) {
+                        console.log("获得当前周次失败")
+                    });
+                    // 将用户登录信息存入cookies
+                    $cookieStore.put("user",
                             {account: result.userLoginname,name:  result.userName,type:result.userType},{
                                 expires: new Date(new Date().getTime() + 60000)
                             });
@@ -466,7 +485,9 @@
     'use strict';
     angular.module("app.core").factory("loginResource",["$resource",function($resource){
         var service = $resource('../qm-api/dologin', {}, {
-            'login': { method: 'POST'}
+            'login': { method: 'POST'},
+            getcurrentTerm:{method: 'GET', url:'../qm-api/term/currentTerm'},
+            getcurrentWeek:{method: 'GET', url:'../qm-api/term/currentWeek'}
         });
         return service;
     }]);
