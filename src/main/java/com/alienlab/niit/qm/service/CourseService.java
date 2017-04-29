@@ -37,7 +37,7 @@ public interface CourseService {
 
 
 
-    //根据授课类型，课程周次，教师工号返回课程
+    //根据学期，授课类型，课程周次，教师工号返回课程
     public List<CourseDetailDto> getCourseBytypeAndweekAndteacherNo(String termNo,String type,int week,String tascherNo);
 
 

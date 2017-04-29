@@ -55,7 +55,7 @@
                     <span data-ng-if="secone.mian==true">{{secone.name}}</span>
                     <span data-ng-if="secone.checked==true">
                         {{secone.courseNmae}}<br>
-                          <button   ng-click="attendDetail()" type="button" class="btn  bg-default myclass">{{secone.className}}</button>
+                          <button   ng-click="attendDetail(secone.shceNo,secone.courseNmae,secone.className)" type="button" class="btn  bg-default myclass">{{secone.className}}</button>
                     </span>
                 </td>
             </tr>

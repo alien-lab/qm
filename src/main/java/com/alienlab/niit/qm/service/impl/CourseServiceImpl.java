@@ -286,7 +286,7 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseDetailDto>  getCourseBytypeAndweekAndteacherNo(String termNo,String type,int week,String tascherNo) {
 
         List<CourseDetailDto> courseDetailDtos = new ArrayList<>();
-        String sql = "SELECT a.*,b.sche_set,b.sche_addr FROM base_teach_task a,base_task_sche b WHERE term_no='"+termNo+"' AND teacher_no='"+tascherNo+"' AND course_type='"+type+"'" +
+        String sql = "SELECT a.*,b.sche_set,b.sche_addr,b.sche_no FROM base_teach_task a,base_task_sche b WHERE term_no='"+termNo+"' AND teacher_no='"+tascherNo+"' AND course_type='"+type+"'" +
                 "AND b.task_no=a.task_no";
         List <Map<String,Object>> totallist = jdbcTemplate.queryForList(sql);
         for (int i=0;i<totallist.size();i++){
@@ -303,6 +303,7 @@ public class CourseServiceImpl implements CourseService {
                             courseDetailDto.setCourseName((String) totallist.get(i).get("course_name"));
                             courseDetailDto.setTaskNo((Long) totallist.get(i).get("task_no"));
                             courseDetailDto.setClassNo((String) totallist.get(i).get("class_no"));
+                            courseDetailDto.setSche_no((Long) totallist.get(i).get("sche_no"));
                             BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo((String) totallist.get(i).get("class_no"));
                             if (baseClassesEntity!=null){
                                 courseDetailDto.setClassName(baseClassesEntity.getClassName());
@@ -336,6 +337,7 @@ public class CourseServiceImpl implements CourseService {
                     courseDetailDto.setCourseName((String) totallist.get(i).get("course_name"));
                     courseDetailDto.setTaskNo((Long) totallist.get(i).get("task_no"));
                     courseDetailDto.setClassNo((String) totallist.get(i).get("class_no"));
+                    courseDetailDto.setSche_no((Long) totallist.get(i).get("sche_no"));
                     BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo((String) totallist.get(i).get("class_no"));
                     if (baseClassesEntity!=null){
                         courseDetailDto.setClassName(baseClassesEntity.getClassName());
