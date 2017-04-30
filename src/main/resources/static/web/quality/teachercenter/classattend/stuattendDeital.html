@@ -36,13 +36,16 @@
     </div>
     <div class="col-md-12  col-xs-6">
        <div class="col-md-6"  style="font-family: 微软雅黑;font-weight: bold;margin-top: 10px">
-           <span> 教室卫生 <slider ng-model="slidervalue" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider></span>
-           <span>课题纪律 <slider ng-model="slidervalue2" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider></span>
+           <span> 教室卫生 <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider></span>
+           <span>课题纪律 <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue2" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider></span>
        </div>
         <div class="col-md-2"></div>
       <div class="col-md-4" style="text-align: center">
-       <button class="btn btn-success " type="button" title="忘记提交，考勤信息不会丢失" >完成考勤<span class="fa fa-check"></span></button>
-       </div>
+       <button ng-click="submitAttend(Attend.checkMainNo)" class="btn btn-success " type="button" data-ng-if="Attend.checkMainStatus=='0'" title="忘记提交，考勤信息不会丢失" >点此提交考勤</button>
+        <button class="btn btn-warning " type="button" data-ng-if="Attend.checkMainStatus=='0'">未提交考勤</button>
+          <button class="btn btn-warning " type="button" data-ng-if="Attend.checkMainStatus=='1'">提交已考勤</button>
+
+      </div>
     </div>
     <div id="fix" class="panel panel-default" style="width: 100px">
     <div class="table-responsive table-bordered">
@@ -50,19 +53,19 @@
             <tbody>
             <tr>
                 <td><span title="旷课" class="fa fa-close" style="color: red"></span></td>
-                <td style="font-weight: bold">0</td>
+                <td style="font-weight: bold">{{kk}}</td>
             </tr>
             <tr>
-                <td><span title="迟到" class="fa fa-history" style="color: orangered"></span></td>
-                <td style="font-weight: bold">0</td>
+                <td><span title="迟到" class="fa fa-history chidao" ></span></td>
+                <td style="font-weight: bold">{{cd}}</td>
             </tr>
             <tr>
                 <td><span title="早退" class="fa fa-sign-out" style="color:orange;"></span></td>
-                <td style="font-weight: bold"> 0</td>
+                <td style="font-weight: bold"> {{zt}}</td>
             </tr>
             <tr>
-                <td><span  title="请假" class="fa fa-phone attend"  ></span></td>
-                <td style="font-weight: bold">0</td>
+                <td><span  title="请假" class="fa fa-phone qingjia"  ></span></td>
+                <td style="font-weight: bold">{{qj}}</td>
             </tr>
             </tbody>
         </table>
@@ -74,9 +77,9 @@
     <div class=" col-md-11 col-sm-9 col-xs-8" style="top: 30px;">
         <div class="col-md-3 col-sm-6" ng-repeat="student in Students">
             <!-- START panel-->
-            <div ng-class="{'正常':'panel-success','旷课':'panel-danger','迟到':'panel-primary','早退':'panel-warning','请假':'panel-green'}[student.state]"  class="panel " style="height: 190px">
-                <div class="panel-heading" >
-                    <span style="text-align: left;font-weight: bold;font-size: 17px" >
+            <div ng-class="{'正常':'panel-success','旷课':'panel-danger','迟到':'panel-primary','早退':'panel-warning','请假':'panel-green'}[student.state]"  class="panel"  style="height: 190px">
+                <div class="panel-heading" ng-click="changeStu(Attend.checkMainNo,4,student.id,'正常',student.state);student.state='正常'" title="点击恢复正常状态">
+                    <span style="text-align: left;font-weight: bold;font-size: 17px"  >
                         {{student.state}}
                     </span>
                     <span  data-ng-if="student.state=='正常'" style="float: right;font-size: 25px" class="fa fa-check"></span>
@@ -100,16 +103,16 @@
                         <tbody style="font-size: 22px;cursor: pointer;text-align: center">
                         <tr>
                             <td >
-                                <span ng-click="changeStu(0,student.id)" title="旷课" class="fa fa-close" style="color: red"></span>
+                                <span ng-click="changeStu(Attend.checkMainNo,0,student.id,'旷课',student.state)" title="旷课" class="fa fa-close" style="color: red"></span>
                             </td>
                             <td>
-                                <span ng-click="changeStu(1,student.id)"title="迟到" class="fa fa-history chidao" ></span>
+                                <span ng-click="changeStu(Attend.checkMainNo,1,student.id,'迟到',student.state)"title="迟到" class="fa fa-history chidao" ></span>
                             </td>
                             <td >
-                                <span ng-click="changeStu(2,student.id)" title="早退" class="fa fa-sign-out" style="color:orange"></span>
+                                <span ng-click="changeStu(Attend.checkMainNo,2,student.id,'早退',student.state)" title="早退" class="fa fa-sign-out" style="color:orange"></span>
                             </td>
                             <td>
-                                <span ng-click="changeStu(3,student.id)" title="请假" class="fa fa-phone qingjia"></span>
+                                <span ng-click="changeStu(Attend.checkMainNo,3,student.id,'请假',student.state)" title="请假" class="fa fa-phone qingjia"></span>
                             </td>
                         </tr>
                         </tbody>
