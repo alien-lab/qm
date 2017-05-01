@@ -20,6 +20,7 @@ public class CourseDetailDto extends BaseTeachTaskEntity{
     private int stuAmount;
     private String depName;
     private String termName;
+    private long sche_no;
 
 
     public List<BaseTaskScheEntity> getSectionses() {
@@ -68,5 +69,13 @@ public class CourseDetailDto extends BaseTeachTaskEntity{
 
     public void setTermName(String termName) {
         this.termName = termName;
+    }
+
+    public long getSche_no() {
+        return sche_no;
+    }
+
+    public void setSche_no(long sche_no) {
+        this.sche_no = sche_no;
     }
 }

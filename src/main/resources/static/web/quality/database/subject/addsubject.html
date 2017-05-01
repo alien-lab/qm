@@ -2,7 +2,7 @@
         <div class="col-lg-12">
             <div id="panelPortlet6" class="panel-info" style="margin-bottom: -3px;">
                 <em ng-click="cancel()" style="float: right;font-size: 20px;" class="fa fa-close " ></em>
-                <div class="panel-heading portlet-handler">新添课程信息</div>
+                <div class="panel-heading portlet-handler">新添/修改课程信息</div>
                 <div class="panel-default">
                     <div class="panel-body">
                         <form   form-wizard="" validate-steps="true" validate-form="" steps="4">
@@ -63,9 +63,6 @@
                                                     <select  ng-model="$parent.department" ng-options="department.depNo as department.depName for department in depatments" class="form-control" >
                                                         <option value="">请选择部门</option>
                                                     </select>
-                                                    <!--<select type="button"   class="form-control" data-toggle="dropdown" ng-model="$parent.department" >
-                                                    <option value="{{dep.depNo}}" ng-repeat="dep in depatments" >{{dep.depName}}</option>
-                                                    </select>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -100,7 +97,7 @@
                                                 <div class="form-group">
                                                     <label>课程周数</label>
                                                     <div class="controls">
-                                                        <input ng-model="$parent.courseWeeks" type="text" placeholder="例如：1-18" class="form-control" />
+                                                        <input ng-model="$parent.courseWeeks" type="text" placeholder="例如：1-6,(英文)8-9" class="form-control" />
                                                     </div>
                                                 </div>
                                             </div>

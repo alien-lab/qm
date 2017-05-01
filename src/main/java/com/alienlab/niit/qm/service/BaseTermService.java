@@ -16,4 +16,10 @@ public interface BaseTermService {
     public List<BaseTermEntity> findStudentTermByStuNo(String stuNo);
 
     public ExecResult addTermEntity();
+
+    //获取当期学期
+    public BaseTermEntity getCurrentTerm();
+
+    //获取当前周次
+    public long getCurrentWeek();
 }

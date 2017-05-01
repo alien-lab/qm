@@ -1,0 +1,143 @@
+<style>
+    #fix{
+        position:fixed;
+        top:300px;
+        right:20px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    .qingjia{
+       color: rgb(55,188,155);
+    }
+
+    .chidao{
+        color: rgb(93,156,236);
+    }
+
+
+</style>
+<h3>课程考勤</h3>
+<div class="row">
+    <div class="col-md-12 col-xs-6">
+        <select  style="width:auto;float:left;"  class="form-control" >
+            <option value="">{{selectedClassname}}班</option>
+        </select>
+        <select style="width:auto;float:left;"  class="form-control" >
+            <option value="">{{selectedCoursename}}</option>
+        </select>
+        <select style="width:auto;float:left;"   class="form-control" >
+            <option value="">{{selectedCourseType}}</option>
+        </select>
+        <select style="width:auto;float:left;"  class="form-control" >
+            <option value="">第{{selectedCurrentweek}}周</option>
+        </select>
+        <button class="btn btn-info" type="button" ng-click="goback()" >返回上一步   <span class="fa fa-reply"></span></button>
+        <br>
+    </div>
+    <div class="col-md-12  col-xs-6">
+       <div class="col-md-6"  style="font-family: 微软雅黑;font-weight: bold;margin-top: 10px">
+           <span> 教室卫生 <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider></span>
+           <span>课题纪律 <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue2" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider></span>
+       </div>
+        <div class="col-md-2"></div>
+      <div class="col-md-4" style="text-align: center">
+       <button ng-click="submitAttend(Attend.checkMainNo)" class="btn btn-success " type="button" data-ng-if="Attend.checkMainStatus=='0'" title="忘记提交，考勤信息不会丢失" >点此提交考勤</button>
+        <button class="btn btn-warning " type="button" data-ng-if="Attend.checkMainStatus=='0'">未提交考勤</button>
+          <button class="btn btn-warning " type="button" data-ng-if="Attend.checkMainStatus=='1'">提交已考勤</button>
+
+      </div>
+    </div>
+    <div id="fix" class="panel panel-default" style="width: 100px">
+    <div class="table-responsive table-bordered">
+        <table class="table">
+            <tbody>
+            <tr>
+                <td><span title="旷课" class="fa fa-close" style="color: red"></span></td>
+                <td style="font-weight: bold">{{kk}}</td>
+            </tr>
+            <tr>
+                <td><span title="迟到" class="fa fa-history chidao" ></span></td>
+                <td style="font-weight: bold">{{cd}}</td>
+            </tr>
+            <tr>
+                <td><span title="早退" class="fa fa-sign-out" style="color:orange;"></span></td>
+                <td style="font-weight: bold"> {{zt}}</td>
+            </tr>
+            <tr>
+                <td><span  title="请假" class="fa fa-phone qingjia"  ></span></td>
+                <td style="font-weight: bold">{{qj}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+<div class="row">
+    <div class=" col-md-11 col-sm-9 col-xs-8" style="top: 30px;">
+        <div class="col-md-3 col-sm-6" ng-repeat="student in Students">
+            <!-- START panel-->
+            <div ng-class="{'正常':'panel-success','旷课':'panel-danger','迟到':'panel-primary','早退':'panel-warning','请假':'panel-green'}[student.state]"  class="panel"  style="height: 190px">
+                <div class="panel-heading" ng-click="changeStu(Attend.checkMainNo,4,student.id,'正常', student.state);student.state='正常'" title="点击恢复正常状态">
+                    <span style="text-align: left;font-weight: bold;font-size: 17px"  >
+                        {{student.state}}
+                    </span>
+                    <span  data-ng-if="student.state=='正常'" style="float: right;font-size: 25px" class="fa fa-check"></span>
+                    <span data-ng-if="student.state=='旷课'" style="float: right;font-size: 25px" class="fa fa-close"></span>
+                    <span data-ng-if="student.state=='迟到'" style="float: right;font-size: 25px" class="fa fa-history"></span>
+                    <span data-ng-if="student.state=='早退'" style="float: right;font-size: 25px" class="fa fa-sign-out"></span>
+                    <span data-ng-if="student.state=='请假'" style="float: right;font-size: 25px" class="fa fa-phone"></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead style="font-size: 25px;font-family: 微软雅黑">
+                        <tr style="font-size: 19px;height: 75px;text-align: center" >
+                            <td colspan="4" >
+                                <span style="font-weight: bold;font-size: 23px">{{student.name}}</span> <br>
+                                <span style="font-size: 10px;">{{student.id}}</span>
+                            </td>
+
+
+                        </tr>
+                        </thead>
+                        <tbody style="font-size: 22px;cursor: pointer;text-align: center">
+                        <tr>
+                            <td >
+                                <span ng-click="changeStu(Attend.checkMainNo,0,student.id,'旷课',student.state)" title="旷课" class="fa fa-close" style="color: red"></span>
+                            </td>
+                            <td>
+                                <span ng-click="changeStu(Attend.checkMainNo,1,student.id,'迟到',student.state)"title="迟到" class="fa fa-history chidao" ></span>
+                            </td>
+                            <td >
+                                <span ng-click="changeStu(Attend.checkMainNo,2,student.id,'早退',student.state)" title="早退" class="fa fa-sign-out" style="color:orange"></span>
+                            </td>
+                            <td>
+                                <span ng-click="changeStu(Attend.checkMainNo,3,student.id,'请假',student.state)" title="请假" class="fa fa-phone qingjia"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <!-- END panel-->
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

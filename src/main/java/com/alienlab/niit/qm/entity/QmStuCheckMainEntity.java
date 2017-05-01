@@ -2,6 +2,7 @@ package com.alienlab.niit.qm.entity;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.GeneratedValue;
 import java.sql.Timestamp;
 
 /**
@@ -13,6 +14,7 @@ public class QmStuCheckMainEntity {
     private long checkMainNo;
 
     @javax.persistence.Id
+    @GeneratedValue
     @javax.persistence.Column(name = "check_main_no")
     public long getCheckMainNo() {
         return checkMainNo;
@@ -62,15 +64,15 @@ public class QmStuCheckMainEntity {
     }
 
     @ApiModelProperty(value="学期")
-    private Integer termNo;
+    private String termNo;
 
     @javax.persistence.Basic
     @javax.persistence.Column(name = "term_no")
-    public Integer getTermNo() {
+    public String getTermNo() {
         return termNo;
     }
 
-    public void setTermNo(Integer termNo) {
+    public void setTermNo(String termNo) {
         this.termNo = termNo;
     }
 

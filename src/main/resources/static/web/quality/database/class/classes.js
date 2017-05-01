@@ -139,9 +139,9 @@
         $scope.searchClasses = function (classkey,index,length) {
             $scope.classkey=classkey;
             if (classkey==null){
-                classService.getClassesBydepAndyear($scope.depNo,$scope.Year,index,length,renderData);
+                classService.getClassesBydepAndyear($scope.depNo,$scope.selectedName,index,length,renderData);
             }else {
-                classService.getClassesBykey($scope.depNo,$scope.Year,$scope.classkey,index,length,renderData)
+                classService.getClassesBykey($scope.depNo,$scope.selectedName,$scope.classkey,index,length,renderData)
             }
         }
 

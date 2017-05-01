@@ -1,4 +1,5 @@
 package com.alienlab.niit.qm.entity;
+import javax.persistence.GeneratedValue;
 import java.sql.Timestamp;
 /**
  * Created by Master QB on 2017/3/14.
@@ -9,6 +10,7 @@ public class QmStuCheckEntity {
     private long checkNo;
 
     @javax.persistence.Id
+    @GeneratedValue
     @javax.persistence.Column(name = "check_no")
     public long getCheckNo() {
         return checkNo;
