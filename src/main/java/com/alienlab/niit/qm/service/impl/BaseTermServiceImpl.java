@@ -31,9 +31,6 @@ public class BaseTermServiceImpl implements BaseTermService {
     private BaseTermRepository baseTermRepository;
     @Autowired
     JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    JdbcTemplate jdbcTemplate;
     @Override
     public List<BaseTermEntity> getAllTerm() {
         String sql = "SELECT * FROM base_term ORDER BY term_no DESC";
@@ -70,34 +67,7 @@ public class BaseTermServiceImpl implements BaseTermService {
         return baseTermRepository.getStudentTermByStuNo(stuNo);
     }
 
-    @Override
-    public BaseTermEntity getCurrentTerm() {
-        String sql = "SELECT *,FLOOR((TO_DAYS(NOW())-TO_DAYS(term_startdate)) /7)+1 currentweek FROM base_term WHERE term_status=1";
-        Map<String,Object>  termMap = jdbcTemplate.queryForMap(sql);
-        BaseTermEntity baseTermEntity = new BaseTermEntity();
-        baseTermEntity.setTermNo((String) termMap.get("term_no"));
-        baseTermEntity.setTermName((String) termMap.get("term_name"));
-        baseTermEntity.setTermPrintName((String) termMap.get("term_print_name"));
-        baseTermEntity.setTermStartdate((String) termMap.get("term_startdate"));
-        baseTermEntity.setTermEnddate((String) termMap.get("term_enddate"));
-        baseTermEntity.setTermStatus((String) termMap.get("term_status"));
-        baseTermEntity.setTermStudent((String) termMap.get("term_student"));
-        baseTermEntity.setTermClass((String) termMap.get("term_class"));
-        baseTermEntity.setTermCourse((String) termMap.get("term_course"));
-        baseTermEntity.setTermPj((String) termMap.get("term_pj"));
-        baseTermEntity.setTermKh((String) termMap.get("term_kh"));
-        baseTermEntity.setTermTk((String) termMap.get("term_tk"));
-        baseTermEntity.setTermKq((String) termMap.get("term_kq"));
-        return baseTermEntity;
-    }
 
-    @Override
-    public long getCurrentWeek() {
-        String sql = "SELECT FLOOR((TO_DAYS(NOW())-TO_DAYS(term_startdate)) /7)+1 currentweek FROM base_term WHERE term_status=1";
-        Map<String,Object>  termMap = jdbcTemplate.queryForMap(sql);
-        long currentweek = (long) termMap.get("currentweek");
-        return currentweek;
-    }
 
     //根据最高学期获取新增学年学期和编号
     @Override
@@ -132,5 +102,34 @@ public class BaseTermServiceImpl implements BaseTermService {
             // System.out.println("获取添加的学年学期:" + term_no + "," + term_name);
         }
         return result;
+    }
+
+    @Override
+    public BaseTermEntity getCurrentTerm() {
+        String sql = "SELECT *,FLOOR((TO_DAYS(NOW())-TO_DAYS(term_startdate)) /7)+1 currentweek FROM base_term WHERE term_status=1";
+        Map<String,Object>  termMap = jdbcTemplate.queryForMap(sql);
+        BaseTermEntity baseTermEntity = new BaseTermEntity();
+        baseTermEntity.setTermNo((String) termMap.get("term_no"));
+        baseTermEntity.setTermName((String) termMap.get("term_name"));
+        baseTermEntity.setTermPrintName((String) termMap.get("term_print_name"));
+        baseTermEntity.setTermStartdate((String) termMap.get("term_startdate"));
+        baseTermEntity.setTermEnddate((String) termMap.get("term_enddate"));
+        baseTermEntity.setTermStatus((String) termMap.get("term_status"));
+        baseTermEntity.setTermStudent((String) termMap.get("term_student"));
+        baseTermEntity.setTermClass((String) termMap.get("term_class"));
+        baseTermEntity.setTermCourse((String) termMap.get("term_course"));
+        baseTermEntity.setTermPj((String) termMap.get("term_pj"));
+        baseTermEntity.setTermKh((String) termMap.get("term_kh"));
+        baseTermEntity.setTermTk((String) termMap.get("term_tk"));
+        baseTermEntity.setTermKq((String) termMap.get("term_kq"));
+        return baseTermEntity;
+    }
+
+    @Override
+    public long getCurrentWeek() {
+        String sql = "SELECT FLOOR((TO_DAYS(NOW())-TO_DAYS(term_startdate)) /7)+1 currentweek FROM base_term WHERE term_status=1";
+        Map<String,Object>  termMap = jdbcTemplate.queryForMap(sql);
+        long currentweek = (long) termMap.get("currentweek");
+        return currentweek;
     }
 }
