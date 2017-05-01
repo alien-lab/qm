@@ -1,6 +1,7 @@
 package com.alienlab.niit.qm.service.impl;
 
 import com.alienlab.niit.qm.entity.*;
+import com.alienlab.niit.qm.entity.dto.AttendanceDto;
 import com.alienlab.niit.qm.entity.dto.CheckStu;
 import com.alienlab.niit.qm.entity.dto.StuCheckDto;
 import com.alienlab.niit.qm.repository.*;
@@ -34,6 +35,9 @@ public class QmStuCheckServiceImpl implements QmStuCheckService {
     QmStuCheckMainRepository qmStuCheckMainRepository;
     @Autowired
     QmStuCheckRepository qmStuCheckRepository;
+    @Autowired
+    BaseClassLogicRepository baseClassLogicRepository;
+
 
 
     @Override
@@ -372,4 +376,224 @@ public class QmStuCheckServiceImpl implements QmStuCheckService {
         QmStuCheckMainEntity qmStuCheckMainEntity1 = qmStuCheckMainRepository.save(qmStuCheckMainEntity);
         return qmStuCheckMainEntity1;
     }
+
+    @Override
+    public List<AttendanceDto> getByScheNoAndTermNo(long scheNo, String TermNo) {
+
+        List<AttendanceDto> attendanceDtos = new ArrayList<>();
+        String sql = "SELECT a.*,b.`task_no`,c.`course_week`,c.course_type,c.term_no,c.`course_name`,c.`class_no` FROM qm_stu_check_main a,base_task_sche b,base_teach_task c WHERE a.`sche_no`=b.`sche_no` AND a.`sche_no`='" + scheNo + "' AND a.`term_no`='" + TermNo + "' AND a.`sche_no`=b.`sche_no` AND b.`task_no` =c.`task_no`";
+        List<Map<String, Object>> atteendlist = jdbcTemplate.queryForList(sql);
+        //如果没有考勤记录
+        if (atteendlist.size() == 0) {
+            String schesql = "SELECT * FROM base_task_sche a,base_teach_task b WHERE a.`sche_no`='" + scheNo + "' AND a.`task_no`=b.`task_no` AND b.`term_no`='" + TermNo + "'";
+            List<Map<String, Object>> tasklist = jdbcTemplate.queryForList(schesql);
+            for (int i = 0; i < tasklist.size(); i++) {
+                String week = (String) tasklist.get(i).get("course_week");
+                if (week.contains(",")) {
+                    String[] weeks = week.split(",");
+                    for (int j = weeks.length - 1; j >= 0; j--) {
+                        String[] oneweek = weeks[j].split("-");
+                        int endweek = Integer.parseInt(oneweek[1]);
+                        int startweek = Integer.parseInt(oneweek[0]);
+                        for (int m = endweek; m >= startweek; m--) {
+                            AttendanceDto attendanceDto = new AttendanceDto();
+                            attendanceDto.setWeek(m);
+                            attendanceDto.setCheckKk(null);
+                            attendanceDto.setCheckCd(null);
+                            attendanceDto.setCheckZt(null);
+                            attendanceDto.setCheckQj(null);
+                            attendanceDto.setCheckRatio(null);
+                            attendanceDto.setCheckMainStatus(null);
+                            BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo((String) tasklist.get(i).get("class_no")) ;
+                            if (baseClassesEntity!=null){
+                                attendanceDto.setClassName(baseClassesEntity.getClassName());
+                            }else {
+                                try {
+                                    attendanceDto.setClassName("逻辑班级"+baseClassLogicRepository.findByTaskNo((Long) tasklist.get(i).get("task_no")).get(0).getLogicName());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            attendanceDto.setCourseName((String) tasklist.get(i).get("course_name"));
+                            attendanceDto.setScheNo((Long) tasklist.get(i).get("sche_no"));
+                            attendanceDto.setTermNo((String) tasklist.get(i).get("term_no"));
+                            attendanceDto.setCourseType((String) tasklist.get(i).get("course_type"));
+
+                            attendanceDtos.add(attendanceDto);
+                        }
+                    }
+                } else {
+                    String[] oneweek = week.split("-");
+                    int endweek = Integer.parseInt(oneweek[1]);
+                    int startweek = Integer.parseInt(oneweek[0]);
+                    for (int m = endweek; m >= startweek; m--) {
+                        AttendanceDto attendanceDto = new AttendanceDto();
+                        attendanceDto.setWeek(m);
+                        attendanceDto.setCheckKk(null);
+                        attendanceDto.setCheckCd(null);
+                        attendanceDto.setCheckZt(null);
+                        attendanceDto.setCheckQj(null);
+                        attendanceDto.setCheckRatio(null);
+                        attendanceDto.setCheckMainStatus(null);
+                        BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo((String) tasklist.get(i).get("class_no")) ;
+                        if (baseClassesEntity!=null){
+                            attendanceDto.setClassName(baseClassesEntity.getClassName());
+                        }else {
+                            try {
+                                attendanceDto.setClassName("逻辑班级"+baseClassLogicRepository.findByTaskNo((Long) tasklist.get(i).get("task_no")).get(0).getLogicName());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        attendanceDto.setCourseName((String) tasklist.get(i).get("course_name"));
+                        attendanceDto.setScheNo((Long) tasklist.get(i).get("sche_no"));
+                        attendanceDto.setTermNo((String) tasklist.get(i).get("term_no"));
+                        attendanceDto.setCourseType((String) tasklist.get(i).get("course_type"));
+                        attendanceDtos.add(attendanceDto);
+                    }
+                }
+            }
+        } else {
+            List<String> weeklist = new ArrayList<>();
+            String week = (String) atteendlist.get(0).get("course_week");
+            for (int m = 0; m < atteendlist.size(); m++) {
+                weeklist.add(String.valueOf( atteendlist.get(m).get("check_week")));
+            }
+            if (week.contains(",")){
+                String[] weeks = week.split(",");
+                for (int j=weeks.length-1;j>=0;j--){
+                    String []oneweek = weeks[j].split("-");
+                    int endweek =Integer.parseInt(oneweek[1]);
+                    int startweek = Integer.parseInt(oneweek[0]);
+                    for (int a=endweek;a>=startweek;a--){
+                        if (weeklist.contains(String.valueOf(a))){
+                            for (int c = 0; c < atteendlist.size(); c++){
+                                int thisweek = (int) atteendlist.get(c).get("check_week");
+                                if (a==thisweek){
+                                    AttendanceDto attendanceDto = new AttendanceDto();
+                                    attendanceDto.setCheck(true);
+                                    attendanceDto.setWeek(a);
+                                    BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo((String) atteendlist.get(c).get("class_no")) ;
+                                    if (baseClassesEntity!=null){
+                                        attendanceDto.setClassName(baseClassesEntity.getClassName());
+                                    }else {
+                                        try {
+                                            attendanceDto.setClassName("逻辑班级"+baseClassLogicRepository.findByTaskNo((Long) atteendlist.get(c).get("task_no")).get(0).getLogicName());
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    attendanceDto.setCourseName((String) atteendlist.get(c).get("course_name"));
+                                    attendanceDto.setScheNo((Long) atteendlist.get(c).get("sche_no"));
+                                    attendanceDto.setTermNo((String) atteendlist.get(c).get("term_no"));
+                                    attendanceDto.setCourseType((String) atteendlist.get(c).get("course_type"));
+                                    attendanceDto.setCheckKk((String) atteendlist.get(c).get("check_kk"));
+                                    attendanceDto.setCheckCd((String) atteendlist.get(c).get("check_cd"));
+                                    attendanceDto.setCheckZt((String) atteendlist.get(c).get("check_zt"));
+                                    attendanceDto.setCheckQj((String) atteendlist.get(c).get("check_qj"));
+                                    attendanceDto.setCheckRatio((String) atteendlist.get(c).get("check_ratio"));
+                                    attendanceDto.setCheckMainStatus((Integer) atteendlist.get(c).get("check_main_status"));
+                                    attendanceDtos.add(attendanceDto);
+                                }
+                            }
+                        }else {
+                            AttendanceDto attendanceDto = new AttendanceDto();
+                            attendanceDto.setWeek(a);
+                            attendanceDto.setScheNo((Long) atteendlist.get(0).get("sche_no"));
+                            attendanceDto.setTermNo((String) atteendlist.get(0).get("term_no"));
+                            attendanceDto.setCourseType((String) atteendlist.get(0).get("course_type"));
+                            BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo((String) atteendlist.get(0).get("class_no")) ;
+                            if (baseClassesEntity!=null){
+                                attendanceDto.setClassName(baseClassesEntity.getClassName());
+                            }else {
+                                try {
+                                    attendanceDto.setClassName("逻辑班级"+baseClassLogicRepository.findByTaskNo((Long) atteendlist.get(0).get("task_no")).get(0).getLogicName());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            attendanceDto.setCourseName((String) atteendlist.get(0).get("course_name"));
+                            attendanceDto.setCheckKk(null);
+                            attendanceDto.setCheckCd(null);
+                            attendanceDto.setCheckZt(null);
+                            attendanceDto.setCheckQj(null);
+                            attendanceDto.setCheckRatio(null);
+                            attendanceDto.setCheckMainStatus(null);
+                            attendanceDtos.add(attendanceDto);
+                        }
+                    }
+                }
+
+            }else {
+                String []oneweek = week.split("-");
+                int endweek =Integer.parseInt(oneweek[1]);
+                int startweek = Integer.parseInt(oneweek[0]);
+                for (int a=endweek;a>=startweek;a--){
+                    if (weeklist.contains(String.valueOf(a))){
+                        for (int c = 0; c < atteendlist.size(); c++){
+                            int thisweek = (int) atteendlist.get(c).get("check_week");
+                            if (a==thisweek){
+                                AttendanceDto attendanceDto = new AttendanceDto();
+                                attendanceDto.setCheck(true);
+                                attendanceDto.setWeek(a);
+                                BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo((String) atteendlist.get(c).get("class_no")) ;
+                                if (baseClassesEntity!=null){
+                                    attendanceDto.setClassName(baseClassesEntity.getClassName());
+                                }else {
+                                    try {
+                                        attendanceDto.setClassName("逻辑班级"+baseClassLogicRepository.findByTaskNo((Long) atteendlist.get(c).get("task_no")).get(0).getLogicName());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                attendanceDto.setCourseName((String) atteendlist.get(c).get("course_name"));
+                                attendanceDto.setScheNo((Long) atteendlist.get(c).get("sche_no"));
+                                attendanceDto.setTermNo((String) atteendlist.get(c).get("term_no"));
+                                attendanceDto.setCourseType((String) atteendlist.get(c).get("course_type"));
+                                attendanceDto.setCheckKk((String) atteendlist.get(c).get("check_kk"));
+                                attendanceDto.setCheckCd((String) atteendlist.get(c).get("check_cd"));
+                                attendanceDto.setCheckZt((String) atteendlist.get(c).get("check_zt"));
+                                attendanceDto.setCheckQj((String) atteendlist.get(c).get("check_qj"));
+                                attendanceDto.setCheckRatio((String) atteendlist.get(c).get("check_ratio"));
+                                attendanceDto.setCheckMainStatus((Integer) atteendlist.get(c).get("check_main_status"));
+                                attendanceDtos.add(attendanceDto);
+                            }
+                        }
+                    }else {
+                        AttendanceDto attendanceDto = new AttendanceDto();
+                        attendanceDto.setWeek(a);
+                        attendanceDto.setScheNo((Long) atteendlist.get(0).get("sche_no"));
+                        attendanceDto.setTermNo((String) atteendlist.get(0).get("term_no"));
+                        attendanceDto.setCourseType((String) atteendlist.get(0).get("course_type"));
+                        BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo((String) atteendlist.get(0).get("class_no")) ;
+                        if (baseClassesEntity!=null){
+                            attendanceDto.setClassName(baseClassesEntity.getClassName());
+                        }else {
+                            try {
+                                attendanceDto.setClassName("逻辑班级"+baseClassLogicRepository.findByTaskNo((Long) atteendlist.get(0).get("task_no")).get(0).getLogicName());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        attendanceDto.setCourseName((String) atteendlist.get(0).get("course_name"));
+                        attendanceDto.setCheckKk(null);
+                        attendanceDto.setCheckCd(null);
+                        attendanceDto.setCheckZt(null);
+                        attendanceDto.setCheckQj(null);
+                        attendanceDto.setCheckRatio(null);
+                        attendanceDto.setCheckMainStatus(null);
+                        attendanceDtos.add(attendanceDto);
+                    }
+                }
+
+            }
+
+
+
+
+        }
+        return attendanceDtos;
+    }
+
+
 }

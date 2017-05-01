@@ -76,7 +76,8 @@
             saveLogicCourse:{ method: 'POST', url:'../qm-api/classlogic' },
             searchLogicStudent:{method: 'GET',isArray:true, url:'../qm-api/classlogic'},
             getCourseByKey:{method: 'GET', url:'../qm-api/keywordcourse'},
-            getteacherCourse:{method: 'GET',isArray:true, url:'../qm-api/teachercourse'}
+            getteacherCourse:{method: 'GET',isArray:true, url:'../qm-api/teachercourse'},
+            getTermteacherCourse:{method: 'GET',isArray:true, url:'../qm-api/termteachercourse'}
 
         });
         return service;

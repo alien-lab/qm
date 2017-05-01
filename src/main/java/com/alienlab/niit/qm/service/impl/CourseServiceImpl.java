@@ -6,6 +6,7 @@ import com.alienlab.niit.qm.entity.BaseTaskScheEntity;
 import com.alienlab.niit.qm.entity.BaseTeachTaskEntity;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
 import com.alienlab.niit.qm.entity.dto.CourseDto;
+import com.alienlab.niit.qm.entity.dto.CourseListDto;
 import com.alienlab.niit.qm.repository.*;
 import com.alienlab.niit.qm.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -364,6 +365,35 @@ public class CourseServiceImpl implements CourseService {
 
         }
         return courseDetailDtos;
+    }
+
+    @Override
+    public List<CourseListDto> getCourseByTermNoAndTeacherNo(String termNo, String tascherNo) {
+        List<CourseListDto> courseListDtos = new ArrayList<>();
+        String sql ="SELECT a.*,b.`sche_no`,b.`sche_set` FROM base_teach_task a,base_task_sche b WHERE a.`teacher_no`='"+tascherNo+"' AND a.`term_no`='"+termNo+"' AND a.`task_no` = b.`task_no`";
+        List <Map<String,Object>> totallist = jdbcTemplate.queryForList(sql);
+        if (totallist.size()!=0){
+            for (int i =0;i<totallist.size();i++){
+                CourseListDto courseListDto = new CourseListDto();
+                courseListDto.setCourseName((String) totallist.get(i).get("course_name"));
+                courseListDto.setCourseType((String) totallist.get(i).get("course_type"));
+                courseListDto.setCourseWeek((String) totallist.get(i).get("course_week"));
+                courseListDto.setScheNo((Long) totallist.get(i).get("sche_no"));
+                courseListDto.setScheSet((String) totallist.get(i).get("sche_set"));
+                String classNo = (String) totallist.get(i).get("class_no");
+                if (baseClassesRepository.findByClassNo(classNo)!=null){
+                    courseListDto.setClassName(baseClassesRepository.findByClassNo(classNo).getClassName());
+                }else {
+                    try {
+                        courseListDto.setClassName("逻辑班级"+baseClassLogicRepository.findByTaskNo((Long) totallist.get(i).get("task_no")).get(0).getLogicName());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                courseListDtos.add(courseListDto);
+            }
+        }
+        return courseListDtos;
     }
 
 }

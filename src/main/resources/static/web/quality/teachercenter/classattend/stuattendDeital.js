@@ -19,7 +19,8 @@
             getstuAttend: { method: 'GET'},
             saveoneAttend:{ method: 'POST'},
             updajswsAndktjl:{method: 'POST',url:'../qm-api/updatejsws'},
-            submitAttendance:{method: 'POST',url:'../qm-api/submitattend'}
+            submitAttendance:{method: 'POST',url:'../qm-api/submitattend'},
+            AttendRecord:{method: 'GET',isArray:true,url:'../qm-api/attendRecord'}
         });
         return service;
 
@@ -104,7 +105,7 @@
             scheNo:$stateParams.scheNo,
             week:$stateParams.week,
             termNo:termNo,
-            type:$scope.selectedCourseType
+            type:$stateParams.type
         },function(result){
             console.log(result);
             $scope.Attend = result;

@@ -2,6 +2,7 @@ package com.alienlab.niit.qm.service;
 
 import com.alienlab.niit.qm.entity.QmStuCheckEntity;
 import com.alienlab.niit.qm.entity.QmStuCheckMainEntity;
+import com.alienlab.niit.qm.entity.dto.AttendanceDto;
 import com.alienlab.niit.qm.entity.dto.StuCheckDto;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public interface QmStuCheckService {
 
     //提交考勤
     QmStuCheckMainEntity submitAttend(long checkMainNo);
+
+    //根据课程表ID和学期获得考勤情况
+    List<AttendanceDto> getByScheNoAndTermNo(long scheNo, String TermNo);
 
 
 }

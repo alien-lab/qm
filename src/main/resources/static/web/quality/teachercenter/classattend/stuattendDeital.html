@@ -78,7 +78,7 @@
         <div class="col-md-3 col-sm-6" ng-repeat="student in Students">
             <!-- START panel-->
             <div ng-class="{'正常':'panel-success','旷课':'panel-danger','迟到':'panel-primary','早退':'panel-warning','请假':'panel-green'}[student.state]"  class="panel"  style="height: 190px">
-                <div class="panel-heading" ng-click="changeStu(Attend.checkMainNo,4,student.id,'正常',student.state);student.state='正常'" title="点击恢复正常状态">
+                <div class="panel-heading" ng-click="changeStu(Attend.checkMainNo,4,student.id,'正常', student.state);student.state='正常'" title="点击恢复正常状态">
                     <span style="text-align: left;font-weight: bold;font-size: 17px"  >
                         {{student.state}}
                     </span>

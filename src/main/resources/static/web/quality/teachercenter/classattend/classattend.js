@@ -126,13 +126,75 @@
 
 
 
-    classattend_module.controller("attendrecordController",["$scope","$uibModalInstance",function($scope,$uibModalInstance){
+    classattend_module.controller("attendrecordController",["$scope","$uibModalInstance","$cookieStore","CourseResource","studentAttendResource","$state",function($scope,$uibModalInstance,$cookieStore,CourseResource,studentAttendResource,$state){
+        $scope.courseList = [];
+        $scope.attendanceList=[];
+        $scope.currentWeek=$cookieStore.get("currentWeek").currentweek;
+        function  ObjCourselistStory(scheno,name,week) //创建对象function
+        {
+            this.scheNo = scheno;
+            this.name= name;
+            this.week =week;
+
+        }
 
         //弹出层关闭按钮
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');
         }
 
+        $scope.classattendTeacher = {
+            account : $cookieStore.get('user').account,
+            name:$cookieStore.get('user').name,
+            usertype: $cookieStore.get('user').type
+        }
+        //根据学期，教师工号获得该教师在本学期的所有课程列表
+        CourseResource.getTermteacherCourse({
+            termNo:$cookieStore.get('currentTerm').termNo,
+            teacherNo:$scope.classattendTeacher.account
+        },function(result){
+            console.log(result);
+            for (var i=0;i<result.length;i++){
+                var onecourse = new ObjCourselistStory(result[i].scheNo,result[i].courseName+"-"+result[i].courseType+"-"+result[i].className+"-"+result[i].scheSet,result[i].courseWeek);
+                $scope.courseList.push(onecourse);
+            }
+            console.log($scope.courseList);
+            $scope.selectedCourse = $scope.courseList[0].scheNo;
+        },function(result){
+            console.log("课程获取失败",result);
+        });
+
+        //初始列表展示
+        studentAttendResource.AttendRecord({
+            scheNo: $scope.selectedCourse,
+            termNo:$cookieStore.get('currentTerm').termNo
+        },function(result){
+            console.log(result);
+            $scope.attendanceList = result;
+        },function(result){
+            console.log("获取考勤记录列表失败",result);
+        });
+
+
+        //获取考勤记录列表
+        $scope.chooseCourse = function () {
+            studentAttendResource.AttendRecord({
+                scheNo:$scope.selectedCourse,
+                termNo:$cookieStore.get('currentTerm').termNo
+            },function(result){
+                console.log(result);
+                $scope.attendanceList = result;
+            },function(result){
+                console.log("获取考勤记录列表失败",result);
+            });
+
+        }
+      //进入考勤
+        $scope.enterattend = function (courseName,className,scheNo,courseType,courseWeek) {
+            $uibModalInstance.dismiss('cancel');
+            $state.go("qm.stuattendDetail",{courseName:courseName,className:className,scheNo:scheNo,type: courseType,week:courseWeek});
+        }
+        
     }]);
 
 })();

@@ -5,6 +5,7 @@ import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.BaseTeachTaskEntity;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
 import com.alienlab.niit.qm.entity.dto.CourseDto;
+import com.alienlab.niit.qm.entity.dto.CourseListDto;
 import com.alienlab.niit.qm.repository.BaseTeachTaskRepository;
 import com.alienlab.niit.qm.service.BaseClassLogicService;
 import com.alienlab.niit.qm.service.CourseService;
@@ -182,6 +183,27 @@ public class CourseController {
         } catch (Exception e) {
             e.printStackTrace();
             ExecResult er=new ExecResult(false,"系统出错，根据授课类型，课程周次，教师工号返回课程失败！");
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value="根据学期，教师工号返回课程")
+    @GetMapping (value = "/termteachercourse")
+    public ResponseEntity getCourseBytermNoAndteacherNo( @RequestParam String termNo,@RequestParam String teacherNo)  {
+
+        try {
+            List<CourseListDto> courseListDtos =courseService.getCourseByTermNoAndTeacherNo(termNo,teacherNo);
+            if (courseListDtos!=null){
+                return ResponseEntity.ok().body(courseListDtos);
+            }else {
+                ExecResult er=new ExecResult(false,"根据学期，教师工号返回课程失败！");
+                //发生错误返回500状态
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,"系统出错，根据学期，教师工号返回课程失败！");
             //发生错误返回500状态
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
