@@ -1,5 +1,6 @@
 package com.alienlab.niit.qm.service.impl;
 
+import com.alienlab.niit.qm.common.WeekdayUtils;
 import com.alienlab.niit.qm.entity.BaseClassLogicEntity;
 import com.alienlab.niit.qm.entity.BaseClassesEntity;
 import com.alienlab.niit.qm.entity.BaseTaskScheEntity;
@@ -91,7 +92,13 @@ public class CourseServiceImpl implements CourseService {
             BaseTaskScheEntity baseTaskScheEntity = new BaseTaskScheEntity();
             baseTaskScheEntity.setScheNo((Long) courseMap.get("sche_no"));
             baseTaskScheEntity.setTaskNo((Long) courseMap.get("task_no"));
-            baseTaskScheEntity.setScheSet((String) courseMap.get("sche_set"));
+            String course_set = ((String) courseMap.get("sche_set"));
+            if (course_set.contains("K")){
+                WeekdayUtils weekdayUtils = new WeekdayUtils();
+                baseTaskScheEntity.setScheSet(weekdayUtils.convert(course_set));
+            }else {
+                baseTaskScheEntity.setScheSet((String) courseMap.get("sche_set"));
+            }
             baseTaskScheEntity.setScheAddr((String) courseMap.get("sche_addr"));
             baseTaskScheEntity.setDataTime((Timestamp) courseMap.get("data_time"));
             baseTaskScheEntities.add(baseTaskScheEntity);
@@ -320,7 +327,15 @@ public class CourseServiceImpl implements CourseService {
                                     e.printStackTrace();
                                 }
                             }
-                            String []firstsection = ((String) totallist.get(i).get("sche_set")).split(":");
+                            String mainString = "";
+                            String course_set = ((String) totallist.get(i).get("sche_set"));
+                            if (course_set.contains("K")){
+                                WeekdayUtils weekdayUtils = new WeekdayUtils();
+                                mainString = weekdayUtils.convert(course_set);
+                            }else {
+                                mainString = (String) totallist.get(i).get("sche_set");
+                            }
+                            String []firstsection = mainString.split(":");
                             String weekday = firstsection[0];
                             String secondsection = firstsection[1];
                             courseDetailDto.setTeacherName(weekday);
@@ -354,7 +369,16 @@ public class CourseServiceImpl implements CourseService {
                             e.printStackTrace();
                         }
                     }
-                    String []firstsection = ((String) totallist.get(i).get("sche_set")).split(":");
+                    String mainString = "";
+                    String course_set = ((String) totallist.get(i).get("sche_set"));
+                    if (course_set.contains("K")){
+                        WeekdayUtils weekdayUtils = new WeekdayUtils();
+                        mainString = weekdayUtils.convert(course_set);
+                    }else {
+                        mainString = (String) totallist.get(i).get("sche_set");
+                    }
+                    String []firstsection = mainString.split(":");
+                    System.out.println(mainString);
                     String weekday = firstsection[0];
                     String secondsection = firstsection[1];
                     courseDetailDto.setTeacherName(weekday);
@@ -379,7 +403,13 @@ public class CourseServiceImpl implements CourseService {
                 courseListDto.setCourseType((String) totallist.get(i).get("course_type"));
                 courseListDto.setCourseWeek((String) totallist.get(i).get("course_week"));
                 courseListDto.setScheNo((Long) totallist.get(i).get("sche_no"));
-                courseListDto.setScheSet((String) totallist.get(i).get("sche_set"));
+                String course_set = ((String) totallist.get(i).get("sche_set"));
+                if (course_set.contains("K")){
+                    WeekdayUtils weekdayUtils = new WeekdayUtils();
+                    courseListDto.setScheSet(weekdayUtils.convert(course_set));
+                }else {
+                    courseListDto.setScheSet((String) totallist.get(i).get("sche_set"));
+                }
                 String classNo = (String) totallist.get(i).get("class_no");
                 if (baseClassesRepository.findByClassNo(classNo)!=null){
                     courseListDto.setClassName(baseClassesRepository.findByClassNo(classNo).getClassName());
