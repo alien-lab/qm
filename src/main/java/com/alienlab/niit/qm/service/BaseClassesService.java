@@ -15,7 +15,7 @@ import java.util.List;
 public interface BaseClassesService {
     public List<BaseClassesEntity> getBaseClassesBydepNo(String depNo);
 
-    public BaseClassesEntity getBaseClassesByClassName(String className);
+    //public BaseClassesEntity getBaseClassesByClassName(String className);
 
     public Page<BaseClassesEntity> findBaseClassesByDepNoAndClassYear(String depNo, String classSessionYear, Pageable page);
 
@@ -31,6 +31,6 @@ public interface BaseClassesService {
     //分页模糊查找班级
     Page<BaseClassesEntity> listClass(String keyword, Pageable page) throws Exception;
 
-    public List<ClassNameDto> getAllClassName();
+    public List<String> getAllClassName();
     //public List<BaseClassesEntity> getAllClass();
 }

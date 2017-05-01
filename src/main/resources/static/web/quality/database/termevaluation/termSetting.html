@@ -4,14 +4,14 @@
         <div class="col-sm-2">督学听课</div>
         <div class="col-sm-4">
             <label class="switch">
-                <input type="checkbox" />
+                <input type="checkbox" ng-model="terms.termTk" ng-checked="terms.termTk == 1" ng-click="openTermTkSwitch(terms)" ng-true-value="1" ng-false-value="0" />
                 <span></span>
             </label>
         </div>
         <div class="col-sm-2">学生评教</div>
         <div class="col-sm-4">
             <label class="switch">
-                <input type="checkbox" />
+                <input type="checkbox" ng-model="terms.termPj" ng-checked="terms.termPj == 1" ng-click="openTermPjSwitch(terms)" ng-true-value="1" ng-false-value="0" />
                 <span></span>
             </label>
         </div>
@@ -20,14 +20,14 @@
     <div class="col-sm-2">学年考核</div>
     <div class="col-sm-4">
         <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" ng-model="terms.termKh" ng-checked="terms.termKh == 1" ng-click="openTermKhSwitch(terms)" ng-true-value="1" ng-false-value="0" />
             <span></span>
         </label>
     </div>
     <div class="col-sm-2">考勤时限</div>
     <div class="col-sm-4">
         <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" ng-model="terms.termKq" ng-checked="terms.termKq == 1" ng-click="openTermKqSwitch(terms)" ng-true-value="1" ng-false-value="0" />
             <span></span>
         </label>
     </div>

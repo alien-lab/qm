@@ -129,4 +129,17 @@ public class BaseStudentEntity {
         result = 31 * result + (stuStatus != null ? stuStatus.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "BaseStudentEntity{" +
+                "stuNo='" + stuNo + '\'' +
+                ", stuName='" + stuName + '\'' +
+                ", stuBirthday='" + stuBirthday + '\'' +
+                ", stuPhone='" + stuPhone + '\'' +
+                ", stuMajorInit='" + stuMajorInit + '\'' +
+                ", stuYear='" + stuYear + '\'' +
+                ", stuStatus='" + stuStatus + '\'' +
+                '}';
+    }
 }

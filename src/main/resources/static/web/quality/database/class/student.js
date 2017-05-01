@@ -23,7 +23,8 @@
             'insertStudent':{method:"GET",url:"../qm-api/student/addStudent"},
             'getStudentDtoByStuNo':{method:"GET",url:"../qm-api/student/getstudentDtoBystuNo"},
             'getStudentTermByStuNo':{method:"POST",url:"../qm-api/term/studentTermBystuNo",isArray:true},
-            'getAllClass':{method:"GET",url:"../qm-api/classes/findAllclass",isArray:true}
+            'getAllClass':{method:"GET",url:"../qm-api/classes/findAllclassName",isArray:true},
+            'updateStudent':{method:"POST",url:"../qm-api/student/updateStudent"}
         });
         return service;
     }]);
@@ -212,7 +213,7 @@
 
             studentResource.getAllClass({}, function (result) {
                 console.log(result);
-                $scope.classes = result;
+                $scope.classNames = result;
             }, function () {
                 console.log("获取班级信息失败");
             });
@@ -233,23 +234,21 @@
 
         $scope.save=function save(updatestudent){
             studentResource.updateStudent({
-                classNo:updateclass.classNo,
-                classIsover:updateclass.classIsover,
-                className:updateclass.className,
-                depName:updateclass.depName,
-                majorName:updateclass.majorName,
-                stuName:updateclass.stuName,
-                teacherName:updateclass.teacherName,
-                classStuAmount:updateclass.classStuAmount,
-                classSessionYear:updateclass.classSessionYear
+                stuNo:updatestudent.stuNo,
+                stuName:updatestudent.stuName,
+                stuBirthday:updatestudent.stuBirthday,
+                stuYear:updatestudent.stuYear,
+                className:updatestudent.className,
+                stuPhone:updatestudent.stuPhone,
+                termName:updatestudent.termName,
             },function(result){
                 console.log(result);
-                console.log("保存部门信息成功！");
+                console.log("修改学生信息成功！");
                 //刷新前台界面
                 $uibModalInstance.dismiss('cancel');
-                $state.go("qm.base_classes");
+                $state.go("qm.base_student");
             },function(result){
-                console.log("获取部门信息失败");
+                console.log("修改学生信息失败");
             });
         }
 

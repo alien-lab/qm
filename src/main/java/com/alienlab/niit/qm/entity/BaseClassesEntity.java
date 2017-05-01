@@ -184,4 +184,21 @@ public class BaseClassesEntity {
         result = 31 * result + (classStuSource != null ? classStuSource.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "BaseClassesEntity{" +
+                "classNo='" + classNo + '\'' +
+                ", className='" + className + '\'' +
+                ", majorNo='" + majorNo + '\'' +
+                ", teacherNo='" + teacherNo + '\'' +
+                ", stuNo='" + stuNo + '\'' +
+                ", depNo='" + depNo + '\'' +
+                ", classStuAmount=" + classStuAmount +
+                ", classIsover='" + classIsover + '\'' +
+                ", dataTime=" + dataTime +
+                ", classSessionYear='" + classSessionYear + '\'' +
+                ", classStuSource='" + classStuSource + '\'' +
+                '}';
+    }
 }

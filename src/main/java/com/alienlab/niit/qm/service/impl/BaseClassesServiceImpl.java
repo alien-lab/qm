@@ -8,7 +8,6 @@ import com.alienlab.niit.qm.service.BaseClassesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,10 +33,10 @@ public class BaseClassesServiceImpl implements BaseClassesService{
         return baseClassesRepository.findBaseClassesBydepNo(depNo);
     }
 
-    @Override
+    /*@Override
     public BaseClassesEntity getBaseClassesByClassName(String className) {
         return baseClassesRepository.findOne(className);
-    }
+    }*/
 
     @Override
     public Page<BaseClassesEntity> findBaseClassesByDepNoAndClassYear(String depNo, String classSessionYear, Pageable page) {
@@ -126,11 +125,13 @@ public class BaseClassesServiceImpl implements BaseClassesService{
     }
 
     @Override
-    public List<ClassNameDto> getAllClassName() {
-        List<ClassNameDto> classNameDto = new ArrayList<>();
-        List<BaseClassesEntity> baseClassesEntities = baseClassesRepository.findAll();
-        for (Integer n = 0;n<baseClassesEntities.size();n++){
-            classNameDto.get(n).setClassName(baseClassesEntities.get(n).getClassName());
+    public List<String> getAllClassName() {
+        List<String> classNameDto = new ArrayList<>();
+        List<BaseClassesEntity> baseClassesEntities = baseClassesRepository.findByClassIsover("0");
+        for (int n = 0;n<baseClassesEntities.size();n++){
+                //System.out.print(baseClassesEntities.get(n).getClassIsover());
+                classNameDto.add(baseClassesEntities.get(n).getClassName());
+
         }
         return classNameDto;
     }

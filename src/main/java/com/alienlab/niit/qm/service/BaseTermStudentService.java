@@ -10,7 +10,11 @@ import java.util.List;
 public interface BaseTermStudentService {
     public List<BaseTermStudentEntity> getBaseTermStudentByClassNo(String classNo);
 
-    public BaseTermStudentEntity saveTermSudent(BaseTermStudentEntity baseTermStudentEntity);
+    public BaseTermStudentEntity saveTermStudent(BaseTermStudentEntity baseTermStudentEntity);
 
     public List<BaseTermStudentEntity> getBaseTermStudentByStuNo(String stuNo);
+
+    public int updateBaseTermStudent(BaseTermStudentEntity baseTermStudentEntity);
+
+    public BaseTermStudentEntity getBaseTermStudentByStuNoAndTermNo(String stuNo,String termNo);
 }

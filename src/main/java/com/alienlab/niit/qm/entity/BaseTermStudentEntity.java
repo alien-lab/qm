@@ -84,4 +84,14 @@ public class BaseTermStudentEntity {
         result = 31 * result + (classNo != null ? classNo.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "BaseTermStudentEntity{" +
+                "termNo='" + termNo + '\'' +
+                ", stuNo='" + stuNo + '\'' +
+                ", majorNo='" + majorNo + '\'' +
+                ", classNo='" + classNo + '\'' +
+                '}';
+    }
 }

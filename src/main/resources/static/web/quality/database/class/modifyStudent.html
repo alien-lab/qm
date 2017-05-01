@@ -28,7 +28,7 @@
         <label class="col-sm-1 control-label">班级</label>
         <div class="col-sm-2">
             <select name="select" required="" ng-model="students.className" class="form-control">
-                <option ng-repeat="class in classes" value="{{class[0]}}">{{class[0]}}</option>
+                <option ng-repeat="className in classNames" value="{{className}}">{{className}}</option>
             </select>
         </div>
         <label class="col-sm-2 control-label">学年学期</label>

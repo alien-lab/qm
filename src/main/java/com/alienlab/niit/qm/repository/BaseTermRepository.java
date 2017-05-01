@@ -14,4 +14,8 @@ public interface BaseTermRepository extends JpaRepository<BaseTermEntity,String>
             "com.alienlab.niit.qm.entity.BaseTermStudentEntity b where " +
             "b.stuNo=?1 and b.termNo=a.termNo")
     List<BaseTermEntity> getStudentTermByStuNo(String stuNo);
+
+    public BaseTermEntity findByTermName(String termName);
+
+    public BaseTermEntity findByTermNo(String termNo);
 }

@@ -48,12 +48,12 @@ public class BaseClassesController {
         }
     }
 
-    /*@ApiOperation(value = "查询所有班级")
-    @GetMapping(value = "/classes/findAllclass")
+    @ApiOperation(value = "查询所有班级名字")
+    @GetMapping(value = "/classes/findAllclassName")
     public ResponseEntity findAllClass() {
-        List<BaseClassesEntity> baseClassesEntities = baseClassesService.getAllClass();
-        return ResponseEntity.ok().body(baseClassesEntities);
-    }*/
+        List<String> baseClassName = baseClassesService.getAllClassName();
+        return ResponseEntity.ok().body(baseClassName);
+    }
 
     @ApiOperation(value = "根据关键字查询")
     @GetMapping(value = "/classes/getClassBykey")

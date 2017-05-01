@@ -221,4 +221,23 @@ public class BaseTermEntity {
         result = 31 * result + (termKq != null ? termKq.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "BaseTermEntity{" +
+                "termNo='" + termNo + '\'' +
+                ", termName='" + termName + '\'' +
+                ", termPrintName='" + termPrintName + '\'' +
+                ", termStartdate='" + termStartdate + '\'' +
+                ", termEnddate='" + termEnddate + '\'' +
+                ", termStatus='" + termStatus + '\'' +
+                ", termStudent='" + termStudent + '\'' +
+                ", termClass='" + termClass + '\'' +
+                ", termCourse='" + termCourse + '\'' +
+                ", termPj='" + termPj + '\'' +
+                ", termKh='" + termKh + '\'' +
+                ", termTk='" + termTk + '\'' +
+                ", termKq='" + termKq + '\'' +
+                '}';
+    }
 }

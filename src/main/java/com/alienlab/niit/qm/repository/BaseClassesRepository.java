@@ -17,6 +17,8 @@ import java.util.List;
 public interface BaseClassesRepository extends JpaRepository<BaseClassesEntity,String>{
     public BaseClassesEntity findByClassNo(String classNo);
 
+    public List<BaseClassesEntity> findByClassIsover(String classIsOver);
+
     public List<BaseClassesEntity> findBaseClassesBydepNo(String depNo);
 
     public List<BaseClassesEntity> findBaseClassesByClassNameLike(String like);
@@ -42,6 +44,7 @@ public interface BaseClassesRepository extends JpaRepository<BaseClassesEntity,S
     @Query("from BaseClassesEntity a where (a.classNo like CONCAT('%',?1,'%') ) or (a.className like CONCAT('%',?1,'%') ) ")
     Page<BaseClassesEntity> findClassesByClassNameLike(String keyword,Pageable page);
 
+    public BaseClassesEntity findByClassName(String className);
     /*@Query("select distinct a.className,a.classNo from BaseClassesEntity a")
     public List<BaseClassesEntity> getAllClassses();*/
 

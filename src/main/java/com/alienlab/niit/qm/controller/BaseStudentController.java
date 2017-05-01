@@ -3,9 +3,12 @@ package com.alienlab.niit.qm.controller;
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.BaseClassesEntity;
 import com.alienlab.niit.qm.entity.BaseStudentEntity;
+import com.alienlab.niit.qm.entity.BaseTermEntity;
 import com.alienlab.niit.qm.entity.BaseTermStudentEntity;
 import com.alienlab.niit.qm.entity.dto.StudentDto;
+import com.alienlab.niit.qm.repository.BaseClassesRepository;
 import com.alienlab.niit.qm.repository.BaseStudentRepository;
+import com.alienlab.niit.qm.repository.BaseTermRepository;
 import com.alienlab.niit.qm.service.BaseClassLogicService;
 import com.alienlab.niit.qm.service.BaseClassesService;
 import com.alienlab.niit.qm.service.BaseStudentService;
@@ -38,6 +41,10 @@ public class BaseStudentController{
     BaseClassLogicService baseClassLogicService;
     @Autowired
     BaseClassesService baseClassesService;
+    @Autowired
+    BaseTermRepository baseTermRepository;
+    @Autowired
+    BaseClassesRepository baseClassesRepository;
 
     @ApiOperation(value = "根据taskNo与学生关键字查询学生信息Page")
     @GetMapping(value = "/allstudent")
@@ -164,23 +171,29 @@ public class BaseStudentController{
     }
 
     @ApiOperation(value = "修改学生信息")
-    @GetMapping(value = "/student/updateStudent")
+    @PostMapping(value = "/student/updateStudent")
     public ResponseEntity updateStudent(@RequestParam String stuNo,@RequestParam String stuName,@RequestParam String stuBirthday,
-                                        @RequestParam String stuYear, @RequestParam String className,@RequestParam String stuPhone) {
+                                        @RequestParam String stuYear, @RequestParam String className,@RequestParam String stuPhone,
+                                        @RequestParam String termName) {
         BaseStudentEntity baseStudentEntity = baseStudentService.getStudentBystuNo(stuNo);
-        BaseClassesEntity baseClassesEntity = baseClassesService.getBaseClassesByClassName(className);
-        //BaseTermStudentEntity baseTermStudentEntity = baseTermStudentService.
+        BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassName(className);
+        BaseTermEntity baseTermEntity = baseTermRepository.findByTermName(termName);
+        BaseTermStudentEntity baseTermStudentEntity = baseTermStudentService.getBaseTermStudentByStuNoAndTermNo(stuNo,baseTermEntity.getTermNo());
+        baseTermStudentEntity.setClassNo(baseClassesEntity.getClassNo());
+        baseTermStudentService.updateBaseTermStudent(baseTermStudentEntity);
         if (stuBirthday!=null){
             baseStudentEntity.setStuBirthday(stuBirthday);
         }else {
             baseStudentEntity.setStuBirthday(null);
         }
-        if (stuPhone!=null){
-            baseStudentEntity.setStuPhone(stuPhone);
-        }else {
+        if (stuPhone==null&&stuPhone==""){
             baseStudentEntity.setStuPhone(null);
+        }else {
+            baseStudentEntity.setStuPhone(stuPhone);
         }
-        return null;
+        baseStudentService.saveStudent(baseStudentEntity);
+        System.out.print(baseStudentEntity);
+        return ResponseEntity.ok().body(baseStudentEntity);
     }
 
 

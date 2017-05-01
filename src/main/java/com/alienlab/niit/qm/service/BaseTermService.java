@@ -1,5 +1,6 @@
 package com.alienlab.niit.qm.service;
 
+import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.BaseTermEntity;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface BaseTermService {
     public BaseTermEntity getTermByTermNo(String termNo);
 
     public List<BaseTermEntity> findStudentTermByStuNo(String stuNo);
+
+    public ExecResult addTermEntity();
 }
