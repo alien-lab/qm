@@ -44,16 +44,12 @@
       {"text": "教学秘书查看缺勤",       "sref": "app.dashboard"},
       {"text": "部门学年质量考核统计",       "sref": "app.dashboard_v2" },
       {"text": "部门学生评教进展查看",       "sref": "app.dashboard_v3" },
-      {"text": "填写听课表",       "sref": "app.dashboard_v2" },
-      {"text": "听课计划",       "sref": "app.dashboard_v3" },
+      {"text": "督学听课",       "sref": "qm.tealecture" },
       {"text": "督学组长查看听课计划",       "sref": "app.dashboard_v2" },
-      {"text": "管理听课记录",       "sref": "app.dashboard_v3" },
       {"text": "教学质量考核",       "sref": "app.dashboard_v2" },
       {"text": "信息员意见反馈",       "sref": "app.dashboard_v3" },
       {"text": "教师被听课情况",       "sref": "app.dashboard_v3" },
-      {"text": "我关注的教师",       "sref": "app.dashboard_v2" },
       {"text": "辅导员查看出勤率",       "sref": "app.dashboard_v3" },
-      {"text": "我的常用语",       "sref": "app.dashboard_v3" },
       {"text": "查看教师评学",       "sref": "app.dashboard_v3" },
       {"text": "未评学教师表",       "sref": "app.dashboard_v3" }
     ]
