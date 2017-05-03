@@ -42,7 +42,9 @@
             'qm.stuevaluation',
             'qm.base_judgeconfig',
             'qm.classattend',
-            'qm.stuattendDetail'
+            'qm.stuattendDetail',
+            'qm.tealecture',
+            'qm.lectureform'
         ]);
 })();
 (function(){
