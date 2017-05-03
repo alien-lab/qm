@@ -20,9 +20,54 @@
         var service = $resource('../qm-api/terms', {}, {
             'getAllTerms':{method:"GET",isArray:true},
             'updateSwitch':{method:"PUT",url:"../qm-api/term/switch"},
-            'getTermByTermNo':{method:"POST",url:"../qm-api/term/TermByTermNo"}
+            'getTermByTermNo':{method:"POST",url:"../qm-api/term/TermByTermNo"},
+            'getBiggestTerm':{method:"GET",url:"../qm-api/term/biggestTermNoAndTermName"},
+            'addNewTerm':{method:"POST",url:"../qm-api/term/addTerm"}
         });
         return service;
+    }]);
+
+    //日期controller
+    termevaluation_module.controller("DatepickerDemoCtrl",["$scope",function($scope){
+        var vm = this;
+
+        activate();
+        function activate() {
+            vm.today = function() {
+                vm.dt = new Date();
+            };
+            vm.today();
+
+            vm.clear = function () {
+                vm.dt = null;
+            };
+
+            // Disable weekend selection
+            vm.disabled = function(date, mode) {
+                return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+            };
+
+            vm.toggleMin = function() {
+                vm.minDate = vm.minDate ? null : new Date();
+            };
+            vm.toggleMin();
+
+            vm.open = function($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+
+                vm.opened = true;
+            };
+
+            vm.dateOptions = {
+                formatYear: 'yy',
+                startingDay: 1
+            };
+
+            vm.initDate = new Date('2019-10-20');
+            vm.formats = ['yyyy-MM-dd', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            vm.format = vm.formats[0];
+        }
     }]);
 
     termevaluation_module.controller("termevaluationController",["$scope","termevaluationinstance","$uibModal","termResource",function($scope,termevaluationinstance,$uibModal,termResource){
@@ -91,8 +136,38 @@
     }]);
 
     //增加学期controller
-    termevaluation_module.controller("addTermController",["$scope","$uibModalInstance","$rootScope",function($scope,$uibModalInstance,$rootScope){
+    termevaluation_module.controller("addTermController",["$scope","$state","termResource","$uibModalInstance","$rootScope",function($scope,$state,termResource,$uibModalInstance,$rootScope){
         $scope.ModTitle = "增加学年学期";
+        termResource.getBiggestTerm({},function (result) {
+            console.log(result);
+            //console.log(result.data);
+            $scope.biggestTerms = result.data;
+            console.log("最大Term获取成功");
+        },function () {
+            console.log("最大Term获取失败");
+        })
+
+
+        $scope.saveTerm=function showsaveTerme(){
+            console.log($scope.Term.termNo.$viewValue);
+            console.log($scope.Term.termName);
+            console.log($scope.Term.term_Startdate);
+            console.log($scope.Term.term_Enddate);
+            termResource.addNewTerm({
+                termNo:$scope.Term.termNo.$viewValue,
+                termName:$scope.Term.termName.$viewValue,
+                termPrintName:$scope.Term.termName.$viewValue,
+                termStartdate:$scope.Term.term_Startdate.$viewValue,
+                termEnddate:$scope.Term.term_Enddate.$viewValue
+            },function (result) {
+                console.log(result);
+                $uibModalInstance.dismiss('cancel');
+                $state.go("qm.termevaluation");
+                console.log("增加Term获取成功");
+            },function () {
+                console.log("增加Term获取失败");
+            })
+        }
 
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');

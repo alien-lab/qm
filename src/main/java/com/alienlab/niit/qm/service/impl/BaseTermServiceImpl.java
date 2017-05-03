@@ -71,7 +71,7 @@ public class BaseTermServiceImpl implements BaseTermService {
 
     //根据最高学期获取新增学年学期和编号
     @Override
-    public ExecResult addTermEntity() {
+    public ExecResult getBiggestTermEntity() {
         String sql = "select MAX(term_no) As term_no , MAX(term_name) As term_name from base_term";
         BaseTermEntity baseTermEntity = new BaseTermEntity();
         JSONResponse jr = new JSONResponse();

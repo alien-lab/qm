@@ -1,16 +1,11 @@
 <h3 style="margin-left: 20px">新建学年学期</h3>
-<div style="text-align: center">
+<form action="" name="Term">
+<div style="text-align: center" ng-repeat="biggestTerm in biggestTerms">
 <fieldset style="margin-top: 40px">
     <div class="form-group">
         <label class="col-sm-3 control-label">学期学年编号</label>
         <div class="col-sm-6">
-            <select name="select" required="" ng-model="select" class="form-control">
-                <option value="">Nothing</option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-                <option value="4">Option 4</option>
-            </select>
+            <input name="termNo" type="text" required="" disabled="" name="tagsinput" tagsinput="tagsinput" ng-model="biggestTerm.term_no" class="form-control" />
         </div>
         <div class="col-sm-3"></div>
     </div>
@@ -19,8 +14,7 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">学年学期名称</label>
         <div class="col-sm-6">
-            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="tagsinput" class="form-control" />
-
+            <input name="termName" type="text" required="" disabled="" name="tagsinput" tagsinput="tagsinput" ng-model="biggestTerm.term_name" class="form-control" />
         </div>
         <div class="col-sm-3">
 
@@ -31,8 +25,7 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">学年学期打印名称</label>
         <div class="col-sm-6">
-            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="tagsinput" class="form-control" />
-
+            <input name="termName" type="text" required="" disabled=""  name="tagsinput" tagsinput="tagsinput" ng-model="biggestTerm.term_name" class="form-control" />
         </div>
         <div class="col-sm-3">
 
@@ -43,28 +36,40 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">学期开始时间</label>
         <div class="col-sm-6">
-            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="tagsinput" class="form-control" />
-
+            <p class="input-group" ng-controller="DatepickerDemoCtrl as dp">
+                <input name="term_Startdate" type="text" uib-datepicker-popup="{{dp.format}}" ng-model="dp.dt" is-open="dp.opened" uib-datepicker-options="dp.dateOptions" ng-required="true" close-text="Close" class="form-control"
+                />
+                <span class="input-group-btn">
+               <button type="button" ng-click="dp.open($event)" class="btn btn-default">
+                  <em class="fa fa-calendar"></em>
+               </button>
+            </span>
+            </p>
         </div>
         <div class="col-sm-3">
-
         </div>
     </div>
 </fieldset>
 <fieldset>
     <div class="form-group">
         <label class="col-sm-3 control-label">学期结束时间</label>
-        <div class="col-sm-6">
-            <input type="text" required="" name="tagsinput" tagsinput="tagsinput" ng-model="tagsinput" class="form-control" />
-
+        <div class="col-sm-6" ng-controller="DatepickerDemoCtrl as dp">
+            <p class="input-group">
+                <input name="term_Enddate" type="text" uib-datepicker-popup="{{dp.format}}" ng-model="dp.dt" is-open="dp.opened" uib-datepicker-options="dp.dateOptions" ng-required="true" close-text="Close" class="form-control"/>
+                <span class="input-group-btn">
+               <button type="button" ng-click="dp.open($event)" class="btn btn-default">
+                  <em class="fa fa-calendar"></em>
+               </button>
+            </span>
+            </p>
         </div>
         <div class="col-sm-3">
-
         </div>
     </div>
 </fieldset>
 </div>
-<div class="panel-footer text-center">
-    <button type="submit" class="btn btn-info">确定</button>
+</form>
+    <div class="panel-footer text-center">
+    <button ng-click="saveTerm()" class="btn btn-info">确定</button>
     <button ng-click="cancel()" type="submit" class="btn btn-info">取消</button>
 </div>
