@@ -217,7 +217,7 @@
         }
     }]);
 
-    product_module.controller("addTeacherController",["$scope","teacherResource","$uibModalInstance","$rootScope",function($scope,teacherResource,$uibModalInstance,$rootScope){
+    product_module.controller("addTeacherController",["$state","$scope","teacherResource","$uibModalInstance","$rootScope",function($state,$scope,teacherResource,$uibModalInstance,$rootScope){
         $scope.ModTitle = "增加教师信息";
 
         teacherResource.getDepartment({}, function (result) {
@@ -229,6 +229,7 @@
         });
 
         $scope.save=function save(saveteacher){
+            console.log(saveteacher);
             teacherResource.addTeacher({
                 teacherNo:saveteacher.teacherNo,
                 teacherName:saveteacher.teacherName,

@@ -168,7 +168,7 @@ public class BaseClassesController {
             }else {
                 classDto.setClassStuAmount(null);
             }
-            BaseClassesEntity baseClassesEntity1 = baseClassesService. saveBaseClasses(baseClassesEntity);
+            BaseClassesEntity baseClassesEntity1 = baseClassesService.saveBaseClasses(baseClassesEntity);
             return ResponseEntity.ok().body(classDto);
         }else {
             ExecResult er = new ExecResult(false, "未获取班级信息");

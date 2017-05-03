@@ -15,7 +15,7 @@ public interface BaseTermService {
 
     public List<BaseTermEntity> findStudentTermByStuNo(String stuNo);
 
-    public ExecResult addTermEntity();
+    public ExecResult getBiggestTermEntity();
 
     //获取当期学期
     public BaseTermEntity getCurrentTerm();

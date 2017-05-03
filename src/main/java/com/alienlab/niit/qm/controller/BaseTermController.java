@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -173,6 +175,49 @@ public class BaseTermController{
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
 
+    }
+
+    @ApiOperation(value = "根据当前最大的学年学期生成添加的学年学期")
+    @GetMapping(value = "/term/biggestTermNoAndTermName")
+    public ResponseEntity getbiggestTerm(){
+        ExecResult term = baseTermService.getBiggestTermEntity();
+        System.out.print(term);
+        if (term!=null){
+            return ResponseEntity.ok(term);
+        }else {
+            ExecResult er = new ExecResult(false, "未获取最大学年学期信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
+
+    @ApiOperation(value = "新增学期")
+    @PostMapping(value = "/term/addTerm")
+    public ResponseEntity addTerm(@RequestParam String termNo, @RequestParam String termName,
+                                  @RequestParam String termPrintName, @RequestParam(required = false) String termStartdate, @RequestParam(required = false) String termEnddate){
+        BaseTermEntity baseTermEntity  = new BaseTermEntity();
+        termStartdate = termStartdate.replace("-", "");
+        termEnddate = termEnddate.replace("-", "");
+        baseTermEntity.setTermKq("0");
+        baseTermEntity.setTermKh("0");
+        baseTermEntity.setTermTk("0");
+        baseTermEntity.setTermPj("0");
+        baseTermEntity.setTermNo(termNo);
+        baseTermEntity.setTermName(termName);
+        baseTermEntity.setTermPrintName(termPrintName);
+        baseTermEntity.setTermStartdate(termStartdate);
+        baseTermEntity.setTermEnddate(termEnddate);
+        baseTermEntity.setTermStatus("0");
+        baseTermEntity.setTermCourse(null);
+        baseTermEntity.setTermStudent(null);
+        baseTermEntity.setTermClass(null);
+        BaseTermEntity baseTermEntity1 = baseTermRepository.save(baseTermEntity);
+        if (baseTermEntity1!=null){
+            return ResponseEntity.ok().body(baseTermEntity1);
+        }else {
+            ExecResult er=  new ExecResult(false,"新增学期失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
     }
 
 

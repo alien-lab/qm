@@ -146,7 +146,7 @@ public class BaseStudentController{
     @ApiOperation(value="增加学生内容")
     @GetMapping(value = "/student/addStudent")
     public ResponseEntity addStudent(@RequestParam String stuNo,@RequestParam String stuName,@RequestParam String stuBirthday,
-                                        @RequestParam String stuPhone,@RequestParam String stuStatus/*,@RequestParam String classNo,
+                                        @RequestParam(required = false) String stuPhone,@RequestParam String stuStatus/*,@RequestParam String classNo,
                                      @RequestParam String marjorNo*/){
 
        /* BaseTermStudentEntity termStudentEntity = new BaseTermStudentEntity();
@@ -160,7 +160,7 @@ public class BaseStudentController{
         studentEntity.setStuName(stuName);
         studentEntity.setStuBirthday(stuBirthday);
         studentEntity.setStuPhone(stuPhone);
-        studentEntity.setStuPhone(stuStatus);
+        studentEntity.setStuStatus(stuStatus);
         BaseStudentEntity studentEntity1 = baseStudentService.saveStudent(studentEntity);
         if (studentEntity1!=null){
             return ResponseEntity.ok().body(studentEntity1);
