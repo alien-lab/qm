@@ -51,14 +51,13 @@
         //默认为讲授课
         $scope.selectedSubjectType = $scope.subjectTypes[0];
         //从cookies中获得当前周次
-
         var  currentweek = $cookieStore.get('currentWeek').currentweek;
         for (var i=currentweek;i>=1;i--){
             var oneweek = new ObjweekStory(i,"第"+i+"周");
             $scope.subjectWeeks.push(oneweek);
         }
         //下拉菜单默认当前周
-        $scope.selectedWeek = $scope.subjectWeeks[0].weekid;
+      $scope.selectedWeek = $scope.subjectWeeks[0].weekid;
 
         $scope.attendDetail = function (scheNo,courseName,className) {
             $state.go("qm.stuattendDetail",{scheNo:scheNo,className:className,courseName:courseName,type: $scope.selectedSubjectType,week:$scope.selectedWeek});
