@@ -31,24 +31,16 @@
             $scope.lectureWeeks.push(oneweek);
 
         }
-        $scope.scheWeek = $scope.lectureWeeks[0].weekid;
+        //$scope.scheWeek = $scope.lectureWeeks[0].weekid;
 
+        $scope.$watch('scheWeek', function(){
+            console.log($scope,$scope.scheWeek);
+        },true);
 
         //返回上一步
         $scope.goback = function () {
             $state.go("qm.tealecture");
         }
-        $scope.openTimed = function () {
-            console.log($scope.scheWeek);
-            /*var dialog = ngDialog.open({
-                template: '<h4 style="text-align: center">对不起，您在第 '+$scope.scheWeek+' 周的没有听课计划</h4>',
-                plain: true,
-                closeByDocument: false,
-                closeByEscape: false,
-                controller:'lecturesformController'
-            });*/
-
-        };
 
         $scope.addSche = function () {
 
