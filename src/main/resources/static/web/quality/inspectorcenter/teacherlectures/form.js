@@ -16,7 +16,7 @@
 
 
 
-    tealectureform_module.controller("lecturesformController",["$scope","$state","ngDialog","$cookieStore",function($scope,$state,ngDialog,$cookieStore){
+    tealectureform_module.controller("lecturesformController",["$scope","$state","ngDialog","$cookieStore","$uibModal",function($scope,$state,ngDialog,$cookieStore,$uibModal){
 
         $scope.lectureWeeks=[];
         function  ObjweekStory(id,name) //创建对象function
@@ -31,30 +31,40 @@
             $scope.lectureWeeks.push(oneweek);
 
         }
-       /* $scope.scheWeek = $scope.lectureWeeks[0].weekid;*/
-        console.log($scope.scheWeek)
+        $scope.scheWeek = $scope.lectureWeeks[0].weekid;
+
 
         //返回上一步
         $scope.goback = function () {
             $state.go("qm.tealecture");
         }
         $scope.openTimed = function () {
-            var dialog = ngDialog.open({
+            console.log($scope.scheWeek);
+            /*var dialog = ngDialog.open({
                 template: '<h4 style="text-align: center">对不起，您在第 '+$scope.scheWeek+' 周的没有听课计划</h4>',
                 plain: true,
                 closeByDocument: false,
                 closeByEscape: false,
                 controller:'lecturesformController'
-            });
+            });*/
 
         };
 
         $scope.addSche = function () {
-            console.log($scope.select)
 
         }
 
-
+        //
+        $scope.teaScore =function () {
+                var teacherInfo = $uibModal.open({
+                    animation: true,
+                    templateUrl: "quality/inspectorcenter/teacherlectures/teacherscore.html",
+                    controller: 'teacherscoreController',
+                    bindToController: true,
+                    size: "sm",
+                    backdrop: false
+                });
+        }
 
 
     }]);

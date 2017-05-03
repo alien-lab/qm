@@ -44,7 +44,8 @@
             'qm.classattend',
             'qm.stuattendDetail',
             'qm.tealecture',
-            'qm.lectureform'
+            'qm.lectureform',
+            'qm.teacherscore'
         ]);
 })();
 (function(){
