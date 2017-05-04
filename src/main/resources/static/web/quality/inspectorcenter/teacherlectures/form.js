@@ -61,7 +61,7 @@
                     templateUrl: "quality/inspectorcenter/teacherlectures/teacherscore.html",
                     controller: 'teacherscoreController',
                     bindToController: true,
-                    size: "md",
+                    size: "sm",
                     backdrop: false
                 });
         }

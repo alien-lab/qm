@@ -18,8 +18,9 @@
                     <uib-tab-heading>我的计划</uib-tab-heading>
                     <div class="row" style="text-align: center">
                     <span class="col-sm-2 col-xs-6"  style="padding-top: 6px;">请选择查询周次</span>
-                   <select ng-controller="lecturesformController" style="width:auto;"  ng-model="scheWeek" ng-change="openTimed()" ng-options="week.weekid as week.weekname for week in lectureWeeks" class="form-control col-sm-3 col-xs-6 " >
+                   <select  style="width:auto;"  ng-model="$parent.$parent.scheWeek"  class="form-control col-sm-3 col-xs-6 " >
                         <option value="">请选择周次</option>
+                       <option ng-repeat="week in lectureWeeks" value="{{week.weekid}}">{{week.weekname}}</option>
                     </select>
                         <div class="colsm-1"></div>
                         <div  class="col-sm-1 col-xs-6">
