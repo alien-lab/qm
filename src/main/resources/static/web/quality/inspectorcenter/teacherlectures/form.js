@@ -33,6 +33,10 @@
         }
         $scope.scheWeek = $scope.lectureWeeks[0].weekid;
 
+        //添加听课计划
+        $scope.addSche = function () {
+            $state.go("qm.lecturesche");
+        }
 
         //返回上一步
         $scope.goback = function () {
@@ -40,19 +44,15 @@
         }
         $scope.openTimed = function () {
             console.log($scope.scheWeek);
-            /*var dialog = ngDialog.open({
+            var dialog = ngDialog.open({
                 template: '<h4 style="text-align: center">对不起，您在第 '+$scope.scheWeek+' 周的没有听课计划</h4>',
                 plain: true,
                 closeByDocument: false,
                 closeByEscape: false,
                 controller:'lecturesformController'
-            });*/
+            });
 
         };
-
-        $scope.addSche = function () {
-
-        }
 
         //
         $scope.teaScore =function () {
@@ -61,7 +61,7 @@
                     templateUrl: "quality/inspectorcenter/teacherlectures/teacherscore.html",
                     controller: 'teacherscoreController',
                     bindToController: true,
-                    size: "sm",
+                    size: "md",
                     backdrop: false
                 });
         }

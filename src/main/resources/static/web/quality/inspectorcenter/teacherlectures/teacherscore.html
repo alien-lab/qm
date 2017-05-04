@@ -2,9 +2,122 @@
     <div class="col-lg-12">
         <div id="panelPortlet6" class="panel panel-info" style="margin-bottom: -3px;">
             <em ng-click="cancel()" style="float: right;font-size: 20px;" class="fa fa-close " ></em>
-            <div class="panel-heading portlet-handler">课堂教学质量评价表</div>
-            <div class="panel-body">
-
+            <div  class="panel-heading portlet-handler"><span style="font-size: 130%">课堂教学质量评价表</span></div>
+            <div class="panel-body" style="font-family: 微软雅黑">
+                <fieldset>
+                    <div class="form-group">
+                        <div class="col-sm-12" style="text-align: center;font-size: 130%">
+                            <span>轻量级框架技术（许丽花）</span>
+                        </div>
+                        <div class="col-sm-12">
+                            <span style="float: right">
+                              <button type="button" class="btn btn-oval btn-warning">总分数{{slidervalue1*6}}</button>
+                            </span>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">1.师德师风</label>
+                        <div class="col-sm-6" style="text-align: center">
+                            <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue1" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
+                        </div>
+                        <div class="col-sm-3">
+                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue1}}</button>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">1.师德师风</label>
+                        <div class="col-sm-6"  style="text-align: center">
+                            <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue1" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
+                        </div>
+                        <div class="col-sm-3">
+                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue1}}</button>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">1.师德师风</label>
+                        <div class="col-sm-6"  style="text-align: center">
+                            <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue1" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
+                        </div>
+                        <div class="col-sm-3">
+                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue1}}</button>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">1.师德师风</label>
+                        <div class="col-sm-6"  style="text-align: center">
+                            <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue1" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
+                        </div>
+                        <div class="col-sm-3">
+                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue1}}</button>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">1.师德师风</label>
+                        <div class="col-sm-6"  style="text-align: center">
+                            <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue1" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
+                        </div>
+                        <div class="col-sm-3">
+                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue1}}</button>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">1.师德师风</label>
+                        <div class="col-sm-6"  style="text-align: center">
+                            <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue1" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
+                        </div>
+                        <div class="col-sm-3">
+                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue1}}</button>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-sm-12 control-label">1.听课评价 (使用常用语)</label>
+                        <div class="col-sm-12">
+                            <textarea rows="3" class="form-control note-editor note-editor-margin"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-sm-12 control-label">1.教学建议 (使用常用语)</label>
+                        <div class="col-sm-12">
+                            <textarea rows="3" class="form-control note-editor note-editor-margin"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div ng-controller="DatepickerDemoCtrl as dpick" class="form-group">
+                        <label class="col-sm-3 control-label" style="padding-top: 8px;">听课时间：</label>
+                        <div class="col-sm-9">
+                            <p class="input-group">
+                                <input type="text" name="date" required="" uib-datepicker-popup="{{dpick.format}}" ng-model="dpick.date" is-open="dpick.opened" min-date="dpick.minDate" max-date="'2019-12-22'" uib-datepicker-options="dpick.dateOptions"
+                                       close-text="Close" class="form-control" />
+                                <span class="input-group-btn">
+                                 <button type="button" ng-click="dpick.open($event)" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                 </button>
+                              </span>
+                            </p>
+                            <span ng-show="form.validateInput('date', 'required')" class="text-danger">This field is required</span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="panel-footer text-center" >
+                <button type="submit" ng-click="submit()" class="btn btn-info" >提交评价</button>
             </div>
         </div>
 

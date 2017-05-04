@@ -14,9 +14,6 @@
         var vm = this;
 
         activate();
-
-        ////////////////
-
         function activate() {
           vm.today = function() {
             vm.dt = new Date();

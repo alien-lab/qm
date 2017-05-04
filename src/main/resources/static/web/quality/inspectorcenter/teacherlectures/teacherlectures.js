@@ -24,7 +24,7 @@
         }
         //制定听课计划
         $scope.arranged = function () {
-           /* $state.go("qm.stuattendDetail");*/
+           $state.go("qm.lecturesche");
         }
         //关注的教师
         $scope.careteachers = function () {
