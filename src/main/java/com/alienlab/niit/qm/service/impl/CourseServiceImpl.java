@@ -151,8 +151,6 @@ public class CourseServiceImpl implements CourseService {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         String [] classes = checkedclass.split("-");
         String [] sections = checkedsections.split(";");
-        System.out.print(classes);
-        System.out.print(sections);
         for (int i =0;i<classes.length;i++){
             BaseTeachTaskEntity baseTeachTaskEntity = new BaseTeachTaskEntity();
             baseTeachTaskEntity.setTermNo(courseTerm);
@@ -246,8 +244,6 @@ public class CourseServiceImpl implements CourseService {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         String [] classes = checkedclass.split("-");
         String [] sections = checkedsections.split(";");
-        System.out.print(classes);
-        System.out.print(sections);
         for (int i =0;i<classes.length;i++){
             baseTeachTaskEntity.setTermNo(courseTerm);
             baseTeachTaskEntity.setCourseNo(courseNo);
@@ -378,7 +374,6 @@ public class CourseServiceImpl implements CourseService {
                         mainString = (String) totallist.get(i).get("sche_set");
                     }
                     String []firstsection = mainString.split(":");
-                    System.out.println(mainString);
                     String weekday = firstsection[0];
                     String secondsection = firstsection[1];
                     courseDetailDto.setTeacherName(weekday);

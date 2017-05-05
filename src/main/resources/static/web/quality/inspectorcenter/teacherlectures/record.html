@@ -1,0 +1,98 @@
+<h3>督学听课记录</h3>
+<div class="row">
+    <div class="col-md-2 col-xs-12">
+        <select  style="width:auto;float:left;"  ng-model="selectedTerm" ng-options="term.termNo as term.termName for term in terms" class="form-control" >
+            <option value="">请选择学期</option>
+        </select>
+    </div>
+    <div class="col-md-3 col-xs-4">
+        <div class="row">
+            <div class="col-md-6" style="text-align: right;padding-top: 5px;">
+                <span>开始时间：</span>
+            </div>
+            <div class="input-group col-md-6 ">
+                <input type="text" name="date" required="" uib-datepicker-popup="{{format}}" ng-model="date" is-open="opened" min-date="minDate" max-date="'2019-12-22'" uib-datepicker-options="dateOptions"
+                       close-text="Close" class="form-control" />
+                <span class="input-group-btn">
+                <button type="button" ng-click="open($event)" class="btn btn-default">
+                    <em class="fa fa-calendar"></em>
+                </button>
+            </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-4">
+        <div class="row">
+            <div class="col-md-6" style="text-align: right;padding-top: 5px;">
+                <span>结束时间：</span>
+            </div>
+        <div class="input-group col-md-6">
+                <input type="text" name="date2" required="" uib-datepicker-popup="{{format}}" ng-model="date2" is-open="opened2" min-date="minDate" max-date="'2019-12-22'" uib-datepicker-options="dateOptions"
+                       close-text="Close" class="form-control" />
+                <span class="input-group-btn">
+                <button type="button" ng-click="open2($event)" class="btn btn-default">
+                    <em class="fa fa-calendar"></em>
+                </button>
+               </span>
+        </div>
+        </div>
+    </div>
+     <div class="col-md-3 col-xs-6">
+         <div class="col-md-6">
+             <input type="text" title="可以为空" class="form-control" placeholder="任课教师" ng-model="coursekeyWords">
+         </div>
+       <div class="col-md-6">
+           <div class="row">
+               <div class="col-md-6">
+                   <button ng-click="searchCourse()" style="margin-left: 5px;" class="btn btn-success" type="button">搜索</button>
+               </div>
+               <div  class="col-md-6">
+                   <button ng-click="goback()" style="margin-left: 5px;" class="btn btn-primary" type="button">返回上一步</button>
+               </div>
+           </div>
+
+       </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 20px;text-align: center">
+    <table class="table table-bordered table-hover bg-white">
+        <tr style="font-weight: bold">
+            <td >任课教师</td>
+            <td >课程名称</td>
+            <td >课程类型</td>
+            <td >评分</td>
+            <td >听课日期</td>
+            <td >操作</td>
+        </tr>
+        <tr >
+            <td>
+                <!-- editable username (text with validation)-->
+                <span  >许丽花</span>
+            </td>
+            <td>
+                <!-- editable status (select-local)-->
+                <span >轻量级框架技术</span>
+            </td>
+            <td>
+                <!-- editable group (select-remote)-->
+                <span   >限选课</span>
+            </td>
+            <td>
+                <!-- editable status (select-local)-->
+                <span   >100</span>
+            </td>
+            <td>
+                <!-- editable group (select-remote)-->
+                <span   >2017-05-04</span>
+            </td>
+            <td >
+                <button ng-click="update()" title="修改" class="btn btn-sm btn-info">
+                    <em class="fa fa-pencil"></em>
+                </button>
+                <button ng-click="removeUser($index)" title="删除" class="btn btn-sm btn-danger">
+                    <em class="fa fa-trash"></em>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>

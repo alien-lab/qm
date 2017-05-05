@@ -24,7 +24,7 @@
         }
         //制定听课计划
         $scope.arranged = function () {
-           /* $state.go("qm.stuattendDetail");*/
+           $state.go("qm.lecturesche");
         }
         //关注的教师
         $scope.careteachers = function () {
@@ -32,7 +32,7 @@
         }
         //听课记录
         $scope.record = function () {
-            /*$state.go("qm.stuattendDetail");*/
+            $state.go("qm.lecturerecord");
         }
         //常用语
         $scope.mychat = function () {

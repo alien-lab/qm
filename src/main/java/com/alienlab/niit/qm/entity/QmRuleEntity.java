@@ -1,5 +1,7 @@
 package com.alienlab.niit.qm.entity;
 
+import javax.persistence.GeneratedValue;
+
 /**
  * Created by Master QB on 2017/3/14.
  */
@@ -8,6 +10,7 @@ package com.alienlab.niit.qm.entity;
 public class QmRuleEntity {
     private long ruleNo;
 
+    @GeneratedValue
     @javax.persistence.Id
     @javax.persistence.Column(name = "rule_no")
     public long getRuleNo() {
