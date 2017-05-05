@@ -1,4 +1,5 @@
 package com.alienlab.niit.qm.entity;
+import javax.persistence.GeneratedValue;
 import java.sql.Date;
 import java.sql.Timestamp;
 /**
@@ -9,6 +10,7 @@ import java.sql.Timestamp;
 public class QmMasterMarkEntity {
     private long markNo;
 
+    @GeneratedValue
     @javax.persistence.Id
     @javax.persistence.Column(name = "mark_no")
     public long getMarkNo() {

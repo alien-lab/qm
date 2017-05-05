@@ -46,7 +46,10 @@
             'qm.tealecture',
             'qm.lectureform',
             'qm.teacherscore',
-            'qm.lecturesche'
+            'qm.lecturesche',
+            'qm.addsche',
+            'qm.teachtasksche',
+            'qm.lecturerecord'
         ]);
 })();
 (function(){

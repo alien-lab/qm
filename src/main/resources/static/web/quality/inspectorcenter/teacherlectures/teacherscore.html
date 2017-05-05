@@ -99,19 +99,18 @@
                     </div>
                 </fieldset>
                 <fieldset>
-                    <div ng-controller="DatepickerDemoCtrl as dpick" class="form-group">
+                    <div  class="form-group">
                         <label class="col-sm-3 control-label" style="padding-top: 8px;">听课时间：</label>
                         <div class="col-sm-9">
                             <p class="input-group">
-                                <input type="text" name="date" required="" uib-datepicker-popup="{{dpick.format}}" ng-model="dpick.date" is-open="dpick.opened" min-date="dpick.minDate" max-date="'2019-12-22'" uib-datepicker-options="dpick.dateOptions"
+                                <input type="text" name="date" required="" uib-datepicker-popup="{{format}}" ng-model="date" is-open="opened" min-date="minDate" max-date="'2019-12-22'" uib-datepicker-options="dateOptions"
                                        close-text="Close" class="form-control" />
                                 <span class="input-group-btn">
-                                 <button type="button" ng-click="dpick.open($event)" class="btn btn-default">
+                                 <button type="button" ng-click="open($event)" class="btn btn-default">
                                     <em class="fa fa-calendar"></em>
                                  </button>
                               </span>
                             </p>
-                            <span ng-show="form.validateInput('date', 'required')" class="text-danger">This field is required</span>
                         </div>
                     </div>
                 </fieldset>

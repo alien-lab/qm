@@ -146,13 +146,13 @@
                     closeOnConfirm: true,
                     closeOnCancel:false
                 },  function(isConfirm){
+                    $scope.rolers.splice(index, 1);
                     if(isConfirm){
                         rolerResource.deleteroler({
                             id:id
                         },function(result){
                             console.log("删除roler成功！");
                             console.log(result);
-                            $scope.rolers.splice(index, 1);
                         },function(result){
                             console.log("删除roler失败");
                         });

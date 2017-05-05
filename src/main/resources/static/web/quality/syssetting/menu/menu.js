@@ -165,13 +165,14 @@
                     closeOnConfirm:true,
                     closeOnCancel:false
                 },  function(isConfirm){
+                    $scope.menus.splice(index, 1);
                     if (isConfirm){
                         menuResource.deletemenu({
                             id:id
                         },function(result){
                             console.log("删除menu成功！");
                             console.log(result);
-                            $scope.menus.splice(index, 1);
+
 
                         },function(result){
                             console.log("删除menu失败");

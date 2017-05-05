@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div id="panelPortlet6" class="panel panel-info" style="margin-bottom: -3px;">
+            <em ng-click="cancel()" style="float: right;font-size: 20px;" class="fa fa-close " ></em>
+            <div  class="panel-heading portlet-handler">修改听课计划</div>
+            <div class="panel-body" style="font-family: 微软雅黑">
+                <p>
+                    任课教师：许丽花
+                </p>
+                <p>
+                    课程名称：《面向对象程序设计》
+                </p>
+                <p>
+                    上课班级：软件1641
+                </p>
+                <p>
+                    <div  class="form-group row">
+                        <label class="col-sm-3 " style="padding-top: 8px;">计划听课时间：</label>
+                        <div class="col-sm-6">
+                            <p class="input-group">
+                                <input type="text" name="date" required="" uib-datepicker-popup="{{format}}" ng-model="date" is-open="opened" min-date="minDate" max-date="'2019-12-22'" uib-datepicker-options="dateOptions"
+                                       close-text="Close" class="form-control" />
+                                <span class="input-group-btn">
+                                 <button type="button" ng-click="open($event)" class="btn btn-default">
+                                    <em class="fa fa-calendar"></em>
+                                 </button>
+                              </span>
+                            </p>
+                        </div>
+                    </div>
+                </p>
+            </div>
+    <div class="panel-footer text-center" >
+        <button type="submit" ng-click="submit()" class="btn btn-info" >提交听课计划</button>
+    </div>
+        </div>
+
+    </div>
+</div>

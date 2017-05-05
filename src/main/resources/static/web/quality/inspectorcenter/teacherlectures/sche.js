@@ -9,7 +9,38 @@
             url: '/lecturesche',
             title: '督学听课计划',
             templateUrl: "quality/inspectorcenter/teacherlectures/sche.html",
+            controller:"lecturesScheController"
         });
+    }]);
+
+    lecturesche_module.controller("lecturesScheController",["$scope","$state","$uibModal",function($scope,$state,$uibModal){
+        $scope.changeStatus =0;
+        $scope.changeSche = function (index) {
+            $scope.changeStatus = index;
+        }
+        $scope.searchTask = function () {
+            $state.go("qm.teachtasksche");
+        }
+
+        $scope.addSche = function () {
+            var addscheInfo = $uibModal.open({
+                animation: true,
+                templateUrl: "quality/inspectorcenter/teacherlectures/addsche.html",
+                controller: 'addscheController',
+                bindToController: true,
+                size: "md",
+                backdrop: false
+            });
+
+        }
+
+        $scope.goBack = function () {
+            $state.go("qm.tealecture");
+        }
+        $scope.deleteSche = function (index) {
+         /*   vm.users.splice(index, 1);*/
+        }
+
     }]);
 
 })();

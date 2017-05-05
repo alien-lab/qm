@@ -32,7 +32,7 @@
         }
         //听课记录
         $scope.record = function () {
-            /*$state.go("qm.stuattendDetail");*/
+            $state.go("qm.lecturerecord");
         }
         //常用语
         $scope.mychat = function () {

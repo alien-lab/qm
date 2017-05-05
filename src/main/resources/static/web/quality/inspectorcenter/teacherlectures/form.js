@@ -15,14 +15,39 @@
     }]);
 
 
+    tealectureform_module.factory("qmMsterResource",["$resource",function($resource){
+        var service = $resource('../qm-api/master', {}, {
+            getCaredTeachers: { method: 'GET',isArray:true},
+        });
+        return service;
 
-    tealectureform_module.controller("lecturesformController",["$scope","$state","ngDialog","$cookieStore","$uibModal",function($scope,$state,ngDialog,$cookieStore,$uibModal){
+    }]);
 
+
+
+    tealectureform_module.controller("lecturesformController",["$scope","$state","ngDialog","$cookieStore","$uibModal","qmMsterResource",function($scope,$state,ngDialog,$cookieStore,$uibModal,qmMsterResource){
+
+        //从cookies获得当前用户
+        $scope.masterTeacher = {
+            account : $cookieStore.get('user').account,
+            name:$cookieStore.get('user').name,
+            usertype: $cookieStore.get('user').type
+        }
+        $scope.teacherString=0;
+        $scope.dayString=0;
         $scope.lectureWeeks=[];
+        //用于存放关注的教师
+        $scope.caredteachers =[]
         function  ObjweekStory(id,name) //创建对象function
         {
             this.weekid = id;
             this.weekname= name;
+        }
+        function  teacherStory(id,name) //创建对象function
+        {
+            this.id = id;
+            this.name= name;
+            this.checked = false;
         }
         //从cookies中获得当前周次
         var  currentweek = $cookieStore.get('currentWeek').currentweek;
@@ -56,7 +81,7 @@
 
         //
         $scope.teaScore =function () {
-                var teacherInfo = $uibModal.open({
+                var teaScoreinfo = $uibModal.open({
                     animation: true,
                     templateUrl: "quality/inspectorcenter/teacherlectures/teacherscore.html",
                     controller: 'teacherscoreController',
@@ -64,6 +89,48 @@
                     size: "md",
                     backdrop: false
                 });
+        }
+
+
+        //根据教师姓名查询
+        $scope.searchTeacher = function () {
+            $scope.teacherString=1;
+            $scope.dayString=0;
+        }
+
+        //根据工作日查询
+        $scope.searchDay = function () {
+            $scope.dayString=1;
+            $scope.teacherString=0;
+        }
+
+        //获得当前学期 当前督学所关注的教师
+        qmMsterResource.getCaredTeachers({
+            masterNo:$scope.masterTeacher.account,
+            termNo:$cookieStore.get('currentTerm').termNo
+        },function(result){
+            console.log(result);
+            for (var i =0;i<result.length;i++){
+                var teacher = new teacherStory(result[i].teacherNo,result[i].teacherName);
+                $scope.caredteachers.push(teacher);
+            }
+        },function(result){
+            console.log("教师列表获取失败",result);
+        });
+
+        //选择其中一个关注的教师
+        $scope.chooseCaredTeacher = function (teacherNo) {
+            console.log(teacherNo)
+            for (var i=0;i<$scope.caredteachers.length;i++){
+                if ($scope.caredteachers[i].id ==teacherNo) {
+                $scope.caredteachers[i].checked = true;
+            }
+                $scope.caredteachers[i].checked = false;
+            }
+
+
+
+
         }
 
 
