@@ -1,6 +1,14 @@
 package com.alienlab.niit.qm.service.impl;
 
+import com.alienlab.niit.qm.common.WeekdayUtils;
+import com.alienlab.niit.qm.entity.BaseTaskScheEntity;
+import com.alienlab.niit.qm.entity.BaseTeachTaskEntity;
 import com.alienlab.niit.qm.entity.BaseTeacherEntity;
+import com.alienlab.niit.qm.entity.QmRuleEntity;
+import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
+import com.alienlab.niit.qm.repository.BaseTaskScheRepository;
+import com.alienlab.niit.qm.repository.BaseTeachTaskRepository;
+import com.alienlab.niit.qm.repository.BaseTeacherRepository;
 import com.alienlab.niit.qm.service.QmMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,6 +27,12 @@ public class QmMasterServiceImpl implements QmMasterService {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+    @Autowired
+    BaseTeachTaskRepository baseTeachTaskRepository;
+    @Autowired
+    BaseTeacherRepository baseTeacherRepository;
+    @Autowired
+    BaseTaskScheRepository baseTaskScheRepository;
 
     @Override
     public List<BaseTeacherEntity> findByMasterNoAndTerm(String masterNo, String termNo) {
@@ -35,5 +49,55 @@ public class QmMasterServiceImpl implements QmMasterService {
             }
         }
         return baseTeacherEntities;
+    }
+
+    @Override
+    public List<CourseDetailDto> findByCaredTeacherNoAndTerm(String teacherNo, String termNo) {
+        List<CourseDetailDto> courseDetailDtos = new ArrayList<>();
+        List<BaseTeachTaskEntity> baseTeachTaskEntities = baseTeachTaskRepository.findByTermNoAndTeacherNo(termNo,teacherNo);
+      if (baseTeachTaskEntities.size()!=0){
+          for (int i=0 ;i<baseTeachTaskEntities.size();i++){
+              CourseDetailDto courseDetailDto = new CourseDetailDto();
+              courseDetailDto.setCourseName(baseTeachTaskEntities.get(i).getCourseName());
+              courseDetailDto.setTeacherNo(baseTeachTaskEntities.get(i).getTeacherNo());
+              courseDetailDto.setTaskNo(baseTeachTaskEntities.get(i).getTaskNo());
+              courseDetailDto.setTeacherName(baseTeacherRepository.findByTeacherNo(baseTeachTaskEntities.get(i).getTeacherNo()).getTeacherName());
+              List<BaseTaskScheEntity> baseTaskScheEntities= baseTaskScheRepository.findByTaskNo(baseTeachTaskEntities.get(i).getTaskNo());
+              if (baseTaskScheEntities.size()!=0){
+                  for (int j=0;j<baseTaskScheEntities.size();j++){
+                      if (baseTaskScheEntities.get(j).getScheSet().contains("K")){
+                          WeekdayUtils weekdayUtils = new WeekdayUtils();
+                          baseTaskScheEntities.get(j).setScheSet(weekdayUtils.convert(baseTaskScheEntities.get(j).getScheSet()));
+                      }
+                  }
+              }
+              courseDetailDto.setSectionses(baseTaskScheEntities);
+              courseDetailDtos.add(courseDetailDto);
+          }
+      }
+        return courseDetailDtos;
+    }
+
+    @Override
+    public List<QmRuleEntity> getQmRules(String rule_version_flag,String rule_table) {
+
+        List<QmRuleEntity> qmRuleEntities = new ArrayList<>();
+        String sql = "SELECT * FROM qm_rule a WHERE a.`rule_version_flag`='"+rule_version_flag+"' AND a.`rule_table`='"+rule_table+"' AND a.`rule_status`=1";
+        List <Map<String,Object>> totallist = jdbcTemplate.queryForList(sql);
+        for (int i=0;i<totallist.size();i++){
+            QmRuleEntity qmRuleEntity = new QmRuleEntity();
+            qmRuleEntity.setRuleNo((Long) totallist.get(i).get("rule_no"));
+            qmRuleEntity.setRuleVersionTitle((String) totallist.get(i).get("rule_version_title"));
+            qmRuleEntity.setRuleVersionFlag((String) totallist.get(i).get("rule_version_flag"));
+            qmRuleEntity.setRuleVersion((Integer) totallist.get(i).get("rule_version"));
+            qmRuleEntity.setRuleContent((String) totallist.get(i).get("rule_content"));
+            qmRuleEntity.setRuleGoal((Integer) totallist.get(i).get("rule_goal"));
+            qmRuleEntity.setRuleTitle((String) totallist.get(i).get("rule_title"));
+            qmRuleEntity.setRuleStatus((String) totallist.get(i).get("rule_status"));
+            qmRuleEntity.setRuleTable((String) totallist.get(i).get("rule_table"));
+            qmRuleEntity.setRuleField((String) totallist.get(i).get("rule_field"));
+            qmRuleEntities.add(qmRuleEntity);
+        }
+        return qmRuleEntities;
     }
 }

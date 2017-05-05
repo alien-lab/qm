@@ -3,7 +3,9 @@ package com.alienlab.niit.qm.controller;
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.BaseTeacherEntity;
 import com.alienlab.niit.qm.entity.QmMasterMarkEntity;
+import com.alienlab.niit.qm.entity.QmRuleEntity;
 import com.alienlab.niit.qm.entity.TbUserEntity;
+import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
 import com.alienlab.niit.qm.service.QmMasterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,5 +50,32 @@ public class QmMasterController {
         }
     }
 
+    @ApiOperation(value="获得所关注教师的课表")
+    @GetMapping(value="/master/caredteachercourse")
+    public ResponseEntity getCaredTeadcherCourseList(@RequestParam String teacherNo,@RequestParam String termNo){
+        try {
+            List<CourseDetailDto> courseDetailDtos = qmMasterService.findByCaredTeacherNoAndTerm(teacherNo,termNo);
+            return ResponseEntity.ok().body(courseDetailDtos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,e.getMessage());
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value="获得堂教学质量评价表")
+    @GetMapping(value="/master/rule")
+    public ResponseEntity getRule(@RequestParam String rule_version_flag,@RequestParam String rule_table){
+        try {
+            List<QmRuleEntity> qmRuleEntities = qmMasterService.getQmRules(rule_version_flag,rule_table);
+            return ResponseEntity.ok().body(qmRuleEntities);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,e.getMessage());
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
 
 }

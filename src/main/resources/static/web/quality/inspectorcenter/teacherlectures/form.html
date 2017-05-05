@@ -183,131 +183,20 @@
                 <uib-tab>
                     <uib-tab-heading>我关注的教师</uib-tab-heading>
                     <div>
-                        <button ng-repeat="teacher in caredteachers" ng-click="chooseCaredTeacher(teacher.id);teacher.checked=!teacher.checked" data-ng-class="{'true':'btn-primary'}[teacher.checked]" type="button" class="btn btn-oval ">{{teacher.name}}</button>
+                        <button ng-repeat="teacher in caredteachers" ng-click="chooseCaredTeacher(teacher.id,teacher.name);teacher.checked=!teacher.checked" data-ng-class="{'true':'btn-primary'}[teacher.checked]" type="button" class="btn btn-oval ">{{teacher.name}}</button>
                     </div>
                     <div class="row" style="text-align: center;margin-top: 20px">
-                        <div class="col-md-4">
-                            <div  popover-title="教学时间安排"  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
+                        <div class="col-md-4" ng-repeat=" course in caredteacherCourse">
+                            <div  ng-click="teaScore(course.courseName,course.teacherName)" class="panel widget" style="box-shadow: 1px 1px 1px #888888;">
                                 <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花1
+                                    <div class="row row-table row-flush" style="height: 150px">
+                                        <div class="col-xs-4 bg-success-light text-center" style="font-size: 160%">
+                                            {{course.teacherName}}
                                         </div>
                                         <div class="col-xs-8">
                                             <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
+                                                <h4 class="mt0">{{course.courseName}}</h4>
+                                                <p ng-repeat="section in course.sectionses" class="mb0 text-muted">{{section.scheSet}}--{{section.scheAddr}}</p>
                                             </div>
                                         </div>
                                     </div>

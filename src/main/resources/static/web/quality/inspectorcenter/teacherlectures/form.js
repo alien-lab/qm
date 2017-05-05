@@ -4,6 +4,7 @@
 (function(){
     'use strict';
     var tealectureform_module=angular.module("qm.lectureform",['ui.router','ngDialog']);//ui.router模块作为主应用模块的依赖模块
+    tealectureform_module.factory("ruleinstance",function(){return {}});
     tealectureform_module.config(["$stateProvider",function($stateProvider){//配置$stateProvider，用来定义路由规则
         $stateProvider.state('qm.lectureform', {
             url: '/lectureform',
@@ -18,6 +19,9 @@
     tealectureform_module.factory("qmMsterResource",["$resource",function($resource){
         var service = $resource('../qm-api/master', {}, {
             getCaredTeachers: { method: 'GET',isArray:true},
+            getCaredTeacherCourse: { method: 'GET',isArray:true ,url:'../qm-api/master/caredteachercourse'},
+            getRules: { method: 'GET',isArray:true ,url:'../qm-api/master/rule'},
+
         });
         return service;
 
@@ -25,7 +29,7 @@
 
 
 
-    tealectureform_module.controller("lecturesformController",["$scope","$state","ngDialog","$cookieStore","$uibModal","qmMsterResource",function($scope,$state,ngDialog,$cookieStore,$uibModal,qmMsterResource){
+    tealectureform_module.controller("lecturesformController",["$scope","$state","ngDialog","$cookieStore","$uibModal","qmMsterResource","ruleinstance",function($scope,$state,ngDialog,$cookieStore,$uibModal,qmMsterResource,ruleinstance){
 
         //从cookies获得当前用户
         $scope.masterTeacher = {
@@ -80,7 +84,10 @@
         };
 
         //
-        $scope.teaScore =function () {
+        $scope.teaScore =function (courseName,teacherName) {
+            ruleinstance.ruletype = 1;
+            ruleinstance.courseName = courseName;
+            ruleinstance.teacherName = teacherName;
                 var teaScoreinfo = $uibModal.open({
                     animation: true,
                     templateUrl: "quality/inspectorcenter/teacherlectures/teacherscore.html",
@@ -119,21 +126,34 @@
         });
 
         //选择其中一个关注的教师
-        $scope.chooseCaredTeacher = function (teacherNo) {
-            console.log(teacherNo)
+        $scope.chooseCaredTeacher = function (teacherNo,teacherName) {
             for (var i=0;i<$scope.caredteachers.length;i++){
                 if ($scope.caredteachers[i].id ==teacherNo) {
                 $scope.caredteachers[i].checked = true;
             }
                 $scope.caredteachers[i].checked = false;
             }
-
-
-
+            //获得所点击的教师的课程
+            qmMsterResource.getCaredTeacherCourse({
+                teacherNo:teacherNo,
+                termNo:$cookieStore.get('currentTerm').termNo
+            },function(result){
+                console.log(result);
+                if (result.length!=0){
+                    $scope.caredteacherCourse = result;
+               }else {
+                    var dialog = ngDialog.open({
+                        template: '<h4 style="text-align: center">对不起，教师 '+teacherName+' 在本学期无课程</h4>',
+                        plain: true,
+                        closeByDocument: false,
+                        closeByEscape: false,
+                        controller:'lecturesformController'
+                    });
+               }
+            },function(result){
+                console.log("教师课程列表获取失败",result);
+            });
 
         }
-
-
     }]);
-
 })();

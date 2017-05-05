@@ -1,106 +1,59 @@
+<style>
+    .ngdialog.ngdialog-theme-default.custom-width-70 .ngdialog-content {
+        width: 70%;
+    }
+    .mychat:hover{
+        cursor: pointer;
+    }
+</style>
 <div class="row">
     <div class="col-lg-12">
         <div id="panelPortlet6" class="panel panel-info" style="margin-bottom: -3px;">
             <em ng-click="cancel()" style="float: right;font-size: 20px;" class="fa fa-close " ></em>
-            <div  class="panel-heading portlet-handler"><span style="font-size: 130%">课堂教学质量评价表</span></div>
+            <div  class="panel-heading portlet-handler"><span style="font-size: 130%">{{versionTitle}}</span></div>
             <div class="panel-body" style="font-family: 微软雅黑">
                 <fieldset>
                     <div class="form-group">
                         <div class="col-sm-12" style="text-align: center;font-size: 130%">
-                            <span>轻量级框架技术（许丽花）</span>
+                            <span>{{courseName}}（{{teacherName}}）</span>
                         </div>
                         <div class="col-sm-12">
                             <span style="float: right">
-                              <button type="button" class="btn btn-oval btn-warning">总分数{{slidervalue1*6}}</button>
+                              <button type="button" class="btn btn-oval btn-warning">总分数{{totalvalue}}</button>
                             </span>
                         </div>
                     </div>
                 </fieldset>
-                <fieldset>
+                <fieldset ng-repeat="rule in rules">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">1.师德师风</label>
+                        <label class="col-sm-3 control-label">{{rule.ruleTitle}}</label>
                         <div class="col-sm-6" style="text-align: center">
-                            <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue1" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
+                            <slider ng-change="myFunc(rule.ruleField,slidervalue)" ng-model="slidervalue" min="0" max="rule.ruleGoal" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
                         </div>
                         <div class="col-sm-3">
-                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue1}}</button>
+                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue}}</button>
                         </div>
                     </div>
                 </fieldset>
                 <fieldset>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">1.师德师风</label>
-                        <div class="col-sm-6"  style="text-align: center">
-                            <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue1" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
-                        </div>
-                        <div class="col-sm-3">
-                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue1}}</button>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">1.师德师风</label>
-                        <div class="col-sm-6"  style="text-align: center">
-                            <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue1" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
-                        </div>
-                        <div class="col-sm-3">
-                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue1}}</button>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">1.师德师风</label>
-                        <div class="col-sm-6"  style="text-align: center">
-                            <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue1" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
-                        </div>
-                        <div class="col-sm-3">
-                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue1}}</button>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">1.师德师风</label>
-                        <div class="col-sm-6"  style="text-align: center">
-                            <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue1" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
-                        </div>
-                        <div class="col-sm-3">
-                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue1}}</button>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">1.师德师风</label>
-                        <div class="col-sm-6"  style="text-align: center">
-                            <slider ng-change="myFunc(Attend.checkMainNo)" ng-model="slidervalue1" min="0" max="10" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
-                        </div>
-                        <div class="col-sm-3">
-                            <button style="float: right" type="button" class="btn btn-pill-left btn-success">{{slidervalue1}}</button>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div class="form-group">
-                        <label class="col-sm-12 control-label">1.听课评价 (使用常用语)</label>
+                        <label ng-click="showngdialog(1)" class="col-sm-12 control-label">听课评价 (使用常用语)</label>
                         <div class="col-sm-12">
-                            <textarea rows="3" class="form-control note-editor note-editor-margin"></textarea>
+                            <textarea ng-model="skpj" rows="3" class="form-control note-editor note-editor-margin"></textarea>
                         </div>
                     </div>
                 </fieldset>
                 <fieldset>
                     <div class="form-group">
-                        <label class="col-sm-12 control-label">1.教学建议 (使用常用语)</label>
+                        <label ng-click="showngdialog(2)" class="col-sm-12 control-label">教学建议 (使用常用语)</label>
                         <div class="col-sm-12">
-                            <textarea rows="3" class="form-control note-editor note-editor-margin"></textarea>
+                            <textarea ng-model="jxjy" rows="3" class="form-control note-editor note-editor-margin"></textarea>
                         </div>
                     </div>
                 </fieldset>
                 <fieldset>
                     <div  class="form-group">
-                        <label class="col-sm-3 control-label" style="padding-top: 8px;">听课时间：</label>
+                        <label  class="col-sm-3 control-label" style="padding-top: 8px;">听课时间：</label>
                         <div class="col-sm-9">
                             <p class="input-group">
                                 <input type="text" name="date" required="" uib-datepicker-popup="{{format}}" ng-model="date" is-open="opened" min-date="minDate" max-date="'2019-12-22'" uib-datepicker-options="dateOptions"
@@ -122,3 +75,18 @@
 
     </div>
 </div>
+<script type="text/ng-template" id="dialogWithNestedConfirmDialogId">
+    <div class="ngdialog-message">
+        <h4 class="mt0" style="text-align: center">我的常用语</h4>
+        <fieldset>
+            <div class="form-group has-error mychat" style="text-align: center">
+                <div class="col-sm-12">
+                    <div  style="height: 50px;" class="form-control"></div>
+                </div>
+            </div>
+        </fieldset>
+        <p style="text-align: center;">
+        <button type="button" ng-click="closeThisDialog('Cancel')" class="btn btn-default mr">取消</button>
+        <button type="button" ng-click="confirm('Save')" class="btn btn-primary">保存</button></div>
+       </p>
+</script>
