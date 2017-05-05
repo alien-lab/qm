@@ -15,6 +15,10 @@ import com.alienlab.niit.qm.service.BaseStudentService;
 import com.alienlab.niit.qm.service.BaseTermStudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.jeecgframework.poi.excel.ExcelExportUtil;
+import org.jeecgframework.poi.excel.entity.ExportParams;
+import org.jeecgframework.poi.excel.export.styler.ExcelExportStylerBorderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +28,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.DocFlavor;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import static java.io.FileDescriptor.out;
 
 /**
  * Created by Administrator on 2017/4/9.
@@ -226,6 +238,34 @@ public class BaseStudentController{
             ExecResult er = new ExecResult(false, "未获取该关键字下的学生信息");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
+    }
+
+
+    @ApiOperation(value = "Excel导出学生")
+    @PostMapping(value = "/student/ExcelexportStudent")
+    public ResponseEntity excelexportStudent(@RequestParam String className, @RequestParam String termNo,HttpServletResponse response) throws Exception {
+            List<StudentDto> studentDtos = baseStudentService.exportStudentExcel(className, termNo);
+
+            ExportParams params = new ExportParams("学生列表", "学生信息");
+            params.setStyle(ExcelExportStylerBorderImpl.class);
+            Workbook workbook = ExcelExportUtil.exportExcel(params, BaseStudentEntity.class, studentDtos);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            String filename = "export_" + dateFormat.format(new Date()) + ".xls";
+            response.setHeader("Content-disposition", "attachment; filename=" + filename + "");
+
+            ServletOutputStream out1 = response.getOutputStream();
+            //FileOutputStream fos = new FileOutputStream("D:/excel/学生列表.xls");
+            workbook.write(out1);
+            //fos.close();
+
+            if (workbook != null) {
+                return ResponseEntity.ok().body(workbook);
+            } else {
+                ExecResult er = new ExecResult(false, "未成功导出");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+
     }
 
 }

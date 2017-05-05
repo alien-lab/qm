@@ -2,9 +2,11 @@ package com.alienlab.niit.qm.service;
 
 import com.alienlab.niit.qm.entity.BaseStudentEntity;
 import com.alienlab.niit.qm.entity.dto.StudentDto;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -35,5 +37,7 @@ public interface BaseStudentService {
 
     //通过课程TaskNo查找学生信息，返回Page
     Page<BaseStudentEntity>getStudentByTaskNoAndKeyword(String keyword,long taskNo, Pageable page);
+
+    public List<StudentDto> exportStudentExcel(String className,String termNo) throws Exception;
 
 }

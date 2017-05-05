@@ -16,4 +16,6 @@ public interface BaseTermStudentRepository extends JpaRepository<BaseTermStudent
 
     //@Query("select BaseTermStudentEntity from BaseTermStudentEntity a where a.stuNo=?1 and a.termNo=?2")
     public BaseTermStudentEntity findByStuNoAndTermNo(String stuNo,String termNo);
+
+    public List<BaseTermStudentEntity> findByClassNoAndTermNo(String classNo,String termNo);
 }

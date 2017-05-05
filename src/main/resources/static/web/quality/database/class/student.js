@@ -24,7 +24,8 @@
             'getStudentDtoByStuNo':{method:"GET",url:"../qm-api/student/getstudentDtoBystuNo"},
             'getStudentTermByStuNo':{method:"POST",url:"../qm-api/term/studentTermBystuNo",isArray:true},
             'getAllClass':{method:"GET",url:"../qm-api/classes/findAllclassName",isArray:true},
-            'updateStudent':{method:"POST",url:"../qm-api/student/updateStudent"}
+            'updateStudent':{method:"POST",url:"../qm-api/student/updateStudent"},
+            'exportStudent':{method:"POST",url:"../qm-api/student/ExcelexportStudent"}
         });
         return service;
     }]);
@@ -148,12 +149,39 @@
 
         studentService.findStudentByClassName($stateParams.classNamee,index,length,renderData);
 
-
+        $scope.termNo=false;
         $scope.termNoChanged = termNoChanged;
         function termNoChanged(termNo) {
             $scope.termNo = termNo;
-            //console.log($scope.termNo);
+            console.log($scope.termNo);
             studentService.findStudentByClassNameAndtermNo($stateParams.classNamee,$scope.termNo,index,length,renderData);
+        }
+
+        //导出
+        $scope.excelexportstudent = excelexportstudent;
+        function excelexportstudent() {
+            if ($scope.termNo!=false){
+                studentResource.exportStudent({
+                    className:$stateParams.classNamee,
+                    termNo:$scope.termNo
+                },function(result){
+                    console.log("导出成功")
+                },function(result){
+                    console.log("导出失败");
+                });
+
+            }else {
+                /*var modalInstance = $uibModal.open({
+                    url: '/database/class',
+                    title: 'ngDialog',
+                    templateUrl: helper.basepath('quality/database/class/student.html'),
+                    resolve: angular.extend(helper.resolveFor('ngDialog'),{
+                        tpl: function() { return { path: helper.basepath('quality/database/class/student-template.html') }; }
+                    }),
+                    controller: 'DialogIntroCtrl'
+                });*/
+                console.log("ssssssssssssssssss")
+            }
         }
 
        //根据姓名查新学生
@@ -304,4 +332,18 @@
 
     }]);
 
+    //未输入学年学期controller
+    /*product_module.controller("DialogIntroCtrl",["$scope","ngDialog","tpl",function($scope,ngDialog,tpl){
+        activate();
+        function activate() {
+            // share with other controllers
+            $scope.tpl = tpl;
+            // open dialog window
+            ngDialog.open({
+                template: tpl.path,
+                // plain: true,
+                className: 'ngdialog-theme-default'
+            });
+        }
+    }]);*/
 })();

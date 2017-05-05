@@ -2,12 +2,14 @@ package com.alienlab.niit.qm.service.impl;
 
 import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.StudentDto;
-import com.alienlab.niit.qm.repository.BaseClassLogicRepository;
-import com.alienlab.niit.qm.repository.BaseClassesRepository;
-import com.alienlab.niit.qm.repository.BaseStudentRepository;
-import com.alienlab.niit.qm.repository.BaseTermStudentRepository;
+import com.alienlab.niit.qm.repository.*;
 import com.alienlab.niit.qm.service.BaseStudentService;
 import com.alienlab.niit.qm.service.BaseTermService;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.jeecgframework.poi.excel.ExcelExportUtil;
+import org.jeecgframework.poi.excel.annotation.Excel;
+import org.jeecgframework.poi.excel.entity.ExportParams;
+import org.jeecgframework.poi.excel.export.styler.ExcelExportStylerBorderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +36,10 @@ public class BaseStudentServiceImpl implements BaseStudentService {
     BaseClassesRepository baseClassesRepository;
     @Autowired
     BaseTermService baseTermService;
+    @Autowired
+    BaseTermRepository baseTermRepository;
+    @Autowired
+    BaseMajorRepository baseMajorRepository;
 
     @Override
     public List<BaseStudentEntity> getAllStudent() {
@@ -127,5 +134,42 @@ public class BaseStudentServiceImpl implements BaseStudentService {
     public Page<BaseStudentEntity> getStudentByTaskNoAndKeyword(String keyword, long taskNo, Pageable page) {
        return  baseStudentRepository.findBygxhStudentKeyword(keyword,taskNo,page);
 
+    }
+
+    @Override
+    public List<StudentDto> exportStudentExcel(String className,String termNo) throws Exception{
+        BaseClassesEntity baseClasses = baseClassesRepository.findByClassName(className);
+        List<BaseTermStudentEntity> baseTermStudentEntities = baseTermStudentRepository.findByClassNoAndTermNo(baseClasses.getClassNo(),termNo);
+        List<StudentDto> studentDtos = new ArrayList<>();
+        for (int n = 0;n<baseTermStudentEntities.size();n++){
+            BaseStudentEntity baseStudentEntity = baseStudentRepository.findByStuNo(baseTermStudentEntities.get(n).getStuNo());
+            StudentDto studentDto = new StudentDto();
+            studentDto.setStuNo(baseTermStudentEntities.get(n).getStuNo());
+            studentDto.setStuName(baseStudentEntity.getStuName());
+            studentDto.setStuPhone(baseStudentEntity.getStuPhone());
+            studentDto.setStuBirthday(baseStudentEntity.getStuBirthday());
+            studentDto.setStuYear(baseStudentEntity.getStuYear());
+            studentDto.setStuStatus(baseStudentEntity.getStuStatus());
+            //学生班级名称
+            studentDto.setClassName(className);
+
+            //学生学年名称
+            BaseTermEntity baseTermEntity = baseTermRepository.findByTermNo(baseTermStudentEntities.get(n).getTermNo());
+            studentDto.setTermName(baseTermEntity.getTermName());
+
+            //学生专业名称
+            BaseMajorEntity baseMajorEntity = baseMajorRepository.findByMajorNo(baseTermStudentEntities.get(n).getMajorNo());
+            studentDto.setMajorName(baseMajorEntity.getMajorName());
+
+            studentDtos.add(studentDto);
+        }
+
+        /*ExportParams params = new ExportParams("学生列表","学生信息");
+        params.setStyle(ExcelExportStylerBorderImpl.class);
+        Workbook workbook = ExcelExportUtil.exportExcel(params,StudentDto.class,studentDtos);
+        FileOutputStream fos = new FileOutputStream("D:/excel/学生列表.xls");
+        workbook.write(fos);
+        fos.close();*/
+        return studentDtos;
     }
 }

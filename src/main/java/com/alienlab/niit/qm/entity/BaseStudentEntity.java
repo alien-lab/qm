@@ -2,6 +2,7 @@ package com.alienlab.niit.qm.entity;
 
 
 import io.swagger.annotations.ApiModelProperty;
+import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**
  * Created by Master QB on 2017/3/14.
@@ -9,6 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 @javax.persistence.Entity
 @javax.persistence.Table(name = "base_student", schema = "qualitymonitor", catalog = "")
 public class BaseStudentEntity {
+    @Excel(name="学号")
     @ApiModelProperty(value="学号")
     private String stuNo;
 
@@ -22,6 +24,7 @@ public class BaseStudentEntity {
         this.stuNo = stuNo;
     }
 
+    @Excel(name="姓名")
     @ApiModelProperty(value="姓名")
     private String stuName;
 
@@ -35,6 +38,7 @@ public class BaseStudentEntity {
         this.stuName = stuName;
     }
 
+    @Excel(name="生日")
     @ApiModelProperty(value="生日(20150717)")
     private String stuBirthday;
 
@@ -48,6 +52,7 @@ public class BaseStudentEntity {
         this.stuBirthday = stuBirthday;
     }
 
+    @Excel(name="手机号码")
     @ApiModelProperty(value="手机号码")
     private String stuPhone;
 
@@ -74,6 +79,7 @@ public class BaseStudentEntity {
         this.stuMajorInit = stuMajorInit;
     }
 
+    @Excel(name="入学年")
     @ApiModelProperty(value="入学年")
     private String stuYear;
 
@@ -87,6 +93,7 @@ public class BaseStudentEntity {
         this.stuYear = stuYear;
     }
 
+    @Excel(name="学生状态")
     @ApiModelProperty(value="学生状态")
     private String stuStatus;
 
