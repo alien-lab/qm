@@ -119,4 +119,20 @@ public class QmMasterController {
         }
 
     }
+
+
+    @ApiOperation(value="获得督学计划听课列表")
+    @GetMapping(value="/master/listenplan")
+    public ResponseEntity getMasterPlan(@RequestParam String masterNo,@RequestParam String termNo,@RequestParam String selectWeek){
+        try {
+            List<QmMasterListenPlanEntity> qmMasterListenPlanEntities = qmMasterService.getQmMasterListenPlan(termNo,masterNo,selectWeek);
+
+            return ResponseEntity.ok().body(qmMasterListenPlanEntities);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,e.getMessage());
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
 }

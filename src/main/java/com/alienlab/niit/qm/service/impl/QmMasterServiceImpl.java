@@ -3,10 +3,7 @@ package com.alienlab.niit.qm.service.impl;
 import com.alienlab.niit.qm.common.WeekdayUtils;
 import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
-import com.alienlab.niit.qm.repository.BaseTaskScheRepository;
-import com.alienlab.niit.qm.repository.BaseTeachTaskRepository;
-import com.alienlab.niit.qm.repository.BaseTeacherRepository;
-import com.alienlab.niit.qm.repository.QmMasterListenRepository;
+import com.alienlab.niit.qm.repository.*;
 import com.alienlab.niit.qm.service.QmMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,6 +31,8 @@ public class QmMasterServiceImpl implements QmMasterService {
     BaseTaskScheRepository baseTaskScheRepository;
     @Autowired
     QmMasterListenRepository qmMasterListenRepository;
+    @Autowired
+   QmMasterListenPlanRepository qmMasterListenPlanRepository;
 
     @Override
     public List<BaseTeacherEntity> findByMasterNoAndTerm(String masterNo, String termNo) {
@@ -129,4 +128,12 @@ public class QmMasterServiceImpl implements QmMasterService {
         }
         return qmMasterListenEntity;
     }
+
+    @Override
+    public List<QmMasterListenPlanEntity> getQmMasterListenPlan(String termNo, String masterNo, String selectWeek) {
+       List<QmMasterListenPlanEntity> qmMasterListenPlanEntities = qmMasterListenPlanRepository.findByTermNoAndMasterNoAndWeek(termNo,masterNo,selectWeek);
+        return qmMasterListenPlanEntities;
+    }
+
+
 }

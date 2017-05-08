@@ -21,7 +21,9 @@
             getCaredTeachers: { method: 'GET',isArray:true},
             getCaredTeacherCourse: { method: 'GET',isArray:true ,url:'../qm-api/master/caredteachercourse'},
             getRules: { method: 'GET',isArray:true ,url:'../qm-api/master/rule'},
-            getConfig: { method: 'GET',isArray:true ,url:'../qm-api/master/config'}
+            getConfig: { method: 'GET',isArray:true ,url:'../qm-api/master/config'},
+            getSches: { method: 'GET',isArray:true,url:'../qm-api/master/listenplan'},
+
 
         });
         return service;
@@ -72,16 +74,29 @@
         $scope.goback = function () {
             $state.go("qm.tealecture");
         }
-        $scope.openTimed = function () {
-            console.log($scope.scheWeek);
-            var dialog = ngDialog.open({
-                template: '<h4 style="text-align: center">对不起，您在第 '+$scope.scheWeek+' 周的没有听课计划</h4>',
-                plain: true,
-                closeByDocument: false,
-                closeByEscape: false,
-                controller:'lecturesformController'
-            });
 
+        $scope.openTimed = function () {
+            //获得当前督学的计划听课记录
+                qmMsterResource.getSches({
+                    masterNo:$cookieStore.get('user').account,
+                    termNo:$cookieStore.get('currentTerm').termNo,
+                    selectWeek:$scope.scheWeek
+                },function(result){
+                    console.log(result);
+                    if (result.length==0||result==null){
+                        var dialog = ngDialog.open({
+                            template: '<h4 style="text-align: center">对不起，您在第 '+$scope.scheWeek+' 周的没有听课计划</h4>',
+                            plain: true,
+                            closeByDocument: false,
+                            closeByEscape: false,
+                            controller:'lecturesformController'
+                        });
+                    }else {
+                        $scope.tkjhPlan = result;
+                    }
+                },function(result){
+                    console.log("督学计划听课列表获取失败",result);
+                });
         };
 
         //

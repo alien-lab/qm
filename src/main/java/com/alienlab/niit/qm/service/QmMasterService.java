@@ -1,9 +1,6 @@
 package com.alienlab.niit.qm.service;
 
-import com.alienlab.niit.qm.entity.BaseTeacherEntity;
-import com.alienlab.niit.qm.entity.QmMasterConfigEntity;
-import com.alienlab.niit.qm.entity.QmMasterListenEntity;
-import com.alienlab.niit.qm.entity.QmRuleEntity;
+import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
 
 
@@ -27,4 +24,8 @@ public interface QmMasterService {
 
     //保存督学教学质量评价表的评价内容
     public QmMasterListenEntity saveQmMasterListen(QmMasterListenEntity qmMasterListenEntity);
+
+    //获取督学的听课计划
+    public List<QmMasterListenPlanEntity> getQmMasterListenPlan(String termNo,String masterNo,String selectWeek);
+
 }
