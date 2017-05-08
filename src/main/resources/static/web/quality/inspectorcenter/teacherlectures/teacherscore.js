@@ -4,6 +4,7 @@
 (function(){
     'use strict';
     var teacherscore_module=angular.module("qm.teacherscore",['ui.router','ui.bootstrap-slider']);//ui.router模块作为主应用模块的依赖模块
+    teacherscore_module.factory("teacherscoreinstance",function() {return{}});
     teacherscore_module.config(["$stateProvider",function($stateProvider){//配置$stateProvider，用来定义路由规则
         $stateProvider.state('qm.teacherscore', {
             url: '/teacherscore',
@@ -28,7 +29,7 @@
         }
     }]);
 
-    teacherscore_module.controller("teacherscoreController",["$scope","$uibModalInstance","loadRuleService","ruleinstance","ngDialog",function($scope,$uibModalInstance,loadRuleService,ruleinstance,ngDialog){
+    teacherscore_module.controller("teacherscoreController",["$scope","$rootScope","$uibModalInstance","loadRuleService","ruleinstance","ngDialog","teacherscoreinstance",function($scope,$rootScope,$uibModalInstance,loadRuleService,ruleinstance,ngDialog,teacherscoreinstance){
 
         //各项初始值
         $scope.slidervalue=10;
@@ -37,6 +38,22 @@
         $scope.courseName = ruleinstance.courseName;
         //教师姓名
         $scope.teacherName = ruleinstance.teacherName;
+
+        $rootScope.$on("tkpj",function (event, msg) {
+            $scope.skpj = msg;
+       });
+
+        $rootScope.$on("jxjy",function (event, msg) {
+            $scope.jxjy = msg;
+        });
+
+
+     /*   console.log("获取课堂评价");
+        console.log(teacherscoreinstance.getKtpj());
+        console.log("获取教学建议");
+        console.log(teacherscoreinstance.getJxjy());
+
+        $scope.jxjy = teacherscoreinstance.getJxjy();*/
 
         $scope.PER10=10;
         $scope.PER11=10;
@@ -207,7 +224,7 @@
         }
 
         $scope.showngdialog = function (index) {
-           if (index==1){
+            teacherscoreinstance.typeString = index;
                ngDialog.openConfirm({
                    template: 'dialogWithNestedConfirmDialogId',
                    className: 'ngdialog-theme-default custom-width-70 ',
@@ -218,34 +235,70 @@
                        console.log('保存成功' + value);
                        // Perform the save here
                    }, function(value){
-                       console.log('rejected:' + value);
 
-                   });
-           }else {
-               ngDialog.openConfirm({
-                   template: 'dialogWithNestedConfirmDialogId',
-                   className: 'ngdialog-theme-default custom-width-70',
-                   scope: $scope,
-                   controller:'ngdialogController'
-               })
-                   .then(function(value){
-                       console.log('保存成功' + value);
-                       // Perform the save here
-                   }, function(value){
-                       console.log('rejected:' + value);
                    });
            }
+    }]);
+
+    teacherscore_module.service("configService",["qmMsterResource","$cookieStore",function(qmMsterResource,$cookieStore){
+        this.getMasterConfigs=function(typeString,callback){
+            //获得当前督学的常用语
+            qmMsterResource.getConfig({
+                masterNo:$cookieStore.get('user').account,
+                configType:typeString
+            },function(result){
+                if(callback){
+                    callback(result);
+                }
+            },function(result){
+                console.log("督学常用语列表获取失败",result);
+            });
+        }
+    }]);
+
+
+    teacherscore_module.controller("ngdialogController",["$scope","$rootScope","configService","teacherscoreinstance",function($scope,$rootScope,configService,teacherscoreinstance){
+
+        //定义一个数组，用于教师常用语信息
+        $scope.masterconfigsArrays=[];
+        function  configStory(id,type,content) //创建对象function
+        {
+            this.id = id;
+            this.type= type;
+            this.content= content;
+            this.checked = false;
         }
 
+       if (teacherscoreinstance.typeString==1){
+            configService.getMasterConfigs("听课评价",renderData);
+        }else {
+            configService.getMasterConfigs("教学建议",renderData);
+        }
 
+        function renderData(data){
+            for ( var i=0;i<data.length;i++){
+                var oneconfig= new configStory(data[i].configNo,data[i].configType,data[i].content);//声明对象
+                $scope.masterconfigsArrays = [];
+                $scope.masterconfigsArrays.push(oneconfig);
+                console.log( $scope.masterconfigsArrays);
+            }
+        }
+
+        $scope.addconfig = function () {
+            for(var i=0;i< $scope.masterconfigsArrays.length;i++){
+                if ($scope.masterconfigsArrays[i].checked==true){
+                    if ($scope.masterconfigsArrays[i].type=="听课评价"){
+                        $rootScope.$broadcast("tkpj",$scope.masterconfigsArrays[i].content);
+                    }else {
+                        $rootScope.$broadcast("jxjy",$scope.masterconfigsArrays[i].content);
+                    }
+                }
+
+            }
+
+        }
 
     }]);
 
-    teacherscore_module.controller("ngdialogController",["$scope",function($scope){
-        $scope.wechat ="4546546";
 
-
-    }]);
-
-
-    })();
+})();

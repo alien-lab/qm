@@ -1,10 +1,7 @@
 package com.alienlab.niit.qm.controller;
 
 import com.alienlab.niit.qm.controller.util.ExecResult;
-import com.alienlab.niit.qm.entity.BaseTeacherEntity;
-import com.alienlab.niit.qm.entity.QmMasterMarkEntity;
-import com.alienlab.niit.qm.entity.QmRuleEntity;
-import com.alienlab.niit.qm.entity.TbUserEntity;
+import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
 import com.alienlab.niit.qm.service.QmMasterService;
 import io.swagger.annotations.Api;
@@ -70,6 +67,21 @@ public class QmMasterController {
         try {
             List<QmRuleEntity> qmRuleEntities = qmMasterService.getQmRules(rule_version_flag,rule_table);
             return ResponseEntity.ok().body(qmRuleEntities);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,e.getMessage());
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+
+    @ApiOperation(value="获得督学常用语")
+    @GetMapping(value="/master/config")
+    public ResponseEntity getMasterConfig(@RequestParam String masterNo,@RequestParam String configType){
+        try {
+            List<QmMasterConfigEntity> qmMasterConfigEntities = qmMasterService.getConfigsByMasterNoAndType(masterNo,configType);
+            return ResponseEntity.ok().body(qmMasterConfigEntities);
         } catch (Exception e) {
             e.printStackTrace();
             ExecResult er=new ExecResult(false,e.getMessage());

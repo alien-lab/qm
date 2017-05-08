@@ -21,6 +21,7 @@
             getCaredTeachers: { method: 'GET',isArray:true},
             getCaredTeacherCourse: { method: 'GET',isArray:true ,url:'../qm-api/master/caredteachercourse'},
             getRules: { method: 'GET',isArray:true ,url:'../qm-api/master/rule'},
+            getConfig: { method: 'GET',isArray:true ,url:'../qm-api/master/config'}
 
         });
         return service;

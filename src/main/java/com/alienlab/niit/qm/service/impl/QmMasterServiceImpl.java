@@ -1,10 +1,7 @@
 package com.alienlab.niit.qm.service.impl;
 
 import com.alienlab.niit.qm.common.WeekdayUtils;
-import com.alienlab.niit.qm.entity.BaseTaskScheEntity;
-import com.alienlab.niit.qm.entity.BaseTeachTaskEntity;
-import com.alienlab.niit.qm.entity.BaseTeacherEntity;
-import com.alienlab.niit.qm.entity.QmRuleEntity;
+import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
 import com.alienlab.niit.qm.repository.BaseTaskScheRepository;
 import com.alienlab.niit.qm.repository.BaseTeachTaskRepository;
@@ -15,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -99,5 +97,25 @@ public class QmMasterServiceImpl implements QmMasterService {
             qmRuleEntities.add(qmRuleEntity);
         }
         return qmRuleEntities;
+    }
+
+    @Override
+    public List<QmMasterConfigEntity> getConfigsByMasterNoAndType(String masterNo, String configtype) {
+        List<QmMasterConfigEntity> qmMasterConfigEntities = new ArrayList<>();
+        String sql = "SELECT * FROM qm_master_config a WHERE a.`master_no`='"+masterNo+"' AND a.`config_type`='"+configtype+"'";
+        List <Map<String,Object>> totallist = jdbcTemplate.queryForList(sql);
+        if (totallist.size()!=0){
+            for (int i=0;i<totallist.size();i++){
+                QmMasterConfigEntity qmMasterConfigEntity = new QmMasterConfigEntity();
+                qmMasterConfigEntity.setConfigNo((Long) totallist.get(i).get("config_no"));
+                qmMasterConfigEntity.setMasterNo((String) totallist.get(i).get("master_no"));
+                qmMasterConfigEntity.setContent((String) totallist.get(i).get("content"));
+                qmMasterConfigEntity.setConfigTime((Timestamp) totallist.get(i).get("config_time"));
+                qmMasterConfigEntity.setConfigType((String) totallist.get(i).get("config_type"));
+                qmMasterConfigEntities.add(qmMasterConfigEntity);
+            }
+
+        }
+        return qmMasterConfigEntities;
     }
 }

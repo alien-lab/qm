@@ -79,14 +79,12 @@
     <div class="ngdialog-message">
         <h4 class="mt0" style="text-align: center">我的常用语</h4>
         <fieldset>
-            <div class="form-group has-error mychat" style="text-align: center">
-                <div class="col-sm-12">
-                    <div  style="height: 50px;" class="form-control"></div>
+                <div ng-class="{'true':'has-error'}[config.checked]" ng-click="config.checked=!config.checked" class="col-sm-12" style="text-align: center" ng-repeat=" config in masterconfigsArrays">
+                    <div   style="height: 50px;"  class="form-control">{{config.content}}</div>
                 </div>
-            </div>
         </fieldset>
         <p style="text-align: center;">
         <button type="button" ng-click="closeThisDialog('Cancel')" class="btn btn-default mr">取消</button>
-        <button type="button" ng-click="confirm('Save')" class="btn btn-primary">保存</button></div>
+        <button type="button" ng-click="confirm('Save');addconfig()" class="btn btn-primary">保存</button></div>
        </p>
 </script>
