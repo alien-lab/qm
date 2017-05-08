@@ -11,11 +11,9 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -90,4 +88,35 @@ public class QmMasterController {
         }
     }
 
+
+    @ApiOperation(value="督学TK_JS评价")
+    @PostMapping(value="/masterlisten")
+    public ResponseEntity insertMasterListen(@RequestParam String ruleflag,@RequestParam String masterNo,@RequestParam long taskNo,@RequestParam int per11,@RequestParam int per12
+            ,@RequestParam int per13,@RequestParam int per14,@RequestParam int per15,@RequestParam int per16,@RequestParam int total
+            ,@RequestParam String jxjy,@RequestParam String tkpj,@RequestParam String listetime){
+        QmMasterListenEntity qmMasterListenEntity = new QmMasterListenEntity();
+        qmMasterListenEntity.setRuleFlag(ruleflag);
+        qmMasterListenEntity.setTeacherNo(masterNo);
+        qmMasterListenEntity.setTaskNo(taskNo);
+        qmMasterListenEntity.setPer11(per11);
+        qmMasterListenEntity.setPer12(per12);
+        qmMasterListenEntity.setPer13(per13);
+        qmMasterListenEntity.setPer14(per14);
+        qmMasterListenEntity.setPer15(per15);
+        qmMasterListenEntity.setPer16(per16);
+        qmMasterListenEntity.setTotal(total);
+        qmMasterListenEntity.setJxjy(jxjy);
+        qmMasterListenEntity.setSkpj(tkpj);
+        qmMasterListenEntity.setListenTime(Timestamp.valueOf(listetime));
+        qmMasterListenEntity.setInputTime(new Timestamp(System.currentTimeMillis()));
+        QmMasterListenEntity qmMasterListenEntity1 = qmMasterService.saveQmMasterListen(qmMasterListenEntity);
+        if (qmMasterListenEntity1!=null){
+            ExecResult right=  new ExecResult(true,"评价保存成功！");
+            return ResponseEntity.ok().body(right);
+        }else {
+            ExecResult er=  new ExecResult(false,"评价保存保存失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
 }

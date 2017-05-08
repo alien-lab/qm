@@ -2,6 +2,7 @@ package com.alienlab.niit.qm.service;
 
 import com.alienlab.niit.qm.entity.BaseTeacherEntity;
 import com.alienlab.niit.qm.entity.QmMasterConfigEntity;
+import com.alienlab.niit.qm.entity.QmMasterListenEntity;
 import com.alienlab.niit.qm.entity.QmRuleEntity;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
 
@@ -23,4 +24,7 @@ public interface QmMasterService {
 
     //获得该督学的常用语
     List<QmMasterConfigEntity> getConfigsByMasterNoAndType(String masterNo , String configtype );
+
+    //保存督学教学质量评价表的评价内容
+    public QmMasterListenEntity saveQmMasterListen(QmMasterListenEntity qmMasterListenEntity);
 }

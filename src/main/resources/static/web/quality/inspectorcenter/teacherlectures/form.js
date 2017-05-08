@@ -85,10 +85,11 @@
         };
 
         //
-        $scope.teaScore =function (courseName,teacherName) {
+        $scope.teaScore =function (taskNo,courseName,teacherName) {
             ruleinstance.ruletype = 1;
             ruleinstance.courseName = courseName;
             ruleinstance.teacherName = teacherName;
+            ruleinstance.taskNo = taskNo;
                 var teaScoreinfo = $uibModal.open({
                     animation: true,
                     templateUrl: "quality/inspectorcenter/teacherlectures/teacherscore.html",

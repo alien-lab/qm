@@ -1,4 +1,5 @@
 package com.alienlab.niit.qm.entity;
+import javax.persistence.GeneratedValue;
 import java.sql.Timestamp;
 /**
  * Created by Master QB on 2017/3/14.
@@ -8,6 +9,7 @@ import java.sql.Timestamp;
 public class QmMasterListenEntity {
     private long listenNo;
 
+    @GeneratedValue
     @javax.persistence.Id
     @javax.persistence.Column(name = "listen_no")
     public long getListenNo() {

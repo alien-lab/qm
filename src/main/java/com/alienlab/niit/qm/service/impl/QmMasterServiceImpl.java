@@ -6,6 +6,7 @@ import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
 import com.alienlab.niit.qm.repository.BaseTaskScheRepository;
 import com.alienlab.niit.qm.repository.BaseTeachTaskRepository;
 import com.alienlab.niit.qm.repository.BaseTeacherRepository;
+import com.alienlab.niit.qm.repository.QmMasterListenRepository;
 import com.alienlab.niit.qm.service.QmMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -31,6 +32,8 @@ public class QmMasterServiceImpl implements QmMasterService {
     BaseTeacherRepository baseTeacherRepository;
     @Autowired
     BaseTaskScheRepository baseTaskScheRepository;
+    @Autowired
+    QmMasterListenRepository qmMasterListenRepository;
 
     @Override
     public List<BaseTeacherEntity> findByMasterNoAndTerm(String masterNo, String termNo) {
@@ -117,5 +120,13 @@ public class QmMasterServiceImpl implements QmMasterService {
 
         }
         return qmMasterConfigEntities;
+    }
+
+    @Override
+    public QmMasterListenEntity saveQmMasterListen(QmMasterListenEntity qmMasterListenEntity) {
+        if (qmMasterListenEntity!=null){
+            QmMasterListenEntity qmMasterListenEntity1 = qmMasterListenRepository.save(qmMasterListenEntity);
+        }
+        return qmMasterListenEntity;
     }
 }
