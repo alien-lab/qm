@@ -3,7 +3,9 @@ package com.alienlab.niit.qm.service.impl;
 import com.alienlab.niit.qm.common.WeekdayUtils;
 import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
+import com.alienlab.niit.qm.entity.dto.MasterPlanDto;
 import com.alienlab.niit.qm.repository.*;
+import com.alienlab.niit.qm.service.BaseTermService;
 import com.alienlab.niit.qm.service.QmMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,6 +35,13 @@ public class QmMasterServiceImpl implements QmMasterService {
     QmMasterListenRepository qmMasterListenRepository;
     @Autowired
    QmMasterListenPlanRepository qmMasterListenPlanRepository;
+    @Autowired
+    BaseClassesRepository baseClassesRepository;
+    @Autowired
+    BaseClassLogicRepository baseClassLogicRepository;
+    @Autowired
+    BaseTermService baseTermService;
+
 
     @Override
     public List<BaseTeacherEntity> findByMasterNoAndTerm(String masterNo, String termNo) {
@@ -130,10 +139,98 @@ public class QmMasterServiceImpl implements QmMasterService {
     }
 
     @Override
-    public List<QmMasterListenPlanEntity> getQmMasterListenPlan(String termNo, String masterNo, String selectWeek) {
+    public List<MasterPlanDto> getQmMasterListenPlan(String termNo, String masterNo, String selectWeek) {
+        List<MasterPlanDto> masterPlanDtos = new ArrayList<>();
        List<QmMasterListenPlanEntity> qmMasterListenPlanEntities = qmMasterListenPlanRepository.findByTermNoAndMasterNoAndWeek(termNo,masterNo,selectWeek);
-        return qmMasterListenPlanEntities;
+      if (qmMasterListenPlanEntities.size()!=0){
+          for (int i=0;i<qmMasterListenPlanEntities.size();i++){
+              MasterPlanDto masterPlanDto = new MasterPlanDto();
+              masterPlanDto.setPlanNo(qmMasterListenPlanEntities.get(i).getPlanNo());
+              masterPlanDto.setTermNo(qmMasterListenPlanEntities.get(i).getTermNo());
+              masterPlanDto.setTeacherNo(qmMasterListenPlanEntities.get(i).getTeacherNo());
+              masterPlanDto.setTaskNo(qmMasterListenPlanEntities.get(i).getTaskNo());
+              masterPlanDto.setPlanTime(qmMasterListenPlanEntities.get(i).getPlanTime());
+              masterPlanDto.setPlanWeek(qmMasterListenPlanEntities.get(i).getPlanWeek());
+              masterPlanDto.setSetTime(qmMasterListenPlanEntities.get(i).getSetTime());
+              masterPlanDto.setCourseName(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getCourseName());
+              masterPlanDto.setTeacherName(baseTeacherRepository.findByTeacherNo(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getTeacherNo()).getTeacherName());
+              BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getClassNo());
+              if (baseClassesEntity!=null){
+                  masterPlanDto.setClassName(baseClassesEntity.getClassName());
+              }else {
+                  try {
+                      masterPlanDto.setClassName("逻辑班级"+baseClassLogicRepository.findByTaskNo(qmMasterListenPlanEntities.get(i).getTaskNo()).get(0).getLogicName());
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+              }
+              masterPlanDtos.add(masterPlanDto);
+          }
+          return masterPlanDtos;
+
+      }else {
+          return masterPlanDtos;
+      }
+
     }
 
+    @Override
+    public List<MasterPlanDto> getAllQmMasterListenPlan(String termNo, String masterNo) {
+        List<MasterPlanDto> masterPlanDtos = new ArrayList<>();
+        List<QmMasterListenPlanEntity> qmMasterListenPlanEntities = qmMasterListenPlanRepository.findByTermNoAndMasterNo(termNo,masterNo);
+        if (qmMasterListenPlanEntities.size()!=0){
+            for (int i=0;i<qmMasterListenPlanEntities.size();i++){
+                MasterPlanDto masterPlanDto = new MasterPlanDto();
+                masterPlanDto.setPlanNo(qmMasterListenPlanEntities.get(i).getPlanNo());
+                masterPlanDto.setTermNo(qmMasterListenPlanEntities.get(i).getTermNo());
+                masterPlanDto.setTeacherNo(qmMasterListenPlanEntities.get(i).getTeacherNo());
+                masterPlanDto.setTaskNo(qmMasterListenPlanEntities.get(i).getTaskNo());
+                masterPlanDto.setPlanTime(qmMasterListenPlanEntities.get(i).getPlanTime());
+                masterPlanDto.setPlanWeek(qmMasterListenPlanEntities.get(i).getPlanWeek());
+                masterPlanDto.setSetTime(qmMasterListenPlanEntities.get(i).getSetTime());
+                masterPlanDto.setCourseName(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getCourseName());
+                masterPlanDto.setTeacherName(baseTeacherRepository.findByTeacherNo(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getTeacherNo()).getTeacherName());
+                BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getClassNo());
+                if (baseClassesEntity!=null){
+                    masterPlanDto.setClassName(baseClassesEntity.getClassName());
+                }else {
+                    try {
+                        masterPlanDto.setClassName("逻辑班级"+baseClassLogicRepository.findByTaskNo(qmMasterListenPlanEntities.get(i).getTaskNo()).get(0).getLogicName());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                masterPlanDtos.add(masterPlanDto);
+            }
+            return masterPlanDtos;
+
+        }else {
+            return masterPlanDtos;
+        }
+    }
+
+    @Override
+    public boolean updateListenPlan(long planNo, String listentime) {
+        boolean flag =false;
+        QmMasterListenPlanEntity qmMasterListenPlanEntity =qmMasterListenPlanRepository.getOne(planNo);
+        qmMasterListenPlanEntity.setPlanTime(java.sql.Date.valueOf(listentime));
+        qmMasterListenPlanEntity.setPlanWeek(Long.toString(baseTermService.getSelectWeek(listentime)));
+        QmMasterListenPlanEntity qmMasterListenPlanEntity1 = qmMasterListenPlanRepository.save(qmMasterListenPlanEntity);
+      if (qmMasterListenPlanEntity1!=null){
+          flag = true;
+      }
+        return flag;
+    }
+
+    @Override
+    public boolean deleteListenPlan(long planNo) {
+        try {
+            qmMasterListenPlanRepository.delete(planNo);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

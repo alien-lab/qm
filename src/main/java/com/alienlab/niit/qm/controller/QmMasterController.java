@@ -3,6 +3,7 @@ package com.alienlab.niit.qm.controller;
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
+import com.alienlab.niit.qm.entity.dto.MasterPlanDto;
 import com.alienlab.niit.qm.service.QmMasterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -121,13 +122,12 @@ public class QmMasterController {
     }
 
 
-    @ApiOperation(value="获得督学计划听课列表")
+    @ApiOperation(value="按周次获得督学计划听课列表")
     @GetMapping(value="/master/listenplan")
     public ResponseEntity getMasterPlan(@RequestParam String masterNo,@RequestParam String termNo,@RequestParam String selectWeek){
         try {
-            List<QmMasterListenPlanEntity> qmMasterListenPlanEntities = qmMasterService.getQmMasterListenPlan(termNo,masterNo,selectWeek);
-
-            return ResponseEntity.ok().body(qmMasterListenPlanEntities);
+            List<MasterPlanDto> masterPlanDtos = qmMasterService.getQmMasterListenPlan(termNo,masterNo,selectWeek);
+            return ResponseEntity.ok().body(masterPlanDtos);
         } catch (Exception e) {
             e.printStackTrace();
             ExecResult er=new ExecResult(false,e.getMessage());
@@ -135,4 +135,58 @@ public class QmMasterController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
+    @ApiOperation(value="获得所有督学计划听课列表")
+    @GetMapping(value="/master/listenplans")
+    public ResponseEntity getAllMasterPlan(@RequestParam String masterNo,@RequestParam String termNo){
+        try {
+            List<MasterPlanDto> masterPlanDtos = qmMasterService.getAllQmMasterListenPlan(termNo,masterNo);
+            return ResponseEntity.ok().body(masterPlanDtos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,e.getMessage());
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value="修改督学计划听课列表")
+    @PostMapping(value="/master/updatelistenplan")
+    public ResponseEntity updateMasterPlan(@RequestParam long planNo,@RequestParam String listetime){
+        try {
+           boolean  flag = qmMasterService.updateListenPlan(planNo,listetime);
+            if (flag){
+                ExecResult right=  new ExecResult(true,"听课计划修改成功！");
+                return ResponseEntity.ok().body(right);
+            }else {
+                ExecResult er=  new ExecResult(false,"听课计划修改失败！请重试");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,e.getMessage());
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value="删除督学计划听课列表")
+    @PostMapping(value="/master/deletelistenplan")
+    public ResponseEntity deleteMasterPlan(@RequestParam long planNo){
+        try {
+            boolean  flag = qmMasterService.deleteListenPlan(planNo);
+            if (flag){
+                ExecResult right=  new ExecResult(true,"听课计划删除成功！");
+                return ResponseEntity.ok().body(right);
+            }else {
+                ExecResult er=  new ExecResult(false,"听课计划删除失败！请重试");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,e.getMessage());
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
 }

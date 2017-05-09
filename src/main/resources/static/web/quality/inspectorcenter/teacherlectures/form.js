@@ -23,6 +23,7 @@
             getRules: { method: 'GET',isArray:true ,url:'../qm-api/master/rule'},
             getConfig: { method: 'GET',isArray:true ,url:'../qm-api/master/config'},
             getSches: { method: 'GET',isArray:true,url:'../qm-api/master/listenplan'},
+            getAllSches: { method: 'GET',isArray:true,url:'../qm-api/master/listenplans'},
 
 
         });
@@ -64,7 +65,8 @@
 
         }
         $scope.scheWeek = $scope.lectureWeeks[0].weekid;
-
+        //获得初始日期下的听课计划
+         getSches();
         //添加听课计划
         $scope.addSche = function () {
             $state.go("qm.lecturesche");
@@ -74,29 +76,34 @@
         $scope.goback = function () {
             $state.go("qm.tealecture");
         }
+        //按照周次获得当前督学的计划听课记录
+        function getSches() {
+            qmMsterResource.getSches({
+                masterNo:$cookieStore.get('user').account,
+                termNo:$cookieStore.get('currentTerm').termNo,
+                selectWeek:$scope.scheWeek
+            },function(result){
+                console.log(result);
+                if (result.length==0||result==null){
+                    $scope.tkjhPlan=[];
+                    var dialog = ngDialog.open({
+                        template: '<h4 style="text-align: center">对不起，您在第 '+$scope.scheWeek+' 周的没有听课计划</h4>',
+                        plain: true,
+                        closeByDocument: false,
+                        closeByEscape: false,
+                        controller:'lecturesformController'
+                    });
+                }else {
+                    $scope.tkjhPlan = result;
+                }
+            },function(result){
+                console.log("督学计划听课列表获取失败",result);
+            });
+        }
 
         $scope.openTimed = function () {
-            //获得当前督学的计划听课记录
-                qmMsterResource.getSches({
-                    masterNo:$cookieStore.get('user').account,
-                    termNo:$cookieStore.get('currentTerm').termNo,
-                    selectWeek:$scope.scheWeek
-                },function(result){
-                    console.log(result);
-                    if (result.length==0||result==null){
-                        var dialog = ngDialog.open({
-                            template: '<h4 style="text-align: center">对不起，您在第 '+$scope.scheWeek+' 周的没有听课计划</h4>',
-                            plain: true,
-                            closeByDocument: false,
-                            closeByEscape: false,
-                            controller:'lecturesformController'
-                        });
-                    }else {
-                        $scope.tkjhPlan = result;
-                    }
-                },function(result){
-                    console.log("督学计划听课列表获取失败",result);
-                });
+                $scope.tkjhPlan=[];
+               getSches();
         };
 
         //

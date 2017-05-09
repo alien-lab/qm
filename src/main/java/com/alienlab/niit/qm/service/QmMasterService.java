@@ -2,6 +2,7 @@ package com.alienlab.niit.qm.service;
 
 import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
+import com.alienlab.niit.qm.entity.dto.MasterPlanDto;
 
 
 import java.util.List;
@@ -26,6 +27,15 @@ public interface QmMasterService {
     public QmMasterListenEntity saveQmMasterListen(QmMasterListenEntity qmMasterListenEntity);
 
     //获取督学的听课计划
-    public List<QmMasterListenPlanEntity> getQmMasterListenPlan(String termNo,String masterNo,String selectWeek);
+    public List<MasterPlanDto> getQmMasterListenPlan(String termNo, String masterNo, String selectWeek);
+
+    //查看督学的苏听课计划
+    public List<MasterPlanDto> getAllQmMasterListenPlan(String termNo, String masterNo);
+
+    //修改听课计划时间
+    public boolean updateListenPlan(long planNo,String listentime);
+
+    //删除听课计划
+    public boolean deleteListenPlan(long planNo);
 
 }

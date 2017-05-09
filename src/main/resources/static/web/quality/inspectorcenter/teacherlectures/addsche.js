@@ -13,7 +13,49 @@
         });
     }]);
 
-    addsche_module.controller("addscheController",["$scope","$uibModalInstance",function($scope,$uibModalInstance){
+    addsche_module.factory("schePlanResource",["$resource",function($resource){
+        var service = $resource('../qm-api/master', {}, {
+            updateSche:{method: 'POST',url:'../qm-api/master/updatelistenplan'},
+            deleteSchePlan:{method: 'POST',url:'../qm-api/master/deletelistenplan'}
+
+        });
+        return service;
+
+    }]);
+
+    addsche_module.controller("addscheController",["$scope","$uibModalInstance","lecturescheinstance","schePlanResource","SweetAlert","$rootScope",function($scope,$uibModalInstance,lecturescheinstance,schePlanResource,SweetAlert,$rootScope){
+        $scope.planNo = lecturescheinstance.planNo;
+        $scope.teacherName = lecturescheinstance.teacherName ;
+        $scope.courseName =lecturescheinstance.courseName;
+        $scope.className=lecturescheinstance.className;
+
+
+        function formatTen(num) {
+            return num > 9 ? (num + "") : ("0" + num);
+        }
+
+        //提交按钮
+        $scope.submitSche = function () {
+            schePlanResource.updateSche({
+                planNo:$scope.planNo,
+                listetime:$scope.date.getFullYear() + "-" + formatTen($scope.date.getMonth() + 1) + "-" + formatTen($scope.date.getDate())
+            },function(result){
+                SweetAlert.swal({
+                    title: '听课计划修改成功',
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: '好的',
+                    closeOnConfirm: true
+                },function () {
+                    $uibModalInstance.dismiss('cancel');
+                    $rootScope.$broadcast("reloadSche");
+                });
+            },function(result){
+                console.log("督学评价保存失败",result);
+            });
+        }
+
         //弹出层关闭按钮
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');

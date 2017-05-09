@@ -33,151 +33,24 @@
                         </div>
                     </div>
                     <div class="row" style="text-align: center;margin-top: 20px">
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
+                        <div class="col-md-4" ng-repeat="plan in tkjhPlan">
+                            <div  ng-click="teaScore(plan.taskNo,plan.courseName,plan.teacherName)" class="panel widget" style="box-shadow: 1px 1px 1px #888888;">
                                 <div class="portlet-handler">
                                     <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                          许丽花
+                                        <div class="col-xs-4 bg-success-light text-center" style="font-size: 160%">
+                                          {{plan.teacherName}}
                                         </div>
                                         <div class="col-xs-8">
                                             <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
+                                                <h4 class="mt0"> {{plan.courseName}}</h4>
+                                                <p class="mb0 text-muted">上课班级： {{plan.className}}</p>
+                                                <p class="mb0 text-muted">听课时间：{{plan.planTime}}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </uib-tab>
                 <uib-tab>

@@ -12,89 +12,29 @@
     </div>
 </div>
 <div class="row" style="margin-top: 20px" data-ng-if="changeStatus==0">
-    <div class="col-md-4">
+    <div class="col-md-4" ng-repeat="tkjhplan in tkjhAllPlan">
         <div class="panel panel-green">
-            <div class="panel-heading portlet-handler" style="font-size: 140%">许丽花</div>
+            <div class="panel-heading portlet-handler" style="font-size: 140%">{{tkjhplan.teacherName}}</div>
             <div class="panel-body" style="font-size: 120%">
                 <p>
-                    课程名：《轻量级框架技术》
+                    课程名：《{{tkjhplan.courseName}}》
                 </p>
                 <p>
-                    班   级：    软件1511
+                    班   级：    {{tkjhplan.className}}
                 </p>
                 <p>
-                    计划时间：2017-05-05【第12周】
+                    计划时间：{{tkjhplan.planTime}}【第{{tkjhplan.planWeek}}周】
                 </p>
                 <p style="float: right">
-                    2017-05-02
+                    {{tkjhplan.setTime}}
                 </p>
             </div>
-            <div class="panel-footer">距离该计划还有 1 天！
+            <div class="panel-footer">距离该计划还有<span style="font-weight:bold ">{{tkjhplan.day}}</span> 天！
                 <div style="float: right;margin-top: -6px">
-                    <button ng-click="addSche()" title="编辑" class="btn btn-sm btn-info">
+                    <button ng-click="addSche(tkjhplan.planNo,tkjhplan.teacherName,tkjhplan.courseName,tkjhplan.className)" title="编辑" class="btn btn-sm btn-info">
                         <em class="fa fa-pencil"></em>
                     </button>
-                    <button ng-click="deleteSche($index)"  title="删除" class="btn btn-sm btn-danger">
-                        <em class="fa fa-trash"></em>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <div class="col-md-4">
-        <div  class="panel panel-green">
-            <div class="panel-heading portlet-handler"  style="font-size: 140%">许丽花</div>
-            <div class="panel-body"  style="font-size: 120%">
-                <p>
-                    课程名：《轻量级框架技术》
-                </p>
-                <p>
-                    班   级：    软件1511
-                </p>
-                <p>
-                    计划时间：2017-05-05【第12周】
-                </p>
-                <p style="float: right">
-                    2017-05-02
-                </p>
-            </div>
-            <div class="panel-footer">距离该计划还有 1 天！
-                <div style="float: right;margin-top: -6px">
-                    <button ng-click="addSche()" title="编辑" class="btn btn-sm btn-info">
-                        <em class="fa fa-pencil"></em>
-                    </button>
-                    <button  title="删除" class="btn btn-sm btn-danger">
-                        <em class="fa fa-trash"></em>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <div class="col-md-4">
-        <div  class="panel panel-green">
-            <div class="panel-heading portlet-handler"  style="font-size: 140%">许丽花</div>
-            <div class="panel-body"  style="font-size: 120%">
-                <p>
-                    课程名：《轻量级框架技术》
-                </p>
-                <p>
-                    班   级：    软件1511
-                </p>
-                <p>
-                    计划时间：2017-05-05【第12周】
-                </p>
-                <p style="float: right">
-                    2017-05-02
-                </p>
-            </div>
-            <div class="panel-footer">距离该计划还有 1 天！
-                <div style="float: right;margin-top: -6px">
-                    <button  ng-click="addSche()" title="编辑" class="btn btn-sm btn-info">
-                        <em class="fa fa-pencil"></em>
-                    </button>
-                    <button  title="删除" class="btn btn-sm btn-danger">
+                    <button ng-click="deleteSche($index,tkjhplan.planNo)"  title="删除" class="btn btn-sm btn-danger">
                         <em class="fa fa-trash"></em>
                     </button>
                 </div>
@@ -111,18 +51,18 @@
             <td style="width:10%">教师姓名</td>
             <td style="width:10%">查看教学任务</td>
         </tr>
-        <tr >
+        <tr ng-repeat="teacher in teacherlist">
             <td>
                 <!-- editable username (text with validation)-->
-                <span  >20161</span>
+                <span  >{{teacher.termName}}</span>
             </td>
             <td>
                 <!-- editable status (select-local)-->
-                <span >2000100193</span>
+                <span >{{teacher.teacherNo}}</span>
             </td>
             <td>
                 <!-- editable group (select-remote)-->
-                <span >许丽花</span>
+                <span >{{teacher.teacherName}}</span>
             </td>
             <td style="white-space: nowrap">
                     <button ng-click="searchTask()" title="查看" class="btn btn-sm btn-info">

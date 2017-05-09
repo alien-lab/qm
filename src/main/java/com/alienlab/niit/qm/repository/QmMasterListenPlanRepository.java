@@ -16,5 +16,8 @@ public interface QmMasterListenPlanRepository extends JpaRepository<QmMasterList
     @Query("from QmMasterListenPlanEntity a where a.termNo=?1 and a.teacherNo=?2 and a.planWeek=?3 ")
     public List<QmMasterListenPlanEntity> findByTermNoAndMasterNoAndWeek(String termNo,String masterNo,String selectWeek);
 
+    @Query("from QmMasterListenPlanEntity a where a.termNo=?1 and a.teacherNo=?2 ")
+    public List<QmMasterListenPlanEntity> findByTermNoAndMasterNo(String termNo,String masterNo);
+
 
 }
