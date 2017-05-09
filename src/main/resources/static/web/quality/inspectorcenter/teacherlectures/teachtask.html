@@ -7,133 +7,22 @@
     <div class="col-md-1  col-sm-3 col-xs-3"></div>
 </div>
 <div class="row" style="text-align: center;margin-top: 20px">
-    <div class="col-md-4">
-        <div  ng-click="addSche()" class="panel widget" style="box-shadow: 5px 5px 5px #888888;">
+    <div class="col-md-4" ng-repeat="course in courseList">
+        <div  ng-click="addSche(course.taskNo,course.teacher_name,course.course_name,course.class_name)" class="panel widget" style="box-shadow: 1px 1px 1px #888888;">
             <div class="portlet-handler">
                 <div class="row row-table row-flush" style="height: 120px">
                     <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                        许丽花
+                        {{course.teacher_name}}
                     </div>
                     <div class="col-xs-8">
                         <div class="panel-body text-center">
-                            <p class="mb0 text-muted"> 2016学年第二学期</p>
-                            <h4 class="mt0"> 《移动开发基础》</h4>
-                            <p class="mb0 text-muted">上课班级：软件1511班</p>
-
+                            <p class="mb0 text-muted"> {{course.course_type}}</p>
+                            <h4 class="mt0"> 《{{course.course_name}}》</h4>
+                            <p class="mb0 text-muted">上课班级：{{course.class_name}}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div  class="panel widget" style="box-shadow: 5px 5px 5px #888888;">
-            <div class="portlet-handler">
-                <div class="row row-table row-flush" style="height: 120px">
-                    <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                        许丽花
-                    </div>
-                    <div class="col-xs-8">
-                        <div class="panel-body text-center">
-                            <h4 class="mt0">轻量级框架技术</h4>
-                            <p class="mb0 text-muted">上课班级：软件1511班</p>
-                            <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div  class="panel widget" style="box-shadow: 5px 5px 5px #888888;">
-            <div class="portlet-handler">
-                <div class="row row-table row-flush" style="height: 120px">
-                    <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                        许丽花
-                    </div>
-                    <div class="col-xs-8">
-                        <div class="panel-body text-center">
-                            <h4 class="mt0">轻量级框架技术</h4>
-                            <p class="mb0 text-muted">上课班级：软件1511班</p>
-                            <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div  class="panel widget" style="box-shadow: 5px 5px 5px #888888;">
-            <div class="portlet-handler">
-                <div class="row row-table row-flush" style="height: 120px">
-                    <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                        许丽花
-                    </div>
-                    <div class="col-xs-8">
-                        <div class="panel-body text-center">
-                            <h4 class="mt0">轻量级框架技术</h4>
-                            <p class="mb0 text-muted">上课班级：软件1511班</p>
-                            <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div  class="panel widget" style="box-shadow: 5px 5px 5px #888888;">
-            <div class="portlet-handler">
-                <div class="row row-table row-flush" style="height: 120px">
-                    <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                        许丽花
-                    </div>
-                    <div class="col-xs-8">
-                        <div class="panel-body text-center">
-                            <h4 class="mt0">轻量级框架技术</h4>
-                            <p class="mb0 text-muted">上课班级：软件1511班</p>
-                            <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div  class="panel widget" style="box-shadow: 5px 5px 5px #888888;">
-            <div class="portlet-handler">
-                <div class="row row-table row-flush" style="height: 120px">
-                    <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                        许丽花
-                    </div>
-                    <div class="col-xs-8">
-                        <div class="panel-body text-center">
-                            <h4 class="mt0">轻量级框架技术</h4>
-                            <p class="mb0 text-muted">上课班级：软件1511班</p>
-                            <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div  class="panel widget" style="box-shadow: 5px 5px 5px #888888;">
-            <div class="portlet-handler">
-                <div class="row row-table row-flush" style="height: 120px">
-                    <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                        许丽花
-                    </div>
-                    <div class="col-xs-8">
-                        <div class="panel-body text-center">
-                            <h4 class="mt0">轻量级框架技术</h4>
-                            <p class="mb0 text-muted">上课班级：软件1511班</p>
-                            <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
 </div>

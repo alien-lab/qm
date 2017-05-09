@@ -38,4 +38,7 @@ public interface QmMasterService {
     //删除听课计划
     public boolean deleteListenPlan(long planNo);
 
+    //增加听课计划
+    public  QmMasterListenPlanEntity insertQmMasterListenPlan(QmMasterListenPlanEntity qmMasterListenPlanEntity);
+
 }

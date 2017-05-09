@@ -24,6 +24,7 @@
             getConfig: { method: 'GET',isArray:true ,url:'../qm-api/master/config'},
             getSches: { method: 'GET',isArray:true,url:'../qm-api/master/listenplan'},
             getAllSches: { method: 'GET',isArray:true,url:'../qm-api/master/listenplans'},
+            getTeacherCourseList: { method: 'GET',isArray:true,url:'../qm-api/master/termteachercourseDto'},
 
 
         });
@@ -66,7 +67,20 @@
         }
         $scope.scheWeek = $scope.lectureWeeks[0].weekid;
         //获得初始日期下的听课计划
-         getSches();
+        qmMsterResource.getSches({
+            masterNo:$cookieStore.get('user').account,
+            termNo:$cookieStore.get('currentTerm').termNo,
+            selectWeek:$scope.scheWeek
+        },function(result){
+            console.log(result);
+            if (result.length==0||result==null){
+                $scope.tkjhPlan=[];
+            }else {
+                $scope.tkjhPlan = result;
+            }
+        },function(result){
+            console.log("督学计划听课列表获取失败",result);
+        });
         //添加听课计划
         $scope.addSche = function () {
             $state.go("qm.lecturesche");

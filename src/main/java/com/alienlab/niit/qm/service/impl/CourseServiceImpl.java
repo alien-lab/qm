@@ -421,4 +421,32 @@ public class CourseServiceImpl implements CourseService {
         return courseListDtos;
     }
 
+    @Override
+    public List<CourseDto> findCourseByTermNoAndTeacherNo(String termNo, String tascherNo) {
+        List<CourseDto> courseDtos = new ArrayList<>();
+        String sql = "SELECT a.*,b.`teacher_name`,c.`term_name` FROM base_teach_task a,base_teacher b,base_term c WHERE a.`term_no`='"+termNo+"' AND a.`teacher_no`='"+tascherNo+"' AND a.`teacher_no`=b.`teacher_no` AND a.`term_no`=c.`term_no`";
+        List <Map<String,Object>> totallist = jdbcTemplate.queryForList(sql);
+        if (totallist.size()!=0){
+            for (int i=0;i<totallist.size();i++){
+                CourseDto courseDto = new CourseDto();
+                courseDto.setTaskNo((Long) totallist.get(i).get("task_no"));
+                courseDto.setCourse_name((String) totallist.get(i).get("course_name"));
+                courseDto.setTeacher_name((String) totallist.get(i).get("teacher_name"));
+                courseDto.setCourse_type((String) totallist.get(i).get("term_name"));
+                BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo(baseTeachTaskRepository.findOne((Long) totallist.get(i).get("task_no")).getClassNo());
+                if (baseClassesEntity!=null){
+                    courseDto.setClass_name(baseClassesEntity.getClassName());
+                }else {
+                    try {
+                        courseDto.setClass_name("逻辑班级"+baseClassLogicRepository.findByTaskNo((Long) totallist.get(i).get("task_no")).get(0).getLogicName());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                courseDtos.add(courseDto);
+            }
+        }
+        return courseDtos;
+    }
+
 }

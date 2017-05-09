@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -212,10 +214,14 @@ public class QmMasterServiceImpl implements QmMasterService {
     @Override
     public boolean updateListenPlan(long planNo, String listentime) {
         boolean flag =false;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置显示格式
+        java.util.Date dt=new java.util.Date();
         QmMasterListenPlanEntity qmMasterListenPlanEntity =qmMasterListenPlanRepository.getOne(planNo);
         qmMasterListenPlanEntity.setPlanTime(java.sql.Date.valueOf(listentime));
         qmMasterListenPlanEntity.setPlanWeek(Long.toString(baseTermService.getSelectWeek(listentime)));
+        qmMasterListenPlanEntity.setSetTime(java.sql.Date.valueOf(df.format(dt)));
         QmMasterListenPlanEntity qmMasterListenPlanEntity1 = qmMasterListenPlanRepository.save(qmMasterListenPlanEntity);
+
       if (qmMasterListenPlanEntity1!=null){
           flag = true;
       }
@@ -231,6 +237,16 @@ public class QmMasterServiceImpl implements QmMasterService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public QmMasterListenPlanEntity insertQmMasterListenPlan(QmMasterListenPlanEntity qmMasterListenPlanEntity) {
+       if (qmMasterListenPlanEntity!=null){
+           QmMasterListenPlanEntity qmMasterListenPlanEntity1 = qmMasterListenPlanRepository.save(qmMasterListenPlanEntity);
+           return qmMasterListenPlanEntity1;
+       }else {
+           return  null;
+       }
     }
 
 }

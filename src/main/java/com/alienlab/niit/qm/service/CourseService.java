@@ -44,6 +44,9 @@ public interface CourseService {
     //根据学期，教工号返回课程
     public List<CourseListDto> getCourseByTermNoAndTeacherNo(String termNo,String tascherNo);
 
+    //根据学期，教工号返回课程
+    public List<CourseDto> findCourseByTermNoAndTeacherNo(String termNo,String tascherNo);
+
 
 
 }

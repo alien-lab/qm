@@ -39,8 +39,8 @@
         $scope.changeSche = function (index) {
             $scope.changeStatus = index;
         }
-        $scope.searchTask = function () {
-            $state.go("qm.teachtasksche");
+        $scope.searchTask = function (teacherNo) {
+            $state.go("qm.teachtasksche",{teacherNo:teacherNo});
         }
 
         $scope.addSche = function (planNo,teacherName,courseName,className) {
@@ -52,6 +52,7 @@
                 size: "md",
                 backdrop: false
             });
+            lecturescheinstance.status="修改";
             lecturescheinstance.planNo=planNo;
             lecturescheinstance.teacherName=teacherName;
             lecturescheinstance.courseName=courseName;

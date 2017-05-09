@@ -29,8 +29,8 @@
                     {{tkjhplan.setTime}}
                 </p>
             </div>
-            <div class="panel-footer">距离该计划还有<span style="font-weight:bold ">{{tkjhplan.day}}</span> 天！
-                <div style="float: right;margin-top: -6px">
+            <div class="panel-footer">距离该计划还有<span style="font-weight:bold;font-size: 20px ">{{tkjhplan.day}}</span> 天！
+                <div style="float: right;margin-top: -1px">
                     <button ng-click="addSche(tkjhplan.planNo,tkjhplan.teacherName,tkjhplan.courseName,tkjhplan.className)" title="编辑" class="btn btn-sm btn-info">
                         <em class="fa fa-pencil"></em>
                     </button>
@@ -44,7 +44,7 @@
     </div>
 </div>
 <div class="row" data-ng-if="changeStatus==1">
-    <table class="table table-bordered table-hover bg-white" style="margin-left: 30px;width: 90%;margin-top: 20px">
+    <table class="table table-bordered table-hover bg-white" style="margin-left: 30px;width: 90%;margin-top: 20px;text-align: center">
         <tr style="font-weight: bold">
             <td style="width:10%">学期</td>
             <td style="width:10%">教工号</td>
@@ -65,7 +65,7 @@
                 <span >{{teacher.teacherName}}</span>
             </td>
             <td style="white-space: nowrap">
-                    <button ng-click="searchTask()" title="查看" class="btn btn-sm btn-info">
+                    <button ng-click="searchTask(teacher.teacherNo)" title="查看" class="btn btn-sm btn-info">
                         <em class="fa fa-search"></em>
                     </button>
             </td>

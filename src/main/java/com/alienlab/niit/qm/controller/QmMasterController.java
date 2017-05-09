@@ -3,7 +3,10 @@ package com.alienlab.niit.qm.controller;
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
+import com.alienlab.niit.qm.entity.dto.CourseDto;
 import com.alienlab.niit.qm.entity.dto.MasterPlanDto;
+import com.alienlab.niit.qm.service.BaseTermService;
+import com.alienlab.niit.qm.service.CourseService;
 import com.alienlab.niit.qm.service.QmMasterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +32,10 @@ import java.util.List;
 public class QmMasterController {
     @Autowired
     QmMasterService qmMasterService;
+    @Autowired
+    CourseService courseService;
+    @Autowired
+    BaseTermService baseTermService;
 
     @ApiOperation(value="根据督导工号和学期获得当前学期该督导所关注的教师列表")
     @ApiResponses({
@@ -184,6 +194,48 @@ public class QmMasterController {
         } catch (Exception e) {
             e.printStackTrace();
             ExecResult er=new ExecResult(false,e.getMessage());
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value="增加督学计划听课列表")
+    @PostMapping(value="/master/addlistenplan")
+    public ResponseEntity addMasterPlan(@RequestParam long taskNo,@RequestParam String termNo,@RequestParam String teacherNo,@RequestParam String plantime){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置显示格式
+        Date dt=new Date();
+        QmMasterListenPlanEntity qmMasterListenPlanEntity = new QmMasterListenPlanEntity();
+        qmMasterListenPlanEntity.setTermNo(termNo);
+        qmMasterListenPlanEntity.setTeacherNo(teacherNo);
+        qmMasterListenPlanEntity.setTaskNo(taskNo);
+        qmMasterListenPlanEntity.setPlanTime(java.sql.Date.valueOf(plantime));
+        qmMasterListenPlanEntity.setPlanWeek(Long.toString(baseTermService.getSelectWeek(plantime)));
+        qmMasterListenPlanEntity.setSetTime(java.sql.Date.valueOf(df.format(dt)));
+        QmMasterListenPlanEntity qmMasterListenPlanEntity1 = qmMasterService.insertQmMasterListenPlan(qmMasterListenPlanEntity);
+        if (qmMasterListenPlanEntity1!=null){
+            return ResponseEntity.ok().body(qmMasterListenPlanEntity1);
+        }else{
+            ExecResult er=  new ExecResult(false,"听课计划新增失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value="根据学期，教师工号返回课程")
+    @GetMapping (value = "/master/termteachercourseDto")
+    public ResponseEntity findCourseBytermNoAndteacherNo( @RequestParam String termNo,@RequestParam String teacherNo)  {
+
+        try {
+            List<CourseDto> courseDtos =courseService.findCourseByTermNoAndTeacherNo(termNo,teacherNo);
+            if (courseDtos!=null){
+                return ResponseEntity.ok().body(courseDtos);
+            }else {
+                ExecResult er=new ExecResult(false,"根据学期，教师工号返回课程失败！");
+                //发生错误返回500状态
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,"系统出错，根据学期，教师工号返回课程失败！");
             //发生错误返回500状态
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
