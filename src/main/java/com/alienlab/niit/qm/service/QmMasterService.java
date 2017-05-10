@@ -46,4 +46,7 @@ public interface QmMasterService {
 
     //督导获取本部门的教师
     public Page<TeacherDto> findByMasterNoAndTermNoAndKeyword(String keyword, String masterNo, String termNo, Pageable page);
+
+    //督导根据周几获取本部门的教师课程信息
+    public Page<CourseDetailDto> findCourseByMasterNoAndTermNoAndKeyword(String keyword, String masterNo, String termNo, Pageable page);
 }

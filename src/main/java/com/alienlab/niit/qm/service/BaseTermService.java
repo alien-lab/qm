@@ -23,6 +23,6 @@ public interface BaseTermService {
     //获取当前周次
     public long getCurrentWeek();
 
-    //获取当前周次
+    //获取选择日次的周次
     public long getSelectWeek(String time );
 }

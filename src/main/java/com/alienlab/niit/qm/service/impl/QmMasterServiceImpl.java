@@ -265,7 +265,7 @@ public class QmMasterServiceImpl implements QmMasterService {
             String masterType = qmMasterEntity.getMasterType();
             if (masterType.equals("校级督学")){
 
-                String totalsql="SELECT a.*,b.`dep_name`,c.`term_name` FROM base_teacher a,base_department b,base_term c WHERE a.`teacher_name` LIKE'%"+keyword+"%' AND a.`dep_no`=b.`dep_no` AND c.`term_no`='"+termNo+"'";
+                String totalsql="SELECT a.*,b.`dep_name`,c.`term_name` FROM base_teacher a,base_department b,base_term c WHERE a.`teacher_name` LIKE'%"+keyword+"%' AND a.`dep_no`=b.`dep_no`AND a.`teacher_status`=1 AND c.`term_no`='"+termNo+"'";
                 List totallist = jdbcTemplate.queryForList(totalsql);
 
                 String pagesql = "SELECT a.*,b.`dep_name`,c.`term_name` FROM base_teacher a,base_department b,base_term c WHERE a.`teacher_name` LIKE'%"+keyword+"%' AND a.`dep_no`=b.`dep_no` AND c.`term_no`='"+termNo+"'"+"GROUP BY a.teacher_no limit "+(page.getPageNumber()*page.getPageSize())+","+page.getPageSize()+"";
@@ -294,7 +294,6 @@ public class QmMasterServiceImpl implements QmMasterService {
 
                     String pasql ="SELECT a.*,b.`dep_name`,c.`term_name` FROM base_teacher a,base_department b,base_term c,qm_dep_teacher d WHERE d.`dep_no`='"+qmDepTeacherEntity.getDepNo()+"'  AND d.`term_no`='"+termNo+"'  AND d.`teacher_no`=a.`teacher_no` AND d.`dep_no`=b.`dep_no`AND d.`term_no`=c.`term_no` AND a.`teacher_name`LIKE'%"+keyword+"%'"+"GROUP BY a.teacher_no limit "+(page.getPageNumber()*page.getPageSize())+","+page.getPageSize()+"";
                     List<Map<String,Object>> palist=jdbcTemplate.queryForList(pasql);
-                      System.out.println(palist.size());
                     List<TeacherDto> teacherDtos = new ArrayList<>();
                     for (int i=0;i<palist.size();i++){
                         TeacherDto teacherDto = new TeacherDto();
@@ -318,5 +317,75 @@ public class QmMasterServiceImpl implements QmMasterService {
         }else {
             return null;
         }
+    }
+
+    @Override
+    public Page<CourseDetailDto> findCourseByMasterNoAndTermNoAndKeyword(String keyword, String masterNo, String termNo, Pageable page) {
+
+        QmMasterEntity qmMasterEntity = qmMasterRepository.findByTeacherNo(masterNo);
+        if (qmMasterEntity!=null){
+            String masterType = qmMasterEntity.getMasterType();
+            if (masterType.equals("校级督学")){
+                String totalsql="SELECT a.*,b.`course_name`,c.`teacher_name`,c.`teacher_no` FROM base_task_sche a,base_teach_task b,base_teacher c WHERE a.`sche_set`LIKE'%"+keyword+"%' AND a.`task_no`=b.`task_no`AND b.`term_no`='"+termNo+"' AND b.`teacher_no`=c.`teacher_no` GROUP BY a.`task_no` ";
+                List totallist = jdbcTemplate.queryForList(totalsql);
+
+               String pagesql="SELECT a.*,b.`course_name`,c.`teacher_name`,c.`teacher_no` FROM base_task_sche a,base_teach_task b,base_teacher c WHERE a.`sche_set`LIKE'%"+keyword+"%' AND a.`task_no`=b.`task_no`AND b.`term_no`='"+termNo+"' AND b.`teacher_no`=c.`teacher_no` GROUP BY a.`task_no` limit "+(page.getPageNumber()*page.getPageSize())+","+page.getPageSize()+"";
+               List<Map<String,Object>> palist=jdbcTemplate.queryForList(pagesql);
+                List<CourseDetailDto> courseDetailDtos = new ArrayList<>();
+                for (int i=0;i<palist.size();i++){
+                    CourseDetailDto courseDetailDto = new CourseDetailDto();
+                    courseDetailDto.setCourseName((String) palist.get(i).get("course_name"));
+                    courseDetailDto.setTeacherNo((String) palist.get(i).get("teacher_no"));
+                    courseDetailDto.setTaskNo((Long) palist.get(i).get("task_no"));
+                    courseDetailDto.setTeacherName((String) palist.get(i).get("teacher_name"));
+                    List<BaseTaskScheEntity> rightbaseTaskScheEntities = new ArrayList<>();
+                    BaseTaskScheEntity baseTaskScheEntity =new BaseTaskScheEntity();
+                    if (String.valueOf(palist.get(i).get("sche_set")).contains("K")){
+                        WeekdayUtils weekdayUtils = new WeekdayUtils();
+                        String set = weekdayUtils.convert(String.valueOf(palist.get(i).get("sche_set")));
+                        baseTaskScheEntity.setScheSet(set);
+                        baseTaskScheEntity.setScheAddr((String) palist.get(i).get("sche_addr"));
+                        rightbaseTaskScheEntities.add(baseTaskScheEntity);
+                    }
+                    courseDetailDto.setSectionses(rightbaseTaskScheEntities);
+                    courseDetailDtos.add(courseDetailDto);
+                }
+                return new PageImpl<CourseDetailDto>(courseDetailDtos,page,totallist.size());
+
+            }else {
+                QmDepTeacherEntity qmDepTeacherEntity = qmDepTeacherRepository.findByTeacherNoAndTermNo(masterNo,termNo);
+                if (qmDepTeacherEntity!=null){
+                    String totalsql="SELECT a.*,b.`course_name`,c.`teacher_name`,c.`teacher_no` FROM base_task_sche a,base_teach_task b,base_teacher c WHERE a.`sche_set`LIKE'%"+keyword+"%' AND a.`task_no`=b.`task_no`AND b.`term_no`='"+termNo+"' AND b.`teacher_no`=c.`teacher_no` AND b.`dep_no`='"+qmDepTeacherEntity.getDepNo()+"' GROUP BY a.`task_no` ";
+                    List totallist = jdbcTemplate.queryForList(totalsql);
+                    String pagesql ="SELECT a.*,b.`course_name`,c.`teacher_name`,c.`teacher_no` FROM base_task_sche a,base_teach_task b,base_teacher c WHERE a.`sche_set`LIKE'%"+keyword+"%' AND a.`task_no`=b.`task_no`AND b.`term_no`='"+termNo+"' AND b.`teacher_no`=c.`teacher_no` AND b.`dep_no`='"+qmDepTeacherEntity.getDepNo()+"' GROUP BY a.`task_no` limit "+(page.getPageNumber()*page.getPageSize())+","+page.getPageSize()+"";
+                    List<Map<String,Object>> palist=jdbcTemplate.queryForList(pagesql);
+                    List<CourseDetailDto> courseDetailDtos = new ArrayList<>();
+                    for (int i=0;i<palist.size();i++){
+                        CourseDetailDto courseDetailDto = new CourseDetailDto();
+                        courseDetailDto.setCourseName((String) palist.get(i).get("course_name"));
+                        courseDetailDto.setTeacherNo((String) palist.get(i).get("teacher_no"));
+                        courseDetailDto.setTaskNo((Long) palist.get(i).get("task_no"));
+                        courseDetailDto.setTeacherName((String) palist.get(i).get("teacher_name"));
+                        List<BaseTaskScheEntity> rightbaseTaskScheEntities = new ArrayList<>();
+                        BaseTaskScheEntity baseTaskScheEntity =new BaseTaskScheEntity();
+                        if (String.valueOf(palist.get(i).get("sche_set")).contains("K")){
+                            WeekdayUtils weekdayUtils = new WeekdayUtils();
+                            String set = weekdayUtils.convert(String.valueOf(palist.get(i).get("sche_set")));
+                            baseTaskScheEntity.setScheSet(set);
+                            baseTaskScheEntity.setScheAddr((String) palist.get(i).get("sche_addr"));
+                            rightbaseTaskScheEntities.add(baseTaskScheEntity);
+                        }
+                        courseDetailDto.setSectionses(rightbaseTaskScheEntities);
+                        courseDetailDtos.add(courseDetailDto);
+                    }
+                    return new PageImpl<CourseDetailDto>(courseDetailDtos,page,totallist.size());
+                }else {
+                    return null;
+                }
+            }
+        }else {
+            return null;
+        }
+
     }
 }

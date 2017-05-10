@@ -66,6 +66,18 @@
                     });
                 },function(result){
                     console.log("督学评价保存失败",result);
+                    SweetAlert.swal({
+                        title: '督学评价增加失败',
+                        type: 'error',
+                        text:'请检查数据是否填写完整',
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: '好的',
+                        closeOnConfirm: true
+                    },function () {
+                        $uibModalInstance.dismiss('cancel');
+                        $rootScope.$broadcast("reloadSche");
+                    });
                 });
             }else if($scope.status=="新增"){
                 //增加计划
@@ -88,6 +100,18 @@
                     });
                 },function(result){
                     console.log("督学评价增加失败",result);
+                    SweetAlert.swal({
+                        title: '督学评价增加失败',
+                        type: 'error',
+                        text:'请检查数据是否填写完整',
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: '好的',
+                        closeOnConfirm: true
+                    },function () {
+                        $uibModalInstance.dismiss('cancel');
+                        $rootScope.$broadcast("reloadSche");
+                    });
                 });
 
             }

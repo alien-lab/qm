@@ -266,4 +266,25 @@ public class QmMasterController {
         }
     }
 
+    @ApiOperation(value="督导根据周几获取本部门的教师课程信息")
+    @GetMapping (value = "/master/daycourse")
+    public ResponseEntity findWeekCourseByMasterNoAndTermNoAndKeyword( @RequestParam String keyword,@RequestParam String masterNo, @RequestParam String termNo,@RequestParam int index,@RequestParam int length)  {
+
+        try {
+            Page<CourseDetailDto> courseDetailDtos = qmMasterService.findCourseByMasterNoAndTermNoAndKeyword(keyword,masterNo,termNo,new PageRequest(index,length));
+            if (courseDetailDtos!=null){
+                return ResponseEntity.ok().body(courseDetailDtos);
+            }else {
+                ExecResult er=new ExecResult(false,"督学根据周次姓名查询本部门的教师课程失败！");
+                //发生错误返回500状态
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,"系统出错，督学根据周次姓名查询本部门的教师课程失败！");
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
 }
