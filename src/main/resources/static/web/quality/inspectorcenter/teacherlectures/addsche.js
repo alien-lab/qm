@@ -65,9 +65,9 @@
                         $rootScope.$broadcast("reloadSche");
                     });
                 },function(result){
-                    console.log("督学评价保存失败",result);
+                    console.log("听课计划修改失败",result);
                     SweetAlert.swal({
-                        title: '督学评价增加失败',
+                        title: '听课计划修改失败',
                         type: 'error',
                         text:'请检查数据是否填写完整',
                         showCancelButton: false,
