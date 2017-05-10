@@ -4,10 +4,14 @@ import com.alienlab.niit.qm.common.WeekdayUtils;
 import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
 import com.alienlab.niit.qm.entity.dto.MasterPlanDto;
+import com.alienlab.niit.qm.entity.dto.TeacherDto;
 import com.alienlab.niit.qm.repository.*;
 import com.alienlab.niit.qm.service.BaseTermService;
 import com.alienlab.niit.qm.service.QmMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +47,10 @@ public class QmMasterServiceImpl implements QmMasterService {
     BaseClassLogicRepository baseClassLogicRepository;
     @Autowired
     BaseTermService baseTermService;
+    @Autowired
+    QmMasterRepository qmMasterRepository;
+    @Autowired
+    QmDepTeacherRepository qmDepTeacherRepository;
 
 
     @Override
@@ -249,4 +257,66 @@ public class QmMasterServiceImpl implements QmMasterService {
        }
     }
 
+    @Override
+    public Page<TeacherDto> findByMasterNoAndTermNoAndKeyword(String keyword, String masterNo, String termNo, Pageable page) {
+
+        QmMasterEntity qmMasterEntity = qmMasterRepository.findByTeacherNo(masterNo);
+        if (qmMasterEntity!=null){
+            String masterType = qmMasterEntity.getMasterType();
+            if (masterType.equals("校级督学")){
+
+                String totalsql="SELECT a.*,b.`dep_name`,c.`term_name` FROM base_teacher a,base_department b,base_term c WHERE a.`teacher_name` LIKE'%"+keyword+"%' AND a.`dep_no`=b.`dep_no` AND c.`term_no`='"+termNo+"'";
+                List totallist = jdbcTemplate.queryForList(totalsql);
+
+                String pagesql = "SELECT a.*,b.`dep_name`,c.`term_name` FROM base_teacher a,base_department b,base_term c WHERE a.`teacher_name` LIKE'%"+keyword+"%' AND a.`dep_no`=b.`dep_no` AND c.`term_no`='"+termNo+"'"+"GROUP BY a.teacher_no limit "+(page.getPageNumber()*page.getPageSize())+","+page.getPageSize()+"";
+                List<Map<String,Object>> pagelist=jdbcTemplate.queryForList(pagesql);
+                List<TeacherDto> teacherDtos = new ArrayList<>();
+                for (int i=0;i<pagelist.size();i++){
+                    TeacherDto teacherDto = new TeacherDto();
+                    teacherDto.setTeacherNo((String) pagelist.get(i).get("teacher_no"));
+                    teacherDto.setTeacherName((String) pagelist.get(i).get("teacher_name"));
+                    teacherDto.setDepNo((String) pagelist.get(i).get("dep_no"));
+                    teacherDto.setTeacherStatus((String) pagelist.get(i).get("teacher_status"));
+                    teacherDto.setTeacherTitle((String) pagelist.get(i).get("teacher_title"));
+                    teacherDto.setDataTime((Timestamp) pagelist.get(i).get("data_time"));
+                    teacherDto.setTeacherType((String) pagelist.get(i).get("teacher_type"));
+                    teacherDto.setTermNo((String) pagelist.get(i).get("term_name"));
+                    teacherDto.setDepName((String) pagelist.get(i).get("dep_name"));
+                    teacherDtos.add(teacherDto);
+                }
+                return new PageImpl<TeacherDto>(teacherDtos,page,totallist.size());
+            }else {
+                   QmDepTeacherEntity qmDepTeacherEntity = qmDepTeacherRepository.findByTeacherNoAndTermNo(masterNo,termNo);
+                if (qmDepTeacherEntity!=null){
+
+                    String tsql = "SELECT a.*,b.`dep_name`,c.`term_name` FROM base_teacher a,base_department b,base_term c,qm_dep_teacher d WHERE d.`dep_no`='"+qmDepTeacherEntity.getDepNo()+"'  AND d.`term_no`='"+termNo+"'  AND d.`teacher_no`=a.`teacher_no` AND d.`dep_no`=b.`dep_no`AND d.`term_no`=c.`term_no` AND a.`teacher_name`LIKE'%"+keyword+"%'";
+                    List tolist = jdbcTemplate.queryForList(tsql);
+
+                    String pasql ="SELECT a.*,b.`dep_name`,c.`term_name` FROM base_teacher a,base_department b,base_term c,qm_dep_teacher d WHERE d.`dep_no`='"+qmDepTeacherEntity.getDepNo()+"'  AND d.`term_no`='"+termNo+"'  AND d.`teacher_no`=a.`teacher_no` AND d.`dep_no`=b.`dep_no`AND d.`term_no`=c.`term_no` AND a.`teacher_name`LIKE'%"+keyword+"%'"+"GROUP BY a.teacher_no limit "+(page.getPageNumber()*page.getPageSize())+","+page.getPageSize()+"";
+                    List<Map<String,Object>> palist=jdbcTemplate.queryForList(pasql);
+                      System.out.println(palist.size());
+                    List<TeacherDto> teacherDtos = new ArrayList<>();
+                    for (int i=0;i<palist.size();i++){
+                        TeacherDto teacherDto = new TeacherDto();
+                        teacherDto.setTeacherNo((String) palist.get(i).get("teacher_no"));
+                        teacherDto.setTeacherName((String) palist.get(i).get("teacher_name"));
+                        teacherDto.setDepNo((String) palist.get(i).get("dep_no"));
+                        teacherDto.setTeacherStatus((String) palist.get(i).get("teacher_status"));
+                        teacherDto.setTeacherTitle((String) palist.get(i).get("teacher_title"));
+                        teacherDto.setDataTime((Timestamp) palist.get(i).get("data_time"));
+                        teacherDto.setTeacherType((String) palist.get(i).get("teacher_type"));
+                        teacherDto.setTermNo((String) palist.get(i).get("term_name"));
+                        teacherDto.setDepName((String) palist.get(i).get("dep_name"));
+                        teacherDtos.add(teacherDto);
+                    }
+                    return new PageImpl<TeacherDto>(teacherDtos,page,tolist.size());
+
+                }else {
+                    return  null;
+                }
+            }
+        }else {
+            return null;
+        }
+    }
 }

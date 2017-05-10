@@ -5,6 +5,7 @@ import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
 import com.alienlab.niit.qm.entity.dto.CourseDto;
 import com.alienlab.niit.qm.entity.dto.MasterPlanDto;
+import com.alienlab.niit.qm.entity.dto.TeacherDto;
 import com.alienlab.niit.qm.service.BaseTermService;
 import com.alienlab.niit.qm.service.CourseService;
 import com.alienlab.niit.qm.service.QmMasterService;
@@ -13,6 +14,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -236,6 +240,27 @@ public class QmMasterController {
         } catch (Exception e) {
             e.printStackTrace();
             ExecResult er=new ExecResult(false,"系统出错，根据学期，教师工号返回课程失败！");
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value="督学根据教师姓名查询本部门的教师名称")
+    @GetMapping (value = "/master/teacherDto")
+    public ResponseEntity findTeachrByMasterNo( @RequestParam String keyword,@RequestParam String masterNo, @RequestParam String termNo,@RequestParam int index,@RequestParam int length)  {
+
+        try {
+            Page<TeacherDto> teacherDtos = qmMasterService.findByMasterNoAndTermNoAndKeyword(keyword,masterNo,termNo,new PageRequest(index,length));
+            if (teacherDtos!=null){
+                return ResponseEntity.ok().body(teacherDtos);
+            }else {
+                ExecResult er=new ExecResult(false,"督学根据教师姓名查询本部门的教师名称失败！");
+                //发生错误返回500状态
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,"系统出错，督学根据教师姓名查询本部门的教师名称失败！");
             //发生错误返回500状态
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }

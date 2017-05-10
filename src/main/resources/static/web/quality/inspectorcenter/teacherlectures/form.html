@@ -89,10 +89,19 @@
                         </div>
                         <div class="col-md-4 col-sm-2 col-xs-5" style="left: 50px"data-ng-if="dayString==0&&teacherString==1">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text"  class="form-control" placeholder="请输入教师姓名" ng-model="coursekeyWords">
+                                <div class="col-md-7">
+
+                                        <ui-select ng-model="$parent.selectedPeople" theme="bootstrap" ng-disabled="disabled">
+                                            <ui-select-match placeholder="输入教师姓名">{{$select.selected.teacherName}} &lt;{{$select.selected.teacherNo}}&gt;</ui-select-match>
+                                            <ui-select-choices style="width: 180%"  repeat="person in people | propsFilter: {teacherName: $select.search, teacherNo: $select.search}  "
+                                                               refresh="refreshTeachers($select.search)">
+                                                <div ng-bind-html="person.teacherName | highlight: $select.search"></div>
+                                                <small>工号: {{person.teacherNo}}  学院：{{person.depName}}</small>
+                                            </ui-select-choices>
+                                        </ui-select>
+
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <button ng-click="searchTeacher()" type="button" class="mb-sm btn btn-primary">查询</button>
                                 </div>
                             </div>

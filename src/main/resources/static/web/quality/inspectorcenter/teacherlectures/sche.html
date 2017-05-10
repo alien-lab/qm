@@ -12,7 +12,7 @@
     </div>
 </div>
 <div class="row" style="margin-top: 20px" data-ng-if="changeStatus==0">
-    <div class="col-md-4" ng-repeat="tkjhplan in tkjhAllPlan">
+    <div class="col-md-4" ng-repeat="tkjhplan in tkjhAllPlan" data-ng-if="tkjhplan.day>=0">
         <div class="panel panel-green">
             <div class="panel-heading portlet-handler" style="font-size: 140%">{{tkjhplan.teacherName}}</div>
             <div class="panel-body" style="font-size: 120%">

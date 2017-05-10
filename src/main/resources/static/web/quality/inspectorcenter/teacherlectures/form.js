@@ -25,6 +25,7 @@
             getSches: { method: 'GET',isArray:true,url:'../qm-api/master/listenplan'},
             getAllSches: { method: 'GET',isArray:true,url:'../qm-api/master/listenplans'},
             getTeacherCourseList: { method: 'GET',isArray:true,url:'../qm-api/master/termteachercourseDto'},
+            getdepTeachers:{ method: 'GET',url:'../qm-api/master/teacherDto'}
 
 
         });
@@ -192,6 +193,26 @@
                 console.log("教师课程列表获取失败",result);
             });
 
+        }
+
+
+        //查询教师信息
+        $scope.refreshTeachers=function(keyword){
+            console.log("keyword",keyword);
+            if (keyword!=null||keyword!=""){
+                qmMsterResource.getdepTeachers({
+                    keyword:keyword,
+                    index:0,
+                    length:20,
+                    termNo:$cookieStore.get('currentTerm').termNo,
+                    masterNo:$scope.masterTeacher.account,
+                },function(result){
+                    console.log(result)
+                    return $scope.people=result.content;
+                },function(result){
+                    console.log("查询教师信息失败",result);
+                });
+            }
         }
     }]);
 })();
