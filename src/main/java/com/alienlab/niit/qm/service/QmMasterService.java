@@ -2,6 +2,7 @@ package com.alienlab.niit.qm.service;
 
 import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
+import com.alienlab.niit.qm.entity.dto.ListenPlanDto;
 import com.alienlab.niit.qm.entity.dto.MasterPlanDto;
 import com.alienlab.niit.qm.entity.dto.TeacherDto;
 import org.springframework.data.domain.Page;
@@ -49,4 +50,15 @@ public interface QmMasterService {
 
     //督导根据周几获取本部门的教师课程信息
     public Page<CourseDetailDto> findCourseByMasterNoAndTermNoAndKeyword(String keyword, String masterNo, String termNo, Pageable page);
+
+    //获取督导听课记录
+    public List<ListenPlanDto> findMasterListenPlan(String masterNo,String termNo,String teracherName,String startTime,String endTime);
+
+   //获得听课记录的详情
+    public  QmMasterListenEntity fingBylistenPlanNO(long listenPlanNo);
+
+    //删除听课记录
+    public  boolean deleteListenRecord(long planNo);
+
+
 }

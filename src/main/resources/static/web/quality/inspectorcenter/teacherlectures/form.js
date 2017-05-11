@@ -124,8 +124,13 @@
         };
 
         //
-        $scope.teaScore =function (taskNo,courseName,teacherName) {
-            ruleinstance.ruletype = 1;
+        $scope.teaScore =function (courseType,taskNo,courseName,teacherName) {
+            if (courseType=="实训课"){
+                ruleinstance.ruletype = 2;
+            }else {
+                ruleinstance.ruletype = 1;
+            }
+            ruleinstance.type = '新增';
             ruleinstance.courseName = courseName;
             ruleinstance.teacherName = teacherName;
             ruleinstance.taskNo = taskNo;

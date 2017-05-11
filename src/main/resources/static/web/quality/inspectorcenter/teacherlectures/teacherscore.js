@@ -15,8 +15,11 @@
     }]);
 
     teacherscore_module.factory("teacherScoreResource",["$resource",function($resource){
-        var service = $resource('../qm-api/masterlisten', {}, {
+        var service = $resource('../qm-api/masterTKJSlisten', {}, {
             saveListen: { method: 'POST'},
+            updateListen:{method: 'POST',url:'../qm-api/master/updatelisten'},
+            getListen:{method: 'GET'},
+            deletePlan:{method: 'DELETE',url:'../qm-api/master/deletelisten'}
         });
         return service;
 
@@ -40,8 +43,14 @@
     teacherscore_module.controller("teacherscoreController",["$scope","$rootScope","$uibModalInstance","loadRuleService","ruleinstance","ngDialog","teacherscoreinstance","$cookieStore","teacherScoreResource","SweetAlert",function($scope,$rootScope,$uibModalInstance,loadRuleService,ruleinstance,ngDialog,teacherscoreinstance,$cookieStore,teacherScoreResource,SweetAlert){
 
         //各项初始值
-        $scope.slidervalue=10;
-
+        if ($scope.thistype=='新增'){
+            $scope.slidervalue=10;
+        }else {
+            $scope.slidervalue=0;
+            $scope.totalvalue=0;
+        }
+        $scope.planNo= ruleinstance.planNo;
+        $scope.thistype = ruleinstance.type;
         //课程名称
         $scope.courseName = ruleinstance.courseName;
         //教师姓名
@@ -56,16 +65,38 @@
         $rootScope.$on("jxjy",function (event, msg) {
             $scope.jxjy = msg;
         });
-        $scope.PER10=10;
-        $scope.PER11=10;
-        $scope.PER12=10;
-        $scope.PER13=10;
-        $scope.PER14=10;
-        $scope.PER15=10;
-        $scope.PER16=10;
-        $scope.PER17=10;
-        $scope.PER18=10;
-        $scope.PER19=10;
+        if ($scope.thistype=='新增'){
+            $scope.PER10=10;
+            $scope.PER11=10;
+            $scope.PER12=10;
+            $scope.PER13=10;
+            $scope.PER14=10;
+            $scope.PER15=10;
+            $scope.PER16=10;
+            $scope.PER17=10;
+            $scope.PER18=10;
+            $scope.PER19=10;
+        }else {
+            teacherScoreResource.getListen({
+                listenplanNo:$scope.planNo
+            },function(result){
+                console.log(result);
+                if (result.ruleFlag=="TK_JS"){
+                    $scope.skpj=result.skpj;
+                    $scope.jxjy=result.jxjy;
+                    $scope.totalvalue=0;
+                }else {
+
+                }
+            },function(result){
+                console.log("督学评价保存失败",result);
+            });
+
+
+        }
+
+
+
 
         //课堂教学质量评价表
         if (ruleinstance.ruletype==1){
@@ -171,39 +202,69 @@
             return num > 9 ? (num + "") : ("0" + num);
         }
         $scope.submit = function () {
-            if (ruleinstance.ruletype==1){
-                //获得当前学期 当前督学所关注的教师
-                teacherScoreResource.saveListen({
-                    ruleflag:"TK_JS",
-                    masterNo:$cookieStore.get('user').account,
-                    taskNo:$scope.taskNo,
-                    per11:$scope.PER11,
-                    per12:$scope.PER12,
-                    per13:$scope.PER13,
-                    per14:$scope.PER14,
-                    per15:$scope.PER15,
-                    per16:$scope.PER16,
-                    total:$scope.totalvalue,
-                    jxjy:$scope.jxjy,
-                    tkpj:$scope.skpj,
-                    listetime:$scope.date.getFullYear() + "-" + formatTen($scope.date.getMonth() + 1) + "-" + formatTen($scope.date.getDate())+ ' 00:00:00'
-            },function(result){
-                    SweetAlert.swal({
-                        title: '督学评价保存成功',
-                        type: 'success',
-                        showCancelButton: false,
-                        confirmButtonColor: '#DD6B55',
-                        confirmButtonText: '好的',
-                        closeOnConfirm: true
-                    },function () {
-                        $uibModalInstance.dismiss('cancel');
+            if ($scope.thistype=='新增'){
+                if (ruleinstance.ruletype==1){
+                    //获得当前学期 当前督学所关注的教师
+                    teacherScoreResource.saveListen({
+                        ruleflag:"TK_JS",
+                        masterNo:$cookieStore.get('user').account,
+                        taskNo:$scope.taskNo,
+                        per11:$scope.PER11,
+                        per12:$scope.PER12,
+                        per13:$scope.PER13,
+                        per14:$scope.PER14,
+                        per15:$scope.PER15,
+                        per16:$scope.PER16,
+                        total:$scope.totalvalue,
+                        jxjy:$scope.jxjy,
+                        tkpj:$scope.skpj,
+                        listetime:$scope.date.getFullYear() + "-" + formatTen($scope.date.getMonth() + 1) + "-" + formatTen($scope.date.getDate())+ ' 00:00:00'
+                    },function(result){
+                        SweetAlert.swal({
+                            title: '督学评价保存成功',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: '好的',
+                            closeOnConfirm: true
+                        },function () {
+                            $uibModalInstance.dismiss('cancel');
+                        });
+                    },function(result){
+                        console.log("督学评价保存失败",result);
                     });
-                },function(result){
-                    console.log("督学评价保存失败",result);
-                });
+                }
+
+            }else {
+                if (ruleinstance.ruletype==1){
+                    teacherScoreResource.updateListen({
+                        planNo:$scope.planNo,
+                        per11:$scope.PER11,
+                        per12:$scope.PER12,
+                        per13:$scope.PER13,
+                        per14:$scope.PER14,
+                        per15:$scope.PER15,
+                        per16:$scope.PER16,
+                        total:$scope.totalvalue,
+                        jxjy:$scope.jxjy,
+                        tkpj:$scope.skpj,
+                        listetime:$scope.date.getFullYear() + "-" + formatTen($scope.date.getMonth() + 1) + "-" + formatTen($scope.date.getDate())+ ' 00:00:00'
+                    },function(result){
+                        SweetAlert.swal({
+                            title: '督学评价修改成功',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: '好的',
+                            closeOnConfirm: true
+                        },function () {
+                            $uibModalInstance.dismiss('cancel');
+                        });
+                    },function(result){
+                        console.log("督学评价修改失败",result);
+                    });
+                }
             }
-
-
         }
 
         //弹出层关闭按钮

@@ -2,10 +2,8 @@ package com.alienlab.niit.qm.controller;
 
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.*;
-import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
-import com.alienlab.niit.qm.entity.dto.CourseDto;
-import com.alienlab.niit.qm.entity.dto.MasterPlanDto;
-import com.alienlab.niit.qm.entity.dto.TeacherDto;
+import com.alienlab.niit.qm.entity.dto.*;
+import com.alienlab.niit.qm.repository.QmMasterListenRepository;
 import com.alienlab.niit.qm.service.BaseTermService;
 import com.alienlab.niit.qm.service.CourseService;
 import com.alienlab.niit.qm.service.QmMasterService;
@@ -40,6 +38,9 @@ public class QmMasterController {
     CourseService courseService;
     @Autowired
     BaseTermService baseTermService;
+    @Autowired
+    QmMasterListenRepository qmMasterListenRepository;
+
 
     @ApiOperation(value="根据督导工号和学期获得当前学期该督导所关注的教师列表")
     @ApiResponses({
@@ -104,8 +105,8 @@ public class QmMasterController {
     }
 
 
-    @ApiOperation(value="督学TK_JS评价")
-    @PostMapping(value="/masterlisten")
+    @ApiOperation(value="增加督学TK_JS评价")
+    @PostMapping(value="/masterTKJSlisten")
     public ResponseEntity insertMasterListen(@RequestParam String ruleflag,@RequestParam String masterNo,@RequestParam long taskNo,@RequestParam int per11,@RequestParam int per12
             ,@RequestParam int per13,@RequestParam int per14,@RequestParam int per15,@RequestParam int per16,@RequestParam int total
             ,@RequestParam String jxjy,@RequestParam String tkpj,@RequestParam String listetime){
@@ -130,6 +131,60 @@ public class QmMasterController {
             return ResponseEntity.ok().body(right);
         }else {
             ExecResult er=  new ExecResult(false,"评价保存保存失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
+
+    @ApiOperation(value="获得督学TK_JS评价")
+    @GetMapping(value="/masterTKJSlisten")
+    public ResponseEntity getMasterListen(@RequestParam long listenplanNo){
+
+        QmMasterListenEntity qmMasterListenEntity = qmMasterService.fingBylistenPlanNO(listenplanNo);
+        if (qmMasterListenEntity!=null){
+            return ResponseEntity.ok().body(qmMasterListenEntity);
+        }else {
+            ExecResult er=  new ExecResult(false,"评价获取失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
+
+    @ApiOperation(value="修改督学评价")
+    @PostMapping(value="/master/updatelisten")
+    public ResponseEntity updateMasterListen(@RequestParam long planNo,@RequestParam int per11,@RequestParam int per12,@RequestParam int per13,@RequestParam int per14,@RequestParam int per15,@RequestParam int per16,@RequestParam int total,@RequestParam String jxjy,@RequestParam String tkpj,@RequestParam String listetime){
+        QmMasterListenEntity qmMasterListenEntity =qmMasterListenRepository.findOne(planNo);
+        qmMasterListenEntity.setPer11(per11);
+        qmMasterListenEntity.setPer12(per12);
+        qmMasterListenEntity.setPer13(per13);
+        qmMasterListenEntity.setPer14(per14);
+        qmMasterListenEntity.setPer15(per15);
+        qmMasterListenEntity.setPer16(per16);
+        qmMasterListenEntity.setTotal(total);
+        qmMasterListenEntity.setJxjy(jxjy);
+        qmMasterListenEntity.setSkpj(tkpj);
+        qmMasterListenEntity.setListenTime(Timestamp.valueOf(listetime));
+        qmMasterListenEntity.setInputTime(new Timestamp(System.currentTimeMillis()));
+        QmMasterListenEntity qmMasterListenEntity1 = qmMasterService.saveQmMasterListen(qmMasterListenEntity);
+        if (qmMasterListenEntity1!=null){
+            ExecResult right=  new ExecResult(true,"评价修改成功！");
+            return ResponseEntity.ok().body(right);
+        }else {
+            ExecResult er=  new ExecResult(false,"评价修改失败！请重试");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
+
+    @ApiOperation(value="删除督学评价")
+    @DeleteMapping(value="/master/deletelisten")
+    public ResponseEntity deleteMasterListen(@RequestParam long listenNo){
+       boolean flag =qmMasterService.deleteListenRecord(listenNo);
+        if (flag){
+            ExecResult right=  new ExecResult(true,"评价删除成功！");
+            return ResponseEntity.ok().body(right);
+        }else {
+            ExecResult er=  new ExecResult(false,"评价删除失败！请重试");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
 
@@ -286,5 +341,27 @@ public class QmMasterController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
+
+    @ApiOperation(value="获取督导听课记录")
+    @GetMapping (value = "/master/listenPlanDto")
+    public ResponseEntity findMasterListenPlan( @RequestParam String masterNo,@RequestParam String termNo, @RequestParam String teracherName,@RequestParam String startTime,@RequestParam String endTime)  {
+
+        try {
+            List <ListenPlanDto> listenPlanDtos = qmMasterService.findMasterListenPlan(masterNo, termNo, teracherName, startTime, endTime);
+            if (listenPlanDtos!=null){
+                return ResponseEntity.ok().body(listenPlanDtos);
+            }else {
+                ExecResult er=new ExecResult(false,"督学根据教师姓名查询本部门的教师名称失败！");
+                //发生错误返回500状态
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,"系统出错，督学根据教师姓名查询本部门的教师名称失败！");
+            //发生错误返回500状态
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
 
 }

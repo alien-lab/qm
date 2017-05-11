@@ -3,6 +3,7 @@ package com.alienlab.niit.qm.service.impl;
 import com.alienlab.niit.qm.common.WeekdayUtils;
 import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.CourseDetailDto;
+import com.alienlab.niit.qm.entity.dto.ListenPlanDto;
 import com.alienlab.niit.qm.entity.dto.MasterPlanDto;
 import com.alienlab.niit.qm.entity.dto.TeacherDto;
 import com.alienlab.niit.qm.repository.*;
@@ -16,6 +17,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -80,6 +82,7 @@ public class QmMasterServiceImpl implements QmMasterService {
               courseDetailDto.setCourseName(baseTeachTaskEntities.get(i).getCourseName());
               courseDetailDto.setTeacherNo(baseTeachTaskEntities.get(i).getTeacherNo());
               courseDetailDto.setTaskNo(baseTeachTaskEntities.get(i).getTaskNo());
+              courseDetailDto.setCourseType(baseTeachTaskEntities.get(i).getCourseType());
               courseDetailDto.setTeacherName(baseTeacherRepository.findByTeacherNo(baseTeachTaskEntities.get(i).getTeacherNo()).getTeacherName());
               List<BaseTaskScheEntity> baseTaskScheEntities= baseTaskScheRepository.findByTaskNo(baseTeachTaskEntities.get(i).getTaskNo());
               if (baseTaskScheEntities.size()!=0){
@@ -163,6 +166,7 @@ public class QmMasterServiceImpl implements QmMasterService {
               masterPlanDto.setPlanWeek(qmMasterListenPlanEntities.get(i).getPlanWeek());
               masterPlanDto.setSetTime(qmMasterListenPlanEntities.get(i).getSetTime());
               masterPlanDto.setCourseName(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getCourseName());
+             masterPlanDto.setCourseType(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getCourseType());
               masterPlanDto.setTeacherName(baseTeacherRepository.findByTeacherNo(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getTeacherNo()).getTeacherName());
               BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getClassNo());
               if (baseClassesEntity!=null){
@@ -199,6 +203,7 @@ public class QmMasterServiceImpl implements QmMasterService {
                 masterPlanDto.setPlanWeek(qmMasterListenPlanEntities.get(i).getPlanWeek());
                 masterPlanDto.setSetTime(qmMasterListenPlanEntities.get(i).getSetTime());
                 masterPlanDto.setCourseName(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getCourseName());
+               masterPlanDto.setCourseType(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getCourseType());
                 masterPlanDto.setTeacherName(baseTeacherRepository.findByTeacherNo(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getTeacherNo()).getTeacherName());
                 BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo(baseTeachTaskRepository.findOne(qmMasterListenPlanEntities.get(i).getTaskNo()).getClassNo());
                 if (baseClassesEntity!=null){
@@ -388,4 +393,45 @@ public class QmMasterServiceImpl implements QmMasterService {
         }
 
     }
+
+    @Override
+    public List<ListenPlanDto> findMasterListenPlan(String masterNo, String termNo, String teracherName, String startTime, String endTime) {
+
+        List<ListenPlanDto> listenPlanDtos = new ArrayList<>();
+        String sql="SELECT c.`listen_no`, a.`course_name`,a.`course_type`,b.`teacher_name`,c.`total`,c.`listen_time` FROM base_teach_task a,base_teacher b,qm_master_listen c WHERE a.`term_no`='"+termNo+"' AND a.`teacher_no`=b.`teacher_no` AND a.`task_no`=c.`task_no` AND c.`teacher_no`='"+masterNo+"' AND b.`teacher_name` LIKE'%"+teracherName+"%'AND c.`listen_time`>='"+startTime+"' AND '"+endTime+"'>=c.`listen_time`";
+        List <Map<String,Object>>totallist = jdbcTemplate.queryForList(sql);
+        if (totallist.size()!=0){
+            for (int i=0;i<totallist.size();i++){
+                ListenPlanDto listenPlanDto = new ListenPlanDto();
+                listenPlanDto.setListenNo((Long) totallist.get(i).get("listen_no"));
+                listenPlanDto.setCourseName((String) totallist.get(i).get("course_name"));
+                listenPlanDto.setCourseType((String) totallist.get(i).get("course_type"));
+                listenPlanDto.setTeacherName((String) totallist.get(i).get("teacher_name"));
+                listenPlanDto.setTotal((Integer) totallist.get(i).get("total"));
+                listenPlanDto.setListenTime(String.valueOf(totallist.get(i).get("listen_time")));
+                listenPlanDtos.add(listenPlanDto);
+            }
+
+        }
+        return listenPlanDtos;
+    }
+
+    @Override
+    public QmMasterListenEntity fingBylistenPlanNO(long listenPlanNo) {
+        QmMasterListenEntity qmMasterListenEntity = qmMasterListenRepository.findOne(listenPlanNo);
+        return qmMasterListenEntity;
+    }
+
+    @Override
+    public boolean deleteListenRecord(long listenNo) {
+        try {
+            qmMasterListenRepository.delete(listenNo);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
 }

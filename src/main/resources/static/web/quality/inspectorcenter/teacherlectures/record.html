@@ -11,7 +11,7 @@
                 <span>开始时间：</span>
             </div>
             <div class="input-group col-md-6 ">
-                <input type="text" name="date" required="" uib-datepicker-popup="{{format}}" ng-model="date" is-open="opened" min-date="minDate" max-date="'2019-12-22'" uib-datepicker-options="dateOptions"
+                <input type="text" name="date" required="" uib-datepicker-popup="{{format}}" ng-model="date" is-open="opened"  uib-datepicker-options="dateOptions"
                        close-text="Close" class="form-control" />
                 <span class="input-group-btn">
                 <button type="button" ng-click="open($event)" class="btn btn-default">
@@ -27,7 +27,7 @@
                 <span>结束时间：</span>
             </div>
         <div class="input-group col-md-6">
-                <input type="text" name="date2" required="" uib-datepicker-popup="{{format}}" ng-model="date2" is-open="opened2" min-date="minDate" max-date="'2019-12-22'" uib-datepicker-options="dateOptions"
+                <input type="text" name="date2" required="" uib-datepicker-popup="{{format}}" ng-model="date2" is-open="opened2"  uib-datepicker-options="dateOptions"
                        close-text="Close" class="form-control" />
                 <span class="input-group-btn">
                 <button type="button" ng-click="open2($event)" class="btn btn-default">
@@ -39,12 +39,12 @@
     </div>
      <div class="col-md-3 col-xs-6">
          <div class="col-md-6">
-             <input type="text" title="可以为空" class="form-control" placeholder="任课教师" ng-model="coursekeyWords">
+             <input type="text" title="可以为空" class="form-control" placeholder="任课教师" ng-model="teacherkeyWords">
          </div>
        <div class="col-md-6">
            <div class="row">
                <div class="col-md-6">
-                   <button ng-click="searchCourse()" style="margin-left: 5px;" class="btn btn-success" type="button">搜索</button>
+                   <button ng-click="searchPlan()" style="margin-left: 5px;" class="btn btn-success" type="button">搜索</button>
                </div>
                <div  class="col-md-6">
                    <button ng-click="goback()" style="margin-left: 5px;" class="btn btn-primary" type="button">返回上一步</button>
@@ -64,32 +64,32 @@
             <td >听课日期</td>
             <td >操作</td>
         </tr>
-        <tr >
+        <tr ng-repeat="plan in listenPlans">
             <td>
                 <!-- editable username (text with validation)-->
-                <span  >许丽花</span>
+                <span  >{{plan.teacherName}}</span>
             </td>
             <td>
                 <!-- editable status (select-local)-->
-                <span >轻量级框架技术</span>
+                <span >{{plan.courseName}}</span>
             </td>
             <td>
                 <!-- editable group (select-remote)-->
-                <span   >限选课</span>
+                <span>{{plan.courseType}}</span>
             </td>
             <td>
                 <!-- editable status (select-local)-->
-                <span   >100</span>
+                <span>{{plan.total}}</span>
             </td>
             <td>
                 <!-- editable group (select-remote)-->
-                <span   >2017-05-04</span>
+                <span>{{plan.listenTime}}</span>
             </td>
             <td >
-                <button ng-click="update()" title="修改" class="btn btn-sm btn-info">
+                <button ng-click="updatePlan(plan.listenNo,plan.teacherName,plan.courseName,plan.courseType)" title="修改" class="btn btn-sm btn-info">
                     <em class="fa fa-pencil"></em>
                 </button>
-                <button ng-click="removeUser($index)" title="删除" class="btn btn-sm btn-danger">
+                <button ng-click="removePlan($index,plan.listenNo)" title="删除" class="btn btn-sm btn-danger">
                     <em class="fa fa-trash"></em>
                 </button>
             </td>

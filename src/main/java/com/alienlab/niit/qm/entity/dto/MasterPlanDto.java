@@ -10,6 +10,7 @@ public class MasterPlanDto extends QmMasterListenPlanEntity{
     private String teacherName;
     private String className;
     private String courseName;
+    private String courseType;
 
     public String getTeacherName() {
         return teacherName;
@@ -33,5 +34,13 @@ public class MasterPlanDto extends QmMasterListenPlanEntity{
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public String getCourseType() {
+        return courseType;
+    }
+
+    public void setCourseType(String courseType) {
+        this.courseType = courseType;
     }
 }
