@@ -125,6 +125,10 @@
 
         //
         $scope.teaScore =function (courseType,taskNo,courseName,teacherName) {
+            console.log(courseType);
+            console.log(taskNo);
+            console.log(courseName);
+            console.log(teacherName);
             if (courseType=="实训课"){
                 ruleinstance.ruletype = 2;
             }else {

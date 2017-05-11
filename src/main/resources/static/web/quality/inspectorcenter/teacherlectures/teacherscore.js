@@ -42,6 +42,8 @@
 
     teacherscore_module.controller("teacherscoreController",["$scope","$rootScope","$uibModalInstance","loadRuleService","ruleinstance","ngDialog","teacherscoreinstance","$cookieStore","teacherScoreResource","SweetAlert",function($scope,$rootScope,$uibModalInstance,loadRuleService,ruleinstance,ngDialog,teacherscoreinstance,$cookieStore,teacherScoreResource,SweetAlert){
 
+        $scope.planNo= ruleinstance.planNo;
+        $scope.thistype = ruleinstance.type;
         //各项初始值
         if ($scope.thistype=='新增'){
             $scope.slidervalue=10;
@@ -49,8 +51,7 @@
             $scope.slidervalue=0;
             $scope.totalvalue=0;
         }
-        $scope.planNo= ruleinstance.planNo;
-        $scope.thistype = ruleinstance.type;
+
         //课程名称
         $scope.courseName = ruleinstance.courseName;
         //教师姓名
@@ -207,6 +208,36 @@
                     //获得当前学期 当前督学所关注的教师
                     teacherScoreResource.saveListen({
                         ruleflag:"TK_JS",
+                        masterNo:$cookieStore.get('user').account,
+                        taskNo:$scope.taskNo,
+                        per11:$scope.PER11,
+                        per12:$scope.PER12,
+                        per13:$scope.PER13,
+                        per14:$scope.PER14,
+                        per15:$scope.PER15,
+                        per16:$scope.PER16,
+                        total:$scope.totalvalue,
+                        jxjy:$scope.jxjy,
+                        tkpj:$scope.skpj,
+                        listetime:$scope.date.getFullYear() + "-" + formatTen($scope.date.getMonth() + 1) + "-" + formatTen($scope.date.getDate())+ ' 00:00:00'
+                    },function(result){
+                        SweetAlert.swal({
+                            title: '督学评价保存成功',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: '好的',
+                            closeOnConfirm: true
+                        },function () {
+                            $uibModalInstance.dismiss('cancel');
+                        });
+                    },function(result){
+                        console.log("督学评价保存失败",result);
+                    });
+                }else  if (ruleinstance.ruletype==2){
+                    //获得当前学期 当前督学所关注的教师
+                    teacherScoreResource.saveListen({
+                        ruleflag:"TK_SX",
                         masterNo:$cookieStore.get('user').account,
                         taskNo:$scope.taskNo,
                         per11:$scope.PER11,
