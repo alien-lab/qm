@@ -21,6 +21,13 @@
             getCaredTeachers: { method: 'GET',isArray:true},
             getCaredTeacherCourse: { method: 'GET',isArray:true ,url:'../qm-api/master/caredteachercourse'},
             getRules: { method: 'GET',isArray:true ,url:'../qm-api/master/rule'},
+            getConfig: { method: 'GET',isArray:true ,url:'../qm-api/master/config'},
+            getSches: { method: 'GET',isArray:true,url:'../qm-api/master/listenplan'},
+            getAllSches: { method: 'GET',isArray:true,url:'../qm-api/master/listenplans'},
+            getTeacherCourseList: { method: 'GET',isArray:true,url:'../qm-api/master/termteachercourseDto'},
+            getdepTeachers:{ method: 'GET',url:'../qm-api/master/teacherDto'},
+            getdayCourses:{ method: 'GET',url:'../qm-api/master/daycourse'},
+
 
         });
         return service;
@@ -31,6 +38,7 @@
 
     tealectureform_module.controller("lecturesformController",["$scope","$state","ngDialog","$cookieStore","$uibModal","qmMsterResource","ruleinstance",function($scope,$state,ngDialog,$cookieStore,$uibModal,qmMsterResource,ruleinstance){
 
+        $scope.weekDay="";
         //从cookies获得当前用户
         $scope.masterTeacher = {
             account : $cookieStore.get('user').account,
@@ -61,7 +69,21 @@
 
         }
         $scope.scheWeek = $scope.lectureWeeks[0].weekid;
-
+        //获得初始日期下的听课计划
+        qmMsterResource.getSches({
+            masterNo:$cookieStore.get('user').account,
+            termNo:$cookieStore.get('currentTerm').termNo,
+            selectWeek:$scope.scheWeek
+        },function(result){
+            console.log(result);
+            if (result.length==0||result==null){
+                $scope.tkjhPlan=[];
+            }else {
+                $scope.tkjhPlan = result;
+            }
+        },function(result){
+            console.log("督学计划听课列表获取失败",result);
+        });
         //添加听课计划
         $scope.addSche = function () {
             $state.go("qm.lecturesche");
@@ -71,23 +93,51 @@
         $scope.goback = function () {
             $state.go("qm.tealecture");
         }
-        $scope.openTimed = function () {
-            console.log($scope.scheWeek);
-            var dialog = ngDialog.open({
-                template: '<h4 style="text-align: center">对不起，您在第 '+$scope.scheWeek+' 周的没有听课计划</h4>',
-                plain: true,
-                closeByDocument: false,
-                closeByEscape: false,
-                controller:'lecturesformController'
+        //按照周次获得当前督学的计划听课记录
+        function getSches() {
+            qmMsterResource.getSches({
+                masterNo:$cookieStore.get('user').account,
+                termNo:$cookieStore.get('currentTerm').termNo,
+                selectWeek:$scope.scheWeek
+            },function(result){
+                console.log(result);
+                if (result.length==0||result==null){
+                    $scope.tkjhPlan=[];
+                    var dialog = ngDialog.open({
+                        template: '<h4 style="text-align: center">对不起，您在第 '+$scope.scheWeek+' 周的没有听课计划</h4>',
+                        plain: true,
+                        closeByDocument: false,
+                        closeByEscape: false,
+                        controller:'lecturesformController'
+                    });
+                }else {
+                    $scope.tkjhPlan = result;
+                }
+            },function(result){
+                console.log("督学计划听课列表获取失败",result);
             });
+        }
 
+        $scope.openTimed = function () {
+                $scope.tkjhPlan=[];
+               getSches();
         };
 
         //
-        $scope.teaScore =function (courseName,teacherName) {
-            ruleinstance.ruletype = 1;
+        $scope.teaScore =function (courseType,taskNo,courseName,teacherName) {
+            console.log(courseType);
+            console.log(taskNo);
+            console.log(courseName);
+            console.log(teacherName);
+            if (courseType=="实训课"){
+                ruleinstance.ruletype = 2;
+            }else {
+                ruleinstance.ruletype = 1;
+            }
+            ruleinstance.type = '新增';
             ruleinstance.courseName = courseName;
             ruleinstance.teacherName = teacherName;
+            ruleinstance.taskNo = taskNo;
                 var teaScoreinfo = $uibModal.open({
                     animation: true,
                     templateUrl: "quality/inspectorcenter/teacherlectures/teacherscore.html",
@@ -99,14 +149,42 @@
         }
 
 
-        //根据教师姓名查询
+        //查询教师姓名
         $scope.searchTeacher = function () {
             $scope.teacherString=1;
             $scope.dayString=0;
+            $scope.searchteacherCourse=[];
+            $scope.pageteacherCourse=[];
+        }
+
+        $scope.searchTeacherCourse =function () {
+            $scope.searchteacherCourse=[];
+            $scope.pageteacherCourse=[];
+            //获得所点击的教师的课程
+            qmMsterResource.getCaredTeacherCourse({
+                teacherNo:$scope.selectedTeacher.teacherNo,
+                termNo:$cookieStore.get('currentTerm').termNo
+            },function(result){
+                console.log(result);
+                if (result.length!=0){
+                    $scope.searchteacherCourse = result;
+                }else {
+                    var dialog = ngDialog.open({
+                        template: '<h4 style="text-align: center">对不起，教师 '+teacherName+' 在本学期无课程</h4>',
+                        plain: true,
+                        closeByDocument: false,
+                        closeByEscape: false,
+                        controller:'lecturesformController'
+                    });
+                }
+            },function(result){
+                console.log("教师课程列表获取失败",result);
+            });
         }
 
         //根据工作日查询
         $scope.searchDay = function () {
+            $scope.searchteacherCourse=[];
             $scope.dayString=1;
             $scope.teacherString=0;
         }
@@ -127,6 +205,7 @@
 
         //选择其中一个关注的教师
         $scope.chooseCaredTeacher = function (teacherNo,teacherName) {
+            $scope.pageteacherCourse=[];
             for (var i=0;i<$scope.caredteachers.length;i++){
                 if ($scope.caredteachers[i].id ==teacherNo) {
                 $scope.caredteachers[i].checked = true;
@@ -154,6 +233,60 @@
                 console.log("教师课程列表获取失败",result);
             });
 
+        }
+
+
+        //查询教师信息
+        $scope.refreshTeachers=function(keyword){
+            if (keyword!=null||keyword!=""){
+                qmMsterResource.getdepTeachers({
+                    keyword:keyword,
+                    index:0,
+                    length:20,
+                    termNo:$cookieStore.get('currentTerm').termNo,
+                    masterNo:$scope.masterTeacher.account,
+                },function(result){
+                    console.log(result)
+                    return $scope.people=result.content;
+                },function(result){
+                    console.log("查询教师信息失败",result);
+                });
+            }
+        }
+
+        //根据周几查询
+        $scope.searchweekDay= function (string,index,length) {
+            $scope.caredteacherCourse=[];
+            $scope.weekDay = string;
+            qmMsterResource.getdayCourses({
+                keyword:string,
+                index:0,
+                length:6,
+                termNo:$cookieStore.get('currentTerm').termNo,
+                masterNo:$scope.masterTeacher.account,
+            },function(result){
+                console.log(result)
+                $scope.pageteacherCourse =result;
+            },function(result){
+                console.log("督导根据周几获取本部门的教师课程信息",result);
+            });
+        }
+
+        $scope.loadData=function (index,length) {
+            console.log($scope.weekDay);
+            qmMsterResource.getdayCourses({
+                keyword:$scope.weekDay,
+                index:index,
+                length:length,
+                termNo:$cookieStore.get('currentTerm').termNo,
+                masterNo:$scope.masterTeacher.account,
+            },function(result){
+                console.log(result)
+                $scope.pageteacherCourse=[];
+                $scope.pageteacherCourse =result;
+            },function(result){
+                console.log("督导根据周几获取本部门的教师课程信息",result);
+            });
         }
     }]);
 })();

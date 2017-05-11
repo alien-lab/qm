@@ -2,16 +2,16 @@
     <div class="col-lg-12">
         <div id="panelPortlet6" class="panel panel-info" style="margin-bottom: -3px;">
             <em ng-click="cancel()" style="float: right;font-size: 20px;" class="fa fa-close " ></em>
-            <div  class="panel-heading portlet-handler">修改听课计划</div>
+            <div  class="panel-heading portlet-handler">督学听课计划</div>
             <div class="panel-body" style="font-family: 微软雅黑">
                 <p>
-                    任课教师：许丽花
+                    任课教师：{{teacherName}}
                 </p>
                 <p>
-                    课程名称：《面向对象程序设计》
+                    课程名称：《{{courseName}}》
                 </p>
                 <p>
-                    上课班级：软件1641
+                    上课班级：{{className}}
                 </p>
                 <p>
                     <div  class="form-group row">
@@ -31,7 +31,7 @@
                 </p>
             </div>
     <div class="panel-footer text-center" >
-        <button type="submit" ng-click="submit()" class="btn btn-info" >提交听课计划</button>
+        <button ng-click="submitSche()" class="btn btn-info" >提交听课计划</button>
     </div>
         </div>
 

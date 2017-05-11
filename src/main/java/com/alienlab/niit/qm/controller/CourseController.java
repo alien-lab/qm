@@ -188,7 +188,7 @@ public class CourseController {
         }
     }
 
-    @ApiOperation(value="根据学期，教师工号返回课程")
+    @ApiOperation(value="根据学期，教师工号返回课程详情")
     @GetMapping (value = "/termteachercourse")
     public ResponseEntity getCourseBytermNoAndteacherNo( @RequestParam String termNo,@RequestParam String teacherNo)  {
 
@@ -208,6 +208,7 @@ public class CourseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
+
 
 
 }

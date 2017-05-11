@@ -132,4 +132,12 @@ public class BaseTermServiceImpl implements BaseTermService {
         long currentweek = (long) termMap.get("currentweek");
         return currentweek;
     }
+
+    @Override
+    public long getSelectWeek(String time) {
+        String sql = "SELECT FLOOR((TO_DAYS('"+time+"')-TO_DAYS(term_startdate)) /7)+1 currentweek FROM base_term WHERE term_status=1";
+        Map<String,Object>  termMap = jdbcTemplate.queryForMap(sql);
+        long currentweek = (long) termMap.get("currentweek");
+        return currentweek;
+    }
 }

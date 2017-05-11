@@ -1,4 +1,5 @@
 package com.alienlab.niit.qm.entity;
+import javax.persistence.GeneratedValue;
 import java.sql.Date;
 import java.sql.Timestamp;
 /**
@@ -9,6 +10,7 @@ import java.sql.Timestamp;
 public class QmMasterListenPlanEntity {
     private long planNo;
 
+    @GeneratedValue
     @javax.persistence.Id
     @javax.persistence.Column(name = "plan_no")
     public long getPlanNo() {

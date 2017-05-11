@@ -10,7 +10,6 @@ import java.sql.Timestamp;
 @javax.persistence.Table(name = "qm_dep_teacher", schema = "qualitymonitor", catalog = "")
 public class QmDepTeacherEntity {
     @Id
-    private Long id;
     private String termNo;
 
     @javax.persistence.Basic

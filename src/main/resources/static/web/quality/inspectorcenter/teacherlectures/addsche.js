@@ -13,7 +13,111 @@
         });
     }]);
 
-    addsche_module.controller("addscheController",["$scope","$uibModalInstance",function($scope,$uibModalInstance){
+    addsche_module.factory("schePlanResource",["$resource",function($resource){
+        var service = $resource('../qm-api/master', {}, {
+            updateSche:{method: 'POST',url:'../qm-api/master/updatelistenplan'},
+            deleteSchePlan:{method: 'POST',url:'../qm-api/master/deletelistenplan'},
+            addSchePlan:{method: 'POST',url:'../qm-api/master/addlistenplan'},
+
+
+        });
+        return service;
+
+    }]);
+
+    addsche_module.controller("addscheController",["$scope","$uibModalInstance","lecturescheinstance","schePlanResource","SweetAlert","$rootScope","$cookieStore",function($scope,$uibModalInstance,lecturescheinstance,schePlanResource,SweetAlert,$rootScope,$cookieStore){
+        $scope.status = lecturescheinstance.status;
+        console.log($scope.status);
+        $scope.taskNo = lecturescheinstance.taskNo;
+        $scope.planNo = lecturescheinstance.planNo;
+        $scope.teacherName = lecturescheinstance.teacherName ;
+        $scope.courseName =lecturescheinstance.courseName;
+        $scope.className=lecturescheinstance.className;
+
+
+        $scope.masterTeacher = {
+            account : $cookieStore.get('user').account,
+            name:$cookieStore.get('user').name,
+            usertype: $cookieStore.get('user').type
+        }
+
+        function formatTen(num) {
+            return num > 9 ? (num + "") : ("0" + num);
+        }
+
+        //提交按钮
+        $scope.submitSche = function () {
+            if ( $scope.status=="修改"){
+                //修改计划
+                schePlanResource.updateSche({
+                    planNo:$scope.planNo,
+                    listetime:$scope.date.getFullYear() + "-" + formatTen($scope.date.getMonth() + 1) + "-" + formatTen($scope.date.getDate())
+                },function(result){
+                    SweetAlert.swal({
+                        title: '听课计划修改成功',
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: '好的',
+                        closeOnConfirm: true
+                    },function () {
+                        $uibModalInstance.dismiss('cancel');
+                        $rootScope.$broadcast("reloadSche");
+                    });
+                },function(result){
+                    console.log("听课计划修改失败",result);
+                    SweetAlert.swal({
+                        title: '听课计划修改失败',
+                        type: 'error',
+                        text:'请检查数据是否填写完整',
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: '好的',
+                        closeOnConfirm: true
+                    },function () {
+                        $uibModalInstance.dismiss('cancel');
+                        $rootScope.$broadcast("reloadSche");
+                    });
+                });
+            }else if($scope.status=="新增"){
+                //增加计划
+                schePlanResource.addSchePlan({
+                    taskNo:$scope.taskNo,
+                    termNo:$cookieStore.get('currentTerm').termNo,
+                    teacherNo:$scope.masterTeacher.account,
+                    plantime:$scope.date.getFullYear() + "-" + formatTen($scope.date.getMonth() + 1) + "-" + formatTen($scope.date.getDate())
+                },function(result){
+                    SweetAlert.swal({
+                        title: '听课计划增加成功',
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: '好的',
+                        closeOnConfirm: true
+                    },function () {
+                        $uibModalInstance.dismiss('cancel');
+                        $rootScope.$broadcast("reloadSche");
+                    });
+                },function(result){
+                    console.log("督学评价增加失败",result);
+                    SweetAlert.swal({
+                        title: '督学评价增加失败',
+                        type: 'error',
+                        text:'请检查数据是否填写完整',
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: '好的',
+                        closeOnConfirm: true
+                    },function () {
+                        $uibModalInstance.dismiss('cancel');
+                        $rootScope.$broadcast("reloadSche");
+                    });
+                });
+
+            }
+
+        }
+
         //弹出层关闭按钮
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');

@@ -1,5 +1,6 @@
 package com.alienlab.niit.qm.entity;
 
+import javax.persistence.GeneratedValue;
 import java.sql.Timestamp;
 
 /**
@@ -10,6 +11,7 @@ import java.sql.Timestamp;
 public class QmMasterConfigEntity {
     private long configNo;
 
+    @GeneratedValue
     @javax.persistence.Id
     @javax.persistence.Column(name = "config_no")
     public long getConfigNo() {

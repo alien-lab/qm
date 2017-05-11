@@ -29,5 +29,7 @@ public interface BaseTeachTaskRepository extends JpaRepository<BaseTeachTaskEnti
 
     List<BaseTeachTaskEntity> findByTaskNo(long taskNo);
 
+    List<BaseTeachTaskEntity>findByTermNo(String termNo);
+
 
 }

@@ -77,18 +77,33 @@ public class BaseClassLogicServiceImpl implements BaseClassLogicService {
         String [] studentsNo = stuNo.split(";");
         try {
             List<BaseClassLogicEntity> baseClassLogicEntities = baseClassLogicRepository.findByTaskNo(taskNo);
+           System.out.print(baseClassLogicEntities.size());
             if (baseClassLogicEntities!=null){
                 for (int i =0;i<studentsNo.length;i++){
-                    BaseClassLogicEntity baseClassLogicEntity = new BaseClassLogicEntity();
-                    baseClassLogicEntity.setTermNo(termNo);
-                    baseClassLogicEntity.setStudentNo(studentsNo[i]);
-                    baseClassLogicEntity.setTaskNo(taskNo);
-                    baseClassLogicEntity.setLogicNo(baseClassLogicEntities.get(1).getLogicNo());
-                    baseClassLogicEntity.setLogicName(baseClassLogicEntities.get(1).getLogicName());
-                    baseClassLogicEntity.setCourseNo(baseClassLogicEntities.get(1).getCourseNo());
-                    baseClassLogicEntity.setDatatime(Timestamp.valueOf(df.format(new Date())));
-                    baseClassLogicRepository.save(baseClassLogicEntity);
-                    flag = true;
+                    if (baseClassLogicEntities.size()==0){
+                        BaseClassLogicEntity baseClassLogicEntity = new BaseClassLogicEntity();
+                        baseClassLogicEntity.setTermNo(termNo);
+                        baseClassLogicEntity.setStudentNo(studentsNo[i]);
+                        baseClassLogicEntity.setTaskNo(taskNo);
+                        baseClassLogicEntity.setLogicNo("");
+                        baseClassLogicEntity.setLogicName("");
+                        baseClassLogicEntity.setCourseNo("");
+                        baseClassLogicEntity.setDatatime(Timestamp.valueOf(df.format(new Date())));
+                        baseClassLogicRepository.save(baseClassLogicEntity);
+                        flag = true;
+                    }else {
+                        BaseClassLogicEntity baseClassLogicEntity = new BaseClassLogicEntity();
+                        baseClassLogicEntity.setTermNo(termNo);
+                        baseClassLogicEntity.setStudentNo(studentsNo[i]);
+                        baseClassLogicEntity.setTaskNo(taskNo);
+                        baseClassLogicEntity.setLogicNo(baseClassLogicEntities.get(0).getLogicNo());
+                        baseClassLogicEntity.setLogicName(baseClassLogicEntities.get(0).getLogicName());
+                        baseClassLogicEntity.setCourseNo(baseClassLogicEntities.get(0).getCourseNo());
+                        baseClassLogicEntity.setDatatime(Timestamp.valueOf(df.format(new Date())));
+                        baseClassLogicRepository.save(baseClassLogicEntity);
+                        flag = true;
+                    }
+
                 }
 
             }else {

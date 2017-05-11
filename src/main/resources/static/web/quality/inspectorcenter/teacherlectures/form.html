@@ -33,151 +33,24 @@
                         </div>
                     </div>
                     <div class="row" style="text-align: center;margin-top: 20px">
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
+                        <div class="col-md-4" ng-repeat="plan in tkjhPlan">
+                            <div  ng-click="teaScore(plan.courseType,plan.taskNo,plan.courseName,plan.teacherName)" class="panel widget" style="box-shadow: 1px 1px 1px #888888;">
                                 <div class="portlet-handler">
                                     <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                          许丽花
+                                        <div class="col-xs-4 bg-success-light text-center" style="font-size: 160%">
+                                          {{plan.teacherName}}
                                         </div>
                                         <div class="col-xs-8">
                                             <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
+                                                <h4 class="mt0"> {{plan.courseName}}</h4>
+                                                <p class="mb0 text-muted">上课班级： {{plan.className}}</p>
+                                                <p class="mb0 text-muted">听课时间：{{plan.planTime}}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                                <p class="mb0 text-muted">上课班级：软件1511班</p>
-                                                <p class="mb0 text-muted">听课时间：2017-5-13</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </uib-tab>
                 <uib-tab>
@@ -187,7 +60,7 @@
                     </div>
                     <div class="row" style="text-align: center;margin-top: 20px">
                         <div class="col-md-4" ng-repeat=" course in caredteacherCourse">
-                            <div  ng-click="teaScore(course.courseName,course.teacherName)" class="panel widget" style="box-shadow: 1px 1px 1px #888888;">
+                            <div  ng-click="teaScore(course.courseType,course.taskNo,course.courseName,course.teacherName)" class="panel widget" style="box-shadow: 1px 1px 1px #888888;">
                                 <div class="portlet-handler">
                                     <div class="row row-table row-flush" style="height: 150px">
                                         <div class="col-xs-4 bg-success-light text-center" style="font-size: 160%">
@@ -207,163 +80,89 @@
                 </uib-tab>
                 <uib-tab>
                     <uib-tab-heading>全部教学任务</uib-tab-heading>
-                    <div class="row">
-                        <div class="col-md-1 col-sm-2 col-xs-5" data-ng-if="teacherString==0">
-                            <button ng-click="searchTeacher()" type="button" class="mb-sm btn btn-primary">按教师姓名查询</button>
-                        </div>
-                        <div class="col-md-1 col-sm-2 col-xs-5" style="left: 30px" data-ng-if="dayString==0">
-                            <button ng-click="searchDay()" type="button" class="mb-sm btn btn-success">按工作日查询</button>
-                        </div>
-                        <div class="col-md-4 col-sm-2 col-xs-5" style="left: 50px"data-ng-if="dayString==0&&teacherString==1">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text"  class="form-control" placeholder="请输入教师姓名" ng-model="coursekeyWords">
+                    <div ng-controller="lecturesformController">
+                        <div class="row" >
+                            <div class="col-md-1 col-sm-2 col-xs-5" data-ng-if="teacherString==0">
+                                <button ng-click="searchTeacher()" type="button" class="mb-sm btn btn-primary">按教师姓名查询</button>
+                            </div>
+                            <div class="col-md-1 col-sm-2 col-xs-5" style="left: 30px" data-ng-if="dayString==0">
+                                <button ng-click="searchDay()" type="button" class="mb-sm btn btn-success">按工作日查询</button>
+                            </div>
+                            <div class="col-md-4 col-sm-2 col-xs-5" style="left: 50px"data-ng-if="dayString==0&&teacherString==1">
+                                <div class="row" >
+                                    <div class="col-md-7">
+                                        <ui-select   ng-model="$parent.$parent.selectedTeacher" theme="bootstrap" ng-disabled="disabled">
+                                            <ui-select-match placeholder="输入教师姓名">{{$select.selected.teacherName}} &lt;{{$select.selected.teacherNo}}&gt;</ui-select-match>
+                                            <ui-select-choices style="width: 180%"  repeat="person in people | propsFilter: {teacherName: $select.search, teacherNo: $select.search}  "
+                                                               refresh="refreshTeachers($select.search)">
+                                                <div ng-bind-html="person.teacherName | highlight: $select.search"></div>
+                                                <small>工号: {{person.teacherNo}}  学院：{{person.depName}}</small>
+                                            </ui-select-choices>
+                                        </ui-select>
+
+                                    </div>
+                                    <div class="col-md-5">
+                                        <button ng-click="searchTeacherCourse()" type="button" class="mb-sm btn btn-primary">查询</button>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <button ng-click="searchTeacher()" type="button" class="mb-sm btn btn-primary">查询</button>
+                            </div>
+                            <div class="col-md-6 col-sm-2 col-xs-5" style="left: 30px" data-ng-if="teacherString==0&&dayString==1" >
+                                <button ng-click="searchweekDay('K1',0,6)" type="button" class="btn btn-square btn-default">周一</button>
+                                <button ng-click="searchweekDay('K2',0,6)" type="button" class="btn btn-square btn-default">周二</button>
+                                <button ng-click="searchweekDay('K3',0,6)" type="button" class="btn btn-square btn-default">周三</button>
+                                <button ng-click="searchweekDay('K4',0,6)" type="button" class="btn btn-square btn-default">周四</button>
+                                <button ng-click="searchweekDay('K5',0,6)" type="button" class="btn btn-square btn-default">周五</button>
+                                <button ng-click="searchweekDay('K6',0,6)" type="button" class="btn btn-square btn-default">周六</button>
+                                <button ng-click="searchweekDay('K7',0,6)" type="button" class="btn btn-square btn-default">周日</button>
+                            </div>
+                        </div>
+                        <div class="row" style="text-align: center;margin-top: 20px" >
+                            <div class="col-md-4" ng-repeat="course in searchteacherCourse">
+                                <div  ng-click="teaScore(course.courseType,course.taskNo,course.courseName,course.teacherName)" class="panel widget" style="box-shadow: 1px 1px 1px #888888;">
+                                    <div class="portlet-handler">
+                                        <div class="row row-table row-flush" style="height: 150px">
+                                            <div class="col-xs-4 bg-success-light text-center" style="font-size: 160%">
+                                                {{course.teacherName}}
+                                            </div>
+                                            <div class="col-xs-8">
+                                                <div class="panel-body text-center">
+                                                    <h4 class="mt0">{{course.courseName}}</h4>
+                                                    <p ng-repeat="section in course.sectionses" class="mb0 text-muted">{{section.scheSet}}&#45;&#45;{{section.scheAddr}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" ng-repeat="course in pageteacherCourse.content" >
+                                <div  ng-click="teaScore(course.taskNo,course.courseName,course.teacherName)" class="panel widget" style="box-shadow: 1px 1px 1px #888888;">
+                                    <div class="portlet-handler">
+                                        <div class="row row-table row-flush" style="height: 150px">
+                                            <div class="col-xs-4 bg-success-light text-center" style="font-size: 160%">
+                                                {{course.teacherName}}
+                                            </div>
+                                            <div class="col-xs-8">
+                                                <div class="panel-body text-center">
+                                                    <h4 class="mt0">{{course.courseName}}</h4>
+                                                    <p ng-repeat="section in course.sectionses" class="mb0 text-muted">{{section.scheSet}}--{{section.scheAddr}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-2 col-xs-5" style="left: 30px" data-ng-if="teacherString==0&&dayString==1" >
-                            <button type="button" class="btn btn-square btn-default">周一</button>
-                            <button type="button" class="btn btn-square btn-default">周二</button>
-                            <button type="button" class="btn btn-square btn-default">周三</button>
-                            <button type="button" class="btn btn-square btn-default">周四</button>
-                            <button type="button" class="btn btn-square btn-default">周五</button>
-                            <button type="button" class="btn btn-square btn-default">周六</button>
-                            <button type="button" class="btn btn-square btn-default">周日</button>
+                        <div class="col-lg-12 col-md-12 " data-ng-if="pageteacherCourse&&pageteacherCourse.length!=0">
+                        <nav aria-label="Page navigation" style="float: right" >
+                            <ul class="pagination pagination-sm" style="float: right">
+                                <li ng-disabled="courseArrays.first" ng-click="loadData(pageteacherCourse.number-1,pageteacherCourse.size)"><a href="javascript:void(0)">上一页</a></li>
+                                <li><a href="javascript:void(0)">{{pageteacherCourse.number+1}}/{{pageteacherCourse.totalPages}}</a></li>
+                                <li ng-disabled="courseArrays.last" ng-click="loadData(pageteacherCourse.number+1,pageteacherCourse.size)"><a href="javascript:void(0)">下一页</a></li>
+                            </ul>
+                        </nav>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div  uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" popover-placement="bottom" ng-click="teaScore()" class="panel widget" style="box-shadow: 2px 2px 2px #888888;">
-                                <div class="portlet-handler">
-                                    <div class="row row-table row-flush" style="height: 120px">
-                                        <div class="col-xs-4 bg-danger-light text-center" style="font-size: 160%">
-                                            许丽花
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <div class="panel-body text-center">
-                                                <h4 class="mt0">轻量级框架技术</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </uib-tab>
             </uib-tabset>
         </form>

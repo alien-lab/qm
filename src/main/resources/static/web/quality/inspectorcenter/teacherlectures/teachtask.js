@@ -8,18 +8,35 @@
         $stateProvider.state('qm.teachtasksche', {
             url: '/teachtasksche',
             title: '教师授课计划',
+            params:{"teacherNo":null},
             templateUrl: "quality/inspectorcenter/teacherlectures/teachtask.html",
             controller:"teachtaskscheController"
         });
     }]);
 
-    addsche_module.controller("teachtaskscheController",["$scope","$state","$uibModal",function($scope,$state,$uibModal){
+    addsche_module.controller("teachtaskscheController",["$scope","$state","$uibModal","$stateParams","qmMsterResource","$cookieStore","lecturescheinstance",function($scope,$state,$uibModal,$stateParams,qmMsterResource,$cookieStore,lecturescheinstance){
+
+        qmMsterResource.getTeacherCourseList({
+            teacherNo:$stateParams.teacherNo,
+            termNo:$cookieStore.get('currentTerm').termNo,
+        },function(result){
+            console.log(result);
+            $scope.courseList = result;
+
+        },function(result){
+            console.log("获取教师本学期课程列表获取失败",result);
+        });
+
+
+
+
+
 
         $scope.goBack = function () {
             $state.go("qm.lecturesche");
         }
 
-        $scope.addSche = function () {
+        $scope.addSche = function (taskNo,teacherName,courseName,className) {
             var addscheInfo = $uibModal.open({
                 animation: true,
                 templateUrl: "quality/inspectorcenter/teacherlectures/addsche.html",
@@ -28,6 +45,12 @@
                 size: "md",
                 backdrop: false
             });
+
+            lecturescheinstance.status="新增";
+            lecturescheinstance.taskNo=taskNo;
+            lecturescheinstance.teacherName=teacherName;
+            lecturescheinstance.courseName=courseName;
+            lecturescheinstance.className=className;
 
         }
 
