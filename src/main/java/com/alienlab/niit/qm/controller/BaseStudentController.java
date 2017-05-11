@@ -248,7 +248,7 @@ public class BaseStudentController{
 
             ExportParams params = new ExportParams("学生列表", "学生信息");
             params.setStyle(ExcelExportStylerBorderImpl.class);
-            Workbook workbook = ExcelExportUtil.exportExcel(params, BaseStudentEntity.class, studentDtos);
+            Workbook workbook = ExcelExportUtil.exportExcel(params, StudentDto.class, studentDtos);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
             String filename = "export_" + dateFormat.format(new Date()) + ".xls";

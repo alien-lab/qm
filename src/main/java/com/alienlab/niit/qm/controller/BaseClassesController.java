@@ -3,8 +3,14 @@ package com.alienlab.niit.qm.controller;
 import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.ClassDto;
+import com.alienlab.niit.qm.repository.BaseClassesRepository;
 import com.alienlab.niit.qm.service.*;
 import io.swagger.annotations.*;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.jeecgframework.poi.excel.ExcelExportUtil;
+import org.jeecgframework.poi.excel.ExcelImportUtil;
+import org.jeecgframework.poi.excel.entity.ImportParams;
+import org.jeecgframework.poi.excel.entity.TemplateExportParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,8 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/4/1.
@@ -34,6 +43,8 @@ public class BaseClassesController {
     private BaseStudentService baseStudentService;
     @Autowired
     private BaseDepartmentService baseDepartmentService;
+    @Autowired
+    private BaseClassesRepository baseClassesRepository;
 
     //通过年级和学院查询班级
     @ApiOperation(value = "年级和学院查询班级查询所有班级")
@@ -172,6 +183,62 @@ public class BaseClassesController {
             return ResponseEntity.ok().body(classDto);
         }else {
             ExecResult er = new ExecResult(false, "未获取班级信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
+    @ApiOperation(value = "Excel模板导出学生")
+    @PostMapping(value = "/class/ExcelTemplateClass")
+    public ResponseEntity excelTemplateClass() throws Exception {
+        TemplateExportParams params = new TemplateExportParams("WEB-INF/classes/static/web/quality/template/class.xls",0);
+        Map<String,Object> data = new HashMap<>();
+        Workbook workbook = ExcelExportUtil.exportExcel(params,data);
+        File savefile = new File("D:/excel/");
+        if (!savefile.exists()){
+            savefile.mkdirs();
+        }
+        FileOutputStream fos = new FileOutputStream("D:/excel/class.xls");
+        workbook.write(fos);
+        fos.close();
+        if (workbook != null) {
+            return ResponseEntity.ok().body(data);
+        } else {
+            ExecResult er = new ExecResult(false, "未成功导出");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+    }
+
+    @ApiOperation(value = "Excel导入学生")
+    @GetMapping(value = "/class/ExcelImportClass")
+    public ResponseEntity excelImportClass() throws Exception {
+        ImportParams params = new ImportParams();
+        params.setNeedSave(true);
+        List<BaseClassesEntity> listexcelClass = ExcelImportUtil.importExcel(new File("D:/excel/classes.xls")
+        ,BaseClassesEntity.class,params);
+        List<BaseClassesEntity> listClass = new ArrayList<>();
+        for (int n=0;n<listexcelClass.size();n++){
+            Date date = new Date();
+            Timestamp nousedate = new Timestamp(date.getTime());
+
+            BaseClassesEntity baseClassesEntity = new BaseClassesEntity();
+            baseClassesEntity.setClassNo(listexcelClass.get(n).getClassNo());
+            baseClassesEntity.setClassName(listexcelClass.get(n).getClassName());
+            baseClassesEntity.setMajorNo(listexcelClass.get(n).getMajorNo());
+            baseClassesEntity.setTeacherNo(listexcelClass.get(n).getTeacherNo());
+            baseClassesEntity.setStuNo(listexcelClass.get(n).getStuNo());
+            baseClassesEntity.setClassStuAmount(listexcelClass.get(n).getClassStuAmount());
+            baseClassesEntity.setDepNo(listexcelClass.get(n).getDepNo());
+            baseClassesEntity.setClassIsover(listexcelClass.get(n).getClassIsover());
+            baseClassesEntity.setDataTime(nousedate);
+            baseClassesEntity.setClassSessionYear(listexcelClass.get(n).getClassSessionYear());
+            BaseClassesEntity baseClassesEntity1= baseClassesRepository.save(baseClassesEntity);
+            listClass.add(baseClassesEntity1);
+        }
+        if (listClass != null) {
+            return ResponseEntity.ok().body(listClass);
+        } else {
+            ExecResult er = new ExecResult(false, "未成功导入");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }

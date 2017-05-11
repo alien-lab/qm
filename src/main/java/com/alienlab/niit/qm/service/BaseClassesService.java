@@ -7,7 +7,10 @@ import com.alienlab.niit.qm.entity.dto.ClassNameDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/4/10.
@@ -32,5 +35,8 @@ public interface BaseClassesService {
     Page<BaseClassesEntity> listClass(String keyword, Pageable page) throws Exception;
 
     public List<String> getAllClassName();
+
+    /*public List<BaseClassesEntity> batchaddClass();*/
+    /*public Map<String,Object> mapClass() throws IOException;*/
     //public List<BaseClassesEntity> getAllClass();
 }

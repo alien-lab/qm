@@ -1,17 +1,29 @@
 package com.alienlab.niit.qm.service.impl;
 
+import com.alienlab.niit.qm.controller.util.ExecResult;
 import com.alienlab.niit.qm.entity.*;
 import com.alienlab.niit.qm.entity.dto.ClassDto;
 import com.alienlab.niit.qm.entity.dto.ClassNameDto;
 import com.alienlab.niit.qm.repository.*;
 import com.alienlab.niit.qm.service.BaseClassesService;
+import com.google.common.collect.Maps;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.jeecgframework.poi.excel.ExcelExportUtil;
+import org.jeecgframework.poi.excel.ExcelImportUtil;
+import org.jeecgframework.poi.excel.entity.ImportParams;
+import org.jeecgframework.poi.excel.entity.TemplateExportParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/4/1.
@@ -81,28 +93,44 @@ public class BaseClassesServiceImpl implements BaseClassesService{
         //专业
         if (baseClassesEntity.getMajorNo()!=null){
             BaseMajorEntity baseMajorEntity = baseMajorRepository.findByMajorNo(baseClassesEntity.getMajorNo());
-            classDto.setMajorName(baseMajorEntity.getMajorName());
+            if (baseMajorEntity==null){
+                classDto.setMajorName(null);
+            }else{
+                classDto.setMajorName(baseMajorEntity.getMajorName());
+            }
         }else{
             classDto.setMajorName(null);
         }
         //部门
         if (baseClassesEntity.getDepNo()!=null){
             BaseDepartmentEntity baseDepartmentEntity = basedepartmentRepository.findDepartmentBydepNo(baseClassesEntity.getDepNo());
-            classDto.setDepName(baseDepartmentEntity.getDepName());
+            if (baseDepartmentEntity==null){
+                classDto.setDepName(null);
+            }else{
+                classDto.setDepName(baseDepartmentEntity.getDepName());
+            }
         }else{
             classDto.setDepName(null);
         }
         //信息员
         if (baseClassesEntity.getStuNo()!=null){
             BaseStudentEntity baseStudentEntity = baseStudentRepository.findByStuNo(baseClassesEntity.getStuNo());
-            classDto.setStuName(baseStudentEntity.getStuName());
+            if (baseStudentEntity==null){
+                classDto.setStuName(null);
+            }else{
+                classDto.setStuName(baseStudentEntity.getStuName());
+            }
         }else{
             classDto.setStuName(null);
         }
         //班主任
         if (baseClassesEntity.getTeacherNo()!=null){
             BaseTeacherEntity baseTeacherEntity = baseTeacherRepository.findByTeacherNo(baseClassesEntity.getTeacherNo());
-            classDto.setTeacherName(baseTeacherEntity.getTeacherName());
+            if (baseTeacherEntity==null){
+                classDto.setTeacherName(null);
+            }else{
+                classDto.setTeacherName(baseTeacherEntity.getTeacherName());
+            }
         }else{
             classDto.setTeacherName(null);
         }
@@ -135,6 +163,45 @@ public class BaseClassesServiceImpl implements BaseClassesService{
         }
         return classNameDto;
     }
+
+    /*@Override
+    public List<BaseClassesEntity> batchaddClass() {
+        ImportParams params = new ImportParams();
+        params.setNeedSave(true);
+        List<BaseClassesEntity> listexcelClass = ExcelImportUtil.importExcel(new File("D:/excel/classes.xls")
+                ,BaseClassesEntity.class,params);
+        List<BaseClassesEntity> listClass = new ArrayList<>();
+         for (int n=0;n<listexcelClass.size();n++){
+            BaseClassesEntity baseClassesEntity = new BaseClassesEntity();
+            baseClassesEntity.setClassNo(listexcelClass.get(n).getClassNo());
+            baseClassesEntity.setClassName(listexcelClass.get(n).getClassName());
+            baseClassesEntity.setMajorNo(listexcelClass.get(n).getMajorNo());
+            baseClassesEntity.setTeacherNo(listexcelClass.get(n).getTeacherNo());
+            baseClassesEntity.setStuNo(listexcelClass.get(n).getStuNo());
+            baseClassesEntity.setClassStuAmount(listexcelClass.get(n).getClassStuAmount());
+            baseClassesEntity.setDepNo(listexcelClass.get(n).getDepNo());
+            baseClassesEntity.setClassIsover(listexcelClass.get(n).getClassIsover());
+            baseClassesEntity.setClassSessionYear(listexcelClass.get(n).getClassSessionYear());
+            BaseClassesEntity baseClassesEntity1= baseClassesRepository.save(baseClassesEntity);
+            listClass.add(baseClassesEntity1);
+        }
+        return listClass;
+    }*/
+
+    /*@Override
+    public Map<String, Object> mapClass() throws IOException {
+        TemplateExportParams params = new TemplateExportParams("class1.xls",0);
+        Map<String,Object> data = new HashMap<>();
+        Workbook workbook = ExcelExportUtil.exportExcel(params,data);
+        File savefile = new File("D:/excel/");
+        if (!savefile.exists()){
+            savefile.mkdirs();
+        }
+        FileOutputStream fos = new FileOutputStream("D:/excel/class.xls");
+        workbook.write(fos);
+        fos.close();
+        return data;
+    }*/
 
     /*@Override
     public List<BaseClassesEntity> getAllClass() {

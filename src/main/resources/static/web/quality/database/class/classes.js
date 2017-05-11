@@ -12,6 +12,7 @@
             templateUrl:"quality/database/class/classes.html",
             controller:"classesController"
         });
+
     }]);
 
     product_module.factory("classResource",["$resource",function($resource){
@@ -22,7 +23,9 @@
             'getStudentByClassName':{method:"POST",url:"../qm-api/student"},
             'getClassesByclassNo':{method:"GET",url:"../qm-api/classes/getClassByclassNo"},
             'getAllMajor':{method:"GET",url:"../qm-api/major/getMajor",isArray:true},
-            'updateClasses':{method:"GET",url:"../qm-api/classes/updateClases"}
+            'updateClasses':{method:"GET",url:"../qm-api/classes/updateClases"},
+            'excelTemplateClass':{method:"POST",url:"../qm-api/class/ExcelTemplateClass"},
+            'excelImportClass':{method:"GET",url:"../qm-api/class/ExcelImportClass",isArray:true}
         });
         return service;
     }]);
@@ -172,8 +175,41 @@
 
     }]);
 
-    product_module.controller("batchClassController",["$scope","$uibModalInstance","$rootScope",function($scope,$uibModalInstance,$rootScope){
-        $scope.ModTitle = "增加学年学期";
+    product_module.controller("batchClassController",["$scope","classResource","$uibModal","$uibModalInstance","$rootScope",function($scope,classResource,$uibModal,$uibModalInstance,$rootScope){
+        $scope.importClass = [];
+        $scope.ModTitle = "批量导入班级";
+        $scope.batch_insertclass = batch_insertclass;
+        function batch_insertclass() {
+            classResource.excelTemplateClass({
+            },function(result){
+                console.log("导出成功")
+            },function(result){
+                console.log("导出失败");
+            });
+        }
+
+        $scope.importExcel = importExcel;
+        function importExcel() {
+            $scope.importClass = [];
+            classResource.excelImportClass({
+            },function(result){
+                for (var i = 0;i<6;i++){
+                    classResource.getClassesByclassNo({
+                        classNo:result[i].classNo
+                    },function(result){
+                        $scope.importClass.push(result)
+                        console.log($scope.importClass);
+                        console.log("导入预览成功")
+                    },function(result){
+                        console.log("导入预览失败");
+                    });
+                }
+                console.log("导入成功")
+            },function(result){
+                console.log("导出失败");
+            });
+        }
+
         $scope.cancel = function cancel(flag){
             $uibModalInstance.dismiss('cancel');
         }

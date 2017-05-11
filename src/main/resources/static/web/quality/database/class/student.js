@@ -121,7 +121,7 @@
         }
     }]);
 
-    product_module.controller("studentController",["$uibModal","studentinstance","$stateParams","studentResource","studentService","$scope",function($uibModal,studentinstance,$stateParams,studentResource,studentService,$scope){
+    product_module.controller("studentController",["$uibModal","ngDialog","studentinstance","$stateParams","studentResource","studentService","$scope",function($uibModal,ngDialog,studentinstance,$stateParams,studentResource,studentService,$scope){
         var className = $stateParams.classNamee;
         var index = 0;
         var length = 10;
@@ -171,15 +171,15 @@
                 });
 
             }else {
-                /*var modalInstance = $uibModal.open({
-                    url: '/database/class',
-                    title: 'ngDialog',
-                    templateUrl: helper.basepath('quality/database/class/student.html'),
-                    resolve: angular.extend(helper.resolveFor('ngDialog'),{
-                        tpl: function() { return { path: helper.basepath('quality/database/class/student-template.html') }; }
-                    }),
-                    controller: 'DialogIntroCtrl'
-                });*/
+                var dialog = ngDialog.open({
+                    template: '<p class="alert alert-danger"><strong>未输入学年学期</strong></p>',
+                    plain: true,
+                    closeByDocument: false,
+                    closeByEscape: false
+                });
+               setTimeout(function () {
+                    dialog.close();
+                }, 3000);
                 console.log("ssssssssssssssssss")
             }
         }
@@ -332,18 +332,4 @@
 
     }]);
 
-    //未输入学年学期controller
-    /*product_module.controller("DialogIntroCtrl",["$scope","ngDialog","tpl",function($scope,ngDialog,tpl){
-        activate();
-        function activate() {
-            // share with other controllers
-            $scope.tpl = tpl;
-            // open dialog window
-            ngDialog.open({
-                template: tpl.path,
-                // plain: true,
-                className: 'ngdialog-theme-default'
-            });
-        }
-    }]);*/
 })();

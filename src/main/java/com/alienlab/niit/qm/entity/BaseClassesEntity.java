@@ -3,6 +3,7 @@ package com.alienlab.niit.qm.entity;
 
 
 import io.swagger.annotations.ApiModelProperty;
+import org.jeecgframework.poi.excel.annotation.Excel;
 
 import java.sql.Timestamp;
 
@@ -12,23 +13,40 @@ import java.sql.Timestamp;
 @javax.persistence.Entity
 @javax.persistence.Table(name = "base_classes", schema = "qualitymonitor", catalog = "")
 public class BaseClassesEntity {
+    @Excel(name="班级代码",isImportField = "true")
     @ApiModelProperty(value="班级代码")
     private String classNo;
+
+    @Excel(name="班级名称",isImportField = "true")
     @ApiModelProperty(value="班级名称")
     private String className;
-    @ApiModelProperty(value="专业编码")
+
+    @Excel(name="专业代码",isImportField = "true")
+    @ApiModelProperty(value="专业代码")
     private String majorNo;
+
+    @Excel(name="班主任工号",isImportField = "true")
     @ApiModelProperty(value="班主任教工号")
     private String teacherNo;
+
+    @Excel(name="信息员学号",isImportField = "true")
     @ApiModelProperty(value="班长学号")
     private String stuNo;
+
+    @Excel(name="承担部门",isImportField = "true")
     @ApiModelProperty(value="部门表_部门编码")
     private String depNo;
+
+    @Excel(name="班级人数",isImportField = "true")
     @ApiModelProperty(value="人数")
     private Integer classStuAmount;
+
+    @Excel(name="是否毕业",isImportField = "true")
     @ApiModelProperty(value="是否毕业班")
     private String classIsover;
     private Timestamp dataTime;
+
+    @Excel(name="班级年级",isImportField = "true")
     @ApiModelProperty(value="班级年级")
     private String classSessionYear;
     @ApiModelProperty(value="生源")

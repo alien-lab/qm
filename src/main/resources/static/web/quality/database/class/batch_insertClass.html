@@ -9,7 +9,7 @@
     班级数据导入
 </h4>
 <div>
-    <button style="float: left;margin-left:20px;" type="button" class="btn btn-danger">导入模板下载</button>
+    <button style="float: left;margin-left:20px;" type="button" ng-click="batch_insertclass()" class="btn btn-danger">导入模板下载</button>
     <table align="center">
         <caption>导入预览</caption>
         <tr style="background-color: #ADDCE2;text-align:center;">
@@ -23,42 +23,20 @@
         </tr>
 
         <tr style="text-align:center;">
-            <td>软件1431</td>
-            <td>23</td>
-            <td>杨静丽</td>
-            <td>谢继刚</td>
+            <td>{{importClass[$index].className}}</td>
+            <td>{{importClass[$index].classStuAmount}}</td>
+            <td>{{importClass[$index].teacherName}}</td>
+            <td>{{importClass[$index].stuName}}</td>
             <td>
-                否
+                {{importClass[$index].classIsover}}
             </td>
-            <td>软件技术</td>
-            <td>计算机与软件</td>
-        </tr>
-        <tr style="text-align:center;">
-            <td>软件1431</td>
-            <td>23</td>
-            <td>杨静丽</td>
-            <td>谢继刚</td>
-            <td>
-                否
-            </td>
-            <td>软件技术</td>
-            <td>机械工程</td>
-        </tr>
-        <tr style="text-align:center;">
-            <td>软件1431</td>
-            <td>23</td>
-            <td>杨静丽</td>
-            <td>谢继刚</td>
-            <td>
-                否
-            </td>
-            <td>软件技术</td>
-            <td>能源与电气工程</td>
+            <td>{{importClass[$index].majorName}}</td>
+            <td>{{importClass[$index].depName}}</td>
         </tr>
     </table>
 </div>
 <div class="panel-footer text-center">
-    <button type="submit" class="btn btn-info">导入</button>
+    <button type="submit" ng-click="importExcel()" class="btn btn-info">导入</button>
     <button ng-click="cancel()" type="submit" class="btn btn-info">取消</button>
 </div>
 
