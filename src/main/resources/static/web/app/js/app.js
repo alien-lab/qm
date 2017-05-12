@@ -49,7 +49,8 @@
             'qm.lecturesche',
             'qm.addsche',
             'qm.teachtasksche',
-            'qm.lecturerecord'
+            'qm.lecturerecord',
+            'qm.careteachers'
         ]);
 })();
 (function(){

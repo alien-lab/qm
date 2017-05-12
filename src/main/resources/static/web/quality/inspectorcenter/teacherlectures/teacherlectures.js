@@ -28,7 +28,7 @@
         }
         //关注的教师
         $scope.careteachers = function () {
-           /* $state.go("qm.stuattendDetail");*/
+           $state.go("qm.careteachers");
         }
         //听课记录
         $scope.record = function () {
