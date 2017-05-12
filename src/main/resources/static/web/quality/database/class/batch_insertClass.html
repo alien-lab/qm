@@ -22,16 +22,16 @@
             <td style="width:150px;"><b>部门</b></td>
         </tr>
 
-        <tr style="text-align:center;">
-            <td>{{importClass[$index].className}}</td>
-            <td>{{importClass[$index].classStuAmount}}</td>
-            <td>{{importClass[$index].teacherName}}</td>
-            <td>{{importClass[$index].stuName}}</td>
+        <tr style="text-align:center;" ng-repeat="importCla in importClass">
+            <td>{{importCla.className}}</td>
+            <td>{{importCla.classStuAmount}}</td>
+            <td>{{importCla.teacherName}}</td>
+            <td>{{importCla.stuName}}</td>
             <td>
-                {{importClass[$index].classIsover}}
+                {{importCla.classIsover==1?'是':'否'}}
             </td>
-            <td>{{importClass[$index].majorName}}</td>
-            <td>{{importClass[$index].depName}}</td>
+            <td>{{importCla.majorName}}</td>
+            <td>{{importCla.depName}}</td>
         </tr>
     </table>
 </div>

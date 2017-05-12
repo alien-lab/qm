@@ -190,17 +190,19 @@
 
         $scope.importExcel = importExcel;
         function importExcel() {
-            $scope.importClass = [];
+            //$scope.importClass=[];
             classResource.excelImportClass({
             },function(result){
+                console.log(result)
                 for (var i = 0;i<6;i++){
                     classResource.getClassesByclassNo({
                         classNo:result[i].classNo
-                    },function(result){
-                        $scope.importClass.push(result)
+                    },function(data){
+                        $scope.importClass.push(data)
                         console.log($scope.importClass);
                         console.log("导入预览成功")
-                    },function(result){
+
+                    },function(data){
                         console.log("导入预览失败");
                     });
                 }

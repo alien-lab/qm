@@ -220,7 +220,6 @@ public class BaseClassesController {
         for (int n=0;n<listexcelClass.size();n++){
             Date date = new Date();
             Timestamp nousedate = new Timestamp(date.getTime());
-
             BaseClassesEntity baseClassesEntity = new BaseClassesEntity();
             baseClassesEntity.setClassNo(listexcelClass.get(n).getClassNo());
             baseClassesEntity.setClassName(listexcelClass.get(n).getClassName());
