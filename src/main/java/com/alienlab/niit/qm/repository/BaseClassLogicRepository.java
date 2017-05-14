@@ -13,12 +13,13 @@ import java.util.List;
  * Created by Master QB on 2017/4/19.
  */
 @Repository
-public interface BaseClassLogicRepository  extends JpaRepository<BaseClassLogicEntity,Long> {
+public interface BaseClassLogicRepository extends JpaRepository<BaseClassLogicEntity,Long> {
 
     List<BaseClassLogicEntity> findByTaskNo(long taskNo) throws  Exception;
 
     Page<BaseClassLogicEntity> findByTaskNo(long taskNo, Pageable page) throws  Exception;
 
+    List<BaseClassLogicEntity> findByTermNoAndStudentNo(String termNo,String stuNo);
 
 
 }

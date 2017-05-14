@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Master QB on 2017/4/18.
  */
 @Repository
-public interface BaseTaskScheRepository  extends JpaRepository<BaseTaskScheEntity,Long> {
+public interface BaseTaskScheRepository extends JpaRepository<BaseTaskScheEntity,Long> {
     List<BaseTaskScheEntity> findByTaskNo(long taskNo);
 
 }

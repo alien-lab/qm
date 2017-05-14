@@ -27,9 +27,10 @@ public interface BaseTeachTaskRepository extends JpaRepository<BaseTeachTaskEnti
 
     public  boolean deleteByTaskNo(long taskNo);
 
-    List<BaseTeachTaskEntity> findByTaskNo(long taskNo);
+    BaseTeachTaskEntity findByTaskNo(long taskNo);
 
     List<BaseTeachTaskEntity>findByTermNo(String termNo);
 
+    List<BaseTeachTaskEntity> findByTermNoAndClassNo(String termNo,String classNo);
 
 }

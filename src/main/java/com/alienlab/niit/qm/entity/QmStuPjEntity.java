@@ -189,4 +189,22 @@ public class QmStuPjEntity {
         result = 31 * result + (pjTime != null ? pjTime.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "QmStuPjEntity{" +
+                "pjNo=" + pjNo +
+                ", stuNo='" + stuNo + '\'' +
+                ", taskNo=" + taskNo +
+                ", per11=" + per11 +
+                ", per12=" + per12 +
+                ", per13=" + per13 +
+                ", per14=" + per14 +
+                ", per15=" + per15 +
+                ", total=" + total +
+                ", jxpj='" + jxpj + '\'' +
+                ", jxjy='" + jxjy + '\'' +
+                ", pjTime=" + pjTime +
+                '}';
+    }
 }

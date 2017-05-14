@@ -9440,6 +9440,51 @@ body .ng-table-pager:after {
 .bs-slider .slider-horizontal {
   min-width: 210px;
 }
+
+/* ========================================================================
+   Component: plugins.less
+   - User this stylesheet to include single css styles and fixes
+     for plugins
+ ========================================================================== */
+/**
+ * Bootstrap Slider
+ */
+.bs-slider-yellow {
+  display: inline-block;
+}
+.bs-slider-yellow .slider-handle,
+.bs-slider-yellow .slider-track,
+.bs-slider-yellow .slider-selection {
+  background-image: none;
+  box-shadow: 0 0 0 #000;
+}
+.bs-slider-yellow .slider-handle {
+  background-color: #fff;
+  border: 1px solid #FFCD00;
+  opacity: 1;
+}
+.bs-slider-yellow .slider-track {
+  background-color: #fff;
+  border: 1px solid #FFCD00;
+}
+.bs-slider-yellow .slider-selection {
+  background-color: #FFE623;
+}
+.bs-slider-yellow .slider .tooltip.top .tooltip-arrow {
+  border-top-color: #2c3037;
+}
+.bs-slider-yellow .slider .tooltip.right .tooltip-arrow {
+  border-right-color: #2c3037;
+}
+.bs-slider-yellow .slider .tooltip-inner {
+  background-color: #2c3037;
+}
+.bs-slider-yellow .slider-lg {
+  width: 380px;
+}
+.bs-slider-yellow .slider-horizontal {
+  min-width: 210px;
+}
 body {
   /**
    * Chosen

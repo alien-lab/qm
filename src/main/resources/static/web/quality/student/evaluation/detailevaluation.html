@@ -1,33 +1,110 @@
 <div class="row">
     <div class="col-lg-12">
-        <div id="panelPortlet6" class="panel panel-info" style="margin-bottom: -3px;">
-            <div class="panel-heading portlet-handler">课程信息</div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="btn-group btn-group-justified mb">课程编码：</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="btn-group btn-group-justified mb">课程名称：</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="btn-group btn-group-justified mb">任课教师：</div>
-                    </div>
+        <div class="panel widget">
+            <div class="row row-table">
+                <div class="col-md-2 col-sm-3 col-xs-6 text-center bg-info pv-xl">
+                    <b style="font-size:25px;"><em class="icon-list"></em>&nbsp;
+                        课程信息</b>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="btn-group btn-group-justified mb">课承担院系：</div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="btn-group btn-group-justified mb">评教时间：</div>
-                    </div>
+                <div class="col-md-2 col-sm-3 col-xs-6 pv br">
+                    <b style="font-size:20px;"><em class="fa fa-sort-numeric-asc"></em>&nbsp;
+                        课程编号</b>
+                    <div class="text-uppercase">{{teachtask.courseNo}}</div>
                 </div>
-            </div>
-            <div class="panel-footer text-center" >
-                <button type="submit" ng-click="submit()" class="btn btn-info" >提交</button>
-                <button type="submit" ng-click="cancel()" class="btn btn-info">取消</button>
+                <div class="col-md-2 col-sm-3 col-xs-6 pv br">
+                    <b style="font-size:20px;"><em class="fa fa-indent"></em>&nbsp;
+                        课程名称</b>
+                    <div class="text-uppercase">{{teachtask.courseName}}</div>
+                </div>
+                <div class="col-md-2 col-sm-3 col-xs-6 pv br">
+                    <b style="font-size:20px;"><em class="fa fa-building"></em>&nbsp;
+                        承担院系</b>
+                    <div class="text-uppercase">{{teachtask.depName}}</div>
+                </div>
+                <div class="col-md-2 col-sm-3 col-xs-6 pv br">
+                    <b style="font-size:20px;"><em class="icon-user"></em>&nbsp;
+                        任课教师</b>
+                    <div class="text-uppercase">{{teachtask.teacherName}}</div>
+                </div>
+                <div class="col-md-2 col-sm-3 col-xs-6 pv br">
+                    <b style="font-size:20px;"><em class="fa fa-calendar"></em>&nbsp;
+                        评教时间</b>
+                    <div class="text-uppercase">{{teachtask.pjTime}}</div>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
+<h4 class="ui horizontal divider header blue "><i class="icon-pin"></i> 填写评教信息 </h4>
+<br>
+<div class="col-lg-1"></div>
+<div class="col-lg-10">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">1、教学纪律(10)</div>
+        <div class="panel-body">
+            <b>请您打分：</b>
+            <slider ng-model="teachtask.per11" min="0" max="10" step="2" orientation="horizontal" class="bs-slider-yellow slider-horizontal"></slider>
+            <em style="margin-top:5px;font-size: 20px;float:right;" class="icon-tag">{{teachtask.per11}}分</em>
+            <button style="float: right;margin-right: 10px;" type="button" class="mb-sm btn btn-success">得分</button>&nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">2、为人师表(10)</div>
+        <div class="panel-body">
+            <b>请您打分：</b>
+            <slider ng-model="teachtask.per12" min="0" max="10" step="2" orientation="horizontal" class="bs-slider-yellow slider-horizontal"></slider>
+            <em style="margin-top:5px;font-size: 20px;float:right;" class="icon-tag">{{teachtask.per12}}分</em>
+            <button style="float: right;margin-right: 10px;" type="button" class="mb-sm btn btn-success">得分</button>&nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">3、教学内容(30)</div>
+        <div class="panel-body">
+            <b>请您打分：</b>
+            <slider ng-model="teachtask.per13" min="0" max="30" step="10" orientation="horizontal" class="bs-slider-yellow slider-horizontal"></slider>
+            <em style="margin-top:5px;font-size: 20px;float:right;" class="icon-tag">{{teachtask.per13}}分</em>
+            <button style="float: right;margin-right: 10px;" type="button" class="mb-sm btn btn-success">得分</button>&nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">4、教学方法(30)</div>
+        <div class="panel-body">
+            <b>请您打分：</b>
+            <slider ng-model="teachtask.per14" min="0" max="30" step="10" orientation="horizontal" class="bs-slider-yellow slider-horizontal"></slider>
+            <em style="margin-top:5px;font-size: 20px;float:right;" class="icon-tag">{{teachtask.per14}}分</em>
+            <button style="float: right;margin-right: 10px;" type="button" class="mb-sm btn btn-success">得分</button>&nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">5、师生互动(20)</div>
+        <div class="panel-body">
+            <b>请您打分：</b>
+            <slider ng-model="teachtask.per15" min="0" max="20" step="5" orientation="horizontal" class="bs-slider-yellow slider-horizontal"></slider>
+            <em style="margin-top:5px;font-size: 20px;float:right;" class="icon-tag">{{teachtask.per15}}分</em>
+            <button style="float: right;margin-right: 10px;" type="button" class="mb-sm btn btn-success">得分</button>&nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">教学评价</div>
+        <div class="panel-body">
+            <textarea placeholder="请输入教学评价.." rows="5" ng-model="teachtask.jxpj" class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">教学建议</div>
+        <div class="panel-body">
+            <textarea placeholder="请输入教学建议.." rows="5" ng-model="teachtask.jxjy" class="form-control"></textarea>
+        </div>
+    </div>
+</div>
+<div class="col-lg-1"></div>
+
+<div class="text-center">
+    <button ng-click="modifyteachtask(teachtask)" style="text-align:center;font-size: 15px" type="button" class="btn btn-labeled btn-success">
+               <span class="btn-label"><i class="fa fa-check"></i>
+               </span>提  交</button>
+</div>
+
+<!--
+style="background-color:#FFE623"-->
