@@ -50,7 +50,9 @@
             'qm.addsche',
             'qm.teachtasksche',
             'qm.lecturerecord',
-            'qm.stu_detailevaluation'
+            'qm.stu_detailevaluation',
+            'qm.lecturerecord',
+            'qm.careteachers'
         ]);
 })();
 (function(){
