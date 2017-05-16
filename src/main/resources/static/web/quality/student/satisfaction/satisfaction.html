@@ -1,0 +1,47 @@
+<h3>满意度调查</h3>
+
+<fieldset>
+    <div class="form-group">
+        <label style="font-size: 20px" class="col-sm-3 control-label">专业课程设置满意度调查:</label>
+        <div class="col-sm-6" style="margin-top: 5px">
+            <label class="radio-inline c-radio">
+                <input id="inlineradio1" type="radio" name="i-radio" value="option2" checked="checked" />
+                <span class="fa fa-smile-o"></span>满意</label>
+            <label class="radio-inline c-radio">
+                <input id="inlineradio2" type="radio" name="i-radio" value="option2" checked="checked" />
+                <span class="fa fa-meh-o"></span>基本满意</label>
+            <label class="radio-inline c-radio">
+                <input id="inlineradio3" type="radio" name="i-radio" value="option2" checked="checked" />
+                <span class="fa fa-frown-o"></span>不满意</label>
+            <br/>
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <div class="form-group">
+        <label style="font-size: 20px" class="col-sm-3 control-label">专业课程设置满意度调查:</label>
+        <div class="col-sm-6" style="margin-top: 5px">
+            <label class="radio-inline c-radio">
+                <input id="inlineradio4" type="radio" name="i-radio1" value="option" checked="checked" />
+                <span class="fa fa-smile-o"></span>满意</label>
+            <label class="radio-inline c-radio">
+                <input id="inlineradio5" type="radio" name="i-radio1" value="option" checked="checked" />
+                <span class="fa fa-meh-o"></span>基本满意</label>
+            <label class="radio-inline c-radio">
+                <input id="inlineradio6" type="radio" name="i-radio1" value="option" checked="checked" />
+                <span class="fa fa-frown-o"></span>不满意</label>
+            <br/>
+        </div>
+        <div class="col-sm-3">
+            <button type="button" class="btn btn-labeled btn-info">
+               <span class="btn-label"><i class="fa fa-check"></i>
+               </span>提交</button>
+        </div>
+    </div>
+</fieldset>
+<div class="col-lg-6" ng-controller="satisfactionController as chart">
+    <h4>Bar Chart</h4>
+    <div>
+        <canvas barchart="" options="chart.barOptions" data="chart.barData" height="120" responsive="true"></canvas>
+    </div>
+</div>

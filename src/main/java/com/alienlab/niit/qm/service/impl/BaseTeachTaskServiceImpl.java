@@ -34,8 +34,6 @@ public class BaseTeachTaskServiceImpl implements BaseTeachTaskService {
     QmStuPjRepository qmStuPjRepository;
     @Override
     public List<TeachTaskDto> findByTermNoAndStuNo(String termNo, String stuNo) {
-        int j = 0;
-        int b = 0;
         List<TeachTaskDto> teachTaskDtos = new ArrayList<>();
         BaseTermStudentEntity baseTermStudentEntity = baseTermStudentRepository.findByStuNoAndTermNo(stuNo,termNo);
         List<BaseTeachTaskEntity> baseTeachTaskEntities = baseTeachTaskRepository.findByTermNoAndClassNo(termNo,baseTermStudentEntity.getClassNo());
@@ -50,13 +48,14 @@ public class BaseTeachTaskServiceImpl implements BaseTeachTaskService {
             teachTaskDto.setTeacherName(baseTeacherEntity.getTeacherName());
             for (int i = 0;i<qmStuPjEntities.size();i++){
                 if (qmStuPjEntities.get(i).getTaskNo().equals(baseTeachTaskEntities.get(n).getTaskNo())){
-                    j=1;break;
+                    if (qmStuPjEntities.get(i).getTotal().equals(0)){
+                        teachTaskDto.setTeachTaskStatus("1");break;
+                    }else {
+                        teachTaskDto.setTeachTaskStatus("2");break;
+                    }
+                }else{
+                    teachTaskDto.setTeachTaskStatus("0");
                 }
-            }
-            if (j==1){
-                teachTaskDto.setTeachTaskStatus("1");
-            }else {
-                teachTaskDto.setTeachTaskStatus("0");
             }
             teachTaskDtos.add(teachTaskDto);
         }
@@ -71,13 +70,14 @@ public class BaseTeachTaskServiceImpl implements BaseTeachTaskService {
 
             for (int a = 0;a<qmStuPjEntities.size();a++){
                 if (qmStuPjEntities.get(a).getTaskNo().equals(baseClassLogicEntities.get(m).getTaskNo())){
-                    b=1;break;
+                    if (qmStuPjEntities.get(a).getTotal().equals(0)){
+                        teachTaskDto.setTeachTaskStatus("1");break;
+                    }else {
+                        teachTaskDto.setTeachTaskStatus("2");break;
+                    }
+                }else{
+                    teachTaskDto.setTeachTaskStatus("0");
                 }
-            }
-            if (b==1){
-                teachTaskDto.setTeachTaskStatus("1");
-            }else {
-                teachTaskDto.setTeachTaskStatus("0");
             }
 
             //teachTaskDto.setTeacherName(baseClassLogicEntities.get(m).);

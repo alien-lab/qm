@@ -52,7 +52,8 @@
             'qm.lecturerecord',
             'qm.stu_detailevaluation',
             'qm.lecturerecord',
-            'qm.careteachers'
+            'qm.careteachers',
+            'qm.stu_satisfaction'
         ]);
 })();
 (function(){

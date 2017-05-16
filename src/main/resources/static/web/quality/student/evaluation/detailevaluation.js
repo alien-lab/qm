@@ -62,7 +62,7 @@
         return self;
     }]);
 
-    evaluation_module.controller("detailevaluationController",["$scope","SweetAlert","$cookieStore","$stateParams","detailevaluationResource",function($scope,SweetAlert,$cookieStore,$stateParams,detailevaluationResource){
+    evaluation_module.controller("detailevaluationController",["$scope","$state","SweetAlert","$cookieStore","$stateParams","detailevaluationResource",function($scope,$state,SweetAlert,$cookieStore,$stateParams,detailevaluationResource){
         console.log($stateParams.teachTaskStatuss)
 
         detailevaluationResource.getStuPjBytaskNoAndStatus({
@@ -85,8 +85,10 @@
                 confirmButtonColor: '#8CD4F5',
                 confirmButtonText: '是的，确定评分!',
                 cancelButtonText:"让我再考虑一下..",
-                closeOnConfirm:false,
-            },  function(){
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function(isConfirm){
+                if (isConfirm) {
                     detailevaluationResource.updateStuPj({
                         stuNo:$cookieStore.get('user').account,
                         taskNo:teachtask.taskNo,
@@ -99,12 +101,16 @@
                         jxpj:teachtask.jxpj
                     },function(result){
                         $scope.teachtask=result;
+                        //SweetAlert.swal('修改成功!');
                         console.log(result)
                     },function(result){
                         console.log("修改评教失败",result);
                     });
-                   SweetAlert.swal('修改成功!');
-
+                    SweetAlert.swal('成功!', '成功保存评教信息', 'success');
+                    $state.go("qm.stuevaluation");
+                } else {
+                    SweetAlert.swal('操作取消', '','error');
+                }
             });
 
         }

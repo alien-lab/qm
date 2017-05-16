@@ -39,6 +39,7 @@ public class QmStuPjController {
             qmStuPjEntity.setPer13(per13);
             qmStuPjEntity.setPer14(per14);
             qmStuPjEntity.setPer15(per15);
+            qmStuPjEntity.setTotal(per11+per12+per13+per14+per15);
             QmStuPjEntity qmStuPjEntity1 = qmStuPjRepository.save(qmStuPjEntity);
             return ResponseEntity.ok().body(qmStuPjEntity1);
         }else {
