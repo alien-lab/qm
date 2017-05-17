@@ -12,35 +12,63 @@
             controller:"satisfactionController"
         });
     }]);
-    /*satisfaction_module.constant('APP_COLORS', {
-                'primary':'#5d9cec',
-                'success':'#27c24c',
-                'info':'#23b7e5',
-                'warning':'#ff902b',
-                'danger':'#f05050',
-                'inverse':'#131e26',
-                'green':'#37bc9b',
-                'pink':'#f532e5',
-                'purple':'#7266ba',
-                'dark':'#3a3f51',
-                'yellow':'#fad732',
-                'gray-darker':'#232735',
-                'gray-dark':'#3a3f51',
-                'gray':'#dde6e9',
-                'gray-light':'#e4eaec',
-                'gray-lighter':'#edf1f2'
+
+    satisfaction_module.factory("satisfactionResource",["$resource",function($resource){
+        var service = $resource('../qm-api/qmstusurvet', {}, {
+            'getQmSurveyByTermNoAndStuNo1': { method: 'GET',url:"../qm-api/qmstusurvet/findQmStuSurvey1"},
+            'getQmSurveyByTermNoAndStuNo2': { method: 'GET',url:"../qm-api/qmstusurvet/findQmStuSurvey2"},
+            'modQmSurveyByTermNoAndStuNo1': { method: 'GET',url:"../qm-api/qmstusurvet/modifyQmStuSurvey1"},
+            'modQmSurveyByTermNoAndStuNo2': { method: 'GET',url:"../qm-api/qmstusurvet/modifyQmStuSurvey2"},
+        });
+        return service;
+    }])
+
+    satisfaction_module.controller("satisfactionController",["$scope","satisfactionResource","$cookieStore",function($scope,satisfactionResource,$cookieStore){
+        console.log("sss");
+        satisfactionResource.getQmSurveyByTermNoAndStuNo1({
+            termNo:$cookieStore.get('currentTerm').termNo,
+            stuNo:$cookieStore.get('user').account
+        },function(result){
+            $scope.stuSurvey1=result;
+            console.log(result)
+        },function(result){
+            console.log("获取课程设置满意度失败",result);
+        });
+
+        satisfactionResource.getQmSurveyByTermNoAndStuNo2({
+            termNo:$cookieStore.get('currentTerm').termNo,
+            stuNo:$cookieStore.get('user').account
+        },function(result){
+            $scope.stuSurvey2=result;
+            console.log(result)
+        },function(result){
+            console.log("获取课程教学失满意度失败",result);
+        });
+
+        $scope.modifySatisfaction = showModifySatisfaction;
+        function showModifySatisfaction() {
+            satisfactionResource.modQmSurveyByTermNoAndStuNo1({
+                termNo:$cookieStore.get('currentTerm').termNo,
+                stuNo:$cookieStore.get('user').account,
+                surveyResult:$scope.stuSurvey1.surveyResult
+            },function(result){
+                $scope.stuSurvey2=result;
+                console.log(result)
+            },function(result){
+                console.log("获取课程教学失满意度失败",result);
             });
 
-
-    satisfaction_module.service("Colors",["APP_COLORS",function(APP_COLORS){
-        this.byName = byName;
-        function byName(name) {
-            return (APP_COLORS[name] || '#fff');
+            satisfactionResource.modQmSurveyByTermNoAndStuNo2({
+                termNo:$cookieStore.get('currentTerm').termNo,
+                stuNo:$cookieStore.get('user').account,
+                surveyResult:$scope.stuSurvey2.surveyResult
+            },function(result){
+                $scope.stuSurvey2=result;
+                console.log(result)
+            },function(result){
+                console.log("获取课程教学失满意度失败",result);
+            });
         }
-    }]);*/
-
-    satisfaction_module.controller("satisfactionController",["$scope",function($scope){
-        console.log("sss");
 
 
     }]);

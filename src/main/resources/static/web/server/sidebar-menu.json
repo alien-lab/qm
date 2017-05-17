@@ -86,7 +86,7 @@
     "sref": "#",
     "icon": "icon-graduation",
     "submenu": [
-      {"text": "我的课程", "sref": "app-h.dashboard_v2"},
+      {"text": "我的课程", "sref": "qm.stusubject"},
       {"text": "参与评教",       "sref": "qm.stuevaluation"},
       {"text": "考勤查询",       "sref": "app.dashboard_v2" },
       {"text": "填写调查表",       "sref": "qm.stu_satisfaction" }

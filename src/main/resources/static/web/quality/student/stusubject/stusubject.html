@@ -1,0 +1,53 @@
+<style>
+    thead th{
+        text-align: center;
+        font-family: "微软雅黑";
+    }
+    tbody td{
+        width: 140px;
+        height: 90px;
+        text-align: center;
+        font-family: "微软雅黑";
+    }
+    .myclass{
+        width: 90%;
+        font-weight: bold;
+    }
+    .myclass:hover{
+        background-color: rgb(81,198,234);
+        width: 90%;
+        font-weight: bold;
+    }
+</style>
+
+<h3>本学期课表</h3>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover" style="margin-top: 10px;text-align: center">
+        <thead>
+        <tr style="text-align: center">
+            <th style="width: 10%">上课节次</th>
+            <th>周一</th>
+            <th>周二</th>
+            <th>周三</th>
+            <th>周四</th>
+            <th>周五</th>
+            <th>周六</th>
+            <th>周日</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  ng-repeat="section in sections" >
+            <td ng-repeat="secone in section.day">
+                <span data-ng-if="secone.mian==true">{{secone.name}}</span>
+                <span data-ng-if="secone.checked==true">
+                        {{secone.courseNmae}}<br>
+                          <button ng-click="attendDetail(secone.shceNo,secone.courseNmae,secone.className)" type="button" class="btn  bg-default myclass">{{secone.className}}</button>
+                    </span>
+            </td>
+        </tr>
+        <tr></tr>
+        </tbody>
+    </table>
+</div>
+

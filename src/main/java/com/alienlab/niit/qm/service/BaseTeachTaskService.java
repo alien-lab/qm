@@ -15,4 +15,6 @@ import java.util.List;
 public interface BaseTeachTaskService {
     //根据年级和学生编号查询评教信息
     public List<TeachTaskDto> findByTermNoAndStuNo(String termNo,String stuNo);
+
+
 }

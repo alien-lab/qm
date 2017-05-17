@@ -221,4 +221,23 @@ public class BaseTeachTaskEntity {
         result = 31 * result + (dataTime != null ? dataTime.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "BaseTeachTaskEntity{" +
+                "taskNo=" + taskNo +
+                ", termNo='" + termNo + '\'' +
+                ", courseNo='" + courseNo + '\'' +
+                ", courseName='" + courseName + '\'' +
+                ", teacherNo='" + teacherNo + '\'' +
+                ", courseType='" + courseType + '\'' +
+                ", courseAttr='" + courseAttr + '\'' +
+                ", courseWeek='" + courseWeek + '\'' +
+                ", courseCcount=" + courseCcount +
+                ", courseScount=" + courseScount +
+                ", classNo='" + classNo + '\'' +
+                ", depNo='" + depNo + '\'' +
+                ", dataTime=" + dataTime +
+                '}';
+    }
 }

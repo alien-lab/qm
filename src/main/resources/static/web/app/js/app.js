@@ -53,7 +53,8 @@
             'qm.stu_detailevaluation',
             'qm.lecturerecord',
             'qm.careteachers',
-            'qm.stu_satisfaction'
+            'qm.stu_satisfaction',
+            'qm.stusubject'
         ]);
 })();
 (function(){

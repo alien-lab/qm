@@ -101,4 +101,15 @@ public class BaseTaskScheEntity {
         result = 31 * result + (dataTime != null ? dataTime.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "BaseTaskScheEntity{" +
+                "scheNo=" + scheNo +
+                ", taskNo=" + taskNo +
+                ", scheSet='" + scheSet + '\'' +
+                ", scheAddr='" + scheAddr + '\'' +
+                ", dataTime=" + dataTime +
+                '}';
+    }
 }
