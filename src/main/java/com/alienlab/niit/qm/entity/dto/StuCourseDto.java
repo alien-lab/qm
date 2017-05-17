@@ -31,7 +31,16 @@ public class StuCourseDto{
     private String scheSet_week;
     @ApiModelProperty(value="单天上课的节次")
     private String scheSet_set;
+    @ApiModelProperty(value="评教状态")
+    private String teachTaskStatus;
 
+    public String getTeachTaskStatus() {
+        return teachTaskStatus;
+    }
+
+    public void setTeachTaskStatus(String teachTaskStatus) {
+        this.teachTaskStatus = teachTaskStatus;
+    }
 
     public String getScheSet_week() {
         return scheSet_week;
@@ -120,7 +129,8 @@ public class StuCourseDto{
         if (!scheSet.equals(that.scheSet)) return false;
         if (!courseWeek.equals(that.courseWeek)) return false;
         if (!scheSet_week.equals(that.scheSet_week)) return false;
-        return scheSet_set.equals(that.scheSet_set);
+        if (!scheSet_set.equals(that.scheSet_set)) return false;
+        return teachTaskStatus.equals(that.teachTaskStatus);
     }
 
     @Override
@@ -134,6 +144,7 @@ public class StuCourseDto{
         result = 31 * result + courseWeek.hashCode();
         result = 31 * result + scheSet_week.hashCode();
         result = 31 * result + scheSet_set.hashCode();
+        result = 31 * result + teachTaskStatus.hashCode();
         return result;
     }
 
@@ -149,6 +160,7 @@ public class StuCourseDto{
                 ", courseWeek='" + courseWeek + '\'' +
                 ", scheSet_week='" + scheSet_week + '\'' +
                 ", scheSet_set='" + scheSet_set + '\'' +
+                ", teachTaskStatus='" + teachTaskStatus + '\'' +
                 '}';
     }
 }

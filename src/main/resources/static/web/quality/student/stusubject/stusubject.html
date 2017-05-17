@@ -21,7 +21,7 @@
 </style>
 
 <h3>本学期课表</h3>
-
+<label>当前学年：{{students.termName}}  &nbsp;班级：{{students.className}}   &nbsp;   专业：{{students.majorName}}   &nbsp;   第{{currentWeek}}周</label>
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover" style="margin-top: 10px;text-align: center">
         <thead>
@@ -37,12 +37,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr  ng-repeat="section in sections" >
+        <tr ng-repeat="section in sections" >
             <td ng-repeat="secone in section.day">
                 <span data-ng-if="secone.mian==true">{{secone.name}}</span>
                 <span data-ng-if="secone.checked==true">
-                        {{secone.courseNmae}}<br>
-                          <button ng-click="attendDetail(secone.shceNo,secone.courseNmae,secone.className)" type="button" class="btn  bg-default myclass">{{secone.className}}</button>
+                    [{{secone.courseWeeks}}]<br>
+                    <button ng-click="findteachTask(secone.teachtaskStatuss,secone.taskNos)" type="button" class="btn bg-default myclass">{{secone.taskNames}}</button><br>
+                    {{secone.teacherNames}}&nbsp;({{secone.scheAddrs}})<br>
                     </span>
             </td>
         </tr>

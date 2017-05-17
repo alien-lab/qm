@@ -40,4 +40,6 @@ public interface BaseStudentService {
 
     public List<StudentDto> exportStudentExcel(String className,String termNo) throws Exception;
 
+    public StudentDto getStudentDtoByStuNoAndtermNo(String stuNo,String termNo);
+
 }

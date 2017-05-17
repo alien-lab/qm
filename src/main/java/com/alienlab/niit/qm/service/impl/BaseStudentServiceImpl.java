@@ -94,6 +94,7 @@ public class BaseStudentServiceImpl implements BaseStudentService {
         }
     }
 
+    //默认得到最新学年的studentDto
     @Override
     public StudentDto getStudentDtoByStuNo(String stuNo) {
         BaseStudentEntity baseStudentEntity = baseStudentRepository.findByStuNo(stuNo);
@@ -104,6 +105,7 @@ public class BaseStudentServiceImpl implements BaseStudentService {
         studentDto.setStuBirthday(baseStudentEntity.getStuBirthday());
         studentDto.setStuPhone(baseStudentEntity.getStuPhone());
         studentDto.setStuYear(baseStudentEntity.getStuYear());
+        studentDto.setStuStatus(baseStudentEntity.getStuStatus());
         String classNo = null;
         String termNo = null;
         for (int n = 0;n<baseTermStudentEntities.size();n++){
@@ -171,5 +173,25 @@ public class BaseStudentServiceImpl implements BaseStudentService {
         workbook.write(fos);
         fos.close();*/
         return studentDtos;
+    }
+
+    @Override
+    public StudentDto getStudentDtoByStuNoAndtermNo(String stuNo, String termNo) {
+        StudentDto studentDto = new StudentDto();
+        BaseStudentEntity baseStudentEntity = baseStudentRepository.findByStuNo(stuNo);
+        studentDto.setStuNo(stuNo);
+        studentDto.setStuName(baseStudentEntity.getStuName());
+        studentDto.setStuBirthday(baseStudentEntity.getStuBirthday());
+        studentDto.setStuYear(baseStudentEntity.getStuYear());
+        BaseTermStudentEntity baseTermStudentEntity = baseTermStudentRepository.findByStuNoAndTermNo(stuNo,termNo);
+        BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassNo(baseTermStudentEntity.getClassNo());
+        studentDto.setClassName(baseClassesEntity.getClassName());
+        studentDto.setStuPhone(baseStudentEntity.getStuPhone());
+        BaseTermEntity baseTermEntity = baseTermRepository.findByTermNo(termNo);
+        studentDto.setTermName(baseTermEntity.getTermName());
+        BaseMajorEntity baseMajorEntity = baseMajorRepository.findByMajorNo(baseClassesEntity.getMajorNo());
+        studentDto.setMajorName(baseMajorEntity.getMajorName());
+        studentDto.setStuStatus(baseStudentEntity.getStuStatus());
+        return studentDto;
     }
 }

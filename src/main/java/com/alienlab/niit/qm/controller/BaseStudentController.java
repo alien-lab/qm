@@ -107,6 +107,18 @@ public class BaseStudentController{
         }
     }
 
+    @ApiOperation(value = "根据学生编号和学年查学生信息Dto")
+    @GetMapping(value = "/student/getstudentDtoBystuNoAndtermNo")
+    public ResponseEntity findStudentDtoByStuNoAndTermNo(@RequestParam String stuNo,@RequestParam String termNo){
+        StudentDto studentDto = baseStudentService.getStudentDtoByStuNoAndtermNo(stuNo,termNo);
+        if (studentDto!=null){
+            return ResponseEntity.ok().body(studentDto);
+        }else {
+            ExecResult er = new ExecResult(false, "未获取学生信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+    }
+
     @ApiOperation(value = "根据学生编号查学生信息Dto")
     @GetMapping(value = "/student/getstudentDtoBystuNo")
     public ResponseEntity findStudentDtoByStuNo(@RequestParam String stuNo){

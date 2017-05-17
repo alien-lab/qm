@@ -27,6 +27,8 @@ public class BaseTaskScheServiceImpl implements BaseTaskScheService{
     BaseTaskScheRepository baseTaskScheRepository;
     @Autowired
     BaseTeacherRepository baseTeacherRepository;
+    @Autowired
+    QmStuPjRepository qmStuPjRepository;
     @Override
     public List<StuCourseDto> findByTermNoAndStuNoAndCourseWeek(String termNo, String stuNo, int courseCurrentWeek) {
         List<StuCourseDto> stuCourseDtos = new ArrayList<>();
@@ -60,6 +62,17 @@ public class BaseTaskScheServiceImpl implements BaseTaskScheService{
                                     stuCourseDto.setTaskName(baseTeachTaskEntities.get(i).getCourseName());
                                     stuCourseDto.setScheAddr(baseTaskScheEntities.get(m).getScheAddr());
 
+                                    QmStuPjEntity qmStuPjEntity = qmStuPjRepository.findByStuNoAndTaskNo(stuNo,baseTeachTaskEntities.get(i).getTaskNo());
+                                    if (qmStuPjEntity!=null){
+                                        if (qmStuPjEntity.getTotal().equals(0)){
+                                            stuCourseDto.setTeachTaskStatus("1");
+                                        }else {
+                                            stuCourseDto.setTeachTaskStatus("2");
+                                        }
+                                    }else {
+                                        stuCourseDto.setTeachTaskStatus("0");
+                                    }
+
                                     BaseTeacherEntity baseTeacherEntity = baseTeacherRepository.findByTeacherNo(baseTeachTaskEntities.get(i).getTeacherNo());
                                     stuCourseDto.setTeacherName(baseTeacherEntity.getTeacherName());
                                     stuCourseDto.setScheSet(baseTaskScheEntities.get(m).getScheSet());
@@ -91,6 +104,17 @@ public class BaseTaskScheServiceImpl implements BaseTaskScheService{
                                     stuCourseDto.setTaskNo(baseTeachTaskEntities.get(i).getTaskNo());
                                     stuCourseDto.setTaskName(baseTeachTaskEntities.get(i).getCourseName());
                                     stuCourseDto.setScheAddr(baseTaskScheEntities.get(m).getScheAddr());
+
+                                    QmStuPjEntity qmStuPjEntity = qmStuPjRepository.findByStuNoAndTaskNo(stuNo,baseTeachTaskEntities.get(i).getTaskNo());
+                                    if (qmStuPjEntity!=null){
+                                        if (qmStuPjEntity.getTotal().equals(0)){
+                                            stuCourseDto.setTeachTaskStatus("1");
+                                        }else {
+                                            stuCourseDto.setTeachTaskStatus("2");
+                                        }
+                                    }else {
+                                        stuCourseDto.setTeachTaskStatus("0");
+                                    }
 
                                     BaseTeacherEntity baseTeacherEntity = baseTeacherRepository.findByTeacherNo(baseTeachTaskEntities.get(i).getTeacherNo());
                                     stuCourseDto.setTeacherName(baseTeacherEntity.getTeacherName());
@@ -129,6 +153,17 @@ public class BaseTaskScheServiceImpl implements BaseTaskScheService{
                             stuCourseDto.setTaskNo(baseTeachTaskEntities.get(i).getTaskNo());
                             stuCourseDto.setTaskName(baseTeachTaskEntities.get(i).getCourseName());
                             stuCourseDto.setScheAddr(baseTaskScheEntities.get(m).getScheAddr());
+
+                            QmStuPjEntity qmStuPjEntity = qmStuPjRepository.findByStuNoAndTaskNo(stuNo,baseTeachTaskEntities.get(i).getTaskNo());
+                            if (qmStuPjEntity!=null){
+                                if (qmStuPjEntity.getTotal().equals(0)){
+                                    stuCourseDto.setTeachTaskStatus("1");
+                                }else {
+                                    stuCourseDto.setTeachTaskStatus("2");
+                                }
+                            }else {
+                                stuCourseDto.setTeachTaskStatus("0");
+                            }
 
                             BaseTeacherEntity baseTeacherEntity = baseTeacherRepository.findByTeacherNo(baseTeachTaskEntities.get(i).getTeacherNo());
                             stuCourseDto.setTeacherName(baseTeacherEntity.getTeacherName());

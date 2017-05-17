@@ -25,7 +25,8 @@
             'getStudentTermByStuNo':{method:"POST",url:"../qm-api/term/studentTermBystuNo",isArray:true},
             'getAllClass':{method:"GET",url:"../qm-api/classes/findAllclassName",isArray:true},
             'updateStudent':{method:"POST",url:"../qm-api/student/updateStudent"},
-            'exportStudent':{method:"POST",url:"../qm-api/student/ExcelexportStudent"}
+            'exportStudent':{method:"POST",url:"../qm-api/student/ExcelexportStudent"},
+            'findStudentDtoByStuNoAndTermNo':{method:"GET",url:"../qm-api/student/getstudentDtoBystuNoAndtermNo"}
         });
         return service;
     }]);
