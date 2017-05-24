@@ -61,7 +61,7 @@ public class BaseStudentController{
     @ApiOperation(value = "根据taskNo与学生关键字查询学生信息Page")
     @GetMapping(value = "/allstudent")
     public ResponseEntity findAllStudent(){
-       List<BaseStudentEntity> baseStudentEntityPage = baseStudentService.getAllStudent();
+        List<BaseStudentEntity> baseStudentEntityPage = baseStudentService.getAllStudent();
         if (baseStudentEntityPage!=null){
             return ResponseEntity.ok().body(baseStudentEntityPage);
         }else {
@@ -74,19 +74,19 @@ public class BaseStudentController{
     @ApiOperation(value = "根据taskNo与学生关键字查询学生信息Page")
     @GetMapping(value = "/pagekeystudent")
     public ResponseEntity findStudentByTaskNoAndKeyword(@RequestParam String studentkeyword,@RequestParam long taskNo,@RequestParam int index,@RequestParam int length){
-            Page<BaseStudentEntity> baseStudentEntityPage = baseStudentService.getStudentByTaskNoAndKeyword(studentkeyword,taskNo,new PageRequest(index,length));
-            if (baseStudentEntityPage!=null){
-                return ResponseEntity.ok().body(baseStudentEntityPage);
-            }else {
-                ExecResult er = new ExecResult(false, "未获取该taskNo下的关键字学生信息");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
-            }
+        Page<BaseStudentEntity> baseStudentEntityPage = baseStudentService.getStudentByTaskNoAndKeyword(studentkeyword,taskNo,new PageRequest(index,length));
+        if (baseStudentEntityPage!=null){
+            return ResponseEntity.ok().body(baseStudentEntityPage);
+        }else {
+            ExecResult er = new ExecResult(false, "未获取该taskNo下的关键字学生信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
     }
 
     @ApiOperation(value = "根据taskNo学生信息Page")
     @GetMapping(value = "/pagestudent")
     public ResponseEntity findStudentByTaskNo(@RequestParam long taskNo,@RequestParam int index,@RequestParam int length){
-       Page<BaseStudentEntity> baseStudentEntityPage = baseStudentService.getStudentByTaskNo(taskNo,new PageRequest(index,length));
+        Page<BaseStudentEntity> baseStudentEntityPage = baseStudentService.getStudentByTaskNo(taskNo,new PageRequest(index,length));
         if (baseStudentEntityPage!=null){
             return ResponseEntity.ok().body(baseStudentEntityPage);
         }else {
@@ -170,7 +170,7 @@ public class BaseStudentController{
     @ApiOperation(value="增加学生内容")
     @GetMapping(value = "/student/addStudent")
     public ResponseEntity addStudent(@RequestParam String stuNo,@RequestParam String stuName,@RequestParam String stuBirthday,
-                                        @RequestParam(required = false) String stuPhone,@RequestParam String stuStatus/*,@RequestParam String classNo,
+                                     @RequestParam(required = false) String stuPhone,@RequestParam String stuStatus/*,@RequestParam String classNo,
                                      @RequestParam String marjorNo*/){
 
        /* BaseTermStudentEntity termStudentEntity = new BaseTermStudentEntity();
@@ -196,8 +196,8 @@ public class BaseStudentController{
 
     @ApiOperation(value = "修改学生信息")
     @PostMapping(value = "/student/updateStudent")
-    public ResponseEntity updateStudent(@RequestParam String stuNo,@RequestParam String stuName,@RequestParam String stuBirthday,
-                                        @RequestParam String stuYear, @RequestParam String className,@RequestParam String stuPhone,
+    public ResponseEntity updateStudent(@RequestParam String stuNo,@RequestParam String stuName,@RequestParam(required = false) String stuBirthday,
+                                        @RequestParam String stuYear, @RequestParam String className,@RequestParam(required = false) String stuPhone,
                                         @RequestParam String termName) {
         BaseStudentEntity baseStudentEntity = baseStudentService.getStudentBystuNo(stuNo);
         BaseClassesEntity baseClassesEntity = baseClassesRepository.findByClassName(className);
@@ -256,27 +256,27 @@ public class BaseStudentController{
     @ApiOperation(value = "Excel导出学生")
     @PostMapping(value = "/student/ExcelexportStudent")
     public ResponseEntity excelexportStudent(@RequestParam String className, @RequestParam String termNo,HttpServletResponse response) throws Exception {
-            List<StudentDto> studentDtos = baseStudentService.exportStudentExcel(className, termNo);
+        List<StudentDto> studentDtos = baseStudentService.exportStudentExcel(className, termNo);
 
-            ExportParams params = new ExportParams("学生列表", "学生信息");
-            params.setStyle(ExcelExportStylerBorderImpl.class);
-            Workbook workbook = ExcelExportUtil.exportExcel(params, StudentDto.class, studentDtos);
+        ExportParams params = new ExportParams("学生列表", "学生信息");
+        params.setStyle(ExcelExportStylerBorderImpl.class);
+        Workbook workbook = ExcelExportUtil.exportExcel(params, StudentDto.class, studentDtos);
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-            String filename = "export_" + dateFormat.format(new Date()) + ".xls";
-            response.setHeader("Content-disposition", "attachment; filename=" + filename + "");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String filename = "export_" + dateFormat.format(new Date()) + ".xls";
+        response.setHeader("Content-disposition", "attachment; filename=" + filename + "");
 
-            ServletOutputStream out1 = response.getOutputStream();
-            //FileOutputStream fos = new FileOutputStream("D:/excel/学生列表.xls");
-            workbook.write(out1);
-            //fos.close();
+        ServletOutputStream out1 = response.getOutputStream();
+        //FileOutputStream fos = new FileOutputStream("D:/excel/学生列表.xls");
+        workbook.write(out1);
+        //fos.close();
 
-            if (workbook != null) {
-                return ResponseEntity.ok().body(workbook);
-            } else {
-                ExecResult er = new ExecResult(false, "未成功导出");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
-            }
+        if (workbook != null) {
+            return ResponseEntity.ok().body(workbook);
+        } else {
+            ExecResult er = new ExecResult(false, "未成功导出");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
 
     }
 

@@ -70,18 +70,16 @@
         }]);
     })();
 
-
     department_module.controller("departmentController",["$scope","SweetAlert","departmentinstance","departmentResource","$uibModal",function($scope,SweetAlert,departmentinstance,departmentResource,$uibModal){
         $scope.pagetitle="部门维护";
-
         //查询所有部门
         departmentResource.getDepartment({}, function (result) {
-                console.log(result);
-                /*$scope.departments = result;*/
-                $scope.departments = result;
-            }, function () {
-                console.log("获取部门信息失败");
-            });
+            console.log(result);
+            /*$scope.departments = result;*/
+            $scope.departments = result;
+        }, function () {
+            console.log("获取部门信息失败");
+        });
 
         //修改部门信息
         $scope.modifydepartment = showModifyDepartment;
@@ -131,7 +129,7 @@
                         swal({title:"成功",
                             text:"您成功删除该部门！",
                             type:"success",
-                            })
+                        })
                         $scope.departments.splice(index, 1);
                     },function(result){
                         console.log("删除menu失败");
@@ -223,7 +221,7 @@
 
                 }, function (result) {
                     console.log(result);
-                   $scope.departments = result;
+                    $scope.departments = result;
                     console.log( $scope.departments);
                     $uibModalInstance.dismiss('cancel');
                     $state.go("qm.base_department");

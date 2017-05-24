@@ -3,6 +3,7 @@
 <div class="row">
     <div class="col-md-2">
         <select style="width:auto;float:left;" class="form-control" data-toggle="dropdown" ng-model="termNo" ng-change="termNoChanged(termNo)">
+            <option value="">请选择学年学期</option>
             <option ng-repeat="term in terms" value="{{term.termNo}}">{{term.termPrintName}}</option>
         </select>
     </div>

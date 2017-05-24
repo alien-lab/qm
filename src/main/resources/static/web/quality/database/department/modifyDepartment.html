@@ -22,9 +22,9 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">部门类型</label>
         <div class="col-sm-4">
-            <select name="select" required="" ng-model="department.depType" class="form-control">
-                <option value="1">行政</option>
-                <option value="2">教学</option>
+            <select ng-init="department.depType" name="department.depType" required="" ng-model="department.depType" class="form-control">
+                <option value="行政">行政</option>
+                <option value="教学">教学</option>
             </select>
         </div>
         <label class="col-sm-2 control-label">部门检索编号</label>
